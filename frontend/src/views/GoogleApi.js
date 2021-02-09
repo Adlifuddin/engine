@@ -2,20 +2,24 @@ import React, { useState, useEffect } from 'react'
 import { gapi } from 'gapi-script'
 import axios from 'axios'
 import logo from '../assets/images/google-drive.png'
+import dotenv from 'dotenv'
 
 function GoogleApi() {
   const [excel, setExcel] = useState([])
 
+  dotenv.config()
+
     // The Browser API key obtained from the Google API Console.
     // Replace with your own Browser API key, or your own key.
-    var developerKey = 'AIzaSyCLgIOMnZTcwke63OCVzLYQgan08UBcDWM';
+    var developerKey = process.env.REACT_APP_GOOGLE_DRIVE_API_KEY;
+
 
     // The Client ID obtained from the Google API Console. Replace with your own Client ID.
-    var clientId = "593404874348-4fq68ar133081ivv98ibelli2e7gp7dc.apps.googleusercontent.com"
+    var clientId = process.env.REACT_APP_GOOGLE_DRIVE_CLIENT_ID;
 
     // Replace with your own project number from console.developers.google.com.
     // See "Project number" under "IAM & Admin" > "Settings"
-    var appId = "593404874348";
+    var appId = process.env.REACT_APP_APP_ID;
 
     // Scope to use to access user's Drive items.
     var scope = ['https://www.googleapis.com/auth/drive.file'];
