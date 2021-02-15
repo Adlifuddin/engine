@@ -1,6 +1,6 @@
 import './App.css';
 import { withRouter } from "react-router";
-import Navbar from './components/Nav'
+import Navbar from './components/NavBar/NavigationBar'
 
 const AppLayout = ({ location, children }) => (
   <>
