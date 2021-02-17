@@ -19,7 +19,8 @@ import Modals from '../../components/Modal/Modal'
 function Integration() {
 
     const click = (e) => {
-        return window.location.href = "/google-drive"
+        
+        return window.location.href = `/${e.target.id}`
     }
 
     const containerStyle = {

@@ -1,0 +1,5 @@
+@import 'react-data-table-component-extensions/dist/index.css';
+
+.data-table-extensions > .data-table-extensions-filter > .filter-text {
+    color: white;
+}

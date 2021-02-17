@@ -5,8 +5,11 @@ import logo from '../../assets/images/google-drive.png'
 import dotenv from 'dotenv'
 import GooglePicker from 'react-google-picker'
 import { Button, Form } from 'react-bootstrap'
-import { Row, Col } from 'reactstrap';
+import { Row, Col, Alert } from 'reactstrap';
 import spinner from '../../assets/images/Eclipse-1s-200px.svg'
+import DataTableExtensions from 'react-data-table-component-extensions';
+import './GoogleApi.css'
+import api from '../../api/index'
 
 function GoogleApi() {
   const [columns, setColumns] = useState([]);
@@ -15,6 +18,15 @@ function GoogleApi() {
   const [ids, setIds] = useState("")
   const [oauthToken, setAuthToken] = useState("")
   const [loading, setLoading] = useState(false)
+  const [header, setHeader] = useState(["work"])
+  const [visible, setVisible] = useState(true);
+
+  const onDismiss = () => setVisible(false);
+
+  const tableData = {
+    columns,
+    data,
+  }
 
   dotenv.config()
 
@@ -28,52 +40,63 @@ function GoogleApi() {
   var clientId = process.env.REACT_APP_GOOGLE_DRIVE_CLIENT_ID;
 
   // Scope to use to access user's Drive items.
-  var scope = ['https://www.googleapis.com/auth/drive.file'];
+  var scope = ['https://www.googleapis.com/auth/drive.file', "https://www.googleapis.com/auth/spreadsheets"];
   
   const processData = dataString => {
-    const dataStringLines = dataString.split(/\r\n|\n/);
-    const headers = dataStringLines[0].split(/,(?![^"]*"(?:(?:[^"]*"){2})*[^"]*$)/);
- 
-    const list = [];
-    for (let i = 1; i < dataStringLines.length; i++) {
-      const row = dataStringLines[i].split(/,(?![^"]*"(?:(?:[^"]*"){2})*[^"]*$)/);
-      if (headers && row.length === headers.length) {
+    const headers = dataString[0]
+    setHeader(headers)
+    if (headers.length === 0) {
+      setVisible(true)
+    }
+    window.setTimeout(() => {
+      setHeader(["work"])
+      setVisible(false)
+    }, 5000)
+
+    const list = []
+    for (let i = 1; i < dataString.length; i++) {
+      const body = dataString[i]
+      if (headers && body.length <= headers.length) {
         const obj = {};
         for (let j = 0; j < headers.length; j++) {
-          let d = row[j];
-          if (d.length > 0) {
-            if (d[0] == '"')
-              d = d.substring(1, d.length - 1);
-            if (d[d.length - 1] == '"')
-              d = d.substring(d.length - 2, 1);
+          let d = body[j]
+          if (d === undefined) {
+            d = ""
+            
           }
           if (headers[j]) {
             obj[headers[j]] = d;
           }
+          
         }
-
         if (Object.values(obj).filter(x => x).length > 0) {
           list.push(obj);
         }
+       
       }
     }
 
-     const columns = headers.map(c => ({
+    const columns = headers.map(c => ({
       name: c,
       selector: c,
     }));
- 
+
+
     setData(list);
     setColumns(columns);
+    
+    
   }
 
   const pickerCallback = (data) => {
+    setVisible(false)
+    setHeader(['work'])
     if (data.action == window.google.picker.Action.PICKED) {
         var fileId = data.docs[0].id;
         setIds(fileId)
         setLoading(true)
         setSheets([])
-        axios.get(`https://sheets.googleapis.com/v4/spreadsheets/${fileId}`, {
+        axios.get(`https://sheets.googleapis.com/v4/spreadsheets/${fileId}?key=${developerKey}`, {
           headers: {
             Authorization: `Bearer ${tokens}`
 
@@ -82,7 +105,7 @@ function GoogleApi() {
           .then(response => {
             const results = response.data.sheets
             const data = results.map(x => x.properties.title)
-            axios.get(`https://sheets.googleapis.com/v4/spreadsheets/${fileId}/values/A:Z?key=${developerKey}`, {
+            axios.get(`https://sheets.googleapis.com/v4/spreadsheets/${fileId}/values/A:AZ?key=${developerKey}`, {
                 headers: {
                   Authorization: `Bearer ${tokens}`
                 }
@@ -90,9 +113,9 @@ function GoogleApi() {
               .then(responses => {
                 setSheets(data)
                 setLoading(false)
+                console.log()
                 const datas = responses.data.values
-                const file = datas.join("\n")
-                processData(file)
+                processData(datas)
               })
               .catch(error => {
                 console.log(error)
@@ -107,10 +130,12 @@ function GoogleApi() {
 
   const upload = () => {
     const myJsonString = JSON.parse(JSON.stringify(data))
-    console.log(myJsonString)
+    api.uploadDrive(myJsonString)
   }
 
   const changes = (e) => {
+    setVisible(false)
+    setHeader(['work'])
     setLoading(true)
     axios.get(`https://sheets.googleapis.com/v4/spreadsheets/${ids}`, {
           headers: {
@@ -120,7 +145,7 @@ function GoogleApi() {
       .then(response => {
         const results = response.data.sheets
         const data = results.map(x => x.properties.title)
-        axios.get(`https://sheets.googleapis.com/v4/spreadsheets/${ids}/values/${e.target.value}!A:Z?key=${developerKey}`, {
+        axios.get(`https://sheets.googleapis.com/v4/spreadsheets/${ids}/values/${e.target.value}!A:AZ?key=${developerKey}`, {
                 headers: {
                   Authorization: `Bearer ${oauthToken}`
                 }
@@ -129,8 +154,7 @@ function GoogleApi() {
               setSheets(data)
               setLoading(false)
                 const datas = responses.data.values
-                const file = datas.join("\n")
-                processData(file)
+                processData(datas)
               })
               .catch(error => {
                 console.log(error)
@@ -172,17 +196,28 @@ function GoogleApi() {
     )
   } else if (loading === false) {
     loadings = (
-      <DataTable
+      <DataTableExtensions {...tableData} style={{color: 'white'}} export={false} print={false}>
+        <DataTable
           pagination
           highlightOnHover
           columns={columns}
           data={data}
         />
+      </DataTableExtensions>
     )
   }
 
+  let errors
+  if (header.length === 0) {
+    errors = (
+      <Alert color="danger" isOpen={visible} toggle={onDismiss}>Please Make Sure The Header Is On The First Row Of The Spreadsheet</Alert>
+    )
+  }
+
+
   return (
     <div>
+      {errors}
       <Row className="justify-content-center" style={{marginTop:"30px",marginBottom:"20px"}}>
         <GooglePicker
           clientId={clientId}
@@ -211,7 +246,7 @@ function GoogleApi() {
           <Button variant="outline-primary"><img src={logo} height="32px" width="32px" alt="google-drive"/> Sign In to Google</Button>
           <div className="google"></div>
         </GooglePicker>
-      </Row> 
+      </Row>
       {sheet}
       {loadings}
     </div>
