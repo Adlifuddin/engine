@@ -1,3 +1,5 @@
+from .connection import CreateConnectionCoreUser
+
 def unpack(resource):
     ti = []
     for item in resource:
@@ -32,3 +34,14 @@ def createTitle(title):
     l = " , ".join(titles)
     titlehead = f" {l} "
     return titlehead
+
+def validateName(name):
+    conn = CreateConnectionCoreUser().connect()
+    query = conn.execute("SELECT table_name FROM information_schema.tables WHERE table_schema='public' AND table_type='BASE TABLE';") # This line performs query and returns json result
+    data = [dict(zip(tuple (query.keys()) ,i)) for i in query.cursor]
+    h = []
+    for i in data:
+        names = list(i.values())
+        n = ''.join(names)
+        h.append(n)
+    return name in h

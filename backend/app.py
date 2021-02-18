@@ -1,14 +1,15 @@
-from flask import Flask, request
+from flask import Flask, request, Response
 from flask_restful import Resource, Api, reqparse
-from sqlalchemy import create_engine, MetaData
+from sqlalchemy import MetaData, exc
 import sqlalchemy as db
 from flask_cors import CORS 
 from json import dumps
 from flask_jsonpify import jsonify
-from serializer import *
-from connection import CreateConnectionCoreUser
+from .serializer import *
+from .connection import CreateConnectionCoreUser
+from .settings import *
+import json
 
-db_connect = create_engine("postgres://postgres:skymind123@192.168.1.124:5432/google_drive")
 app = Flask(__name__)
 CORS(app)
 api = Api(app)
@@ -17,30 +18,42 @@ parser = reqparse.RequestParser()
 
 class Test(Resource):
     def get(self):
-        conn = db_connect.connect() # connect to database
-        query = conn.execute("select * from test") # This line performs query and returns json result
+        conn = CreateConnectionCoreUser().connect() # connect to database
+        query = conn.execute("SELECT table_name FROM information_schema.tables WHERE table_schema='public' AND table_type='BASE TABLE';") # This line performs query and returns json result
+        data = [dict(zip(tuple (query.keys()) ,i)) for i in query.cursor]
+        for i in data:
+            print(list(i.values()))
         result = {'data': [dict(zip(tuple (query.keys()) ,i)) for i in query.cursor]}
         return jsonify(result)
-
 class Add(Resource):
     def post(self):
-        conn = db_connect.connect()
-        args = request.json
-        t = serializer.unpack(args)
-        n = serializer.createTitle(args)
-        print(t)
-        conn.execute(f"CREATE TABLE test ({t})")
-        for d in args:
-            va = []
-            value = list(d.values())
-            for i in value:
-                s = i.replace("'", "")
-                va.append(s)
-            str1 = " ' , ' ".join(va)
-            v = f"' {str1} '"
-            conn.execute(f'INSERT INTO test ({n}) VALUES ({v})')
-
-        return jsonify({'status': 200, 'success': True})
+        try: 
+            conn = CreateConnectionCoreUser().connect()
+            args = request.json
+            tableName = args[0]
+            file = args[1]
+            t = unpack(file)
+            n = createTitle(file)
+            h = validateName(tableName)
+            if h == True:
+                data = json.dumps({'success': False, "message": "Table Name Exist"})
+                return Response(data, status=400, mimetype='application/json')
+            elif h == False:
+                conn.execute(f"CREATE TABLE {tableName} ({t})")
+                for d in file:
+                    va = []
+                    value = list(d.values())
+                    for i in value:
+                        s = i.replace("'", "")
+                        va.append(s)
+                    str1 = " ' , ' ".join(va)
+                    v = f"' {str1} '"
+                    conn.execute(f'INSERT INTO {tableName} ({n}) VALUES ({v})')
+                data = json.dumps({'success': True, "message": "Successfully Inserted Data to the Database"})
+                return Response(data, status=200, mimetype='application/json')
+        except Exception:
+            data = json.dumps({'success': False, "message": "Error Found"})
+            return Response(data, status=400, mimetype='application/json')
 
 class Members(Resource):
     def get(self):
