@@ -1,10 +1,12 @@
 from flask import Flask, request
 from flask_restful import Resource, Api, reqparse
-from sqlalchemy import create_engine
+from sqlalchemy import create_engine, MetaData
+import sqlalchemy as db
 from flask_cors import CORS 
 from json import dumps
 from flask_jsonpify import jsonify
-from . import serializer
+from serializer import *
+from connection import CreateConnectionCoreUser
 
 db_connect = create_engine("postgres://postgres:skymind123@192.168.1.124:5432/google_drive")
 app = Flask(__name__)
@@ -40,8 +42,21 @@ class Add(Resource):
 
         return jsonify({'status': 200, 'success': True})
 
+class Members(Resource):
+    def get(self):
+        engine = CreateConnectionCoreUser()
+        metadata = MetaData()
+        project_table = db.Table('core_user', metadata, autoload=True, autoload_with=engine)
+        query = db.select([project_table])
+        connection = engine.connect()
+        result = connection.execute(query)
+        results = [dict(zip(tuple (result.keys()) ,i)) for i in result.cursor]
+        return jsonify(results)
+
+
 api.add_resource(Test, '/api/test')
 api.add_resource(Add, '/api/add')
+api.add_resource(Members, '/api/audit/members')
 
 if __name__ == '__main__':
      app.run()

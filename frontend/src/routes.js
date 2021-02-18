@@ -1,6 +1,7 @@
 import GoogleAPI from './views/Integration/GoogleApi'
 import HomePage from './components/Home/HomePage'
 import Integration from './views/Integration/Integration'
+import Members from './components/Audit/People/Members'
 
 const routes = [
     {
@@ -18,6 +19,11 @@ const routes = [
         name: "Google Drive",
         components: GoogleAPI,
         isVisible: true,
+    },
+    {
+        pathname: "/audit",
+        name: "Audit",
+        components: Members,
     }
 ]
 
