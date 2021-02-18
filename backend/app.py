@@ -45,9 +45,16 @@ class Add(Resource):
 class Members(Resource):
     def get(self):
         engine = CreateConnectionCoreUser()
-        metadata = MetaData()
-        project_table = db.Table('core_user', metadata, autoload=True, autoload_with=engine)
-        query = db.select([project_table])
+        query = "select * from core_user"
+        connection = engine.connect()
+        result = connection.execute(query)
+        results = [dict(zip(tuple (result.keys()) ,i)) for i in result.cursor]
+        return jsonify(results)
+
+class Database(Resource):
+    def get(self):
+        engine = CreateConnectionCoreUser()
+        query = "select metabase_database.name ,count(distinct metabase_table.schema) as schema,count(metabase_table.name) as table, metabase_database.metadata_sync_schedule,metabase_database.created_at from public.metabase_table left join public.metabase_database on metabase_table.db_id = metabase_database.id group by metabase_table.db_id,metabase_database.name, metabase_database.metadata_sync_schedule, metabase_database.created_at"
         connection = engine.connect()
         result = connection.execute(query)
         results = [dict(zip(tuple (result.keys()) ,i)) for i in result.cursor]
@@ -57,6 +64,8 @@ class Members(Resource):
 api.add_resource(Test, '/api/test')
 api.add_resource(Add, '/api/add')
 api.add_resource(Members, '/api/audit/members')
+api.add_resource(Database, '/api/audit/database')
+
 
 if __name__ == '__main__':
      app.run()
