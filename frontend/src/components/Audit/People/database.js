@@ -33,7 +33,7 @@ function DatabaseAudit(){
                                 <th>Added On</th>        
                             </tr>
                         </thead>
-                        {databaseAudit.map(database => (
+                        {databaseAudit.map(databaseAudit => (
                             <tbody key={databaseAudit.id}>
                                 <tr>
                                     <td>{databaseAudit.name}</td>

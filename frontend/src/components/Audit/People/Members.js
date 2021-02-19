@@ -30,7 +30,8 @@ function Members(){
                                 <th>Name</th>
                                 <th>Email</th>
                                 <th>Date Joined</th>
-                                <th>Last Login</th>    
+                                <th>Last Login</th>
+                                <th>User Type</th>    
                             </tr>
                         </thead>
                         {members.map(member => (
@@ -40,6 +41,7 @@ function Members(){
                                     <td>{member.email}</td>
                                     <td>{member.date_joined}</td>
                                     <td>{member.last_login}</td>
+                                    <td>{member.user}</td>
                                 </tr>
                             </tbody>
                         ))}
