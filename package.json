@@ -1,0 +1,27 @@
+{
+  "name": "engine",
+  "version": "1.0.0",
+  "description": "",
+  "main": "./frontend/index.js",
+  "dependencies": {
+    "concurrently": "^5.3.0",
+    "react-data-table-component-extensions": "^1.5.2"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start-watch": "npm start --prefix ./frontend",
+    "wp-server": "python -i -m backend.app",
+    "dev": "concurrently --kill-others \"npm run start-watch\" \"npm run wp-server\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jiahao19971/engine.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jiahao19971/engine/issues"
+  },
+  "homepage": "https://github.com/jiahao19971/engine#readme"
+}

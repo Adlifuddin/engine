@@ -4,12 +4,11 @@ from sqlalchemy import inspect
 from flask_sqlalchemy import SQLAlchemy
 import pandas as pd
 
-
  #DATABASE CONNECTION
 def CreateConnectionCoreUser():
-    db_url='postgres://{user}:{password}@{host}:{port}/{database}'.format(user='root', password='qazQAZ123!@#', host='202.165.22.213', port='5432', database='users')
+    db_url='postgres://{user}:{password}@{host}:{port}/{database}'.format(user='postgres', password='skymind123', host='192.168.1.124', port='5432', database='google_drive')
     engine = create_engine(db_url)
-    return engine   
+    return engine
 
 # for column in inspector.get_columns("core_user", schema="public"):
 #     columns.append(column['name'])

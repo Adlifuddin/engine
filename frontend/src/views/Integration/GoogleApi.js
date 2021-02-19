@@ -4,8 +4,8 @@ import DataTable from 'react-data-table-component';
 import logo from '../../assets/images/google-drive.png'
 import dotenv from 'dotenv'
 import GooglePicker from 'react-google-picker'
-import { Button, Form } from 'react-bootstrap'
-import { Row, Col, Alert } from 'reactstrap';
+import { Button, Form  } from 'react-bootstrap'
+import { Row, Col, Alert, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import spinner from '../../assets/images/Eclipse-1s-200px.svg'
 import DataTableExtensions from 'react-data-table-component-extensions';
 import './GoogleApi.css'
@@ -20,6 +20,16 @@ function GoogleApi() {
   const [loading, setLoading] = useState(false)
   const [header, setHeader] = useState(["work"])
   const [visible, setVisible] = useState(true);
+  const [modal, setModal] = useState(false);
+  const [name, setName] = useState("")
+  const [status, setStatus] = useState("")
+  const [errorCode, setErrorCode] = useState("")
+
+  const toggle = () => {
+    setModal(!modal)
+    setStatus("")
+    setName("")
+  };
 
   const onDismiss = () => setVisible(false);
 
@@ -47,7 +57,9 @@ function GoogleApi() {
     setHeader(headers)
     if (headers.length === 0) {
       setVisible(true)
+      return false
     }
+
     window.setTimeout(() => {
       setHeader(["work"])
       setVisible(false)
@@ -81,16 +93,14 @@ function GoogleApi() {
       selector: c,
     }));
 
-
     setData(list);
     setColumns(columns);
-    
-    
   }
 
   const pickerCallback = (data) => {
+    setData([])
+    setHeader(["work"])
     setVisible(false)
-    setHeader(['work'])
     if (data.action == window.google.picker.Action.PICKED) {
         var fileId = data.docs[0].id;
         setIds(fileId)
@@ -128,9 +138,64 @@ function GoogleApi() {
       }
   }
 
-  const upload = () => {
+  const upload = (e) => {
+    e.preventDefault()
+    if (name === "") {
+      setStatus("NameFailed")
+
+      window.setTimeout(() => {
+        setStatus("")
+      }, 3000)
+
+      return false
+    }
+
+    if (isNaN(name) === false) {
+      setStatus("NameFailed")
+
+      window.setTimeout(() => {
+        setStatus("")
+      }, 3000)
+
+      return false
+    }
     const myJsonString = JSON.parse(JSON.stringify(data))
-    api.uploadDrive(myJsonString)
+    const n = name.toLowerCase()
+    const h = n.replace(/\s/g, '')
+    
+    const i = h.replace(/[^-a-zA-Z_]/g, "")
+    const j = i.replace(/[-]/g, "_")
+
+    const file = [
+      j,
+      myJsonString
+    ]
+    setStatus('loading')
+    api.uploadDrive(file)
+      .then(response => {
+        if (response.data.success && response.data) {
+          setModal(false)
+          setName("")
+          setData([])
+          setStatus("success")
+          setVisible(true)
+          window.setTimeout(() => {
+            setStatus("")
+            setVisible(false)
+          }, 5000)
+        }
+      })
+      .catch(error => {
+        if (error.response.data && error.response.data.success === false) {
+          setErrorCode(error.response.data.message)
+          setStatus("Error")
+        }
+      })
+  }
+  
+
+  const click = () => {
+    setModal(true)
   }
 
   const changes = (e) => {
@@ -181,7 +246,7 @@ function GoogleApi() {
           </Form>
         </Col>
         <Col md="2">
-          <Button onClick={upload}>Upload</Button>
+          <Button onClick={() => setModal(true)}>Upload</Button>
         </Col>
       </Row>
     )
@@ -198,6 +263,7 @@ function GoogleApi() {
     loadings = (
       <DataTableExtensions {...tableData} style={{color: 'white'}} export={false} print={false}>
         <DataTable
+          key={data}
           pagination
           highlightOnHover
           columns={columns}
@@ -214,9 +280,38 @@ function GoogleApi() {
     )
   }
 
+  let statuss
+  if (status === 'success') {
+    statuss = (
+      <Alert color="success" isOpen={visible} toggle={onDismiss}>Successfully uploaded to the Database</Alert>
+    )
+  } 
+
+  let stats
+  if (status === 'Error') {
+    stats = (
+      <Form.Control.Feedback type="invalid">
+        {errorCode}
+      </Form.Control.Feedback>
+    )
+  } else if (status === 'NameFailed') {
+    stats = (
+      <Form.Control.Feedback type="invalid">
+        Invalid Table Name!
+      </Form.Control.Feedback>
+    )
+  } else if (status === 'loading') {
+    stats = (
+      <Form.Control.Feedback type="valid">
+        Uploading File Please Wait...
+      </Form.Control.Feedback>
+    )
+  }
+
 
   return (
     <div>
+      {statuss}
       {errors}
       <Row className="justify-content-center" style={{marginTop:"30px",marginBottom:"20px"}}>
         <GooglePicker
@@ -247,6 +342,22 @@ function GoogleApi() {
           <div className="google"></div>
         </GooglePicker>
       </Row>
+      <Modal isOpen={modal} toggle={toggle}>
+        <Form>
+          <ModalHeader toggle={toggle}>Modal title</ModalHeader>
+        <ModalBody>
+            <Form.Group controlId="formBasicName">
+              <Form.Label>Name</Form.Label>
+              <Form.Control type="text" placeholder="Enter a Name for the Data" value={name} onChange={(e)=> setName(e.target.value)} isValid={status === "loading"} isInvalid={status === "NameFailed" || status === "Error"} />
+              {stats}
+          </Form.Group>
+        </ModalBody>
+        <ModalFooter>
+          <Button variant="success" type="submit" onClick={upload}>Submit</Button>{' '}
+          <Button variant="danger" onClick={toggle}>Cancel</Button>
+          </ModalFooter>
+        </Form>
+      </Modal>
       {sheet}
       {loadings}
     </div>
