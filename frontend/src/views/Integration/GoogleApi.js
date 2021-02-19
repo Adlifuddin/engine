@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useRef, useEffect } from 'react'
 import axios from 'axios'
 import DataTable from 'react-data-table-component';
 import logo from '../../assets/images/google-drive.png'
@@ -53,7 +53,11 @@ function GoogleApi() {
   var scope = ['https://www.googleapis.com/auth/drive.file', "https://www.googleapis.com/auth/spreadsheets"];
   
   const processData = dataString => {
-    const headers = dataString[0]
+    
+    const header = dataString[0]
+
+    const headers = header.map(element => element.replace(/[&\/\\#,+()$~%.'":*?<>{}]/g, ""));
+
     setHeader(headers)
     if (headers.length === 0) {
       setVisible(true)
@@ -74,7 +78,6 @@ function GoogleApi() {
           let d = body[j]
           if (d === undefined) {
             d = ""
-            
           }
           if (headers[j]) {
             obj[headers[j]] = d;
@@ -115,7 +118,7 @@ function GoogleApi() {
           .then(response => {
             const results = response.data.sheets
             const data = results.map(x => x.properties.title)
-            axios.get(`https://sheets.googleapis.com/v4/spreadsheets/${fileId}/values/A:AZ?key=${developerKey}`, {
+            axios.get(`https://sheets.googleapis.com/v4/spreadsheets/${fileId}/values/A:ZZ?key=${developerKey}`, {
                 headers: {
                   Authorization: `Bearer ${tokens}`
                 }
@@ -233,7 +236,7 @@ function GoogleApi() {
   let sheet 
   if (data.length > 0) {
     sheet = (
-      <Row className="justify-content-center" style={{ marginTop: "30px", marginBottom: "20px" }}>
+      <Row className="justify-content-center" style={{ marginTop: "30px", marginBottom: "20px", marginLeft: "0px", marginRight: "0px"}}>
         <Col md={{ offset: 1  }}>
           <Form onChange={changes}>
             <Form.Control as="select" >
@@ -268,6 +271,7 @@ function GoogleApi() {
           highlightOnHover
           columns={columns}
           data={data}
+          responsive
         />
       </DataTableExtensions>
     )
@@ -308,12 +312,19 @@ function GoogleApi() {
     )
   }
 
+  const inputElement = useRef(null);
+
+  useEffect(() => {
+  if (inputElement.current) {
+    inputElement.current.focus();
+  }
+}, [inputElement.current]);
 
   return (
     <div>
       {statuss}
       {errors}
-      <Row className="justify-content-center" style={{marginTop:"30px",marginBottom:"20px"}}>
+      <Row className="justify-content-center" style={{marginTop:"30px", marginBottom:"20px", marginRight: "0px", marginLeft: "0px"}}>
         <GooglePicker
           clientId={clientId}
           developerKey={developerKey}
@@ -342,13 +353,19 @@ function GoogleApi() {
           <div className="google"></div>
         </GooglePicker>
       </Row>
-      <Modal isOpen={modal} toggle={toggle}>
+      <Modal isOpen={modal} toggle={toggle} style={{marginTop: "200px"}}>
         <Form>
           <ModalHeader toggle={toggle}>Modal title</ModalHeader>
         <ModalBody>
             <Form.Group controlId="formBasicName">
               <Form.Label>Name</Form.Label>
-              <Form.Control type="text" placeholder="Enter a Name for the Data" value={name} onChange={(e)=> setName(e.target.value)} isValid={status === "loading"} isInvalid={status === "NameFailed" || status === "Error"} />
+              <Form.Control
+                type="text"
+                placeholder="Enter a Name for the Data"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                isValid={status === "loading"}
+                isInvalid={status === "NameFailed" || status === "Error"} />
               {stats}
           </Form.Group>
         </ModalBody>
