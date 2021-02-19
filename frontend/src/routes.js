@@ -3,6 +3,7 @@ import HomePage from './components/Home/HomePage'
 import Integration from './views/Integration/Integration'
 import Members from './components/Audit/People/Members'
 import Database from './components/Audit/People/database'
+import DatabaseAudit from './components/Audit/People/database'
 
 const routes = [
     {
@@ -27,9 +28,9 @@ const routes = [
         components: Members,
     },
     {
-        pathname: "/database",
-        name: "Database",
-        components: Database,
+        pathname: "/databaseAudit",
+        name: "Database Audit",
+        components: DatabaseAudit,
     }
 ]
 
