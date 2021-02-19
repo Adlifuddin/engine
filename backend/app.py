@@ -48,13 +48,10 @@ class Add(Resource):
                         va.append(s)
                     str1 = " ' , ' ".join(va)
                     v = f"' {str1} '"
-                    conn.execute(f"INSERT INTO {tableName} ({n}) VALUES ({v})")
-
+                    conn.execute(f'INSERT INTO {tableName} ({n}) VALUES ({v})')
                 data = json.dumps({'success': True, "message": "Successfully Inserted Data to the Database"})
                 return Response(data, status=200, mimetype='application/json')
         except Exception:
-            print(exc.ProgrammingError.__class__)
-            conn.execute(f"DROP TABLE {tableName}")
             data = json.dumps({'success': False, "message": "Error Found"})
             return Response(data, status=400, mimetype='application/json')
 
@@ -79,7 +76,7 @@ class DatabaseAudit(Resource):
 api.add_resource(Test, '/api/test')
 api.add_resource(Add, '/api/add')
 api.add_resource(Members, '/api/audit/members')
-api.add_resource(DatabaseAudit, '/api/audit/database')
+api.add_resource(DatabaseAudit, '/api/audit/databaseAudit')
 
 
 if __name__ == '__main__':
