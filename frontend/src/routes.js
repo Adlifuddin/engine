@@ -2,7 +2,6 @@ import GoogleAPI from './views/Integration/GoogleApi'
 import HomePage from './components/Home/HomePage'
 import Integration from './views/Integration/Integration'
 import Members from './components/Audit/People/Members'
-import Database from './components/Audit/People/database'
 import DatabaseAudit from './components/Audit/People/database'
 
 const routes = [
