@@ -48,10 +48,13 @@ class Add(Resource):
                         va.append(s)
                     str1 = " ' , ' ".join(va)
                     v = f"' {str1} '"
-                    conn.execute(f'INSERT INTO {tableName} ({n}) VALUES ({v})')
+                    conn.execute(f"INSERT INTO {tableName} ({n}) VALUES ({v})")
+
                 data = json.dumps({'success': True, "message": "Successfully Inserted Data to the Database"})
                 return Response(data, status=200, mimetype='application/json')
         except Exception:
+            print(exc.ProgrammingError.__class__)
+            conn.execute(f"DROP TABLE {tableName}")
             data = json.dumps({'success': False, "message": "Error Found"})
             return Response(data, status=400, mimetype='application/json')
 

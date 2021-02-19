@@ -4,12 +4,13 @@ import DataTable from 'react-data-table-component';
 import logo from '../../assets/images/google-drive.png'
 import dotenv from 'dotenv'
 import GooglePicker from 'react-google-picker'
-import { Button, Form  } from 'react-bootstrap'
-import { Row, Col, Alert, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
+import { Button, Form, Spinner } from 'react-bootstrap'
+import { Row, Col, Alert, Modal, ModalHeader, ModalBody, ModalFooter, Container } from 'reactstrap';
 import spinner from '../../assets/images/Eclipse-1s-200px.svg'
 import DataTableExtensions from 'react-data-table-component-extensions';
 import './GoogleApi.css'
 import api from '../../api/index'
+import refresh from '../../assets/images/arrow-repeat.svg'
 
 function GoogleApi() {
   const [columns, setColumns] = useState([]);
@@ -24,6 +25,7 @@ function GoogleApi() {
   const [name, setName] = useState("")
   const [status, setStatus] = useState("")
   const [errorCode, setErrorCode] = useState("")
+  const [currentSheetsName, setCurrentSheetsName] = useState("")
 
   const toggle = () => {
     setModal(!modal)
@@ -189,10 +191,13 @@ function GoogleApi() {
         }
       })
       .catch(error => {
-        if (error.response.data && error.response.data.success === false) {
-          setErrorCode(error.response.data.message)
-          setStatus("Error")
+        if (error.response) {
+          if (error.response.data && error.response.data.success === false) {
+            setErrorCode(error.response.data.message)
+            setStatus("Error")
+          }
         }
+        
       })
   }
   
@@ -202,6 +207,7 @@ function GoogleApi() {
   }
 
   const changes = (e) => {
+    setCurrentSheetsName(e.target.value)
     setVisible(false)
     setHeader(['work'])
     setLoading(true)
@@ -233,25 +239,65 @@ function GoogleApi() {
       })
   }
 
+  const update = () => {
+    setVisible(false)
+    setHeader(['work'])
+    setLoading(true)
+    axios.get(`https://sheets.googleapis.com/v4/spreadsheets/${ids}`, {
+          headers: {
+            Authorization: `Bearer ${oauthToken}`
+          }
+        })
+      .then(response => {
+        const results = response.data.sheets
+        const data = results.map(x => x.properties.title)
+        axios.get(`https://sheets.googleapis.com/v4/spreadsheets/${ids}/values/${currentSheetsName}!A:AZ?key=${developerKey}`, {
+                headers: {
+                  Authorization: `Bearer ${oauthToken}`
+                }
+              })
+            .then(responses => {
+              setSheets(data)
+              setLoading(false)
+                const datas = responses.data.values
+                processData(datas)
+              })
+              .catch(error => {
+                console.log(error)
+              })
+      })
+      .catch(error => {
+        console.log(error)
+      })
+  }
+
   let sheet 
   if (data.length > 0) {
     sheet = (
-      <Row className="justify-content-center" style={{ marginTop: "30px", marginBottom: "20px", marginLeft: "0px", marginRight: "0px"}}>
-        <Col md={{ offset: 1  }}>
-          <Form onChange={changes}>
-            <Form.Control as="select" >
-              {
-                sheets.map(x => (
-                  <option value={x}>{x}</option>
-                ))
-              }
-            </Form.Control>
-          </Form>
-        </Col>
-        <Col md="2">
-          <Button onClick={() => setModal(true)}>Upload</Button>
-        </Col>
-      </Row>
+      <Container>
+        <Row className="justify-content-center" style={{marginTop:"30px", marginBottom:"20px", marginRight: "0px", marginLeft: "0px"}}>
+          <Col md="3">
+            <Form onChange={changes}>
+              <Form.Control as="select" >
+                {
+                  sheets.map(x => (
+                    <option value={x}>{x}</option>
+                  ))
+                }
+              </Form.Control>
+            </Form> 
+          </Col>
+          <Col md="1">
+            <Button onClick={() => setModal(true)}>Upload</Button>
+          </Col>
+          <Col md="1">
+            <Button variant="secondary" onClick={update}>
+              <img src={refresh} alt="refresh"/>
+            </Button>{' '}
+          </Col>
+        </Row>
+      </Container>
+      
     )
   }
 
@@ -311,14 +357,19 @@ function GoogleApi() {
       </Form.Control.Feedback>
     )
   }
-
-  const inputElement = useRef(null);
-
-  useEffect(() => {
-  if (inputElement.current) {
-    inputElement.current.focus();
+  let spin
+  if (status === 'loading') {
+    spin = (
+      <Spinner
+        as="span"
+        animation="grow"
+        size="sm"
+        role="status"
+        aria-hidden="true"
+      />
+    )
   }
-}, [inputElement.current]);
+
 
   return (
     <div>
@@ -355,7 +406,7 @@ function GoogleApi() {
       </Row>
       <Modal isOpen={modal} toggle={toggle} style={{marginTop: "200px"}}>
         <Form>
-          <ModalHeader toggle={toggle}>Modal title</ModalHeader>
+          <ModalHeader toggle={toggle}>Give The Table A Name</ModalHeader>
         <ModalBody>
             <Form.Group controlId="formBasicName">
               <Form.Label>Name</Form.Label>
@@ -370,7 +421,10 @@ function GoogleApi() {
           </Form.Group>
         </ModalBody>
         <ModalFooter>
-          <Button variant="success" type="submit" onClick={upload}>Submit</Button>{' '}
+            <Button variant="success" type="submit" onClick={upload}>
+              {spin}
+              Submit
+            </Button>{' '}
           <Button variant="danger" onClick={toggle}>Cancel</Button>
           </ModalFooter>
         </Form>
