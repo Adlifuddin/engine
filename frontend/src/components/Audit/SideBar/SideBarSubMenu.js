@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom';
 //import react pro sidebar components
 import {
     ProSidebar,
@@ -11,7 +12,7 @@ import {
   } from "react-pro-sidebar";
   
   //import icons from react icons
-  import { FiLogOut, FiArrowLeftCircle, FiArrowRightCircle, FiUsers, FiDatabase, FiEdit, FiDownload } from "react-icons/fi"
+  import { FiUsers, FiDatabase, FiEdit, FiDownload } from "react-icons/fi"
   import { FaTable, FaQuestionCircle, FaBuromobelexperte } from "react-icons/fa"
   
   
@@ -19,19 +20,21 @@ import {
   //import sidebar css from react-pro-sidebar module and our custom css 
   import "react-pro-sidebar/dist/css/styles.css";
   import "./SideBar.css"
+  import {BrowserRouter as Router, Route} from 'react-router-dom'
+
 
 function SideBarSubMenu(){
     return(
             <div className="submenubg">
                 <SubMenu title="Team Members" icon={<FiUsers />}>
                   <MenuItem active={true}>Overview</MenuItem>
-                  <MenuItem>All Members</MenuItem>
+                  <MenuItem>All Members<Link to="/audit/members/all" /></MenuItem>
                   <MenuItem>Audit Log</MenuItem>
                 </SubMenu>
          
                 <SubMenu title="Databases" icon={<FiDatabase />}>
                   <MenuItem active={true}>Overview</MenuItem>
-                  <MenuItem>All Databases</MenuItem>
+                  <MenuItem>All Databases<Link to="/audit/databases/all" /></MenuItem>
                 </SubMenu>
               
                 <SubMenu title="Schemas" icon={<FiEdit />}>
