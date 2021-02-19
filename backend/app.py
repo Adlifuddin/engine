@@ -58,8 +58,7 @@ class Add(Resource):
 class Members(Resource):
     def get(self):
         engine = CreateConnectionCoreUser()
-<<<<<<< HEAD
-        query = "select a.id, a.first_name, a.last_name, a.email, a.date_joined, a.last_login, c.user_id , STRING_AGG(d.name, ',') as user from (core_user a left join permissions_group_membership c on a.id = c.user_id left join permissions_group d on c.group_id = d.id) group by a.id, c.user_id"
+        query = "select a.id, a.first_name, a.last_name, a.email, a.last_login, a.date_joined,c.user_id , STRING_AGG(d.name, ',') as user from (core_user a left join permissions_group_membership c on a.id = c.user_id left join permissions_group d on c.group_id = d.id) group by a.id, c.user_id"     
         connection = engine.connect()
         result = connection.execute(query)
         results = [dict(zip(tuple (result.keys()) ,i)) for i in result.cursor]
@@ -69,14 +68,10 @@ class DatabaseAudit(Resource):
     def get(self):
         engine = CreateConnectionCoreUser()
         query = "select metabase_database.name ,count(distinct metabase_table.schema) as schema,count(metabase_table.name) as table, metabase_database.metadata_sync_schedule,metabase_database.created_at from public.metabase_table left join public.metabase_database on metabase_table.db_id = metabase_database.id group by metabase_table.db_id,metabase_database.name, metabase_database.metadata_sync_schedule, metabase_database.created_at"
-=======
-        query = "select a.id, a.first_name, a.last_name, a.email, a.last_login, a.date_joined,c.user_id , STRING_AGG(d.name, ',') as user from (core_user a left join permissions_group_membership c on a.id = c.user_id left join permissions_group d on c.group_id = d.id) group by a.id, c.user_id"     
->>>>>>> refs/remotes/origin/main
         connection = engine.connect()
         result = connection.execute(query)
         results = [dict(zip(tuple (result.keys()) ,i)) for i in result.cursor]
         return jsonify(results)
-
 
 api.add_resource(Test, '/api/test')
 api.add_resource(Add, '/api/add')

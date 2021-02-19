@@ -1,12 +1,8 @@
 import GoogleAPI from './views/Integration/GoogleApi'
 import HomePage from './components/Home/HomePage'
 import Integration from './views/Integration/Integration'
-<<<<<<< HEAD
-import Members from './components/Audit/People/Members'
-import DatabaseAudit from './components/Audit/People/database'
-=======
 import Members from './components/Audit/TeamMember/Members'
->>>>>>> refs/remotes/origin/main
+import DatabaseAudit from './components/Audit/database/database'
 import Database from './views/database/Database'
 
 const routes = [
