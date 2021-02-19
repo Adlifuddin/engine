@@ -5,9 +5,9 @@ import sqlalchemy as db
 from flask_cors import CORS 
 from json import dumps
 from flask_jsonpify import jsonify
-from .serializer import *
-from .connection import CreateConnectionCoreUser
-from .settings import *
+from serializer import *
+from connection import CreateConnectionCoreUser
+from settings import *
 import json
 
 app = Flask(__name__)
@@ -61,9 +61,7 @@ class Add(Resource):
 class Members(Resource):
     def get(self):
         engine = CreateConnectionCoreUser()
-        metadata = MetaData()
-        project_table = db.Table('core_user', metadata, autoload=True, autoload_with=engine)
-        query = db.select([project_table])
+        query = "select a.id, a.first_name, a.last_name, a.email, a.last_login, a.date_joined,c.user_id , STRING_AGG(d.name, ',') as user from (core_user a left join permissions_group_membership c on a.id = c.user_id left join permissions_group d on c.group_id = d.id) group by a.id, c.user_id"     
         connection = engine.connect()
         result = connection.execute(query)
         results = [dict(zip(tuple (result.keys()) ,i)) for i in result.cursor]
