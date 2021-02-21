@@ -20,7 +20,6 @@ import {
   //import sidebar css from react-pro-sidebar module and our custom css 
   import "react-pro-sidebar/dist/css/styles.css";
   import "./SideBar.css"
-  import {BrowserRouter as Router, Route} from 'react-router-dom'
 
 
 function SideBarSubMenu(){
@@ -44,7 +43,7 @@ function SideBarSubMenu(){
 
                 <SubMenu title="Tables" icon={<FaTable />}>
                   <MenuItem active={true}>Overview</MenuItem>
-                  <MenuItem>All Tables</MenuItem>
+                  <MenuItem>All Tables<Link to="/audit/tables/all" /></MenuItem>
                 </SubMenu>
 
                 <SubMenu title="Questions" icon={<FaQuestionCircle />}>

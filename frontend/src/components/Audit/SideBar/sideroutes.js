@@ -1,7 +1,8 @@
 import React from 'react'
-import DatabaseAudit from '../database/database'
+import DatabaseAudit from '../Database/Database'
 import Members from '../TeamMember/Members'
 import { FiUsers, FiDatabase } from "react-icons/fi"
+import Tables from '../Table/Table'
 
 const sideroutes = [
     {
@@ -19,7 +20,15 @@ const sideroutes = [
         submenu1: "Overview",
         submenu2: "All Databases",
         components: DatabaseAudit,
-    }
+    },
+    {
+        pathname: "/audit/tables/all",
+        icons: <FiDatabase />,
+        title: "Database",
+        submenu1: "Overview",
+        submenu2: "All Tables",
+        components: Tables,
+    },
 ]
 
 export default sideroutes

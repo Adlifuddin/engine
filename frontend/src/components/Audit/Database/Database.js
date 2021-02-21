@@ -32,7 +32,7 @@ function DatabaseAudit(){
                     <Col style={{marginTop:"10px", marginRight:"50px"}} xs lg={10}>  
                         <Breadcrumb>
                             <Breadcrumb.Item href="/">Audit</Breadcrumb.Item>
-                            <Breadcrumb.Item active>Database</Breadcrumb.Item>
+                            <Breadcrumb.Item active>Databases</Breadcrumb.Item>
                         </Breadcrumb>
                         <Table striped bordered hover variant="light">
                             <thead>

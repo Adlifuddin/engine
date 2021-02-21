@@ -76,10 +76,30 @@ class DatabaseAudit(Resource):
         results = [dict(zip(tuple (result.keys()) ,i)) for i in result.cursor]
         return jsonify(results)
 
+class Tables(Resource):
+    def get(self):
+        engine = CreateConnectionCoreUser()
+        query = "Select metabase_table.id, metabase_database.name as db_name, metabase_table.name as table_name, metabase_table.schema, metabase_table.display_name FROM metabase_table Right Join metabase_database ON metabase_database.id=metabase_table.db_id"
+        connection = engine.connect()
+        result = connection.execute(query)
+        results = [dict(zip(tuple (result.keys()) ,i)) for i in result.cursor]
+        return jsonify(results)
+
+class Checks(Resource):
+    def get(self):
+        engine = CreateConnectionCoreUser()
+        query = "Select metabase_table.id, metabase_database.name as db_name, metabase_table.name as table_name, metabase_table.schema, metabase_table.display_name FROM metabase_table Right Join metabase_database ON metabase_database.id=metabase_table.db_id"
+        connection = engine.connect()
+        result = connection.execute(query)
+        results = [dict(zip(tuple (result.keys()) ,i)) for i in result.cursor]
+        return jsonify(results)
+
 api.add_resource(Test, '/api/test')
 api.add_resource(Add, '/api/add')
 api.add_resource(Members, '/api/audit/members')
-api.add_resource(DatabaseAudit, '/api/audit/database')
+api.add_resource(DatabaseAudit, '/api/audit/databases')
+api.add_resource(Tables, '/api/audit/tables')
+api.add_resource(Checks, '/api/audit/checks')
 
 
 if __name__ == '__main__':
