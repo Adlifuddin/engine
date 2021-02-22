@@ -48,13 +48,10 @@ class Add(Resource):
                         va.append(s)
                     str1 = " ' , ' ".join(va)
                     v = f"' {str1} '"
-                    conn.execute(f"INSERT INTO {tableName} ({n}) VALUES ({v})")
-
+                    conn.execute(f'INSERT INTO {tableName} ({n}) VALUES ({v})')
                 data = json.dumps({'success': True, "message": "Successfully Inserted Data to the Database"})
                 return Response(data, status=200, mimetype='application/json')
         except Exception:
-            print(exc.ProgrammingError.__class__)
-            conn.execute(f"DROP TABLE {tableName}")
             data = json.dumps({'success': False, "message": "Error Found"})
             return Response(data, status=400, mimetype='application/json')
 
@@ -67,10 +64,51 @@ class Members(Resource):
         results = [dict(zip(tuple (result.keys()) ,i)) for i in result.cursor]
         return jsonify(results)
 
+class DatabaseAudit(Resource):
+    def get(self):
+        engine = CreateConnectionCoreUser()
+        query = "select metabase_database.name ,count(distinct metabase_table.schema) as schema,count(metabase_table.name) as table, metabase_database.metadata_sync_schedule,metabase_database.created_at from public.metabase_table left join public.metabase_database on metabase_table.db_id = metabase_database.id group by metabase_table.db_id,metabase_database.name, metabase_database.metadata_sync_schedule, metabase_database.created_at"
+        connection = engine.connect()
+        result = connection.execute(query)
+        results = [dict(zip(tuple (result.keys()) ,i)) for i in result.cursor]
+        return jsonify(results)
+
+class Tables(Resource):
+    def get(self):
+        engine = CreateConnectionCoreUser()
+        query = "Select metabase_table.id, metabase_database.name as db_name, metabase_table.name as table_name, metabase_table.schema, metabase_table.display_name FROM metabase_table Right Join metabase_database ON metabase_database.id=metabase_table.db_id"
+        connection = engine.connect()
+        result = connection.execute(query)
+        results = [dict(zip(tuple (result.keys()) ,i)) for i in result.cursor]
+        return jsonify(results)
+
+class Checks(Resource):
+    def get(self):
+        engine = CreateConnectionCoreUser()
+        query = "Select metabase_table.id, metabase_database.name as db_name, metabase_table.name as table_name, metabase_table.schema, metabase_table.display_name FROM metabase_table Right Join metabase_database ON metabase_database.id=metabase_table.db_id"
+        connection = engine.connect()
+        result = connection.execute(query)
+        results = [dict(zip(tuple (result.keys()) ,i)) for i in result.cursor]
+        return jsonify(results)
+
+class Schema(Resource):
+    def get(self):
+        engine = CreateConnectionCoreUser()
+        query = "select b.name , a.schema as schema,count(distinct a.name) as table,(count(distinct c.id))as query from public.metabase_table a left join public.metabase_database b on a.db_id = b.id  left join public.report_card c on c.database_id = a.db_id where c.table_id is not null group by a.db_id,b.name, a.schema order by a.db_id"
+        connection = engine.connect()
+        result = connection.execute(query)
+        results = [dict(zip(tuple (result.keys()) ,i)) for i in result.cursor]
+        return jsonify(results)
 
 api.add_resource(Test, '/api/test')
 api.add_resource(Add, '/api/add')
 api.add_resource(Members, '/api/audit/members')
+api.add_resource(DatabaseAudit, '/api/audit/database')
+api.add_resource(Tables, '/api/audit/tables')
+api.add_resource(Checks, '/api/audit/checks')
+api.add_resource(Schema, '/api/audit/schema')
+
+
 
 if __name__ == '__main__':
      app.run()

@@ -19,6 +19,12 @@ var _DatabaseUpdate = _interopRequireDefault(require("./views/database/DatabaseU
 
 var _DatabaseList = _interopRequireDefault(require("./views/database/DatabaseList"));
 
+var _Database = _interopRequireDefault(require("./components/Audit/Database/Database"));
+
+var _Table = _interopRequireDefault(require("./components/Audit/Table/Table"));
+
+var _schema = _interopRequireDefault(require("./components/Audit/Schema/schema"));
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 var routes = [{
@@ -60,6 +66,22 @@ var routes = [{
   component: _DatabaseUpdate["default"],
   layout: "/",
   invisible: true
+}, {
+  pathname: "/audit/members/all",
+  name: "Audit-AllMember",
+  components: _Members["default"]
+}, {
+  pathname: "/audit/databases/all",
+  name: "Audit-AllDatabase",
+  components: _Database["default"]
+}, {
+  pathname: "/audit/tables/all",
+  name: "Audit-AllTable",
+  components: _Table["default"]
+}, {
+  pathname: "/audit/schemas/all",
+  name: "Audit-AllSChema",
+  components: _schema["default"]
 }];
 var _default = routes;
 exports["default"] = _default;

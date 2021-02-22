@@ -10,7 +10,7 @@ def CreateConnectionCoreUser():
     engine = create_engine(db_url)
     return engine
 
-# for column in inspector.get_columns("core_user", schema="public"):
+# for column in inspector.get_columns("metabase_table", schema="public"):
 #     columns.append(column['name'])
 
 # inspector = inspect(engine)
