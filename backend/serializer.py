@@ -1,4 +1,4 @@
-from connection import CreateConnectionCoreUser
+from .connection import CreateConnectionCoreUser
 
 def unpack(resource):
     ti = []

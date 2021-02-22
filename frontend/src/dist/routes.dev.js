@@ -11,33 +11,55 @@ var _HomePage = _interopRequireDefault(require("./components/Home/HomePage"));
 
 var _Integration = _interopRequireDefault(require("./views/Integration/Integration"));
 
-var _Members = _interopRequireDefault(require("./components/Audit/People/Members"));
+var _Members = _interopRequireDefault(require("./components/Audit/TeamMember/Members"));
 
-var _Database = _interopRequireDefault(require("./views/database/Database"));
+var _DatabaseView = _interopRequireDefault(require("./views/database/DatabaseView"));
+
+var _DatabaseUpdate = _interopRequireDefault(require("./views/database/DatabaseUpdate"));
+
+var _DatabaseList = _interopRequireDefault(require("./views/database/DatabaseList"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 var routes = [{
-  pathname: "/",
+  path: "home",
   name: "Home",
-  components: _HomePage["default"]
+  component: _HomePage["default"],
+  layout: "/"
 }, {
-  pathname: "/integration",
+  path: "integration",
   name: "Integration",
-  components: _Integration["default"]
+  component: _Integration["default"],
+  layout: "/"
 }, {
-  pathname: "/google-drive",
+  path: "google-drive",
   name: "Google Drive",
-  components: _GoogleApi["default"],
-  isVisible: true
+  component: _GoogleApi["default"],
+  invisible: true,
+  layout: "/"
 }, {
-  pathname: "/audit",
+  path: "audit",
   name: "Audit",
-  components: _Members["default"]
+  component: _Members["default"],
+  layout: "/"
 }, {
-  pathname: "/database",
+  path: "database",
   name: "Database",
-  components: _Database["default"]
+  component: _DatabaseList["default"],
+  layout: "/",
+  exact: true
+}, {
+  path: "database/add",
+  name: "AddDatabase",
+  component: _DatabaseView["default"],
+  layout: "/",
+  invisible: true
+}, {
+  path: "database/:id",
+  name: "updateDatabase",
+  component: _DatabaseUpdate["default"],
+  layout: "/",
+  invisible: true
 }];
 var _default = routes;
 exports["default"] = _default;

@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import {Container, Card, Row } from 'react-bootstrap'
 import Footer from '../../components/Footer/Footer'
-import imgMarketplace from '../../assets/images/admarketplace.png'
 import imgCalltracking from '../../assets/images/calltrackingmetrics.png'
 import imgCampaign from '../../assets/images/campaignmanager.png'
 import imgAnalytics from '../../assets/images/googleanalytics.png'
@@ -40,7 +39,7 @@ function Integration() {
             <Container fluid >
                 <Row style={{marginLeft: 'auto', marginRight: "auto", verticalAlign: "middle", overflow: "hidden"}}>
                     <Card border="warning" style={cardStyle} onClick={click} >
-                        <Card.Img  variant="top" src={imgMarketplace} id="transparent-ad-marketplace" />
+                        <Card.Img  variant="top"id="transparent-ad-marketplace" />
                         <Card.Body style={{textAlign:"center"}} id="transparent-ad-marketplace">
                             <Card.Title id="transparent-ad-marketplace">Transparent Ad Marketplace</Card.Title>
                         </Card.Body>

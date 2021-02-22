@@ -2,35 +2,58 @@ import GoogleAPI from './views/Integration/GoogleApi'
 import HomePage from './components/Home/HomePage'
 import Integration from './views/Integration/Integration'
 import Members from './components/Audit/TeamMember/Members'
-import Database from './views/database/Database'
+import DatabaseView from './views/database/DatabaseView'
+import DatabaseUpdate from './views/database/DatabaseUpdate'
+import DatabaseList from './views/database/DatabaseList'
 
-const routes = [
+var routes = [
     {
-        pathname: "/",
+        path: "home",
         name: "Home",
-        components: HomePage,
+        component: HomePage,
+        layout: "/",
     },
     {
-        pathname: "/integration",
+        path: "integration",
         name: "Integration",
-        components: Integration,
+        component: Integration,
+        layout: "/",
     },
     {
-        pathname: "/google-drive",
+        path: "google-drive",
         name: "Google Drive",
-        components: GoogleAPI,
-        isVisible: true,
+        component: GoogleAPI,
+        invisible: true,
+        layout: "/",
     },
     {
-        pathname: "/audit",
+        path: "audit",
         name: "Audit",
-        components: Members,
+        component: Members,
+        layout: "/",
     },
     {
-        pathname: "/database",
+        path: "database",
         name: "Database",
-        components: Database,
-    }
+        component: DatabaseList,
+        layout: "/",
+        exact: true,
+    },
+    {
+        path: "database/add",
+        name: "AddDatabase",
+        component: DatabaseView,
+        layout: "/",
+        invisible: true,
+    },
+    {
+        path: "database/:id",
+        name: "updateDatabase",
+        component: DatabaseUpdate,
+        layout: "/",
+        invisible: true,
+    },
+
 ]
 
 export default routes

@@ -23,7 +23,6 @@ import "react-pro-sidebar/dist/css/styles.css";
 import "./SideBar.css"
 import SideBarSubMenu from "./SideBarSubMenu";
 
-
 function SideBar(){
   
     //create initial menuCollapse state using useState hook
@@ -32,11 +31,11 @@ function SideBar(){
     //create a custom function that will change menucollapse state from false to true and true to false
     const menuIconClick = () => {
     //condition checking to change state from true to false and vice versa
-    menuCollapse ? setMenuCollapse(false) : setMenuCollapse(true);
-  };
+      menuCollapse ? setMenuCollapse(false) : setMenuCollapse(true);
+    };
 
   return (
-      <div id="header">
+      <div>
           {/* collapsed props to change menu size using menucollapse state */}
         <ProSidebar collapsed={menuCollapse}>
           <SidebarHeader>

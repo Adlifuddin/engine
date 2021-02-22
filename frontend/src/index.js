@@ -1,18 +1,19 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {BrowserRouter as Router, Route} from 'react-router-dom'
+import { BrowserRouter as Router } from 'react-router-dom'
 import './index.css';
 import App from './App';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import Routes from './routes'
+import ThemeContextWrapper from "./components/ThemeWrapper/ThemeWrapper";
+import BackgroundColorWrapper from "./components/BackgroundColorWrapper/BackgroundColorWrapper";
 
 ReactDOM.render(
-  <Router>
-    <App>
-      {Routes.map(results => (
-        <Route key={results.name} path={results.pathname} exact component={results.components} />
-      ))}
-    </App>
-  </Router>,
+  <ThemeContextWrapper>
+    <BackgroundColorWrapper>
+      <Router>
+        <App/>
+      </Router>
+    </BackgroundColorWrapper>
+  </ThemeContextWrapper>,
   document.getElementById('root')
 );

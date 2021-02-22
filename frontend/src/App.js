@@ -1,18 +1,13 @@
 import './App.css';
-import { withRouter } from "react-router";
-import Navbar from './components/NavBar/NavigationBar'
+import { Route, Switch, withRouter } from "react-router";
+import Layouts from './layout/Layouts'
 
-const AppLayout = ({ location, children }) => (
-  <>
-    <Navbar location={location}/>
-    <div>{children}</div>
-  </>
-  
-);
+function App() {
 
-function App({ location, children }) {
   return (
-    <AppLayout location={location} children={children}/>
+    <Switch>
+      <Route path="/" render={(props) => <Layouts {...props}/>} />
+    </Switch>
   );
 }
 

@@ -1,0 +1,7 @@
+.delete {
+    display: none;
+}
+
+.table.table-borderless.table-hover + .delete {
+    display: block;
+}
