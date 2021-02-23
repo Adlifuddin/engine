@@ -58,7 +58,7 @@ function SideBarSubMenu(){
 
                 <SubMenu title="Downloads" icon={<FiDownload />}>
                   <MenuItem active={true}>Overview</MenuItem>
-                  <MenuItem>All Downloads</MenuItem>
+                  <MenuItem>All Downloads<Link to="/audit/downloads/all" /></MenuItem>
                 </SubMenu>
             </div>        
     )

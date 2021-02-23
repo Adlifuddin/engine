@@ -130,7 +130,16 @@ class Dashboards(Resource):
 class AuditLog(Resource):
     def get(self):
         engine = CreateConnectionCoreUser()
-        query = "select d.name as query, c.first_name as viewedBy, a.native as type,b.name as sourceDB, e.name as table, f.name as collection, a.started_at as viewedon from public.query_execution a inner join public.metabase_database b on a.database_id = b.id inner join public.core_user c on a.executor_id = c.id left join public.report_card d on a.card_id = d.id left join public.metabase_table e on d.table_id = e.id left join public.collection f on d.collection_id = f.id group by b.name,d.name, c.first_name, a.native,a.started_at,e.name,f.name order by a.started_at desc"
+        query = "select d.name as query, c.first_name as viewedBy, a.native as type,b.name as sourceDB, e.name as table, f.name as collection, a.started_at as viewedon from public.query_execution a inner join public.metabase_database b on a.database_id = b.id inner join public.core_user c on a.executor_id = c.id left join public.report_card d on a.card_id = d.id left join public.metabase_table e on d.table_id = e.id left join public.collection f on d.collection_id = f.id group by b.name,d.name, c.first_name, a.native,a.started_at,e.name,f.name order by a.started_at desc limit 20"
+        connection = engine.connect()
+        result = connection.execute(query)
+        results = [dict(zip(tuple (result.keys()) ,i)) for i in result.cursor]
+        return jsonify(results)
+
+class Downloads(Resource):
+    def get(self):
+        engine = CreateConnectionCoreUser()
+        query = "select a.started_at as downloadAt, a.result_rows as rowsDownloaded, b.name as query, a.native as queryType, c.name as sourceDatabases, d.name as tables, e.first_name as user from public.query_execution a left join public.report_card b on a.card_id = b.id left join public.metabase_database c on a.database_id = c.id left join public.metabase_table d on b.table_id = d.id left join public.core_user e on a.executor_id = e.id where a.context ilike 'csv-download' group by b.name,a.native,c.name,d.name,a.started_at,a.result_rows,e.first_name"
         connection = engine.connect()
         result = connection.execute(query)
         results = [dict(zip(tuple (result.keys()) ,i)) for i in result.cursor]
@@ -148,6 +157,8 @@ api.add_resource(Questions, '/api/audit/question')
 api.add_resource(Dashboards, '/api/audit/dashboard')
 api.add_resource(MembersOverview, '/api/audit/members/overview')
 api.add_resource(AuditLog, '/api/audit/members/log')
+api.add_resource(Downloads, '/api/audit/download')
+
 
 
 

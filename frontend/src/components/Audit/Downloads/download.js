@@ -49,12 +49,12 @@ function Downloads(){
                             {download.map(download => (
                                 <tbody key={download.id}>
                                     <tr>
-                                        <td>{download.downloadAt}</td>
-                                        <td>{download.rowsDownloaded}</td>
+                                        <td>{download.downloadat}</td>
+                                        <td>{download.rowsdownloaded}</td>
                                         <td>{download.query}</td>
-                                        <td>{download.queryType}</td>
-                                        <td>{download.database}</td>
-                                        <td>{download.sourceTable}</td>
+                                        {download.type === true ? <td>Native</td> : <td>GUI</td>}
+                                        <td>{download.sourcedatabases}</td>
+                                        <td>{download.tables}</td>
                                         <td>{download.user}</td>
                                     </tr>
                                 </tbody>

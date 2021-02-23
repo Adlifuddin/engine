@@ -12,6 +12,7 @@ import Questions from './components/Audit/Questions/question'
 import Dashboards from './components/Audit/Dashboards/dashboard'
 import MemberOverview from './components/Audit/TeamMember/MemberOverview'
 import AuditLog from './components/Audit/TeamMember/AuditLog'
+import Downloads from './components/Audit/Downloads/download'
 
 var routes = [
     {
@@ -114,6 +115,13 @@ var routes = [
         path: "audit/dashboards/all",
         name: "Audit-AllDasboard",
         component: Dashboards,
+        layout: "/",
+        invisible: true,
+    },
+    {
+        path: "audit/downloads/all",
+        name: "Audit-AllDownload",
+        component: Downloads,
         layout: "/",
         invisible: true,
     }
