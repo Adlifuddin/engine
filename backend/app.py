@@ -64,6 +64,15 @@ class Members(Resource):
         results = [dict(zip(tuple (result.keys()) ,i)) for i in result.cursor]
         return jsonify(results)
 
+class MembersOverview(Resource):
+    def get(self):
+        engine = CreateConnectionCoreUser()
+        query = "select b.first_name as user, sum(a.running_time) as exectime from public.query_execution a left join public.core_user b on a.executor_id = b.id left join public.metabase_database c on a.database_id = c.id where b.first_name is not null group by b.first_name order by exectime desc limit 10"     
+        connection = engine.connect()
+        result = connection.execute(query)
+        results = [dict(zip(tuple (result.keys()) ,i)) for i in result.cursor]
+        return jsonify(results)
+
 class Databases(Resource):
     def get(self):
         engine = CreateConnectionCoreUser()
@@ -128,6 +137,7 @@ api.add_resource(Checks, '/api/audit/checks')
 api.add_resource(Schema, '/api/audit/schemas')
 api.add_resource(Questions, '/api/audit/question')
 api.add_resource(Dashboards, '/api/audit/dashboard')
+api.add_resource(MembersOverview, '/api/audit/members/overview')
 
 
 

@@ -26,7 +26,7 @@ function SideBarSubMenu(){
     return(
             <div className="submenubg">
                 <SubMenu title="Team Members" icon={<FiUsers />}>
-                  <MenuItem active={true}>Overview</MenuItem>
+                  <MenuItem active={true}>Overview<Link to="/audit/members/overview" /></MenuItem>
                   <MenuItem>All Members<Link to="/audit/members/all" /></MenuItem>
                   <MenuItem>Audit Log</MenuItem>
                 </SubMenu>

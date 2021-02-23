@@ -10,6 +10,7 @@ import Schema from './components/Audit/Schema/schema'
 import DatabaseAudit from './components/Audit/Database/Database'
 import Questions from './components/Audit/Questions/question'
 import Dashboards from './components/Audit/Dashboards/dashboard'
+import MemberOverview from './components/Audit/TeamMember/MemberOverview'
 
 var routes = [
     {
@@ -63,6 +64,13 @@ var routes = [
         path: "audit/members/all",
         name: "Audit-AllMember",
         component: Members,
+        layout: "/",
+        invisible: true,
+    },
+    {
+        path: "audit/members/overview",
+        name: "Audit-MemberOverview",
+        component: MemberOverview,
         layout: "/",
         invisible: true,
     },
