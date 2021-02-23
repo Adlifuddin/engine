@@ -1,7 +1,12 @@
-.delete {
+#danger-button {
     display: none;
 }
 
-.table.table-borderless.table-hover + .delete {
-    display: block;
+.table-hover tbody tr:hover #danger-button{
+    display: block
+}
+
+
+#title {
+    border-bottom: 1px solid rgb(240, 240, 240)
 }

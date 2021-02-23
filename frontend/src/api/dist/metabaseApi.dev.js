@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports["default"] = exports.session = exports.createDatabase = exports.databaseListID = exports.databaseList = void 0;
+exports["default"] = exports.session = exports.deleteDatabase = exports.discardValue = exports.reScanValue = exports.syncSchema = exports.createDatabase = exports.databaseListID = exports.databaseList = void 0;
 
 var _axios = _interopRequireDefault(require("axios"));
 
@@ -37,10 +37,34 @@ exports.databaseListID = databaseListID;
 
 var createDatabase = function createDatabase(payload) {
   return api.post("database/", payload, config);
+};
+
+exports.createDatabase = createDatabase;
+
+var syncSchema = function syncSchema(payload, id) {
+  return api.post("database/".concat(id, "/sync_schema"), payload, config);
+};
+
+exports.syncSchema = syncSchema;
+
+var reScanValue = function reScanValue(payload, id) {
+  return api.post("database/".concat(id, "/rescan_values"), payload, config);
+};
+
+exports.reScanValue = reScanValue;
+
+var discardValue = function discardValue(payload, id) {
+  return api.post("database/".concat(id, "/discard_values"), payload, config);
+};
+
+exports.discardValue = discardValue;
+
+var deleteDatabase = function deleteDatabase(id) {
+  return api["delete"]("database/".concat(id), config);
 }; // Create Sessions
 
 
-exports.createDatabase = createDatabase;
+exports.deleteDatabase = deleteDatabase;
 
 var session = function session(payload) {
   return api.post("session/", payload);
@@ -51,7 +75,11 @@ var apis = {
   databaseList: databaseList,
   session: session,
   createDatabase: createDatabase,
-  databaseListID: databaseListID
+  databaseListID: databaseListID,
+  syncSchema: syncSchema,
+  reScanValue: reScanValue,
+  discardValue: discardValue,
+  deleteDatabase: deleteDatabase
 };
 var _default = apis;
 exports["default"] = _default;

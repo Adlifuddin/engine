@@ -47,7 +47,8 @@ var routes = [{
   path: "audit",
   name: "Audit",
   component: _Members["default"],
-  layout: "/"
+  layout: "/",
+  exact: true
 }, {
   path: "database",
   name: "Database",
@@ -67,21 +68,29 @@ var routes = [{
   layout: "/",
   invisible: true
 }, {
-  pathname: "/audit/members/all",
+  path: "audit/members/all",
   name: "Audit-AllMember",
-  components: _Members["default"]
+  component: _Members["default"],
+  layout: "/",
+  invisible: true
 }, {
-  pathname: "/audit/databases/all",
+  path: "audit/databases/all",
   name: "Audit-AllDatabase",
-  components: _Database["default"]
+  component: _Database["default"],
+  layout: "/",
+  invisible: true
 }, {
-  pathname: "/audit/tables/all",
+  path: "audit/tables/all",
   name: "Audit-AllTable",
-  components: _Table["default"]
+  component: _Table["default"],
+  layout: "/",
+  invisible: true
 }, {
-  pathname: "/audit/schemas/all",
+  path: "audit/schemas/all",
   name: "Audit-AllSChema",
-  components: _schema["default"]
+  component: _schema["default"],
+  layout: "/",
+  invisible: true
 }];
 var _default = routes;
 exports["default"] = _default;

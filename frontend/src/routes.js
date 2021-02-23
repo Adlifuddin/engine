@@ -34,6 +34,7 @@ var routes = [
         name: "Audit",
         component: Members,
         layout: "/",
+        exact: true,
     },
     {
         path: "database",
@@ -57,24 +58,32 @@ var routes = [
         invisible: true,
     },
     {
-        pathname: "/audit/members/all",
+        path: "audit/members/all",
         name: "Audit-AllMember",
-        components: Members,
+        component: Members,
+        layout: "/",
+        invisible: true,
     },
     {
-        pathname: "/audit/databases/all",
+        path: "audit/databases/all",
         name: "Audit-AllDatabase",
-        components: DatabaseAudit,
+        component: DatabaseAudit,
+        layout: "/",
+        invisible: true,
     },
     {
-        pathname: "/audit/tables/all",
+        path: "audit/tables/all",
         name: "Audit-AllTable",
-        components: Tables,
+        component: Tables,
+        layout: "/",
+        invisible: true,
     },
     {
-        pathname: "/audit/schemas/all",
+        path: "audit/schemas/all",
         name: "Audit-AllSChema",
-        components: Schema,
+        component: Schema,
+        layout: "/",
+        invisible: true,
     }
 ]
 
