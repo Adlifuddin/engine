@@ -5,9 +5,9 @@ import sqlalchemy as db
 from flask_cors import CORS 
 from json import dumps
 from flask_jsonpify import jsonify
-from .serializer import *
-from .connection import CreateConnectionCoreUser
-from .settings import *
+from serializer import *
+from connection import CreateConnectionCoreUser
+from settings import *
 import json
 
 app = Flask(__name__)
@@ -64,7 +64,7 @@ class Members(Resource):
         results = [dict(zip(tuple (result.keys()) ,i)) for i in result.cursor]
         return jsonify(results)
 
-class DatabaseAudit(Resource):
+class Databases(Resource):
     def get(self):
         engine = CreateConnectionCoreUser()
         query = "select metabase_database.name ,count(distinct metabase_table.schema) as schema,count(metabase_table.name) as table, metabase_database.metadata_sync_schedule,metabase_database.created_at from public.metabase_table left join public.metabase_database on metabase_table.db_id = metabase_database.id group by metabase_table.db_id,metabase_database.name, metabase_database.metadata_sync_schedule, metabase_database.created_at"
@@ -103,10 +103,10 @@ class Schema(Resource):
 api.add_resource(Test, '/api/test')
 api.add_resource(Add, '/api/add')
 api.add_resource(Members, '/api/audit/members')
-api.add_resource(DatabaseAudit, '/api/audit/database')
+api.add_resource(Databases, '/api/audit/databases')
 api.add_resource(Tables, '/api/audit/tables')
 api.add_resource(Checks, '/api/audit/checks')
-api.add_resource(Schema, '/api/audit/schema')
+api.add_resource(Schema, '/api/audit/schemas')
 
 
 

@@ -9,7 +9,7 @@ function Schema(){
 
     useEffect(() => {
         axios
-            .get("http://localhost:5000/api/audit/schema")
+            .get("http://localhost:5000/api/audit/schemas")
             .then(res => {
                 console.log(res.data)
                 setDatabase(res.data)

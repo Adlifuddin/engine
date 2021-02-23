@@ -9,7 +9,7 @@ function DatabaseAudit(){
 
     useEffect(() => {
         axios
-            .get("http://localhost:5000/api/audit/database")
+            .get("http://localhost:5000/api/audit/databases")
             .then(res => {
                 console.log(res.data)
                 setDatabase(res.data)
