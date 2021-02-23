@@ -11,7 +11,6 @@ function Schema(){
         axios
             .get("http://localhost:5000/api/audit/schemas")
             .then(res => {
-                console.log(res.data)
                 setDatabase(res.data)
             })
             .catch(err => {

@@ -11,7 +11,6 @@ function Dashboards(){
         axios
             .get("http://localhost:5000/api/audit/dashboard")
             .then(res => {
-                console.log(res.data)
                 setDatabase(res.data)
             })
             .catch(err => {

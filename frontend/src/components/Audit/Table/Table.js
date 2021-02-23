@@ -11,7 +11,6 @@ function Tables(){
         axios
             .get("http://localhost:5000/api/audit/tables")
             .then(res => {
-                console.log(res.data)
                 setTables(res.data)
             })
             .catch(err => {

@@ -12,7 +12,6 @@ function Members(){
         axios
             .get("http://localhost:5000/api/audit/members")
             .then(res => {
-                console.log(res.data)
                 setMembers(res.data)
             })
             .catch(err => {

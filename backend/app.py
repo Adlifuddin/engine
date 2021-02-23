@@ -127,6 +127,15 @@ class Dashboards(Resource):
         results = [dict(zip(tuple (result.keys()) ,i)) for i in result.cursor]
         return jsonify(results)
 
+class AuditLog(Resource):
+    def get(self):
+        engine = CreateConnectionCoreUser()
+        query = "select d.name as query, c.first_name as viewedBy, a.native as type,b.name as sourceDB, e.name as table, f.name as collection, a.started_at as viewedon from public.query_execution a inner join public.metabase_database b on a.database_id = b.id inner join public.core_user c on a.executor_id = c.id left join public.report_card d on a.card_id = d.id left join public.metabase_table e on d.table_id = e.id left join public.collection f on d.collection_id = f.id group by b.name,d.name, c.first_name, a.native,a.started_at,e.name,f.name order by a.started_at desc"
+        connection = engine.connect()
+        result = connection.execute(query)
+        results = [dict(zip(tuple (result.keys()) ,i)) for i in result.cursor]
+        return jsonify(results)
+
 
 api.add_resource(Test, '/api/test')
 api.add_resource(Add, '/api/add')
@@ -138,6 +147,8 @@ api.add_resource(Schema, '/api/audit/schemas')
 api.add_resource(Questions, '/api/audit/question')
 api.add_resource(Dashboards, '/api/audit/dashboard')
 api.add_resource(MembersOverview, '/api/audit/members/overview')
+api.add_resource(AuditLog, '/api/audit/members/log')
+
 
 
 

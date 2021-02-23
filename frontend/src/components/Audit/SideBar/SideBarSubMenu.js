@@ -28,7 +28,7 @@ function SideBarSubMenu(){
                 <SubMenu title="Team Members" icon={<FiUsers />}>
                   <MenuItem active={true}>Overview<Link to="/audit/members/overview" /></MenuItem>
                   <MenuItem>All Members<Link to="/audit/members/all" /></MenuItem>
-                  <MenuItem>Audit Log</MenuItem>
+                  <MenuItem>Audit Log<Link to="/audit/members/log" /></MenuItem>
                 </SubMenu>
          
                 <SubMenu title="Databases" icon={<FiDatabase />}>
