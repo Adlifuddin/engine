@@ -12,7 +12,6 @@ function Members(){
         axios
             .get("http://localhost:5000/api/audit/members")
             .then(res => {
-                console.log(res.data)
                 setMembers(res.data)
             })
             .catch(err => {
@@ -30,7 +29,7 @@ function Members(){
                     <Col style={{marginLeft:"0px"}}>
                         <SideBar />
                     </Col>
-                    <Col style={{marginTop:"10px", marginRight:"50px"}} xs lg={10}>  
+                    <Col style={{marginTop:"10px", marginRight:"50px"}} xs lg={9}>  
                         <Breadcrumb>
                             <Breadcrumb.Item href="/">Audit</Breadcrumb.Item>
                             <Breadcrumb.Item active>Team Members</Breadcrumb.Item>

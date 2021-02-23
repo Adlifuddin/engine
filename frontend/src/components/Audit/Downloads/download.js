@@ -4,13 +4,14 @@ import { Container, Row, Col, Table, Breadcrumb } from 'react-bootstrap'
 import SideBar from '../SideBar/SideBar';
 
 
-function DatabaseAudit(){
-    const [databaseAudit,setDatabase] = useState([])
+function Downloads(){
+    const [download,setDatabase] = useState([])
 
     useEffect(() => {
         axios
-            .get("http://localhost:5000/api/audit/databases")
+            .get("http://localhost:5000/api/audit/download")
             .then(res => {
+                console.log(res.data)
                 setDatabase(res.data)
             })
             .catch(err => {
@@ -31,24 +32,30 @@ function DatabaseAudit(){
                     <Col style={{marginTop:"10px", marginRight:"50px"}} xs lg={9}>  
                         <Breadcrumb>
                             <Breadcrumb.Item href="/">Audit</Breadcrumb.Item>
-                            <Breadcrumb.Item active>Databases</Breadcrumb.Item>
+                            <Breadcrumb.Item active>Downloads</Breadcrumb.Item>
                         </Breadcrumb>
                         <Table striped bordered hover variant="light">
                             <thead>
                                 <tr>
-                                    <th>Title</th>
-                                    <th>Schema</th>
-                                    <th>Table</th>
-                                    <th>Added On</th>   
+                                    <th>Downloaded At</th>
+                                    <th>Rows Downloaded</th>
+                                    <th>Query</th>
+                                    <th>Query Type</th>
+                                    <th>Database</th>
+                                    <th>Source Table</th>
+                                    <th>User</th>
                                 </tr>
                             </thead>
-                            {databaseAudit.map(databaseAudit => (
-                                <tbody key={databaseAudit.id}>
+                            {download.map(download => (
+                                <tbody key={download.id}>
                                     <tr>
-                                        <td>{databaseAudit.name}</td>
-                                        <td>{databaseAudit.schema}</td>
-                                        <td>{databaseAudit.table}</td>
-                                        <td>{databaseAudit.created_at}</td>
+                                        <td>{download.downloadat}</td>
+                                        <td>{download.rowsdownloaded}</td>
+                                        <td>{download.query}</td>
+                                        {download.type === true ? <td>Native</td> : <td>GUI</td>}
+                                        <td>{download.sourcedatabases}</td>
+                                        <td>{download.tables}</td>
+                                        <td>{download.user}</td>
                                     </tr>
                                 </tbody>
                             ))}
@@ -60,4 +67,4 @@ function DatabaseAudit(){
     )
 }
 
-export default DatabaseAudit
+export default Downloads

@@ -5,9 +5,14 @@ import Members from './components/Audit/TeamMember/Members'
 import DatabaseView from './views/database/DatabaseView'
 import DatabaseUpdate from './views/database/DatabaseUpdate'
 import DatabaseList from './views/database/DatabaseList'
-import DatabaseAudit from './components/Audit/Database/Database'
 import Tables from './components/Audit/Table/Table'
 import Schema from './components/Audit/Schema/schema'
+import DatabaseAudit from './components/Audit/Database/Database'
+import Questions from './components/Audit/Questions/question'
+import Dashboards from './components/Audit/Dashboards/dashboard'
+import MemberOverview from './components/Audit/TeamMember/MemberOverview'
+import AuditLog from './components/Audit/TeamMember/AuditLog'
+import Downloads from './components/Audit/Downloads/download'
 
 var routes = [
     {
@@ -65,6 +70,20 @@ var routes = [
         invisible: true,
     },
     {
+        path: "audit/members/overview",
+        name: "Audit-MemberOverview",
+        component: MemberOverview,
+        layout: "/",
+        invisible: true,
+    },
+    {
+        path: "audit/members/log",
+        name: "Audit-MemberLog",
+        component: AuditLog,
+        layout: "/",
+        invisible: true,
+    },
+    {
         path: "audit/databases/all",
         name: "Audit-AllDatabase",
         component: DatabaseAudit,
@@ -84,7 +103,30 @@ var routes = [
         component: Schema,
         layout: "/",
         invisible: true,
+    },
+    {
+        path: "audit/questions/all",
+        name: "Audit-AllQuestion",
+        component: Questions,
+        layout: "/",
+        invisible: true,
+    },
+    {
+        path: "audit/dashboards/all",
+        name: "Audit-AllDasboard",
+        component: Dashboards,
+        layout: "/",
+        invisible: true,
+    },
+    {
+        path: "audit/downloads/all",
+        name: "Audit-AllDownload",
+        component: Downloads,
+        layout: "/",
+        invisible: true,
     }
+    
+    
 ]
 
 export default routes

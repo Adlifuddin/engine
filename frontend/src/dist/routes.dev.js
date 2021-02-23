@@ -19,11 +19,21 @@ var _DatabaseUpdate = _interopRequireDefault(require("./views/database/DatabaseU
 
 var _DatabaseList = _interopRequireDefault(require("./views/database/DatabaseList"));
 
-var _Database = _interopRequireDefault(require("./components/Audit/Database/Database"));
-
 var _Table = _interopRequireDefault(require("./components/Audit/Table/Table"));
 
 var _schema = _interopRequireDefault(require("./components/Audit/Schema/schema"));
+
+var _Database = _interopRequireDefault(require("./components/Audit/Database/Database"));
+
+var _question = _interopRequireDefault(require("./components/Audit/Questions/question"));
+
+var _dashboard = _interopRequireDefault(require("./components/Audit/Dashboards/dashboard"));
+
+var _MemberOverview = _interopRequireDefault(require("./components/Audit/TeamMember/MemberOverview"));
+
+var _AuditLog = _interopRequireDefault(require("./components/Audit/TeamMember/AuditLog"));
+
+var _download = _interopRequireDefault(require("./components/Audit/Downloads/download"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
@@ -74,6 +84,18 @@ var routes = [{
   layout: "/",
   invisible: true
 }, {
+  path: "audit/members/overview",
+  name: "Audit-MemberOverview",
+  component: _MemberOverview["default"],
+  layout: "/",
+  invisible: true
+}, {
+  path: "audit/members/log",
+  name: "Audit-MemberLog",
+  component: _AuditLog["default"],
+  layout: "/",
+  invisible: true
+}, {
   path: "audit/databases/all",
   name: "Audit-AllDatabase",
   component: _Database["default"],
@@ -89,6 +111,24 @@ var routes = [{
   path: "audit/schemas/all",
   name: "Audit-AllSChema",
   component: _schema["default"],
+  layout: "/",
+  invisible: true
+}, {
+  path: "audit/questions/all",
+  name: "Audit-AllQuestion",
+  component: _question["default"],
+  layout: "/",
+  invisible: true
+}, {
+  path: "audit/dashboards/all",
+  name: "Audit-AllDasboard",
+  component: _dashboard["default"],
+  layout: "/",
+  invisible: true
+}, {
+  path: "audit/downloads/all",
+  name: "Audit-AllDownload",
+  component: _download["default"],
   layout: "/",
   invisible: true
 }];

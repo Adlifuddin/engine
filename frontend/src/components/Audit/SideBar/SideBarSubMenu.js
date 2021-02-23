@@ -26,9 +26,9 @@ function SideBarSubMenu(){
     return(
             <div className="submenubg">
                 <SubMenu title="Team Members" icon={<FiUsers />}>
-                  <MenuItem active={true}>Overview</MenuItem>
+                  <MenuItem active={true}>Overview<Link to="/audit/members/overview" /></MenuItem>
                   <MenuItem>All Members<Link to="/audit/members/all" /></MenuItem>
-                  <MenuItem>Audit Log</MenuItem>
+                  <MenuItem>Audit Log<Link to="/audit/members/log" /></MenuItem>
                 </SubMenu>
          
                 <SubMenu title="Databases" icon={<FiDatabase />}>
@@ -48,17 +48,17 @@ function SideBarSubMenu(){
 
                 <SubMenu title="Questions" icon={<FaQuestionCircle />}>
                   <MenuItem active={true}>Overview</MenuItem>
-                  <MenuItem>All Questions</MenuItem>
+                  <MenuItem>All Questions<Link to="/audit/questions/all" /></MenuItem>
                 </SubMenu>
 
                 <SubMenu title="Dashboards" icon={<FaBuromobelexperte />}>
                   <MenuItem active={true}>Overview</MenuItem>
-                  <MenuItem>All Dashboards</MenuItem>
+                  <MenuItem>All Dashboards<Link to="/audit/dashboards/all" /></MenuItem>
                 </SubMenu>
 
                 <SubMenu title="Downloads" icon={<FiDownload />}>
                   <MenuItem active={true}>Overview</MenuItem>
-                  <MenuItem>All Downloads</MenuItem>
+                  <MenuItem>All Downloads<Link to="/audit/downloads/all" /></MenuItem>
                 </SubMenu>
             </div>        
     )

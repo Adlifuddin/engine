@@ -9,9 +9,8 @@ function Schema(){
 
     useEffect(() => {
         axios
-            .get("http://localhost:5000/api/audit/schema")
+            .get("http://localhost:5000/api/audit/schemas")
             .then(res => {
-                console.log(res.data)
                 setDatabase(res.data)
             })
             .catch(err => {
@@ -29,7 +28,7 @@ function Schema(){
                     <Col style={{marginLeft:"0px"}}>
                         <SideBar />
                     </Col>
-                    <Col style={{marginTop:"10px", marginRight:"50px"}} xs lg={10}>  
+                    <Col style={{marginTop:"10px", marginRight:"50px"}} xs lg={9}>  
                         <Breadcrumb>
                             <Breadcrumb.Item href="/">Audit</Breadcrumb.Item>
                             <Breadcrumb.Item active>Schema</Breadcrumb.Item>

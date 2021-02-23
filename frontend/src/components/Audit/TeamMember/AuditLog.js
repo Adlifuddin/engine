@@ -4,14 +4,15 @@ import { Container, Row, Col, Table, Breadcrumb } from 'react-bootstrap'
 import SideBar from '../SideBar/SideBar';
 
 
-function DatabaseAudit(){
-    const [databaseAudit,setDatabase] = useState([])
+
+function AuditLog(){
+    const [logs,setLogs] = useState([])
 
     useEffect(() => {
         axios
-            .get("http://localhost:5000/api/audit/databases")
+            .get("http://localhost:5000/api/audit/members/log")
             .then(res => {
-                setDatabase(res.data)
+                setLogs(res.data)
             })
             .catch(err => {
                 console.log(err)
@@ -31,24 +32,30 @@ function DatabaseAudit(){
                     <Col style={{marginTop:"10px", marginRight:"50px"}} xs lg={9}>  
                         <Breadcrumb>
                             <Breadcrumb.Item href="/">Audit</Breadcrumb.Item>
-                            <Breadcrumb.Item active>Databases</Breadcrumb.Item>
+                            <Breadcrumb.Item active>Team Members</Breadcrumb.Item>
                         </Breadcrumb>
                         <Table striped bordered hover variant="light">
                             <thead>
                                 <tr>
-                                    <th>Title</th>
-                                    <th>Schema</th>
+                                    <th>Query</th>
+                                    <th>Viewed By</th>
+                                    <th>Type</th>
+                                    <th>Source DB</th>
                                     <th>Table</th>
-                                    <th>Added On</th>   
+                                    <th>Collection</th>    
+                                    <th>Viewed On</th>   
                                 </tr>
                             </thead>
-                            {databaseAudit.map(databaseAudit => (
-                                <tbody key={databaseAudit.id}>
+                            {logs.map((log,index) => (
+                                <tbody key={index}>
                                     <tr>
-                                        <td>{databaseAudit.name}</td>
-                                        <td>{databaseAudit.schema}</td>
-                                        <td>{databaseAudit.table}</td>
-                                        <td>{databaseAudit.created_at}</td>
+                                        <td>{log.query}</td>
+                                        <td>{log.viewedby}</td>
+                                        {log.type === true ? <td>Native</td> : <td>GUI</td>}
+                                        <td>{log.sourcedb}</td>
+                                        <td>{log.table}</td> 
+                                        <td>{log.collection}</td>
+                                        <td>{log.viewedon}</td>
                                     </tr>
                                 </tbody>
                             ))}
@@ -60,4 +67,4 @@ function DatabaseAudit(){
     )
 }
 
-export default DatabaseAudit
+export default AuditLog

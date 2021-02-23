@@ -4,12 +4,12 @@ import { Container, Row, Col, Table, Breadcrumb } from 'react-bootstrap'
 import SideBar from '../SideBar/SideBar';
 
 
-function DatabaseAudit(){
-    const [databaseAudit,setDatabase] = useState([])
+function Dashboards(){
+    const [dashboard,setDatabase] = useState([])
 
     useEffect(() => {
         axios
-            .get("http://localhost:5000/api/audit/databases")
+            .get("http://localhost:5000/api/audit/dashboard")
             .then(res => {
                 setDatabase(res.data)
             })
@@ -31,24 +31,32 @@ function DatabaseAudit(){
                     <Col style={{marginTop:"10px", marginRight:"50px"}} xs lg={9}>  
                         <Breadcrumb>
                             <Breadcrumb.Item href="/">Audit</Breadcrumb.Item>
-                            <Breadcrumb.Item active>Databases</Breadcrumb.Item>
+                            <Breadcrumb.Item active>Dashboards</Breadcrumb.Item>
                         </Breadcrumb>
                         <Table striped bordered hover variant="light">
                             <thead>
                                 <tr>
                                     <th>Title</th>
-                                    <th>Schema</th>
-                                    <th>Table</th>
-                                    <th>Added On</th>   
+                                    <th>Total Views</th>
+                                    <th>Avg.exec.time(ms)</th>
+                                    <th>Cards</th>
+                                    <th>Saved By</th>
+                                    <th>Public Link</th>
+                                    <th>Saved on</th>
+                                    <th>Last edited on</th>   
                                 </tr>
                             </thead>
-                            {databaseAudit.map(databaseAudit => (
-                                <tbody key={databaseAudit.id}>
+                            {dashboard.map(dashboard => (
+                                <tbody key={dashboard.id}>
                                     <tr>
-                                        <td>{databaseAudit.name}</td>
-                                        <td>{databaseAudit.schema}</td>
-                                        <td>{databaseAudit.table}</td>
-                                        <td>{databaseAudit.created_at}</td>
+                                        <td>{dashboard.name}</td>
+                                        <td>{dashboard.views}</td>
+                                        <td>{dashboard.exectime}</td>
+                                        <td>{dashboard.cards}</td>
+                                        <td>{dashboard.creator}</td>
+                                        <td>{dashboard.publicLink}</td>
+                                        <td>{dashboard.created}</td>
+                                        <td>{dashboard.updated}</td>
                                     </tr>
                                 </tbody>
                             ))}
@@ -60,4 +68,4 @@ function DatabaseAudit(){
     )
 }
 
-export default DatabaseAudit
+export default Dashboards
