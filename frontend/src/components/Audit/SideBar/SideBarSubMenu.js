@@ -48,12 +48,12 @@ function SideBarSubMenu(){
 
                 <SubMenu title="Questions" icon={<FaQuestionCircle />}>
                   <MenuItem active={true}>Overview</MenuItem>
-                  <MenuItem>All Questions</MenuItem>
+                  <MenuItem>All Questions<Link to="/audit/questions/all" /></MenuItem>
                 </SubMenu>
 
                 <SubMenu title="Dashboards" icon={<FaBuromobelexperte />}>
                   <MenuItem active={true}>Overview</MenuItem>
-                  <MenuItem>All Dashboards</MenuItem>
+                  <MenuItem>All Dashboards<Link to="/audit/dashboards/all" /></MenuItem>
                 </SubMenu>
 
                 <SubMenu title="Downloads" icon={<FiDownload />}>

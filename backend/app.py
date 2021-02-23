@@ -100,6 +100,25 @@ class Schema(Resource):
         results = [dict(zip(tuple (result.keys()) ,i)) for i in result.cursor]
         return jsonify(results)
 
+class Questions(Resource):
+    def get(self):
+        engine = CreateConnectionCoreUser()
+        query = "Select a.name as name, f.name as collection, e.name as database, b.name as table, d.first_name as created, a.public_uuid as publicLink, a.cache_ttl as cacheTTL, count(g.model_id) as views from public.report_card a left join public.metabase_table b on a.table_id = b.id left join public.core_user d on a.creator_id = d.id left join public.metabase_database e on a.database_id = e.id left join public.collection f on a.collection_id = f.id left join public.view_log g on a.id = g.model_id group by a.name,f.name,e.name,b.name,d.first_name, a.public_uuid, a.cache_ttl order by a.name asc"
+        connection = engine.connect()
+        result = connection.execute(query)
+        results = [dict(zip(tuple (result.keys()) ,i)) for i in result.cursor]
+        return jsonify(results)
+
+class Dashboards(Resource):
+    def get(self):
+        engine = CreateConnectionCoreUser()
+        query = "Select a.name, count(distinct b.id) as views, avg(d.running_time)::numeric(10,2) as exectime ,count(distinct c.id) as cards,e.first_name as creator, a.public_uuid as publicLink, a.created_at as created, a.updated_at as updated from public.report_dashboard a left join public.view_log b on a.id = b.model_id left join public.report_dashboardcard c on a.id = c.dashboard_id left join public.query_execution d on c.card_id = d.card_id left join public.core_user e on a.creator_id = e.id group by a.name,e.first_name,a.public_uuid,a.created_at,a.updated_at"
+        connection = engine.connect()
+        result = connection.execute(query)
+        results = [dict(zip(tuple (result.keys()) ,i)) for i in result.cursor]
+        return jsonify(results)
+
+
 api.add_resource(Test, '/api/test')
 api.add_resource(Add, '/api/add')
 api.add_resource(Members, '/api/audit/members')
@@ -107,6 +126,9 @@ api.add_resource(Databases, '/api/audit/databases')
 api.add_resource(Tables, '/api/audit/tables')
 api.add_resource(Checks, '/api/audit/checks')
 api.add_resource(Schema, '/api/audit/schemas')
+api.add_resource(Questions, '/api/audit/question')
+api.add_resource(Dashboards, '/api/audit/dashboard')
+
 
 
 

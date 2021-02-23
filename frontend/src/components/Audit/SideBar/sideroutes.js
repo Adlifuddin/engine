@@ -4,6 +4,8 @@ import Members from '../TeamMember/Members'
 import Schema from '../Schema/schema'
 import { FiUsers, FiDatabase, FiEdit } from "react-icons/fi"
 import Tables from '../Table/Table'
+import Questions from '../Questions/question'
+import Dashboards from '../Dashboards/dashboard'
 
 const sideroutes = [
     {
@@ -37,6 +39,22 @@ const sideroutes = [
         submenu1: "Overview",
         submenu2: "All Schemas",
         components: Schema,
+    },
+    {
+        pathname: "/audit/questions/all",
+        icons: <FaQuestionCircle />,
+        title: "Question",
+        submenu1: "Overview",
+        submenu2: "All Questions",
+        components: Questions,
+    },
+    {
+        pathname: "/audit/dashboards/all",
+        icons: <FaBuromobelexperte />,
+        title: "Dashboard",
+        submenu1: "Overview",
+        submenu2: "All Dashboards",
+        components: Dashboards,
     },
 ]
 

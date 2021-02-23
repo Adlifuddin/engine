@@ -8,6 +8,8 @@ import DatabaseList from './views/database/DatabaseList'
 import Tables from './components/Audit/Table/Table'
 import Schema from './components/Audit/Schema/schema'
 import DatabaseAudit from './components/Audit/Database/Database'
+import Questions from './components/Audit/Questions/question'
+import Dashboards from './components/Audit/Dashboards/dashboard'
 
 var routes = [
     {
@@ -84,7 +86,23 @@ var routes = [
         component: Schema,
         layout: "/",
         invisible: true,
+    },
+    {
+        path: "audit/questions/all",
+        name: "Audit-AllQuestion",
+        component: Questions,
+        layout: "/",
+        invisible: true,
+    },
+    {
+        path: "audit/dashboards/all",
+        name: "Audit-AllDasboard",
+        component: Dashboards,
+        layout: "/",
+        invisible: true,
     }
+    
+    
 ]
 
 export default routes
