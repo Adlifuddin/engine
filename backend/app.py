@@ -109,6 +109,16 @@ class TableMostQueried(Resource):
         results = [dict(zip(tuple (result.keys()) ,i)) for i in result.cursor]
         return jsonify(results)
 
+
+class TableLeastQueried(Resource):
+    def get(self):
+        engine = CreateConnectionCoreUser()
+        query = "select count(a.running_time) as exec, c.name as table from query_execution a left join report_card b on a.card_id = b.id left join metabase_table c on b.table_id=c.id where c.name is not null group by c.name order by exec asc limit 10"
+        connection = engine.connect()
+        result = connection.execute(query)
+        results = [dict(zip(tuple (result.keys()) ,i)) for i in result.cursor]
+        return jsonify(results)
+
 class Checks(Resource):
     def get(self):
         engine = CreateConnectionCoreUser()
@@ -178,6 +188,8 @@ api.add_resource(AuditLog, '/api/audit/members/log')
 api.add_resource(Downloads, '/api/audit/download')
 api.add_resource(MembersMostCreated, '/api/audit/members/mostCreated')
 api.add_resource(TableMostQueried, '/api/audit/tables/mostqueried')
+api.add_resource(TableLeastQueried, '/api/audit/tables/leastqueried')
+
 
 
 

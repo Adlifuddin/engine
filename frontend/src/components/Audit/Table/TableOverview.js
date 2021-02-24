@@ -20,6 +20,20 @@ function TableOverview(){
 
     }, [])
 
+    const [leastQueried,setleastQueried] = useState([])
+
+    useEffect(() => {
+        axios
+            .get("http://localhost:5000/api/audit/tables/leastqueried")
+            .then(res => {
+                setleastQueried(res.data)
+            })
+            .catch(err => {
+                console.log(err)
+            })
+
+    }, [])
+
 
     
 
@@ -36,6 +50,15 @@ function TableOverview(){
                             <Breadcrumb.Item active>Tables Overview</Breadcrumb.Item>
                         </Breadcrumb>
                         <BarChart margin={{left:25}} layout="vertical" width={1300} height={450} data={mostQueried}>
+                            <CartesianGrid vertical={true} horizontal={false} />
+                            <XAxis tick={{ fontWeight:"bold" }} stroke="white" type="number" dataKey="exec"/>
+                            <YAxis tick={{ fontWeight:"bold" }} stroke="white" type="category" dataKey="table" />
+                            <Tooltip />
+                            <Bar dataKey="exec" fill="#8884d8" />
+                        </BarChart>  
+                        <br />
+                        <br />
+                        <BarChart margin={{left:25}} layout="vertical" width={1300} height={450} data={leastQueried}>
                             <CartesianGrid vertical={true} horizontal={false} />
                             <XAxis tick={{ fontWeight:"bold" }} stroke="white" type="number" dataKey="exec"/>
                             <YAxis tick={{ fontWeight:"bold" }} stroke="white" type="category" dataKey="table" />
