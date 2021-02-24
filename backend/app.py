@@ -94,7 +94,7 @@ class Tables(Resource):
 class Checks(Resource):
     def get(self):
         engine = CreateConnectionCoreUser()
-        query = "Select metabase_table.id, metabase_database.name as db_name, metabase_table.name as table_name, metabase_table.schema, metabase_table.display_name FROM metabase_table Right Join metabase_database ON metabase_database.id=metabase_table.db_id"
+        query = "Select * from core_user"
         connection = engine.connect()
         result = connection.execute(query)
         results = [dict(zip(tuple (result.keys()) ,i)) for i in result.cursor]
@@ -153,11 +153,11 @@ api.add_resource(Databases, '/api/audit/databases')
 api.add_resource(Tables, '/api/audit/tables')
 api.add_resource(Checks, '/api/audit/checks')
 api.add_resource(Schema, '/api/audit/schemas')
-api.add_resource(Questions, '/api/audit/question')
-api.add_resource(Dashboards, '/api/audit/dashboard')
+api.add_resource(Questions, '/api/audit/questions')
+api.add_resource(Dashboards, '/api/audit/dashboards')
 api.add_resource(MembersOverview, '/api/audit/members/overview')
 api.add_resource(AuditLog, '/api/audit/members/log')
-api.add_resource(Downloads, '/api/audit/download')
+api.add_resource(Downloads, '/api/audit/downloads')
 
 
 

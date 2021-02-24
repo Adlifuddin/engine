@@ -12,7 +12,7 @@ function Questions(){
     useEffect(() => {
         setLoading(true)
         axios
-            .get("http://localhost:5000/api/audit/question")
+            .get("http://localhost:5000/api/audit/questions")
             .then(res => {
                 setDatabase(res.data)
                 setLoading(false)

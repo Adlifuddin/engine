@@ -12,7 +12,7 @@ function Downloads(){
     useEffect(() => {
         setLoading(true)
         axios
-            .get("http://localhost:5000/api/audit/download")
+            .get("http://localhost:5000/api/audit/downloads")
             .then(res => {
                 setDatabase(res.data)
                 setLoading(false)

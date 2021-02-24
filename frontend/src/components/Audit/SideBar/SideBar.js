@@ -5,7 +5,6 @@ import React, { useState } from "react";
 import {
   ProSidebar,
   Menu,
-  SubMenu,
   MenuItem,
   SidebarHeader,
   SidebarFooter,
@@ -13,15 +12,12 @@ import {
 } from "react-pro-sidebar";
 
 //import icons from react icons
-import { FiLogOut, FiArrowLeftCircle, FiArrowRightCircle, FiUsers, FiDatabase, FiEdit, FiDownload } from "react-icons/fi"
-import { FaTable, FaQuestionCircle, FaBuromobelexperte } from "react-icons/fa"
-
-
+import { FiLogOut, FiArrowLeftCircle, FiArrowRightCircle } from "react-icons/fi"
 
 //import sidebar css from react-pro-sidebar module and our custom css 
 import "react-pro-sidebar/dist/css/styles.css";
-import "./SideBar.css"
-import SideBarSubMenu from "./SideBarSubMenu";
+import "./SideBar.css";
+import SideBarSubMenu from "./SideBarSubMenu"
 
 function SideBar(){
   
@@ -35,7 +31,7 @@ function SideBar(){
     };
 
   return (
-      <div>
+      <div id="header">
           {/* collapsed props to change menu size using menucollapse state */}
         <ProSidebar collapsed={menuCollapse}>
           <SidebarHeader>
