@@ -108,6 +108,12 @@ var routes = [{
   layout: "/",
   invisible: true
 }, {
+  path: "audit/tables/overview",
+  name: "Audit-TableOverview",
+  component: _TableOverview["default"],
+  layout: "/",
+  invisible: true
+}, {
   path: "audit/schemas/all",
   name: "Audit-AllSChema",
   component: _schema["default"],

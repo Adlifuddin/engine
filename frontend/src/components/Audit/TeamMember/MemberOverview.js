@@ -20,6 +20,21 @@ function MemberOverview(){
 
     }, [])
 
+
+    const [mostCreated,setmostCreated] = useState([])
+
+    useEffect(() => {
+        axios
+            .get("http://localhost:5000/api/audit/members/mostCreated")
+            .then(res => {
+                setmostCreated(res.data)
+            })
+            .catch(err => {
+                console.log(err)
+            })
+
+    }, [])
+
     return (
         <div>
             <Container fluid>
@@ -46,7 +61,15 @@ function MemberOverview(){
                             <YAxis />
                             <Tooltip />
                             <Line type="monotone" dataKey="exectime" fill="#8884d8" />
-                        </LineChart>   
+                        </LineChart>  
+                        <br /> 
+                        <BarChart margin={{left:25}} layout="vertical" width={1300} height={450} data={mostCreated}>
+                            <CartesianGrid vertical={true} horizontal={false} />
+                            <XAxis tick={{ fontWeight:"bold" }} stroke="white" type="number" dataKey="total"/>
+                            <YAxis tick={{ fontWeight:"bold" }} stroke="white" type="category" dataKey="first_name" />
+                            <Tooltip />
+                            <Bar dataKey="total" fill="#8884d8" />
+                        </BarChart>  
                     </Col>
                 </Row>  
             </Container> 

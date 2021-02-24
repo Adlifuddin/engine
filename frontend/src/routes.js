@@ -13,6 +13,7 @@ import Dashboards from './components/Audit/Dashboards/dashboard'
 import MemberOverview from './components/Audit/TeamMember/MemberOverview'
 import AuditLog from './components/Audit/TeamMember/AuditLog'
 import Downloads from './components/Audit/Downloads/download'
+import TableOverview from './components/Audit/Table/TableOverview'
 
 var routes = [
     {
@@ -87,6 +88,13 @@ var routes = [
         path: "audit/databases/all",
         name: "Audit-AllDatabase",
         component: DatabaseAudit,
+        layout: "/",
+        invisible: true,
+    },
+    {
+        path: "audit/tables/overview",
+        name: "Audit-TableOverview",
+        component: TableOverview,
         layout: "/",
         invisible: true,
     },

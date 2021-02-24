@@ -73,6 +73,15 @@ class MembersOverview(Resource):
         results = [dict(zip(tuple (result.keys()) ,i)) for i in result.cursor]
         return jsonify(results)
 
+class MembersMostCreated(Resource):
+    def get(self):
+        engine = CreateConnectionCoreUser()
+        query = "select ((select count(id) as sum from report_card group by creator_id)+(select count(id) as sum from report_dashboard group by creator_id)) as total, first_name as user from core_user order by total desc limit 10"
+        connection = engine.connect()
+        result = connection.execute(query)
+        results = [dict(zip(tuple (result.keys()) ,i)) for i in result.cursor]
+        return jsonify(results)
+
 class Databases(Resource):
     def get(self):
         engine = CreateConnectionCoreUser()
@@ -86,6 +95,15 @@ class Tables(Resource):
     def get(self):
         engine = CreateConnectionCoreUser()
         query = "Select metabase_table.id, metabase_database.name as db_name, metabase_table.name as table_name, metabase_table.schema, metabase_table.display_name FROM metabase_table Right Join metabase_database ON metabase_database.id=metabase_table.db_id"
+        connection = engine.connect()
+        result = connection.execute(query)
+        results = [dict(zip(tuple (result.keys()) ,i)) for i in result.cursor]
+        return jsonify(results)
+
+class TableMostQueried(Resource):
+    def get(self):
+        engine = CreateConnectionCoreUser()
+        query = "select count(a.running_time) as exec, c.name as table from query_execution a left join report_card b on a.card_id = b.id left join metabase_table c on b.table_id=c.id where c.name is not null group by c.name order by exec desc limit 10"
         connection = engine.connect()
         result = connection.execute(query)
         results = [dict(zip(tuple (result.keys()) ,i)) for i in result.cursor]
@@ -158,6 +176,10 @@ api.add_resource(Dashboards, '/api/audit/dashboard')
 api.add_resource(MembersOverview, '/api/audit/members/overview')
 api.add_resource(AuditLog, '/api/audit/members/log')
 api.add_resource(Downloads, '/api/audit/download')
+api.add_resource(MembersMostCreated, '/api/audit/members/mostCreated')
+api.add_resource(TableMostQueried, '/api/audit/tables/mostqueried')
+
+
 
 
 
