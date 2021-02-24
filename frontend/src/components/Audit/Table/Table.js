@@ -1,17 +1,21 @@
 import React,{useState, useEffect} from 'react'
 import axios from 'axios'
 import { Container, Row, Col, Table, Breadcrumb } from 'react-bootstrap'
-import SideBar from '../SideBar/SideBar';
+import SideBar from '../SideBar/SideBar'
+import ApiLoader from '../../Loader/ApiLoader'
 
 
 function Tables(){
+    const [loading,setLoading] = useState(false)
     const [tables,setTables] = useState([])
 
     useEffect(() => {
+        setLoading(true)
         axios
             .get("http://localhost:5000/api/audit/tables")
             .then(res => {
                 setTables(res.data)
+                setLoading(false)
             })
             .catch(err => {
                 console.log(err)
@@ -33,6 +37,7 @@ function Tables(){
                             <Breadcrumb.Item href="/">Audit</Breadcrumb.Item>
                             <Breadcrumb.Item active>Tables</Breadcrumb.Item>
                         </Breadcrumb>
+                        {loading === true ? <ApiLoader apiload={loading}/> :
                         <Table striped bordered hover variant="light">
                             <thead>
                                 <tr>
@@ -52,7 +57,7 @@ function Tables(){
                                     </tr>
                                 </tbody>
                             ))}
-                        </Table>
+                        </Table>}
                     </Col>
                 </Row>  
             </Container>      
