@@ -44,11 +44,7 @@ function SideBarSubMenu(){
                 </SubMenu>
 
                 <SubMenu title="Tables" icon={<FaTable />}>
-<<<<<<< HEAD
                   <MenuItem active={true}>Overview<Link to="/audit/tables/overview" /></MenuItem>
-=======
-                  <MenuItem>Overview</MenuItem>
->>>>>>> 438a2a74ac27579c088864cd5889fb50d95984f3
                   <MenuItem>All Tables<Link to="/audit/tables/all" /></MenuItem>
                 </SubMenu>
 

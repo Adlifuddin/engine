@@ -175,15 +175,11 @@ api.add_resource(Questions, '/api/audit/questions')
 api.add_resource(Dashboards, '/api/audit/dashboards')
 api.add_resource(MembersOverview, '/api/audit/members/overview')
 api.add_resource(AuditLog, '/api/audit/members/log')
-<<<<<<< HEAD
 api.add_resource(Downloads, '/api/audit/download')
 api.add_resource(MembersMostCreated, '/api/audit/members/mostCreated')
 api.add_resource(TableMostQueried, '/api/audit/tables/mostqueried')
 
 
-=======
-api.add_resource(Downloads, '/api/audit/downloads')
->>>>>>> 438a2a74ac27579c088864cd5889fb50d95984f3
 
 
 

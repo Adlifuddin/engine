@@ -53,7 +53,8 @@ function MemberOverview(){
                             <YAxis tick={{ fontWeight:"bold" }} stroke="white" type="category" dataKey="user" />
                             <Tooltip />
                             <Bar dataKey="exectime" fill="#8884d8" />
-                        </BarChart>  
+                        </BarChart> 
+                         
                         <br />
                         <LineChart margin={{left:25}} width={1300} height={450} data={overview}>
                             <CartesianGrid  />
@@ -62,14 +63,6 @@ function MemberOverview(){
                             <Tooltip />
                             <Line type="monotone" dataKey="exectime" fill="#8884d8" />
                         </LineChart>  
-                        <br /> 
-                        <BarChart margin={{left:25}} layout="vertical" width={1300} height={450} data={mostCreated}>
-                            <CartesianGrid vertical={true} horizontal={false} />
-                            <XAxis tick={{ fontWeight:"bold" }} stroke="white" type="number" dataKey="total"/>
-                            <YAxis tick={{ fontWeight:"bold" }} stroke="white" type="category" dataKey="first_name" />
-                            <Tooltip />
-                            <Bar dataKey="total" fill="#8884d8" />
-                        </BarChart>  
                     </Col>
                 </Row>  
             </Container> 
