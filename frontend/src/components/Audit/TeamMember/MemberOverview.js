@@ -2,7 +2,7 @@ import React,{useState, useEffect} from 'react'
 import axios from 'axios'
 import { Container, Row, Col, Table, Breadcrumb } from 'react-bootstrap'
 import SideBar from '../SideBar/SideBar';
-import { Bar, BarChart, CartesianGrid, XAxis, YAxis, Tooltip } from 'recharts';
+import { Line, LineChart ,Bar, BarChart, CartesianGrid, XAxis, YAxis, Tooltip } from 'recharts';
 
 function MemberOverview(){
 
@@ -38,7 +38,15 @@ function MemberOverview(){
                             <YAxis tick={{ fontWeight:"bold" }} stroke="white" type="category" dataKey="user" />
                             <Tooltip />
                             <Bar dataKey="exectime" fill="#8884d8" />
-                        </BarChart>   
+                        </BarChart>  
+                        <br />
+                        <LineChart margin={{left:25}} width={1300} height={450} data={overview}>
+                            <CartesianGrid  />
+                            <XAxis tick={{ fontWeight:"bold" }} stroke="white" type="category" dataKey="user"/>
+                            <YAxis />
+                            <Tooltip />
+                            <Line type="monotone" dataKey="exectime" fill="#8884d8" />
+                        </LineChart>   
                     </Col>
                 </Row>  
             </Container> 
