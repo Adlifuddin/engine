@@ -5,6 +5,7 @@ import SideBar from '../SideBar/SideBar'
 import ApiLoader from '../../Loader/ApiLoader'
 
 
+
 function DatabaseAudit(){
     const [loading,setLoading] = useState(false)
     const [databaseAudit,setDatabase] = useState([])
@@ -30,7 +31,7 @@ function DatabaseAudit(){
             <Container fluid>
                 <Row>
                     <Col style={{marginLeft:"0px"}}>
-                        <SideBar />
+                       <SideBar />
                     </Col>
                     <Col style={{marginTop:"10px", marginRight:"50px"}} xs lg={9}>  
                         <Breadcrumb>

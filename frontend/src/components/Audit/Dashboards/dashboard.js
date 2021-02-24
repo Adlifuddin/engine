@@ -12,7 +12,7 @@ function Dashboards(){
     useEffect(() => {
         setLoading(true)
         axios
-            .get("http://localhost:5000/api/audit/dashboard")
+            .get("http://localhost:5000/api/audit/dashboards")
             .then(res => {
                 setDatabase(res.data)
                 setLoading(false)
