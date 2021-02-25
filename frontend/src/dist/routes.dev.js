@@ -120,6 +120,12 @@ var routes = [{
   layout: "/",
   invisible: true
 }, {
+  path: "audit/schemas/overview",
+  name: "Audit-SchemaOverview",
+  component: _SchemaOverview["default"],
+  layout: "/",
+  invisible: true
+},{
   path: "audit/questions/all",
   name: "Audit-AllQuestion",
   component: _question["default"],

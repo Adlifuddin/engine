@@ -39,7 +39,7 @@ function SideBarSubMenu(){
                 </SubMenu>
               
                 <SubMenu title="Schemas" icon={<FiEdit />}>
-                  <MenuItem>Overview</MenuItem>
+                  <MenuItem>Overview<Link to="/audit/schemas/overview" /></MenuItem>
                   <MenuItem>All Schemas<Link to="/audit/schemas/all" /></MenuItem>
                 </SubMenu>
 

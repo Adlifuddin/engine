@@ -14,6 +14,7 @@ import MemberOverview from './components/Audit/TeamMember/MemberOverview'
 import AuditLog from './components/Audit/TeamMember/AuditLog'
 import Downloads from './components/Audit/Downloads/download'
 import TableOverview from './components/Audit/Table/TableOverview'
+import SchemaOverview from './components/Audit/Schema/SchemaOverview'
 
 var routes = [
     {
@@ -109,6 +110,13 @@ var routes = [
         path: "audit/schemas/all",
         name: "Audit-AllSChema",
         component: Schema,
+        layout: "/",
+        invisible: true,
+    },
+    {
+        path: "audit/schemas/overview",
+        name: "Audit-SchemaOverview",
+        component: SchemaOverview,
         layout: "/",
         invisible: true,
     },

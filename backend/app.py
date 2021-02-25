@@ -103,7 +103,7 @@ class Tables(Resource):
 class TableMostQueried(Resource):
     def get(self):
         engine = CreateConnectionCoreUser()
-        query = "select count(a.running_time) as exec, c.name as table from query_execution a left join report_card b on a.card_id = b.id left join metabase_table c on b.table_id=c.id where c.name is not null group by c.name order by exec desc limit 10"
+        query = "select count(a.running_time) as exec, concat(d.name,' ', c.schema, ' ',c.name) as tables from query_execution a left join report_card b on a.card_id = b.id left join metabase_table c on b.table_id=c.id left join metabase_database d on c.db_id = d.id where c.name is not null group by c.name , d.name, c.schema order by exec desc limit 10"
         connection = engine.connect()
         result = connection.execute(query)
         results = [dict(zip(tuple (result.keys()) ,i)) for i in result.cursor]
@@ -113,7 +113,7 @@ class TableMostQueried(Resource):
 class TableLeastQueried(Resource):
     def get(self):
         engine = CreateConnectionCoreUser()
-        query = "select count(a.running_time) as exec, c.name as table from query_execution a left join report_card b on a.card_id = b.id left join metabase_table c on b.table_id=c.id where c.name is not null group by c.name order by exec asc limit 10"
+        query = "select count(a.running_time) as exec, concat(d.name,' ', c.schema, ' ',c.name) as tables from query_execution a left join report_card b on a.card_id = b.id left join metabase_table c on b.table_id=c.id left join metabase_database d on c.db_id = d.id where c.name is not null group by c.name , d.name, c.schema order by exec asc limit 10"
         connection = engine.connect()
         result = connection.execute(query)
         results = [dict(zip(tuple (result.keys()) ,i)) for i in result.cursor]
@@ -132,6 +132,24 @@ class Schema(Resource):
     def get(self):
         engine = CreateConnectionCoreUser()
         query = "select b.name , a.schema as schema,count(distinct a.name) as table,(count(distinct c.id))as query from public.metabase_table a left join public.metabase_database b on a.db_id = b.id  left join public.report_card c on c.database_id = a.db_id where c.table_id is not null group by a.db_id,b.name, a.schema order by a.db_id"
+        connection = engine.connect()
+        result = connection.execute(query)
+        results = [dict(zip(tuple (result.keys()) ,i)) for i in result.cursor]
+        return jsonify(results)
+
+class SchemaMostQueried(Resource):
+    def get(self):
+        engine = CreateConnectionCoreUser()
+        query = "select count(a.running_time) as exec, concat(d.name, ' ', c.schema) as schema from query_execution a left join report_card b on a.card_id = b.id left join metabase_table c on b.table_id=c.id left join metabase_database d on c.db_id = d.id where c.name is not null group by d.name,c.schema order by exec desc limit 10"
+        connection = engine.connect()
+        result = connection.execute(query)
+        results = [dict(zip(tuple (result.keys()) ,i)) for i in result.cursor]
+        return jsonify(results)
+
+class SchemaSlowest(Resource):
+    def get(self):
+        engine = CreateConnectionCoreUser()
+        query = "select avg(a.running_time)::numeric(10,2) as avgexec, concat(b.name,' ',c.schema) as schema from query_execution a left join metabase_database b on a.database_id = b.id left join metabase_table c on b.id = c.db_id where a.card_id is not null and a.database_id is not null and c.id is not null group by b.name,c.schema order by avgexec desc limit 10"
         connection = engine.connect()
         result = connection.execute(query)
         results = [dict(zip(tuple (result.keys()) ,i)) for i in result.cursor]
@@ -189,6 +207,9 @@ api.add_resource(Downloads, '/api/audit/download')
 api.add_resource(MembersMostCreated, '/api/audit/members/mostCreated')
 api.add_resource(TableMostQueried, '/api/audit/tables/mostqueried')
 api.add_resource(TableLeastQueried, '/api/audit/tables/leastqueried')
+api.add_resource(SchemaMostQueried, '/api/audit/schemas/mostqueried')
+api.add_resource(SchemaSlowest, '/api/audit/schemas/slowestschema')
+
 
 
 

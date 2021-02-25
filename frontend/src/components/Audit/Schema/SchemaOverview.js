@@ -4,13 +4,13 @@ import { Container, Row, Col, Table, Breadcrumb } from 'react-bootstrap'
 import SideBar from '../SideBar/SideBar';
 import { Line, LineChart ,Bar, BarChart, CartesianGrid, XAxis, YAxis, Tooltip } from 'recharts';
 
-function TableOverview(){
+function SchemaOverview(){
 
     const [mostQueried,setmostQueried] = useState([])
 
     useEffect(() => {
         axios
-            .get("http://localhost:5000/api/audit/tables/mostqueried")
+            .get("http://localhost:5000/api/audit/schemas/mostqueried")
             .then(res => {
                 setmostQueried(res.data)
             })
@@ -20,13 +20,13 @@ function TableOverview(){
 
     }, [])
 
-    const [leastQueried,setleastQueried] = useState([])
+    const [slowestSchema,setslowestSchema] = useState([])
 
     useEffect(() => {
         axios
-            .get("http://localhost:5000/api/audit/tables/leastqueried")
+            .get("http://localhost:5000/api/audit/schemas/slowestschema")
             .then(res => {
-                setleastQueried(res.data)
+                setslowestSchema(res.data)
             })
             .catch(err => {
                 console.log(err)
@@ -46,24 +46,24 @@ function TableOverview(){
                     </Col>
                     <Col style={{marginTop:"10px", marginRight:"50px"}} xs lg={9}>  
                         <Breadcrumb>
-                            <Breadcrumb.Item href="/">Tables</Breadcrumb.Item>
-                            <Breadcrumb.Item active>Tables Overview</Breadcrumb.Item>
+                            <Breadcrumb.Item href="/">Schemas</Breadcrumb.Item>
+                            <Breadcrumb.Item active>Schemas Overview</Breadcrumb.Item>
                         </Breadcrumb>
                         <BarChart margin={{left:25}} layout="vertical" width={1300} height={450} data={mostQueried}>
                             <CartesianGrid vertical={true} horizontal={false} />
                             <XAxis tick={{ fontWeight:"bold" }} stroke="white" type="number" dataKey="exec"/>
-                            <YAxis tick={{ fontWeight:"bold" }} stroke="white" type="category" dataKey="tables" />
+                            <YAxis tick={{ fontWeight:"bold" }} stroke="white" type="category" dataKey="schema" />
                             <Tooltip />
                             <Bar dataKey="exec" fill="#8884d8" />
                         </BarChart>  
                         <br />
                         <br />
-                        <BarChart margin={{left:25}} layout="vertical" width={1300} height={450} data={leastQueried}>
+                        <BarChart margin={{left:25}} layout="vertical" width={1300} height={450} data={slowestSchema}>
                             <CartesianGrid vertical={true} horizontal={false} />
-                            <XAxis tick={{ fontWeight:"bold" }} stroke="white" type="number" dataKey="exec"/>
-                            <YAxis tick={{ fontWeight:"bold" }} stroke="white" type="category" dataKey="tables" />
+                            <XAxis tick={{ fontWeight:"bold" }} stroke="white" type="number" dataKey="avgexec"/>
+                            <YAxis tick={{ fontWeight:"bold" }} stroke="white" type="category" dataKey="schema" />
                             <Tooltip />
-                            <Bar dataKey="exec" fill="#8884d8" />
+                            <Bar dataKey="avgexec" fill="#8884d8" />
                         </BarChart>  
                     </Col>
                 </Row>  
@@ -73,4 +73,4 @@ function TableOverview(){
     )
 }
 
-export default TableOverview
+export default SchemaOverview
