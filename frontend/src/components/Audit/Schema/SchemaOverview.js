@@ -49,22 +49,29 @@ function SchemaOverview(){
                             <Breadcrumb.Item href="/">Schemas</Breadcrumb.Item>
                             <Breadcrumb.Item active>Schemas Overview</Breadcrumb.Item>
                         </Breadcrumb>
-                        <BarChart margin={{left:25}} layout="vertical" width={1300} height={450} data={mostQueried}>
-                            <CartesianGrid vertical={true} horizontal={false} />
-                            <XAxis tick={{ fontWeight:"bold" }} stroke="white" type="number" dataKey="exec"/>
-                            <YAxis tick={{ fontWeight:"bold" }} stroke="white" type="category" dataKey="schema" />
-                            <Tooltip />
-                            <Bar dataKey="exec" fill="#8884d8" />
-                        </BarChart>  
-                        <br />
-                        <br />
-                        <BarChart margin={{left:25}} layout="vertical" width={1300} height={450} data={slowestSchema}>
-                            <CartesianGrid vertical={true} horizontal={false} />
-                            <XAxis tick={{ fontWeight:"bold" }} stroke="white" type="number" dataKey="avgexec"/>
-                            <YAxis tick={{ fontWeight:"bold" }} stroke="white" type="category" dataKey="schema" />
-                            <Tooltip />
-                            <Bar dataKey="avgexec" fill="#8884d8" />
-                        </BarChart>  
+                        <Row>
+                            <Col>
+                                <h3 style={{color:"white",marginBottom:"20px"}}>Most-queried schemas</h3>
+                                <BarChart margin={{left:150}} layout="vertical" width={600} height={600} data={mostQueried}>
+                                    <CartesianGrid vertical={true} horizontal={false} />
+                                    <XAxis tick={{ fontWeight:"bold" }} stroke="white" type="number" dataKey="exec"/>
+                                    <YAxis tick={{ fontSize:"10.5px",fontWeight:"bold" }} stroke="white" type="category" dataKey="schema" />
+                                    <Tooltip />
+                                    <Bar dataKey="exec" fill="#8884d8" />
+                                </BarChart>  
+                            </Col>
+
+                            <Col>
+                                <h3 style={{color:"white",marginBottom:"20px"}}>Slowest schemas</h3>
+                                <BarChart margin={{left:150}} layout="vertical" width={600} height={600} data={slowestSchema}>
+                                    <CartesianGrid vertical={true} horizontal={false} />
+                                    <XAxis tick={{ fontWeight:"bold" }} stroke="white" type="number" dataKey="avgexec"/>
+                                    <YAxis tick={{ fontSize:"10.5px",fontWeight:"bold" }} stroke="white" type="category" dataKey="schema" />
+                                    <Tooltip />
+                                    <Bar dataKey="avgexec" fill="#8884d8" />
+                                </BarChart>  
+                            </Col>
+                        </Row>
                     </Col>
                 </Row>  
             </Container> 
