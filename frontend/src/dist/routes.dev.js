@@ -96,6 +96,12 @@ var routes = [{
   layout: "/",
   invisible: true
 }, {
+  path: "audit/databases/overview",
+  name: "Audit-DatabaseOverview",
+  component: _DatabaseOverview["default"],
+  layout: "/",
+  invisible: true
+}, {
   path: "audit/databases/all",
   name: "Audit-AllDatabase",
   component: _Database["default"],
@@ -108,12 +114,24 @@ var routes = [{
   layout: "/",
   invisible: true
 }, {
+  path: "audit/tables/overview",
+  name: "Audit-TableOverview",
+  component: _TableOverview["default"],
+  layout: "/",
+  invisible: true
+}, {
   path: "audit/schemas/all",
   name: "Audit-AllSChema",
   component: _schema["default"],
   layout: "/",
   invisible: true
 }, {
+  path: "audit/schemas/overview",
+  name: "Audit-SchemaOverview",
+  component: _SchemaOverview["default"],
+  layout: "/",
+  invisible: true
+},{
   path: "audit/questions/all",
   name: "Audit-AllQuestion",
   component: _question["default"],

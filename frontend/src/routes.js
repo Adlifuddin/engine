@@ -13,6 +13,9 @@ import Dashboards from './components/Audit/Dashboards/dashboard'
 import MemberOverview from './components/Audit/TeamMember/MemberOverview'
 import AuditLog from './components/Audit/TeamMember/AuditLog'
 import Downloads from './components/Audit/Downloads/download'
+import TableOverview from './components/Audit/Table/TableOverview'
+import SchemaOverview from './components/Audit/Schema/SchemaOverview'
+import DatabaseOverview from './components/Audit/Database/DatabaseOverview'
 
 var routes = [
     {
@@ -84,9 +87,23 @@ var routes = [
         invisible: true,
     },
     {
+        path: "audit/databases/overview",
+        name: "Audit-DatabaseOverview",
+        component: DatabaseOverview,
+        layout: "/",
+        invisible: true,
+    },
+    {
         path: "audit/databases/all",
         name: "Audit-AllDatabase",
         component: DatabaseAudit,
+        layout: "/",
+        invisible: true,
+    },
+    {
+        path: "audit/tables/overview",
+        name: "Audit-TableOverview",
+        component: TableOverview,
         layout: "/",
         invisible: true,
     },
@@ -101,6 +118,13 @@ var routes = [
         path: "audit/schemas/all",
         name: "Audit-AllSChema",
         component: Schema,
+        layout: "/",
+        invisible: true,
+    },
+    {
+        path: "audit/schemas/overview",
+        name: "Audit-SchemaOverview",
+        component: SchemaOverview,
         layout: "/",
         invisible: true,
     },
