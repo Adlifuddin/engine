@@ -96,6 +96,12 @@ var routes = [{
   layout: "/",
   invisible: true
 }, {
+  path: "audit/databases/overview",
+  name: "Audit-DatabaseOverview",
+  component: _DatabaseOverview["default"],
+  layout: "/",
+  invisible: true
+}, {
   path: "audit/databases/all",
   name: "Audit-AllDatabase",
   component: _Database["default"],

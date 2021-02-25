@@ -34,7 +34,7 @@ function SideBarSubMenu(){
                 </SubMenu>
          
                 <SubMenu title="Databases" icon={<FiDatabase />}>
-                  <MenuItem>Overview</MenuItem>
+                  <MenuItem>Overview<Link to="/audit/databases/overview" /></MenuItem>
                   <MenuItem>All Databases<Link to="/audit/databases/all" /></MenuItem>
                 </SubMenu>
               

@@ -15,6 +15,7 @@ import AuditLog from './components/Audit/TeamMember/AuditLog'
 import Downloads from './components/Audit/Downloads/download'
 import TableOverview from './components/Audit/Table/TableOverview'
 import SchemaOverview from './components/Audit/Schema/SchemaOverview'
+import DatabaseOverview from './components/Audit/Database/DatabaseOverview'
 
 var routes = [
     {
@@ -82,6 +83,13 @@ var routes = [
         path: "audit/members/log",
         name: "Audit-MemberLog",
         component: AuditLog,
+        layout: "/",
+        invisible: true,
+    },
+    {
+        path: "audit/databases/overview",
+        name: "Audit-DatabaseOverview",
+        component: DatabaseOverview,
         layout: "/",
         invisible: true,
     },
