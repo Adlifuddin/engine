@@ -49,22 +49,28 @@ function TableOverview(){
                             <Breadcrumb.Item href="/">Tables</Breadcrumb.Item>
                             <Breadcrumb.Item active>Tables Overview</Breadcrumb.Item>
                         </Breadcrumb>
-                        <BarChart margin={{left:25}} layout="vertical" width={1300} height={450} data={mostQueried}>
-                            <CartesianGrid vertical={true} horizontal={false} />
-                            <XAxis tick={{ fontWeight:"bold" }} stroke="white" type="number" dataKey="exec"/>
-                            <YAxis tick={{ fontWeight:"bold" }} stroke="white" type="category" dataKey="tables" />
-                            <Tooltip />
-                            <Bar dataKey="exec" fill="#8884d8" />
-                        </BarChart>  
-                        <br />
-                        <br />
-                        <BarChart margin={{left:25}} layout="vertical" width={1300} height={450} data={leastQueried}>
-                            <CartesianGrid vertical={true} horizontal={false} />
-                            <XAxis tick={{ fontWeight:"bold" }} stroke="white" type="number" dataKey="exec"/>
-                            <YAxis tick={{ fontWeight:"bold" }} stroke="white" type="category" dataKey="tables" />
-                            <Tooltip />
-                            <Bar dataKey="exec" fill="#8884d8" />
-                        </BarChart>  
+                        <Row>
+                            <Col>
+                                <h3 style={{color:"white",marginBottom:"20px"}}>Most-queried tables</h3>
+                                <BarChart margin={{left:150}} layout="vertical" width={600} height={630} data={mostQueried}>
+                                    <CartesianGrid vertical={true} horizontal={false} />
+                                    <XAxis tick={{ fontWeight:"bold" }} stroke="white" type="number" dataKey="exec"/>
+                                    <YAxis tick={{ fontSize:"10.5px",fontWeight:"bold" }} stroke="white" type="category" dataKey="tables" />
+                                    <Tooltip />
+                                    <Bar dataKey="exec" fill="#8884d8" />
+                                </BarChart>  
+                            </Col>
+                            <Col>
+                                <h3 style={{color:"white",marginBottom:"20px"}}>Least-queried tables</h3>
+                                <BarChart margin={{left:150}} layout="vertical" width={600} height={630} data={leastQueried}>
+                                    <CartesianGrid vertical={true} horizontal={false} />
+                                    <XAxis tick={{ fontWeight:"bold" }} stroke="white" type="number" dataKey="exec"/>
+                                    <YAxis tick={{ fontSize:"10.5px",fontWeight:"bold" }} stroke="white" type="category" dataKey="tables" />
+                                    <Tooltip />
+                                    <Bar dataKey="exec" fill="#8884d8" />
+                                </BarChart>  
+                            </Col>
+                        </Row>                    
                     </Col>
                 </Row>  
             </Container> 
