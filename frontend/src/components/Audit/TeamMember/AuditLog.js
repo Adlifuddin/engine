@@ -36,7 +36,7 @@ function AuditLog(){
                     <Col style={{marginTop:"10px", marginRight:"50px"}} xs lg={9}>  
                         <Breadcrumb>
                             <Breadcrumb.Item href="/">Audit</Breadcrumb.Item>
-                            <Breadcrumb.Item active>Team Members</Breadcrumb.Item>
+                            <Breadcrumb.Item active>Logs</Breadcrumb.Item>
                         </Breadcrumb>
                         {loading === true ? <ApiLoader apiload={loading} /> :
                         <Table striped bordered hover variant="light">
