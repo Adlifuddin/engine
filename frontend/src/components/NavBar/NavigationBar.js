@@ -44,7 +44,6 @@ function NavigationBar(props) {
                   </li>
               );
         })}
-        {/* <Nav.Link as={Link} style={navLink} key='database' to="/database" className="nav-link" activeclassname="active">Database</Nav.Link> */}
       </Nav>
         </Navbar>
         )}

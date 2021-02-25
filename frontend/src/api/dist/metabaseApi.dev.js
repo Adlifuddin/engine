@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports["default"] = exports.session = exports.deleteDatabase = exports.discardValue = exports.reScanValue = exports.syncSchema = exports.createDatabase = exports.databaseListID = exports.databaseList = void 0;
+exports["default"] = exports.session = exports.validateDatabase = exports.deleteDatabase = exports.discardValue = exports.reScanValue = exports.syncSchema = exports.createDatabase = exports.databaseListID = exports.databaseList = void 0;
 
 var _axios = _interopRequireDefault(require("axios"));
 
@@ -61,10 +61,16 @@ exports.discardValue = discardValue;
 
 var deleteDatabase = function deleteDatabase(id) {
   return api["delete"]("database/".concat(id), config);
+};
+
+exports.deleteDatabase = deleteDatabase;
+
+var validateDatabase = function validateDatabase(payload) {
+  return api.post("database/validate", payload, config);
 }; // Create Sessions
 
 
-exports.deleteDatabase = deleteDatabase;
+exports.validateDatabase = validateDatabase;
 
 var session = function session(payload) {
   return api.post("session/", payload);
@@ -79,7 +85,8 @@ var apis = {
   syncSchema: syncSchema,
   reScanValue: reScanValue,
   discardValue: discardValue,
-  deleteDatabase: deleteDatabase
+  deleteDatabase: deleteDatabase,
+  validateDatabase: validateDatabase
 };
 var _default = apis;
 exports["default"] = _default;

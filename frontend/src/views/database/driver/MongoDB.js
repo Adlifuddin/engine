@@ -1,16 +1,24 @@
 import React, {useState, useEffect} from 'react'
 import {Card, CardBody, Row, Col} from 'reactstrap'
-import { Form, Button } from 'react-bootstrap'
+import { Form } from 'react-bootstrap'
 import SSHTunnel from './components/SSHTunnel'
 import Breadcrumbs from './components/Breadcrumb'
 import FormComponent from './components/FormComponent'
 import FormFooter from './components/FormFooter'
+import SchedulingTab from './components/SchedulingTab'
+import api from '../../../api/metabaseApi'
+import Scheduling from './components/Scheduling'
 
 function MongoDB(props) {
-    const [status, setStatus] = useState("fill")
+    const [statuses, setStatuses] = useState("fill")
     const [sslCertificate, setSslCertificate] = useState(false)
 
-    const { inputting,
+    const {
+        page, 
+        setPage,
+        errorInput,
+        status,
+        inputting,
         engine,
         authDatabase,
         sshTunnel,
@@ -35,7 +43,35 @@ function MongoDB(props) {
         tunnelPassword,
         d,
         b,
-        c} = props
+        c,
+        filterChange,
+        filterTime,
+        filterDate,
+        filterTimeChanges,
+        filterDayChanges,
+        filterChanges,
+        changes,
+        day,
+        onChanges,
+        onDayChange,
+        onTimeChange,
+        changingOnThe,
+        changeOnTheChange,
+        onThe,
+        onTheChange,
+        oriChange,
+        changeOriChange,
+        time,} = props
+    const [connection, setConnection] = useState(false)
+   
+
+    useEffect(() => {
+        if (userControlScheduling) {
+            setConnection(true)
+        } else {
+            setConnection(false)
+        }
+    }, [userControlScheduling])
 
     useEffect(() => {
         if (sslSwitch) {
@@ -47,8 +83,60 @@ function MongoDB(props) {
     }, [sslSwitch])
     
     const click = input => e => {
-        setStatus(input)
+        setStatuses(input)
     }
+
+    const submit = (e) => {
+        e.preventDefault()
+
+        let data = {
+                // "auto_run_queries": autoRunQueries,
+                // "details": {
+                //     "let-user-control-scheduling": userControlScheduling,
+                //     "db": db,
+                // },
+                // "engine": engine,
+                // "is_full_sync": true,
+                // "is_on_demand": false,
+                // "name": name
+            }
+        if (data.details["let-user-control-scheduling"]) {
+            const validate = { "details": data }
+            api.validateDatabase(validate)
+                .then(response => {
+                    if (response.data.valid) {
+                        setPage(true)
+                    } else {
+                        setPage(false)
+                        errorInput("Couldn't connect to the database. Please check the connection details.")
+                    }
+                })
+                .catch(error => {
+                    console.log(error)
+                })
+        } else {
+            api.createDatabase(data)
+                .then(response => {
+                    window.location.href = '/database'
+                    console.log(response)
+                }) 
+                .catch(error => {
+                    console.log(error)
+                })
+        }
+
+        if (page) {
+            api.createDatabase(data)
+                .then(response => {
+                    window.location.href = '/database'
+                    console.log(response)
+                }) 
+                .catch(error => {
+                    console.log(error)
+                })
+        }
+    }
+
 
     let certificates 
     if (sslCertificate === true) {
@@ -66,7 +154,7 @@ function MongoDB(props) {
     }
 
     let stats
-    if (status === "paste") {
+    if (statuses === "paste") {
         stats = (
             <>
                 <a href="#" onClick={click("fill")}>Fill out individual fields</a>
@@ -81,7 +169,7 @@ function MongoDB(props) {
                 </Form.Group>
             </>
         )
-    } else if(status === "fill") {
+    } else if(statuses === "fill") {
         stats = (
             <>
                 <a href="#" onClick={click("paste")}>Paste a connection String</a>
@@ -192,43 +280,127 @@ function MongoDB(props) {
     return (
          <Card style={{margin: '20px'}}>
                 <Breadcrumbs b={b} />
-            <Form>
+            <Form onSubmit={submit}>
                 <CardBody>
                     <Row>
                         <Col md="8">
-                            <FormComponent engine={engine} inputting={inputting} name={name}/>
-                            {stats}
-                            <Form.Group controlId="formSSH-Tunnel">
-                                <Row>
-                                    <Col md="11">
-                                        <Form.Label>Use an SSH-tunnel for database connections</Form.Label>
-                                        <Form.Text className="text-muted">
-                                            Some database installations can only be accessed by connecting through an SSH 
-                                            bastion host. This option also provides an extra layer of security when a VPN is 
-                                            not available. Enabling this is usually slower than a direct connection.
-                                        </Form.Text>
-                                    </Col>
-                                    <Col md="1">
-                                        <Form.Check 
-                                            type="switch"
-                                            id="ssh-tunnel"
-                                            checked={sshTunnel}
-                                            onChange={switches("ssh-tunnel")}
-                                        />
-                                    </Col>
-                                </Row>
-                            </Form.Group>
-                            <SSHTunnel
-                                inputting={inputting}
-                                tunnelHost={tunnelHost}
-                                tunnelPort={tunnelPort}
-                                tunnelUser={tunnelUser}
-                                sshAuth={sshAuth}
-                                tunnelPrivateKey={tunnelPrivateKey}
-                                tunnelPassword={tunnelPassword}
-                                sshTunnel={sshTunnel}
-                            />
-                            <FormFooter switches={switches} autoRunQueries={autoRunQueries} userControlScheduling={userControlScheduling}/>
+                            {page?
+                                <Scheduling
+                                    filterChange={filterChange}
+                                    filterTime={filterTime}
+                                    filterDate={filterDate}
+                                    filterTimeChanges={filterTimeChanges}
+                                    filterDayChanges={filterDayChanges}
+                                    filterChanges={filterChanges}
+                                    changes={changes}
+                                    time={time}
+                                    day={day}
+                                    onChanges={onChanges}
+                                    onDayChange={onDayChange}
+                                    onTimeChange={onTimeChange}
+                                    changingOnThe={changingOnThe}
+                                    changeOnTheChange={changeOnTheChange}
+                                    onThe={onThe}
+                                    onTheChange={onTheChange}
+                                    oriChange={oriChange}
+                                    changeOriChange={changeOriChange}
+                                />
+                                :
+                            connection && status !== 'add' ?
+                                <SchedulingTab
+                                    filterChange={filterChange}
+                                    filterTime={filterTime}
+                                    filterDate={filterDate}
+                                    filterTimeChanges={filterTimeChanges}
+                                    filterDayChanges={filterDayChanges}
+                                    filterChanges={filterChanges}
+                                    changes={changes}
+                                    time={time}
+                                    day={day}
+                                    onChanges={onChanges}
+                                    onDayChange={onDayChange}
+                                    onTimeChange={onTimeChange}
+                                    changingOnThe={changingOnThe}
+                                    changeOnTheChange={changeOnTheChange}
+                                    onThe={onThe}
+                                    onTheChange={onTheChange}
+                                    oriChange={oriChange}
+                                    changeOriChange={changeOriChange}
+                                    connection={connection}
+                                >
+                                    <FormComponent engine={engine} inputting={inputting} name={name}/>
+                                    {stats}
+                                    <Form.Group controlId="formSSH-Tunnel">
+                                        <Row>
+                                            <Col md="11">
+                                                <Form.Label>Use an SSH-tunnel for database connections</Form.Label>
+                                                <Form.Text className="text-muted">
+                                                    Some database installations can only be accessed by connecting through an SSH 
+                                                    bastion host. This option also provides an extra layer of security when a VPN is 
+                                                    not available. Enabling this is usually slower than a direct connection.
+                                                </Form.Text>
+                                            </Col>
+                                            <Col md="1">
+                                                <Form.Check 
+                                                    type="switch"
+                                                    id="ssh-tunnel"
+                                                    checked={sshTunnel}
+                                                    onChange={switches("ssh-tunnel")}
+                                                />
+                                            </Col>
+                                        </Row>
+                                    </Form.Group>
+                                    <SSHTunnel
+                                        inputting={inputting}
+                                        tunnelHost={tunnelHost}
+                                        tunnelPort={tunnelPort}
+                                        tunnelUser={tunnelUser}
+                                        sshAuth={sshAuth}
+                                        tunnelPrivateKey={tunnelPrivateKey}
+                                        tunnelPassword={tunnelPassword}
+                                        sshTunnel={sshTunnel}
+                                    />
+                                    <FormFooter switches={switches} autoRunQueries={autoRunQueries} userControlScheduling={userControlScheduling}/>
+                                </SchedulingTab>
+                                :
+                                <>
+                                    <FormComponent engine={engine} inputting={inputting} name={name}/>
+                                    {stats}
+                                    <Form.Group controlId="formSSH-Tunnel">
+                                        <Row>
+                                            <Col md="11">
+                                                <Form.Label>Use an SSH-tunnel for database connections</Form.Label>
+                                                <Form.Text className="text-muted">
+                                                    Some database installations can only be accessed by connecting through an SSH 
+                                                    bastion host. This option also provides an extra layer of security when a VPN is 
+                                                    not available. Enabling this is usually slower than a direct connection.
+                                                </Form.Text>
+                                            </Col>
+                                            <Col md="1">
+                                                <Form.Check 
+                                                    type="switch"
+                                                    id="ssh-tunnel"
+                                                    checked={sshTunnel}
+                                                    onChange={switches("ssh-tunnel")}
+                                                />
+                                            </Col>
+                                        </Row>
+                                    </Form.Group>
+                                    <SSHTunnel
+                                        inputting={inputting}
+                                        tunnelHost={tunnelHost}
+                                        tunnelPort={tunnelPort}
+                                        tunnelUser={tunnelUser}
+                                        sshAuth={sshAuth}
+                                        tunnelPrivateKey={tunnelPrivateKey}
+                                        tunnelPassword={tunnelPassword}
+                                        sshTunnel={sshTunnel}
+                                    />
+                                    <FormFooter switches={switches} autoRunQueries={autoRunQueries} userControlScheduling={userControlScheduling}/>
+                                </>
+
+                            }
+                            
                             {c}
                         </Col>
                         {d}

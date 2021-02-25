@@ -6,7 +6,6 @@ import { Link } from 'react-router-dom'
 import './DatabaseList.css'
 
 function DatabaseList() {
-    const [sessionsID, setSessionsID] = useState("")
     const [databaseLists, setDatabaseList] = useState([])
     const [modalDelete, setModalDelete] = useState(false);
     const toggleDelete = () => setModalDelete(!modalDelete);
@@ -15,21 +14,9 @@ function DatabaseList() {
     const [id, setID] = useState("");
 
     useEffect(() => {
-        const data = {
-            "username": "jiahao.leong@nexent.co",
-            "password": "Jiahao051",
-        }
-        api.session(data)
+        api.databaseList()
             .then(response => {
-                localStorage.setItem("sessions", response.data.id)
-                setSessionsID(response.data.id)
-                api.databaseList()
-                    .then(response => {
-                        setDatabaseList(response.data)
-                    })
-                    .catch(error => {
-                        console.log(error)
-                    })
+                setDatabaseList(response.data)
             })
             .catch(error => {
                 console.log(error)
@@ -92,7 +79,7 @@ function DatabaseList() {
                     <tr key={x.id}>
                         <td><Link to={{ pathname: `/database/${x.id}`, query: { name: x.name, id: x.id } }} style={{color: '#78909c', fontWeight: 'bold'}}>{x.name}</Link></td>
                         <td style={{color: '#78909c'}}>{x.engine}</td>
-                        <td style={{width: '632.22px', height: '59.76px'}}><Button variant="danger" id='danger-button' style={{ float: 'right'}} onClick={toggleDeleting} value={x.id}>Delete</Button></td>
+                        <td style={{width: '632.22px', height: '65px'}}><Button variant="danger" id='danger-button' style={{ float: 'right'}} onClick={toggleDeleting} value={x.id}>Delete</Button></td>
                     </tr>
                 ))}
                 </tbody>
@@ -102,7 +89,7 @@ function DatabaseList() {
                 <ModalBody>
                     <Row>
                         <Col>
-                            All saved questions, metrics, and segments that rely on this database will be lost. 
+                            All saved questions, metrics, and segments that rely on this database will be lost.
                         </Col>
                     </Row>
                     <Row>

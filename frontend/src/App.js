@@ -1,8 +1,28 @@
+import React, {useEffect} from 'react'
 import './App.css';
 import { Route, Switch, withRouter } from "react-router";
 import Layouts from './layout/Layouts'
+import metabaseApi from './api/metabaseApi'
 
 function App() {
+
+  useEffect(() => {
+    const data = {
+                  "username": "jiahao.leong@nexent.co",
+                  "password": "Jiahao051",
+                 }
+    if (localStorage.getItem("sessions") !== null) {
+      metabaseApi.session(data)
+        .then(response => {
+            localStorage.setItem("sessions", response.data.id)
+        })
+        .catch(error => {
+            console.log(error)
+        })
+    }
+    
+    
+  }, [false])
 
   return (
     <Switch>

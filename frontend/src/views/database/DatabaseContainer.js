@@ -2,11 +2,12 @@
 
 import React, {useEffect, useState} from 'react'
 import { Card, Row, Modal, ModalHeader, ModalBody, Col, ModalFooter } from 'reactstrap'
-import { Button, Spinner } from 'react-bootstrap'
+import { Button, Spinner, Navbar, Nav } from 'react-bootstrap'
 import api from '../../api/metabaseApi'
-
 import { TiTick } from 'react-icons/ti'
 import DatabaseDriver from './components/DatabaseDriver'
+import Scheduling from './driver/components/Scheduling'
+
 function DatabaseContainer(props) {
     const { status } = props
     const [modal, setModal] = useState(false);
@@ -17,7 +18,7 @@ function DatabaseContainer(props) {
     const [disabling, setDisabling] = useState(true);
     const [loading, setLoading] = useState("nothing")
     const [ReScanLoading, setReScanLoading] = useState("nothing")
-    
+    const [error, setError] = useState("")
 
     const [databaseData, setDatabaseData] = useState([])
     const [sslSwitch, setSSLSwitch] = useState(false);
@@ -55,6 +56,19 @@ function DatabaseContainer(props) {
     const [schema, setSchema] = useState("")
     const [role, setRole] = useState("")
     const [dbInstanceName, setDbInstanceName] = useState("")
+
+    const [changes, setChanges] = useState('hourly')
+    const [time, setTime] = useState('0')
+    const [day, setDay] = useState('am')
+    
+    const [filterChange, setFilterChange] = useState('daily')
+    const [filterTime, setFilterTime] = useState('0')
+    const [filterDate, setFilterDate] = useState('am')
+
+    const [onThe, setonThe] = useState('first')
+    const [onTheChange, setonTheChange] = useState('mon')
+    const [oriChange, setOriChange] = useState('mon')
+    const [page, setPage] = useState(false)
 
     useEffect(() => {
         if (status !== 'add') {
@@ -210,109 +224,6 @@ function DatabaseContainer(props) {
         }
     }, [])
 
-    const submit = (e) => {
-        e.preventDefault()
-        switch (engine) {
-            case "postgres":
-                if (sshTunnel === false) {
-                    const data = {
-                        "auto_run_queries": autoRunQueries,
-                        "details": {
-                            "additional-options": jdbc,
-                            "dbname": dbname,
-                            "host": host,
-                            "let-user-control-scheduling": userControlScheduling,
-                            "password": password,
-                            "port": port,
-                            "ssl": sslSwitch,
-                            "user": username
-                        },
-                        "engine": engine,
-                        "is_full_sync": true,
-                        "is_on_demand": false,
-                        "name": name
-                    }
-                    api.createDatabase(data)
-                        .then(response => {
-                            window.location.href = '/database'
-                            console.log(response)
-                        }) 
-                        .catch(error => {
-                            console.log(error)
-                        })
-                } else if (sshAuth === "ssh-key") {
-                    const data = {
-                        "auto_run_queries": autoRunQueries,
-                        "details": {
-                            "additional-options": jdbc,
-                            "dbname": dbname,
-                            "host": host,
-                            "let-user-control-scheduling": userControlScheduling,
-                            "password": password,
-                            "port": port,
-                            "ssl": sslSwitch,
-                            "tunnel-auth-option": sshAuth,
-                            "tunnel-enabled": sshTunnel,
-                            "tunnel-host": tunnelHost,
-                            "tunnel-private-key": tunnelPrivateKey,
-                            "tunnel-private-key-passphrase": tunnelPassword,
-                            "tunnel-port": tunnelPort,
-                            "tunnel-user": tunnelUser,
-                            "user": username
-                        },
-                        "engine": engine,
-                        "is_full_sync": true,
-                        "is_on_demand": false,
-                        "name": name
-                    }
-                    api.createDatabase(data)
-                        .then(response => {
-                            window.location.href = '/database'
-                            console.log(response)
-                        }) 
-                        .catch(error => {
-                            console.log(error)
-                        })
-                } else if (sshAuth === "password") {
-                    const data = {
-                        "auto_run_queries": autoRunQueries,
-                        "details": {
-                            "additional-options": jdbc,
-                            "dbname": dbname,
-                            "host": host,
-                            "let-user-control-scheduling": userControlScheduling,
-                            "password": password,
-                            "port": port,
-                            "ssl": sslSwitch,
-                            "tunnel-auth-option": sshAuth,
-                            "tunnel-enabled": sshTunnel,
-                            "tunnel-host": tunnelHost,
-                            "tunnel-pass": tunnelPassword,
-                            "tunnel-port": tunnelPort,
-                            "tunnel-user": tunnelUser,
-                            "user": username
-                        },
-                        "engine": engine,
-                        "is_full_sync": true,
-                        "is_on_demand": false,
-                        "name": name
-                    }
-                    api.createDatabase(data)
-                        .then(response => {
-                            window.location.href = '/database'
-                            console.log(response)
-                        }) 
-                        .catch(error => {
-                            console.log(error)
-                        })
-                }
-                break;
-            default:
-                break;
-        }
-    }
-
-
     const switches = input => e => {
         switch (input) {
             case "ssl-switch":
@@ -424,6 +335,13 @@ function DatabaseContainer(props) {
                 break;
         }
     }
+    
+    const errorInput = (errors) => {
+        setError(errors)
+        window.setTimeout(() => {
+            setError("")
+        }, 5000)
+    }
 
     let b
     if (databaseData.details) {
@@ -434,9 +352,53 @@ function DatabaseContainer(props) {
 
     let c 
     if (databaseData.details) {
-        c = (<Button variant="success" type="submit">Save Changes</Button>)
+        c = (
+            <Row>
+                <Col md="3">
+                    <Button variant="success" type="submit">Save Changes</Button>
+                </Col>
+                <Col>
+                    <p style={{color: 'red'}}>{error}</p>
+                </Col>
+            </Row>
+        )
+    } else if (userControlScheduling && status === 'add') {
+        c = (
+             <Row>
+                <Col md="1">
+                    {page?
+                        <Button variant="success" type="submit">Save</Button>
+                        :
+                        <Button variant="success" type="submit">Next</Button>
+                    }
+                </Col>
+                <Col>
+                    <p style={{color: 'red'}}>{error}</p>
+                </Col>
+            </Row>
+        )
+    } else if(page){
+        c = (
+            <Row>
+                <Col md="1">
+                    <Button variant="success" type="submit">Save</Button>
+                </Col>
+                <Col>
+                    <p style={{color: 'red'}}>{error}</p>
+                </Col>
+            </Row>
+        )
     } else {
-        c = (<Button variant="success" type="submit">Save</Button>)
+        c = (
+            <Row>
+                <Col md="1">
+                    <Button variant="success" type="submit">Save</Button>
+                </Col>
+                <Col>
+                    <p style={{color: 'red'}}>{error}</p>
+                </Col>
+            </Row>
+        )
     }
 
     const syncSchema = () => {
@@ -627,50 +589,109 @@ function DatabaseContainer(props) {
         )
     }
 
+    const onChanges = (e) => {
+        setChanges(e.target.value)
+    }
+
+    const onDayChange = (e) => {
+        setDay(e.target.value)
+    }
+
+    const onTimeChange = (e) => {
+        setTime(e.target.value)
+    }
+
+    const filterChanges = (e) => {
+        setFilterChange(e.target.value)
+    }
+
+    const filterDayChanges = (e) => {
+        setFilterDate(e.target.value)
+    }
+
+    const filterTimeChanges = (e) => {
+        setFilterTime(e.target.value)
+    }
+
+    const changingOnThe = (e)  => {
+        setonThe(e.target.value)
+    }
+
+    const changeOnTheChange = (e) => {
+        setonTheChange(e.target.value)
+    }
+
+    const changeOriChange = (e) => {
+        setOriChange(e.target.value)
+    }
+
     return (
-        <DatabaseDriver
-            submit={submit}
-            inputting={inputting}
-            engine={engine}
-            sslSwitch={sslSwitch}
-            sshTunnel={sshTunnel}
-            autoRunQueries={autoRunQueries}
-            userControlScheduling={userControlScheduling}
-            name={name}
-            host={host}
-            port={port}
-            dbname={dbname}
-            username={username}
-            password={password}
-            tunnelPort={tunnelPort}
-            tunnelHost={tunnelHost}
-            tunnelUser={tunnelUser}
-            tunnelPrivateKey={tunnelPrivateKey}
-            tunnelPassword={tunnelPassword}
-            sshAuth={sshAuth}
-            jdbc={jdbc}
-            switches={switches}
-            jvmTimezone={jvmTimezone}
-            datasetId={datasetId}
-            GaAccountID={GaAccountID}
-            GaClientID={GaClientID}
-            GaSecret={GaSecret}
-            authCode={authCode}
-            d={d}
-            b={b}
-            c={c}
-            dnsSRV={dnsSRV}
-            account={account}
-            region={region}
-            schema={schema}
-            role={role}
-            warehouse={warehouse}
-            db={db}
-            dbInstanceName={dbInstanceName}
-            json={json}
-            authDatabase={authDatabase}
-            sslCert={sslCert}
-        />
+        <>
+            <DatabaseDriver
+                errorInput={errorInput}
+                inputting={inputting}
+                engine={engine}
+                sslSwitch={sslSwitch}
+                sshTunnel={sshTunnel}
+                autoRunQueries={autoRunQueries}
+                userControlScheduling={userControlScheduling}
+                name={name}
+                host={host}
+                port={port}
+                dbname={dbname}
+                username={username}
+                password={password}
+                tunnelPort={tunnelPort}
+                tunnelHost={tunnelHost}
+                tunnelUser={tunnelUser}
+                tunnelPrivateKey={tunnelPrivateKey}
+                tunnelPassword={tunnelPassword}
+                sshAuth={sshAuth}
+                jdbc={jdbc}
+                switches={switches}
+                jvmTimezone={jvmTimezone}
+                datasetId={datasetId}
+                GaAccountID={GaAccountID}
+                GaClientID={GaClientID}
+                GaSecret={GaSecret}
+                authCode={authCode}
+                d={d}
+                b={b}
+                c={c}
+                page={page}
+                setPage={setPage}
+                status={status}
+                dnsSRV={dnsSRV}
+                account={account}
+                region={region}
+                schema={schema}
+                role={role}
+                warehouse={warehouse}
+                db={db}
+                dbInstanceName={dbInstanceName}
+                json={json}
+                authDatabase={authDatabase}
+                sslCert={sslCert}
+                filterChange={filterChange}
+                filterTime={filterTime}
+                filterDate={filterDate}
+                filterTimeChanges={filterTimeChanges}
+                filterDayChanges={filterDayChanges}
+                filterChanges={filterChanges}
+                changes={changes}
+                time={time}
+                day={day}
+                onChanges={onChanges}
+                onDayChange={onDayChange}
+                onTimeChange={onTimeChange}
+                changingOnThe={changingOnThe}
+                changeOnTheChange={changeOnTheChange}
+                onThe={onThe}
+                onTheChange={onTheChange}
+                oriChange={oriChange}
+                changeOriChange={changeOriChange}
+            />
+        </>
     )
 
 }

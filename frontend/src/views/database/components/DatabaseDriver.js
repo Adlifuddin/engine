@@ -14,7 +14,8 @@ import SparkSQL from '../driver/SparkSQL'
 import SqlServer from '../driver/SqlServer'
 
 function DatabaseDriver(props) {
-    const {submit,
+    const { status,
+            errorInput,
             inputting,
             engine,
             sslSwitch,
@@ -54,13 +55,36 @@ function DatabaseDriver(props) {
             dbInstanceName,
             json,
             authDatabase,
-            sslCert} = props
+            sslCert,
+            filterChange,
+            filterTime,
+            filterDate,
+            filterTimeChanges,
+            filterDayChanges,
+            filterChanges,
+            changes,
+            day,
+            onChanges,
+            onDayChange,
+            onTimeChange,
+            changingOnThe,
+            changeOnTheChange,
+            onThe,
+            onTheChange,
+            oriChange,
+            changeOriChange,
+            time,
+            page,
+            setPage,} = props
 
 
     switch (engine) {
         case "postgres":
             return <Postgres
-                        submit={submit}
+                        page={page}
+                        setPage={setPage}
+                        status={status}
+                        errorInput={errorInput}
                         inputting={inputting}
                         engine={engine}
                         sslSwitch={sslSwitch}
@@ -84,10 +108,31 @@ function DatabaseDriver(props) {
                         d={d}
                         b={b}
                         c={c}
+                        filterChange={filterChange}
+                        filterTime={filterTime}
+                        filterDate={filterDate}
+                        filterTimeChanges={filterTimeChanges}
+                        filterDayChanges={filterDayChanges}
+                        filterChanges={filterChanges}
+                        changes={changes}
+                        time={time}
+                        day={day}
+                        onChanges={onChanges}
+                        onDayChange={onDayChange}
+                        onTimeChange={onTimeChange}
+                        changingOnThe={changingOnThe}
+                        changeOnTheChange={changeOnTheChange}
+                        onThe={onThe}
+                        onTheChange={onTheChange}
+                        oriChange={oriChange}
+                        changeOriChange={changeOriChange}
                     />;
         case "sqlite":
             return <SQLite
-                        submit={submit}
+                        page={page}
+                        setPage={setPage}
+                        errorInput={errorInput}
+                        status={status}
                         inputting={inputting}
                         engine={engine}
                         autoRunQueries={autoRunQueries}
@@ -98,10 +143,31 @@ function DatabaseDriver(props) {
                         d={d}
                         b={b}
                         c={c}
+                        filterChange={filterChange}
+                        filterTime={filterTime}
+                        filterDate={filterDate}
+                        filterTimeChanges={filterTimeChanges}
+                        filterDayChanges={filterDayChanges}
+                        filterChanges={filterChanges}
+                        changes={changes}
+                        time={time}
+                        day={day}
+                        onChanges={onChanges}
+                        onDayChange={onDayChange}
+                        onTimeChange={onTimeChange}
+                        changingOnThe={changingOnThe}
+                        changeOnTheChange={changeOnTheChange}
+                        onThe={onThe}
+                        onTheChange={onTheChange}
+                        oriChange={oriChange}
+                        changeOriChange={changeOriChange}
             />
         case "redshift":
             return <RedShift
-                        submit={submit}
+                        page={page}
+                        setPage={setPage}
+                        errorInput={errorInput}
+                        status={status}
                         inputting={inputting}
                         engine={engine}
                         sshTunnel={sshTunnel}
@@ -123,10 +189,31 @@ function DatabaseDriver(props) {
                         d={d}
                         b={b}
                         c={c}
+                        filterChange={filterChange}
+                        filterTime={filterTime}
+                        filterDate={filterDate}
+                        filterTimeChanges={filterTimeChanges}
+                        filterDayChanges={filterDayChanges}
+                        filterChanges={filterChanges}
+                        changes={changes}
+                        time={time}
+                        day={day}
+                        onChanges={onChanges}
+                        onDayChange={onDayChange}
+                        onTimeChange={onTimeChange}
+                        changingOnThe={changingOnThe}
+                        changeOnTheChange={changeOnTheChange}
+                        onThe={onThe}
+                        onTheChange={onTheChange}
+                        oriChange={oriChange}
+                        changeOriChange={changeOriChange}
             />
         case "bigquery":
             return <BigQuery
-                        submit={submit}
+                        errorInput={errorInput}
+                        page={page}
+                        setPage={setPage}
+                        status={status}
                         inputting={inputting}
                         engine={engine}
                         autoRunQueries={autoRunQueries}
@@ -139,10 +226,31 @@ function DatabaseDriver(props) {
                         d={d}
                         b={b}
                         c={c}
+                        filterChange={filterChange}
+                        filterTime={filterTime}
+                        filterDate={filterDate}
+                        filterTimeChanges={filterTimeChanges}
+                        filterDayChanges={filterDayChanges}
+                        filterChanges={filterChanges}
+                        changes={changes}
+                        time={time}
+                        day={day}
+                        onChanges={onChanges}
+                        onDayChange={onDayChange}
+                        onTimeChange={onTimeChange}
+                        changingOnThe={changingOnThe}
+                        changeOnTheChange={changeOnTheChange}
+                        onThe={onThe}
+                        onTheChange={onTheChange}
+                        oriChange={oriChange}
+                        changeOriChange={changeOriChange}
                     />
         case "mysql":
             return <MySQL
-                        submit={submit}
+                        page={page}
+                        setPage={setPage}
+                        status={status}
+                        errorInput={errorInput}
                         inputting={inputting}
                         engine={engine}
                         sslSwitch={sslSwitch}
@@ -166,10 +274,31 @@ function DatabaseDriver(props) {
                         d={d}
                         b={b}
                         c={c}
+                        filterChange={filterChange}
+                        filterTime={filterTime}
+                        filterDate={filterDate}
+                        filterTimeChanges={filterTimeChanges}
+                        filterDayChanges={filterDayChanges}
+                        filterChanges={filterChanges}
+                        changes={changes}
+                        time={time}
+                        day={day}
+                        onChanges={onChanges}
+                        onDayChange={onDayChange}
+                        onTimeChange={onTimeChange}
+                        changingOnThe={changingOnThe}
+                        changeOnTheChange={changeOnTheChange}
+                        onThe={onThe}
+                        onTheChange={onTheChange}
+                        oriChange={oriChange}
+                        changeOriChange={changeOriChange}
                     />;
         case "druid":
             return <Druid
-                        submit={submit}
+                        errorInput={errorInput}
+                        page={page}
+                        setPage={setPage}
+                        status={status}
                         inputting={inputting}
                         engine={engine}
                         sshTunnel={sshTunnel}
@@ -188,10 +317,31 @@ function DatabaseDriver(props) {
                         d={d}
                         b={b}
                         c={c}
+                        filterChange={filterChange}
+                        filterTime={filterTime}
+                        filterDate={filterDate}
+                        filterTimeChanges={filterTimeChanges}
+                        filterDayChanges={filterDayChanges}
+                        filterChanges={filterChanges}
+                        changes={changes}
+                        time={time}
+                        day={day}
+                        onChanges={onChanges}
+                        onDayChange={onDayChange}
+                        onTimeChange={onTimeChange}
+                        changingOnThe={changingOnThe}
+                        changeOnTheChange={changeOnTheChange}
+                        onThe={onThe}
+                        onTheChange={onTheChange}
+                        oriChange={oriChange}
+                        changeOriChange={changeOriChange}
                     />;
         case "googleanalytics":
             return <GoogleAnalytics
-                        submit={submit}
+                        errorInput={errorInput}
+                        page={page}
+                        setPage={setPage}
+                        status={status}
                         inputting={inputting}
                         engine={engine}
                         autoRunQueries={autoRunQueries}
@@ -205,10 +355,31 @@ function DatabaseDriver(props) {
                         d={d}
                         b={b}
                         c={c}
+                        filterChange={filterChange}
+                        filterTime={filterTime}
+                        filterDate={filterDate}
+                        filterTimeChanges={filterTimeChanges}
+                        filterDayChanges={filterDayChanges}
+                        filterChanges={filterChanges}
+                        changes={changes}
+                        time={time}
+                        day={day}
+                        onChanges={onChanges}
+                        onDayChange={onDayChange}
+                        onTimeChange={onTimeChange}
+                        changingOnThe={changingOnThe}
+                        changeOnTheChange={changeOnTheChange}
+                        onThe={onThe}
+                        onTheChange={onTheChange}
+                        oriChange={oriChange}
+                        changeOriChange={changeOriChange}
                     />;
         case "h2":
             return <H2
-                        submit={submit}
+                        errorInput={errorInput}
+                        page={page}
+                        setPage={setPage}
+                        status={status}
                         inputting={inputting}
                         engine={engine}
                         autoRunQueries={autoRunQueries}
@@ -219,10 +390,31 @@ function DatabaseDriver(props) {
                         d={d}
                         b={b}
                         c={c}
+                        filterChange={filterChange}
+                        filterTime={filterTime}
+                        filterDate={filterDate}
+                        filterTimeChanges={filterTimeChanges}
+                        filterDayChanges={filterDayChanges}
+                        filterChanges={filterChanges}
+                        changes={changes}
+                        time={time}
+                        day={day}
+                        onChanges={onChanges}
+                        onDayChange={onDayChange}
+                        onTimeChange={onTimeChange}
+                        changingOnThe={changingOnThe}
+                        changeOnTheChange={changeOnTheChange}
+                        onThe={onThe}
+                        onTheChange={onTheChange}
+                        oriChange={oriChange}
+                        changeOriChange={changeOriChange}
                     />;
         case "mongo":
             return <MongoDB
-                        submit={submit}
+                        errorInput={errorInput}
+                        page={page}
+                        setPage={setPage}
+                        status={status}
                         inputting={inputting}
                         engine={engine}
                         authDatabase={authDatabase}
@@ -249,10 +441,31 @@ function DatabaseDriver(props) {
                         d={d}
                         b={b}
                         c={c}
+                        filterChange={filterChange}
+                        filterTime={filterTime}
+                        filterDate={filterDate}
+                        filterTimeChanges={filterTimeChanges}
+                        filterDayChanges={filterDayChanges}
+                        filterChanges={filterChanges}
+                        changes={changes}
+                        time={time}
+                        day={day}
+                        onChanges={onChanges}
+                        onDayChange={onDayChange}
+                        onTimeChange={onTimeChange}
+                        changingOnThe={changingOnThe}
+                        changeOnTheChange={changeOnTheChange}
+                        onThe={onThe}
+                        onTheChange={onTheChange}
+                        oriChange={oriChange}
+                        changeOriChange={changeOriChange}
             />;
         case "presto":
             return <Presto
-                        submit={submit}
+                        errorInput={errorInput}
+                        page={page}
+                        setPage={setPage}
+                        status={status}
                         inputting={inputting}
                         engine={engine}
                         sslSwitch={sslSwitch}
@@ -275,10 +488,31 @@ function DatabaseDriver(props) {
                         d={d}
                         b={b}
                         c={c}
+                        filterChange={filterChange}
+                        filterTime={filterTime}
+                        filterDate={filterDate}
+                        filterTimeChanges={filterTimeChanges}
+                        filterDayChanges={filterDayChanges}
+                        filterChanges={filterChanges}
+                        changes={changes}
+                        time={time}
+                        day={day}
+                        onChanges={onChanges}
+                        onDayChange={onDayChange}
+                        onTimeChange={onTimeChange}
+                        changingOnThe={changingOnThe}
+                        changeOnTheChange={changeOnTheChange}
+                        onThe={onThe}
+                        onTheChange={onTheChange}
+                        oriChange={oriChange}
+                        changeOriChange={changeOriChange}
                     />
         case "snowflake":
             return <Snowflake
-                        submit={submit}
+                        errorInput={errorInput}
+                        page={page}
+                        setPage={setPage}
+                        status={status}
                         inputting={inputting}
                         engine={engine}
                         sshTunnel={sshTunnel}
@@ -304,10 +538,31 @@ function DatabaseDriver(props) {
                         d={d}
                         b={b}
                         c={c}
+                        filterChange={filterChange}
+                        filterTime={filterTime}
+                        filterDate={filterDate}
+                        filterTimeChanges={filterTimeChanges}
+                        filterDayChanges={filterDayChanges}
+                        filterChanges={filterChanges}
+                        changes={changes}
+                        time={time}
+                        day={day}
+                        onChanges={onChanges}
+                        onDayChange={onDayChange}
+                        onTimeChange={onTimeChange}
+                        changingOnThe={changingOnThe}
+                        changeOnTheChange={changeOnTheChange}
+                        onThe={onThe}
+                        onTheChange={onTheChange}
+                        oriChange={oriChange}
+                        changeOriChange={changeOriChange}
                     />
         case "sparksql":
             return <SparkSQL
-                        submit={submit}
+                        errorInput={errorInput}
+                        page={page}
+                        setPage={setPage}
+                        status={status}
                         inputting={inputting}
                         engine={engine}
                         autoRunQueries={autoRunQueries}
@@ -323,10 +578,31 @@ function DatabaseDriver(props) {
                         d={d}
                         b={b}
                         c={c}
+                        filterChange={filterChange}
+                        filterTime={filterTime}
+                        filterDate={filterDate}
+                        filterTimeChanges={filterTimeChanges}
+                        filterDayChanges={filterDayChanges}
+                        filterChanges={filterChanges}
+                        changes={changes}
+                        time={time}
+                        day={day}
+                        onChanges={onChanges}
+                        onDayChange={onDayChange}
+                        onTimeChange={onTimeChange}
+                        changingOnThe={changingOnThe}
+                        changeOnTheChange={changeOnTheChange}
+                        onThe={onThe}
+                        onTheChange={onTheChange}
+                        oriChange={oriChange}
+                        changeOriChange={changeOriChange}
             />
         case "sqlserver":
             return <SqlServer
-                        submit={submit}
+                        errorInput={errorInput}
+                        page={page}
+                        setPage={setPage}
+                        status={status}
                         inputting={inputting}
                         engine={engine}
                         sslSwitch={sslSwitch}
@@ -351,6 +627,24 @@ function DatabaseDriver(props) {
                         d={d}
                         b={b}
                         c={c}
+                        filterChange={filterChange}
+                        filterTime={filterTime}
+                        filterDate={filterDate}
+                        filterTimeChanges={filterTimeChanges}
+                        filterDayChanges={filterDayChanges}
+                        filterChanges={filterChanges}
+                        changes={changes}
+                        time={time}
+                        day={day}
+                        onChanges={onChanges}
+                        onDayChange={onDayChange}
+                        onTimeChange={onTimeChange}
+                        changingOnThe={changingOnThe}
+                        changeOnTheChange={changeOnTheChange}
+                        onThe={onThe}
+                        onTheChange={onTheChange}
+                        oriChange={oriChange}
+                        changeOriChange={changeOriChange}
                     />
         default:
             break;

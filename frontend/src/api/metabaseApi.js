@@ -23,7 +23,7 @@ export const syncSchema = (payload, id) => api.post(`database/${id}/sync_schema`
 export const reScanValue = (payload, id) => api.post(`database/${id}/rescan_values`, payload, config)
 export const discardValue = (payload, id) => api.post(`database/${id}/discard_values`, payload, config)
 export const deleteDatabase = (id) => api.delete(`database/${id}`, config)
-
+export const validateDatabase = (payload) => api.post(`database/validate`, payload, config)
 
 // Create Sessions
 export const session = (payload) => api.post("session/", payload)
@@ -38,6 +38,7 @@ const apis = {
     reScanValue,
     discardValue,
     deleteDatabase,
+    validateDatabase,
 }
 
 export default apis
