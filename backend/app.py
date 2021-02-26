@@ -99,6 +99,15 @@ class DatabasesAvgExecAndQuery(Resource):
         result = connection.execute(query)
         results = [dict(zip(tuple (result.keys()) ,i)) for i in result.cursor]
         return jsonify(results)
+
+class DatabasesQuery(Resource):
+    def get(self):
+        engine = CreateConnectionCoreUser()
+        query = "select count(a.id) as queries ,b.name as db,a.started_at::DATE as date from query_execution a left join metabase_database b on a.database_id = b.id where a.database_id is not null group by database_id,date,b.name order by current_date asc"
+        connection = engine.connect()
+        result = connection.execute(query)
+        results = [dict(zip(tuple (result.keys()) ,i)) for i in result.cursor]
+        return jsonify(results)
         
 
 class Tables(Resource):
@@ -239,6 +248,7 @@ api.add_resource(TableLeastQueried, '/api/audit/tables/leastqueried')
 api.add_resource(SchemaMostQueried, '/api/audit/schemas/mostqueried')
 api.add_resource(SchemaSlowest, '/api/audit/schemas/slowestschema')
 api.add_resource(DatabasesAvgExecAndQuery, '/api/audit/databases/queriesnavgexec')
+api.add_resource(DatabasesQuery, '/api/audit/databases/queries')
 api.add_resource(QuestionsPopularQueries, '/api/audit/questions/popularqueries')
 api.add_resource(QuestionsSlowestQueries, '/api/audit/questions/slowestqueries')
 
