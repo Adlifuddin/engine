@@ -54,7 +54,7 @@ function SideBarSubMenu(){
                 </SubMenu>
 
                 <SubMenu title="Dashboards" icon={<FaBuromobelexperte />}>
-                  <MenuItem>Overview</MenuItem>
+                  <MenuItem>Overview<Link to="/audit/dashboards/overview" /></MenuItem>
                   <MenuItem>All Dashboards<Link to="/audit/dashboards/all" /></MenuItem>
                 </SubMenu>
 

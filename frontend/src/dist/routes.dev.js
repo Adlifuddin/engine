@@ -149,6 +149,12 @@ var routes = [{
   component: _dashboard["default"],
   layout: "/",
   invisible: true
+},{
+  path: "audit/dashboards/overview",
+  name: "Audit-DasboardOverview",
+  component: _dashboard["default"],
+  layout: "/",
+  invisible: true
 }, {
   path: "audit/downloads/all",
   name: "Audit-AllDownload",

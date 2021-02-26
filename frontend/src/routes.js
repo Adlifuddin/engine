@@ -17,6 +17,7 @@ import TableOverview from './components/Audit/Table/TableOverview'
 import SchemaOverview from './components/Audit/Schema/SchemaOverview'
 import DatabaseOverview from './components/Audit/Database/DatabaseOverview'
 import QuestionOverview from './components/Audit/Questions/QuestionOverview'
+import DashboardOverview from './components/Audit/Dashboards/DashboardOverview'
 
 var routes = [
     {
@@ -140,6 +141,13 @@ var routes = [
         path: "audit/questions/overview",
         name: "Audit-QuestionOverview",
         component: QuestionOverview,
+        layout: "/",
+        invisible: true,
+    },
+    {
+        path: "audit/dashboards/overview",
+        name: "Audit-DashboardOverview",
+        component: DashboardOverview,
         layout: "/",
         invisible: true,
     },
