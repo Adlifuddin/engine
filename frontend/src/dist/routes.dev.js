@@ -137,9 +137,21 @@ var routes = [{
   component: _question["default"],
   layout: "/",
   invisible: true
-}, {
+},{
+  path: "audit/questions/overview",
+  name: "Audit-QuestionOverview",
+  component: _QuestionOverview["default"],
+  layout: "/",
+  invisible: true
+},{
   path: "audit/dashboards/all",
   name: "Audit-AllDasboard",
+  component: _dashboard["default"],
+  layout: "/",
+  invisible: true
+},{
+  path: "audit/dashboards/overview",
+  name: "Audit-DasboardOverview",
   component: _dashboard["default"],
   layout: "/",
   invisible: true

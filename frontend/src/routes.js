@@ -16,6 +16,9 @@ import Downloads from './components/Audit/Downloads/download'
 import TableOverview from './components/Audit/Table/TableOverview'
 import SchemaOverview from './components/Audit/Schema/SchemaOverview'
 import DatabaseOverview from './components/Audit/Database/DatabaseOverview'
+import QuestionOverview from './components/Audit/Questions/QuestionOverview'
+import DashboardOverview from './components/Audit/Dashboards/DashboardOverview'
+import DownloadOverview from './components/Audit/Downloads/DownloadOverview'
 
 var routes = [
     {
@@ -136,6 +139,13 @@ var routes = [
         invisible: true,
     },
     {
+        path: "audit/questions/overview",
+        name: "Audit-QuestionOverview",
+        component: QuestionOverview,
+        layout: "/",
+        invisible: true,
+    }, 
+    {
         path: "audit/dashboards/all",
         name: "Audit-AllDasboard",
         component: Dashboards,
@@ -143,9 +153,23 @@ var routes = [
         invisible: true,
     },
     {
+        path: "audit/dashboards/overview",
+        name: "Audit-DashboardOverview",
+        component: DashboardOverview,
+        layout: "/",
+        invisible: true,
+    },
+    {
         path: "audit/downloads/all",
         name: "Audit-AllDownload",
         component: Downloads,
+        layout: "/",
+        invisible: true,
+    },
+    {
+        path: "audit/downloads/overview",
+        name: "Audit-DownloadOverview",
+        component: DownloadOverview,
         layout: "/",
         invisible: true,
     }

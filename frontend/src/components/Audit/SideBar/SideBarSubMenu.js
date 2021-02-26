@@ -44,22 +44,22 @@ function SideBarSubMenu(){
                 </SubMenu>
 
                 <SubMenu title="Tables" icon={<FaTable />}>
-                  <MenuItem active={true}>Overview<Link to="/audit/tables/overview" /></MenuItem>
+                  <MenuItem >Overview<Link to="/audit/tables/overview" /></MenuItem>
                   <MenuItem>All Tables<Link to="/audit/tables/all" /></MenuItem>
                 </SubMenu>
 
                 <SubMenu title="Questions" icon={<FaQuestionCircle />}>
-                  <MenuItem>Overview</MenuItem>
+                  <MenuItem>Overview<Link to="/audit/questions/overview" /></MenuItem>
                   <MenuItem>All Questions<Link to="/audit/questions/all" /></MenuItem>
                 </SubMenu>
 
                 <SubMenu title="Dashboards" icon={<FaBuromobelexperte />}>
-                  <MenuItem>Overview</MenuItem>
+                  <MenuItem>Overview<Link to="/audit/dashboards/overview" /></MenuItem>
                   <MenuItem>All Dashboards<Link to="/audit/dashboards/all" /></MenuItem>
                 </SubMenu>
 
                 <SubMenu title="Downloads" icon={<FiDownload />}>
-                  <MenuItem>Overview</MenuItem>
+                  <MenuItem>Overview<Link to="/audit/downloads/overview" /></MenuItem>
                   <MenuItem>All Downloads<Link to="/audit/downloads/all" /></MenuItem>
                 </SubMenu>
             </div>        

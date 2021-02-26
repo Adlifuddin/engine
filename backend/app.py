@@ -99,6 +99,15 @@ class DatabasesAvgExecAndQuery(Resource):
         result = connection.execute(query)
         results = [dict(zip(tuple (result.keys()) ,i)) for i in result.cursor]
         return jsonify(results)
+
+class DatabasesQuery(Resource):
+    def get(self):
+        engine = CreateConnectionCoreUser()
+        query = "select count(a.id) as queries ,b.name as db,a.started_at::DATE as date from query_execution a left join metabase_database b on a.database_id = b.id where a.database_id is not null group by database_id,date,b.name order by current_date asc"
+        connection = engine.connect()
+        result = connection.execute(query)
+        results = [dict(zip(tuple (result.keys()) ,i)) for i in result.cursor]
+        return jsonify(results)
         
 
 class Tables(Resource):
@@ -174,6 +183,25 @@ class Questions(Resource):
         results = [dict(zip(tuple (result.keys()) ,i)) for i in result.cursor]
         return jsonify(results)
 
+
+class QuestionsPopularQueries(Resource):
+    def get(self):
+        engine = CreateConnectionCoreUser()
+        query = "select b.name as card, count(a.id) as executions from query_execution a left join report_card b on a.card_id = b.id where a.card_id is not null and b.id is not null group by b.name order by executions desc limit 10"
+        connection = engine.connect()
+        result = connection.execute(query)
+        results = [dict(zip(tuple (result.keys()) ,i)) for i in result.cursor]
+        return jsonify(results)
+
+class QuestionsSlowestQueries(Resource):
+    def get(self):
+        engine = CreateConnectionCoreUser()
+        query = "select b.name as card, avg(a.running_time)::numeric(10,2) as avgrunningtime from query_execution a left join report_card b on a.card_id = b.id where a.card_id is not null and b.id is not null group by b.name order by avgrunningtime desc limit 10"
+        connection = engine.connect()
+        result = connection.execute(query)
+        results = [dict(zip(tuple (result.keys()) ,i)) for i in result.cursor]
+        return jsonify(results)
+
 class Dashboards(Resource):
     def get(self):
         engine = CreateConnectionCoreUser()
@@ -182,6 +210,16 @@ class Dashboards(Resource):
         result = connection.execute(query)
         results = [dict(zip(tuple (result.keys()) ,i)) for i in result.cursor]
         return jsonify(results)
+
+class DashboardsMostPopular(Resource):
+    def get(self):
+        engine = CreateConnectionCoreUser()
+        query = "select count(distinct a.id) as views, b.name as dashboard, avg(distinct d.running_time)::numeric(10,2) as avgrunningtime from view_log a left join report_dashboard b on a.model_id = b.id left join report_dashboardcard c on a.model_id = c.card_id left join query_execution d on c.card_id = d.card_id where a.model_id is not null and b.id is not null and c.card_id is not null group by b.name order by views desc limit 10"
+        connection = engine.connect()
+        result = connection.execute(query)
+        results = [dict(zip(tuple (result.keys()) ,i)) for i in result.cursor]
+        return jsonify(results)       
+
 
 class AuditLog(Resource):
     def get(self):
@@ -220,12 +258,10 @@ api.add_resource(TableLeastQueried, '/api/audit/tables/leastqueried')
 api.add_resource(SchemaMostQueried, '/api/audit/schemas/mostqueried')
 api.add_resource(SchemaSlowest, '/api/audit/schemas/slowestschema')
 api.add_resource(DatabasesAvgExecAndQuery, '/api/audit/databases/queriesnavgexec')
-
-
-
-
-
-
+api.add_resource(DatabasesQuery, '/api/audit/databases/queries')
+api.add_resource(QuestionsPopularQueries, '/api/audit/questions/popularqueries')
+api.add_resource(QuestionsSlowestQueries, '/api/audit/questions/slowestqueries')
+api.add_resource(DashboardsMostPopular, '/api/audit/dashboards/mostpopular')
 
 
 if __name__ == '__main__':
