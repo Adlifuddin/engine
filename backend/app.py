@@ -5,9 +5,9 @@ import sqlalchemy as db
 from flask_cors import CORS 
 from json import dumps
 from flask_jsonpify import jsonify
-from .serializer import *
-from .connection import CreateConnectionCoreUser
-from .settings import *
+from serializer import *
+from connection import CreateConnectionCoreUser
+from settings import *
 import json
 
 app = Flask(__name__)
@@ -174,6 +174,25 @@ class Questions(Resource):
         results = [dict(zip(tuple (result.keys()) ,i)) for i in result.cursor]
         return jsonify(results)
 
+
+class QuestionsPopularQueries(Resource):
+    def get(self):
+        engine = CreateConnectionCoreUser()
+        query = "select b.name as card, count(a.id) as executions from query_execution a left join report_card b on a.card_id = b.id where a.card_id is not null and b.id is not null group by b.name order by executions desc limit 10"
+        connection = engine.connect()
+        result = connection.execute(query)
+        results = [dict(zip(tuple (result.keys()) ,i)) for i in result.cursor]
+        return jsonify(results)
+
+class QuestionsSlowestQueries(Resource):
+    def get(self):
+        engine = CreateConnectionCoreUser()
+        query = "select b.name as card, avg(a.running_time)::numeric(10,2) as avgrunningtime from query_execution a left join report_card b on a.card_id = b.id where a.card_id is not null and b.id is not null group by b.name order by avgrunningtime desc limit 10"
+        connection = engine.connect()
+        result = connection.execute(query)
+        results = [dict(zip(tuple (result.keys()) ,i)) for i in result.cursor]
+        return jsonify(results)
+
 class Dashboards(Resource):
     def get(self):
         engine = CreateConnectionCoreUser()
@@ -220,11 +239,8 @@ api.add_resource(TableLeastQueried, '/api/audit/tables/leastqueried')
 api.add_resource(SchemaMostQueried, '/api/audit/schemas/mostqueried')
 api.add_resource(SchemaSlowest, '/api/audit/schemas/slowestschema')
 api.add_resource(DatabasesAvgExecAndQuery, '/api/audit/databases/queriesnavgexec')
-
-
-
-
-
+api.add_resource(QuestionsPopularQueries, '/api/audit/questions/popularqueries')
+api.add_resource(QuestionsSlowestQueries, '/api/audit/questions/slowestqueries')
 
 
 
