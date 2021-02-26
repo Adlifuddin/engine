@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import {Card, CardBody, Row, Col} from 'reactstrap'
-import { Form , Tabs, Tab} from 'react-bootstrap'
+import { Form } from 'react-bootstrap'
 import Breadcrumbs from './components/Breadcrumb'
 import FormComponent from './components/FormComponent'
 import FormFooter from './components/FormFooter'
@@ -9,6 +9,7 @@ import SchedulingTab from './components/SchedulingTab'
 import Scheduling from './components/Scheduling'
 
 function H2(props) {
+    const [key, changeKey] = useState("0")
 const { status,
         errorInput,
         inputting,
@@ -40,7 +41,8 @@ const { status,
         changeOriChange,
         time,
         page,
-        setPage} = props
+        setPage,
+        parseScheduling,} = props
     const [connection, setConnection] = useState(false)
 
     useEffect(() => {
@@ -91,17 +93,28 @@ const { status,
         }
 
         if (page) {
-            api.createDatabase(data)
+            const datas = parseScheduling(data)
+ 
+            if (key === '1') {
+                datas["is_full_sync"] = false
+                datas["is_on_demand"] = true
+            } else if (key === '2') {
+                datas["is_full_sync"] = false
+                datas["is_on_demand"] = false
+            }
+
+            api.createDatabase(datas)
                 .then(response => {
                     window.location.href = '/database'
                     console.log(response)
-                }) 
+
+                })
                 .catch(error => {
                     console.log(error)
                 })
         }
     }
-    
+
     return (
             <Card style={{margin: '20px'}}>
                 <Breadcrumbs b={b} />
@@ -111,6 +124,7 @@ const { status,
                         <Col md="8">
                             {page?
                                 <Scheduling
+                                    changeKey={changeKey}
                                     filterChange={filterChange}
                                     filterTime={filterTime}
                                     filterDate={filterDate}
@@ -133,6 +147,7 @@ const { status,
                                 :
                                 connection && status !== 'add' ?
                                 <SchedulingTab
+                                    changeKey={changeKey}
                                     filterChange={filterChange}
                                     filterTime={filterTime}
                                     filterDate={filterDate}

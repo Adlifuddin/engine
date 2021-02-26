@@ -10,11 +10,14 @@ import api from '../../../api/metabaseApi'
 import Scheduling from './components/Scheduling'
 
 function MongoDB(props) {
-    const [statuses, setStatuses] = useState("fill")
+    const [statuses, setStatuses] = useState(false)
     const [sslCertificate, setSslCertificate] = useState(false)
+    const [key, changeKey] = useState("0")
 
     const {
-        page, 
+        page,
+        parseTunneling,
+        parseScheduling,
         setPage,
         errorInput,
         status,
@@ -81,27 +84,42 @@ function MongoDB(props) {
         }
         
     }, [sslSwitch])
-    
-    const click = input => e => {
-        setStatuses(input)
-    }
 
     const submit = (e) => {
         e.preventDefault()
-
         let data = {
-                // "auto_run_queries": autoRunQueries,
-                // "details": {
-                //     "let-user-control-scheduling": userControlScheduling,
-                //     "db": db,
-                // },
-                // "engine": engine,
-                // "is_full_sync": true,
-                // "is_on_demand": false,
-                // "name": name
+            "auto_run_queries": autoRunQueries,
+                "details": {
+                    "use-connection-uri": statuses,
+                    "let-user-control-scheduling": userControlScheduling,
+                    "tunnel-enabled": sshTunnel,
+                },
+                    "engine": engine,
+                    "is_full_sync": true,
+                    "is_on_demand": false,
+                    "name": name,
+        }
+        if (!statuses) {
+            data.details["use-srv"] = dnsSRV
+            data.details["user"] = username
+            data.details["additional-options"] = db
+            data.details["authdb"] = authDatabase
+            data.details["dbname"] = dbname
+            data.details["host"] = host
+            data.details["pass"] = password     
+            data.details["port"] = port
+            data.details["ssl"] = sslSwitch
+            if (sslSwitch) {
+                data.details["ssl-cert"] = sslCert
             }
-        if (data.details["let-user-control-scheduling"]) {
-            const validate = { "details": data }
+        } else {
+            data.details["conn-uri"] = db
+        }
+
+        const file = parseTunneling(data)
+        
+        if (file.details["let-user-control-scheduling"]) {
+            const validate = { "details": file }
             api.validateDatabase(validate)
                 .then(response => {
                     if (response.data.valid) {
@@ -115,7 +133,7 @@ function MongoDB(props) {
                     console.log(error)
                 })
         } else {
-            api.createDatabase(data)
+            api.createDatabase(file)
                 .then(response => {
                     window.location.href = '/database'
                     console.log(response)
@@ -126,11 +144,21 @@ function MongoDB(props) {
         }
 
         if (page) {
-            api.createDatabase(data)
+            const datas = parseScheduling(file)
+ 
+            if (key === '1') {
+                datas["is_full_sync"] = false
+                datas["is_on_demand"] = true
+            } else if (key === '2') {
+                datas["is_full_sync"] = false
+                datas["is_on_demand"] = false
+            }
+
+            api.createDatabase(datas)
                 .then(response => {
                     window.location.href = '/database'
                     console.log(response)
-                }) 
+                })
                 .catch(error => {
                     console.log(error)
                 })
@@ -154,14 +182,14 @@ function MongoDB(props) {
     }
 
     let stats
-    if (statuses === "paste") {
+    if (statuses) {
         stats = (
             <>
-                <a href="#" onClick={click("fill")}>Fill out individual fields</a>
+                <a href="#" onClick={() => setStatuses(!statuses)}>Fill out individual fields</a>
                 <Form.Group controlId="formBasicConnectionString">
                     <Form.Label>Paste your connection string</Form.Label>
                     <Form.Control
-                        type="text"
+                        type="password"
                         placeholder="mongodb://[username:password@]host1[:port1][,...hostN[:portN]][/[defaultauthdb][?options]]"
                         value={db}
                         onChange={inputting("db")}
@@ -169,10 +197,10 @@ function MongoDB(props) {
                 </Form.Group>
             </>
         )
-    } else if(statuses === "fill") {
+    } else {
         stats = (
             <>
-                <a href="#" onClick={click("paste")}>Paste a connection String</a>
+                <a href="#" onClick={() => setStatuses(!statuses)}>Paste a connection String</a>
                 <Form.Group controlId="formBasicHost">
                     <Form.Label>Host</Form.Label>
                     <Form.Control
@@ -286,6 +314,7 @@ function MongoDB(props) {
                         <Col md="8">
                             {page?
                                 <Scheduling
+                                    changeKey={changeKey}
                                     filterChange={filterChange}
                                     filterTime={filterTime}
                                     filterDate={filterDate}
@@ -308,6 +337,7 @@ function MongoDB(props) {
                                 :
                             connection && status !== 'add' ?
                                 <SchedulingTab
+                                    changeKey={changeKey}
                                     filterChange={filterChange}
                                     filterTime={filterTime}
                                     filterDate={filterDate}

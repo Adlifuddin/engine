@@ -9,9 +9,10 @@ import api from '../../../api/metabaseApi'
 import Scheduling from './components/Scheduling'
 
 function BigQuery(props) {
-    const { inputting,
+const { inputting,
         errorInput,
         page,
+        parseScheduling,
         setPage,
         status,
         engine,
@@ -42,9 +43,12 @@ function BigQuery(props) {
         onTheChange,
         oriChange,
         changeOriChange,
-        time, } = props
+        time,
+        jsonProcess,
+        } = props
     
     const [connection, setConnection] = useState(false)
+    const [key, changeKey] = useState("0")
    
 
     useEffect(() => {
@@ -59,15 +63,18 @@ function BigQuery(props) {
         e.preventDefault()
 
         let data = {
-                // "auto_run_queries": autoRunQueries,
-                // "details": {
-                //     "let-user-control-scheduling": userControlScheduling,
-                //     "db": db,
-                // },
-                // "engine": engine,
-                // "is_full_sync": true,
-                // "is_on_demand": false,
-                // "name": name
+                "auto_run_queries": autoRunQueries,
+                "details": {
+                    "let-user-control-scheduling": userControlScheduling,
+                    "dataset-id": datasetId,
+                    "use-jvm-timezone": jvmTimezone,
+                    "use-service-account": null,
+                    "service-account-json": json
+                },
+                "engine": engine,
+                "is_full_sync": true,
+                "is_on_demand": false,
+                "name": name
             }
         if (data.details["let-user-control-scheduling"]) {
             const validate = { "details": data }
@@ -95,7 +102,17 @@ function BigQuery(props) {
         }
 
         if (page) {
-            api.createDatabase(data)
+           const datas = parseScheduling(data)
+ 
+            if (key === '1') {
+                datas["is_full_sync"] = false
+                datas["is_on_demand"] = true
+            } else if (key === '2') {
+                datas["is_full_sync"] = false
+                datas["is_on_demand"] = false
+            }
+
+            api.createDatabase(datas)
                 .then(response => {
                     window.location.href = '/database'
                     console.log(response)
@@ -106,8 +123,6 @@ function BigQuery(props) {
         }
     }
 
-    
-
     return (
             <Card style={{margin: '20px'}}>
                 <Breadcrumbs b={b} />
@@ -117,6 +132,7 @@ function BigQuery(props) {
                         <Col md="8">
                             {page?
                                 <Scheduling
+                                    changeKey={changeKey}
                                     filterChange={filterChange}
                                     filterTime={filterTime}
                                     filterDate={filterDate}
@@ -139,6 +155,7 @@ function BigQuery(props) {
                                 :
                                 connection && status !== 'add' ?
                                 <SchedulingTab
+                                    changeKey={changeKey}
                                     filterChange={filterChange}
                                     filterTime={filterTime}
                                     filterDate={filterDate}
@@ -174,7 +191,7 @@ function BigQuery(props) {
                                         <Form.Control
                                             type="file"
                                             placeholder="5439"
-                                            value={json}
+                                            onChange={jsonProcess}
                                         />
                                     </Form.Group>
                                     <Form.Group controlId="jvm-timezone">
@@ -215,7 +232,7 @@ function BigQuery(props) {
                                         <Form.Control
                                             type="file"
                                             placeholder="5439"
-                                            value={json}
+                                            onChange={jsonProcess}
                                         />
                                     </Form.Group>
                                     <Form.Group controlId="jvm-timezone">

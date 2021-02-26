@@ -10,6 +10,7 @@ import Scheduling from './components/Scheduling'
 import api from '../../../api/metabaseApi'
 
 function Presto(props) {
+    const [key, changeKey] = useState("0")
 const { inputting,
         status,
         engine,
@@ -53,7 +54,9 @@ const { inputting,
         time,
         page, 
         setPage,
-        errorInput,} = props
+        errorInput,
+        parseScheduling,
+        parseTunneling} = props
     
     const [connection, setConnection] = useState(false)
    
@@ -70,18 +73,27 @@ const { inputting,
         e.preventDefault()
 
         let data = {
-                // "auto_run_queries": autoRunQueries,
-                // "details": {
-                //     "let-user-control-scheduling": userControlScheduling,
-                //     "db": db,
-                // },
-                // "engine": engine,
-                // "is_full_sync": true,
-                // "is_on_demand": false,
-                // "name": name
-            }
-        if (data.details["let-user-control-scheduling"]) {
-            const validate = { "details": data }
+                "auto_run_queries": autoRunQueries,
+                "details": {
+                    "catalog": dbname,
+                    "host": host,
+                    "let-user-control-scheduling": userControlScheduling,
+                    "password": password,
+                    "port": port,
+                    "ssl": sslSwitch,
+                    "user": username,
+                    "tunnel-enabled": sshTunnel,
+                },
+                "engine": engine,
+                "is_full_sync": true,
+                "is_on_demand": false,
+                "name": name,
+        }
+
+        const file = parseTunneling(data)
+        
+        if (file.details["let-user-control-scheduling"]) {
+            const validate = { "details": file }
             api.validateDatabase(validate)
                 .then(response => {
                     if (response.data.valid) {
@@ -95,7 +107,7 @@ const { inputting,
                     console.log(error)
                 })
         } else {
-            api.createDatabase(data)
+            api.createDatabase(file)
                 .then(response => {
                     window.location.href = '/database'
                     console.log(response)
@@ -106,7 +118,17 @@ const { inputting,
         }
 
         if (page) {
-            api.createDatabase(data)
+            const datas = parseScheduling(file)
+ 
+            if (key === '1') {
+                datas["is_full_sync"] = false
+                datas["is_on_demand"] = true
+            } else if (key === '2') {
+                datas["is_full_sync"] = false
+                datas["is_on_demand"] = false
+            }
+
+            api.createDatabase(datas)
                 .then(response => {
                     window.location.href = '/database'
                     console.log(response)
@@ -120,12 +142,13 @@ const { inputting,
     return (
          <Card style={{margin: '20px'}}>
                 <Breadcrumbs b={b} />
-            <Form>
+            <Form onClick={submit}>
                 <CardBody>
                     <Row>
                         <Col md="8">
                             {page?
                                 <Scheduling
+                                    changeKey={changeKey}
                                     filterChange={filterChange}
                                     filterTime={filterTime}
                                     filterDate={filterDate}
@@ -149,6 +172,7 @@ const { inputting,
                             connection && status !== 'add' ?
                                 <SchedulingTab
                                     filterChange={filterChange}
+                                    changeKey={changeKey}
                                     filterTime={filterTime}
                                     filterDate={filterDate}
                                     filterTimeChanges={filterTimeChanges}

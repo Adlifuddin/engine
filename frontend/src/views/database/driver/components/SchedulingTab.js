@@ -5,7 +5,7 @@ import {  Tab, Tabs} from 'react-bootstrap'
 function SchedulingTab(props) {
     const [keys, setKeys] = useState('connection');
     const { filterChange,
-            setKey,
+            changeKey,
             filterTime,
             filterDate,
             filterTimeChanges,
@@ -36,7 +36,7 @@ function SchedulingTab(props) {
             </Tab>
             <Tab eventKey="schedule" title="Scheduling">
                 <Scheduling
-                    setKey={setKey}
+                    changeKey={changeKey}
                     filterChange={filterChange}
                     filterTime={filterTime}
                     filterDate={filterDate}

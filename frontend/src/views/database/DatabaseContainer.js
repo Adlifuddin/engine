@@ -2,11 +2,10 @@
 
 import React, {useEffect, useState} from 'react'
 import { Card, Row, Modal, ModalHeader, ModalBody, Col, ModalFooter } from 'reactstrap'
-import { Button, Spinner, Navbar, Nav } from 'react-bootstrap'
+import { Button, Spinner } from 'react-bootstrap'
 import api from '../../api/metabaseApi'
 import { TiTick } from 'react-icons/ti'
 import DatabaseDriver from './components/DatabaseDriver'
-import Scheduling from './driver/components/Scheduling'
 
 function DatabaseContainer(props) {
     const { status } = props
@@ -23,7 +22,7 @@ function DatabaseContainer(props) {
     const [databaseData, setDatabaseData] = useState([])
     const [sslSwitch, setSSLSwitch] = useState(false);
     const [sshTunnel, setSSHTunnel] = useState(false);
-    const [autoRunQueries, setAutoRunQueries] = useState(false);
+    const [autoRunQueries, setAutoRunQueries] = useState(true);
     const [userControlScheduling, setUserControlScheduling] = useState(false);
     const [name, setName] = useState("")
     const [host, setHost] = useState("")
@@ -70,6 +69,21 @@ function DatabaseContainer(props) {
     const [oriChange, setOriChange] = useState('mon')
     const [page, setPage] = useState(false)
 
+    const parseTiming = (data) => {
+        setChanges(data.metadata_sync['schedule_type'])
+        setTime(data.metadata_sync['schedule_hour'])
+        setDay('am')
+        if (data.metadata_sync['schedule_hour'] === 12) {
+            setDay('pm')
+        }
+        if (data.metadata_sync['schedule_hour'] > 12) {
+            setDay('pm')
+            const times = data.metadata_sync['schedule_hour'] - 12
+            setTime(times)
+        }
+        console.log(data)
+    }
+
     useEffect(() => {
         if (status !== 'add') {
             api.databaseListID(status)
@@ -81,6 +95,22 @@ function DatabaseContainer(props) {
                         setDatabaseData(data)
                         setAutoRunQueries(data.auto_run_queries)
                         setUserControlScheduling(data.details["let-user-control-scheduling"])
+                        if (data.details['tunnel-enabled']) {
+                            setTunnelHost(data.details["tunnel-host"])
+                            setTunnelPort(data.details["tunnel-port"])
+                            setTunnelUser(data.details["tunnel-user"])
+                            setSSHAuth(data.details["tunnel-auth-option"])
+                            setSSHTunnel(data.details['tunnel-enabled'])
+                            if (data.details["tunnel-auth-option"] === 'password') {
+                                setTunnelPassword(data.details["tunnel-pass"])
+                            } else if (data.details["tunnel-auth-option"] === 'ssh-key') {
+                                setTunnelPrivateKey(data.details["tunnel-private-key"])
+                                setTunnelPassword(data.details["tunnel-private-key-passphrase"])
+                            }
+                        }
+                        if (data.schedules) {
+                            parseTiming(data.schedules)
+                        }
                         switch (data.engine) {
                             case "h2":
                                 setDB(data.details.db)
@@ -89,63 +119,36 @@ function DatabaseContainer(props) {
                                 setDB(data.details.db)
                                 break;
                             case "bigquery":
-                                setJvmTimezone()
-                                setDatasetId()
-                                setJSON()
+                                setJvmTimezone(data.details["use-jvm-timezone"])
+                                setDatasetId(data.details["dataset-id"])
+                                setJSON(data.details["service-account-json"])
                                 break;
-                            case "druid":                
+                            case "druid":
                                 setHost(data.details.host)
                                 setPort(data.details.port)
-                                setSSHTunnel(data.details['tunnel-enabled'])
-                                if (data.details['tunnel-enabled']) {
-                                    setTunnelHost()
-                                    setTunnelPort()
-                                    setTunnelUser()
-                                    setSSHAuth()
-                                    setTunnelPrivateKey()
-                                    setTunnelPassword()
-                                }
                                 break;
                             case "googleanalytics":
-                                setGaAccountID()
-                                setGaClientID()
-                                setGaSecret()
-                                setAuthCode()
+                                setGaAccountID(data.details["account-id"])
+                                setGaClientID(data.details["client-id"])
+                                setGaSecret(data.details["client-secret"])
+                                setAuthCode(data.details["auth-code"])
                                 break;
                             case 'mongo':
                                 setDB(data.details.db)
-                                setAuthDatabase()
+                                setAuthDatabase(data.details["authdb"])
                                 setHost(data.details.host)
                                 setPort(data.details.port)
                                 setDbName(data.details.dbname)
                                 setUsername(data.details.user)
                                 setPassword(data.details.password)
-                                setDnsSRV()
+                                setDnsSRV(data.details["use-srv"])
                                 setSSLSwitch(data.details.ssl)
                                 if (data.details.ssl) {
-                                    setSSLCert()
-                                }
-                                setSSHTunnel(data.details['tunnel-enabled'])
-                                if (data.details['tunnel-enabled']) {
-                                    setTunnelHost()
-                                    setTunnelPort()
-                                    setTunnelUser()
-                                    setSSHAuth()
-                                    setTunnelPrivateKey()
-                                    setTunnelPassword()
+                                    setSSLCert(data.details["ssl-cert"])
                                 }
                                 break;
                             case 'presto', 'redshift':
                                 setSSLSwitch(data.details.ssl)
-                                setSSHTunnel(data.details['tunnel-enabled'])
-                                if (data.details['tunnel-enabled']) {
-                                    setTunnelHost()
-                                    setTunnelPort()
-                                    setTunnelUser()
-                                    setSSHAuth()
-                                    setTunnelPrivateKey()
-                                    setTunnelPassword()
-                                }
                                 setHost(data.details.host)
                                 setPort(data.details.port)
                                 setDbName(data.details.dbname)
@@ -156,21 +159,12 @@ function DatabaseContainer(props) {
                                 setDbName(data.details.dbname)
                                 setUsername(data.details.user)
                                 setPassword(data.details.password)
-                                setWarehouse()
-                                setSchema()
-                                setAccount()
-                                setRegion()
-                                setRole()
+                                setWarehouse(data.details.warehouse)
+                                setSchema(data.details.schema)
+                                setAccount(data.details.account)
+                                setRegion(data.details.regionid)
+                                setRole(data.details.role)
                                 setJDBC(data.details["additional-options"])
-                                setSSHTunnel(data.details['tunnel-enabled'])
-                                if (data.details['tunnel-enabled']) {
-                                    setTunnelHost()
-                                    setTunnelPort()
-                                    setTunnelUser()
-                                    setSSHAuth()
-                                    setTunnelPrivateKey()
-                                    setTunnelPassword()
-                                }
                                 break;
                             case 'sparksql':
                                 setHost(data.details.host)
@@ -181,34 +175,16 @@ function DatabaseContainer(props) {
                                 setJDBC(data.details["additional-options"])
                             case "sqlserver":
                                 setSSLSwitch(data.details.ssl)
-                                setSSHTunnel(data.details['tunnel-enabled'])
-                                if (data.details['tunnel-enabled']) {
-                                    setTunnelHost()
-                                    setTunnelPort()
-                                    setTunnelUser()
-                                    setSSHAuth()
-                                    setTunnelPrivateKey()
-                                    setTunnelPassword()
-                                }
                                 setHost(data.details.host)
                                 setPort(data.details.port)
                                 setDbName(data.details.dbname)
                                 setUsername(data.details.user)
                                 setPassword(data.details.password)
                                 setJDBC(data.details["additional-options"])
-                                setDbInstanceName()
+                                setDbInstanceName(data.details["instance"])
                             default:
                                 setJDBC(data.details["additional-options"])
                                 setSSLSwitch(data.details.ssl)
-                                setSSHTunnel(data.details['tunnel-enabled'])
-                                if (data.details['tunnel-enabled']) {
-                                    setTunnelHost()
-                                    setTunnelPort()
-                                    setTunnelUser()
-                                    setSSHAuth()
-                                    setTunnelPrivateKey()
-                                    setTunnelPassword()
-                                }
                                 setHost(data.details.host)
                                 setPort(data.details.port)
                                 setDbName(data.details.dbname)
@@ -331,11 +307,14 @@ function DatabaseContainer(props) {
             case "sslCert":
                 setSSLCert(e.target.value)
                 break;
+            case "authDatabase":
+                setAuthDatabase(e.target.value)
+                break;
             default:
                 break;
         }
     }
-    
+
     const errorInput = (errors) => {
         setError(errors)
         window.setTimeout(() => {
@@ -457,8 +436,6 @@ function DatabaseContainer(props) {
                 .catch(error => {
                     console.log(error)
                 })
-        } else {
-
         }
     }
 
@@ -625,9 +602,184 @@ function DatabaseContainer(props) {
         setOriChange(e.target.value)
     }
 
+    const jsonProcess = (event) => {
+        var reader = new FileReader();
+        reader.onload = onReaderLoad;
+        reader.readAsText(event.target.files[0]);
+    }
+
+    function onReaderLoad(event) {
+        const obj = JSON.parse(JSON.stringify(event.target.result));
+        setJSON(obj)
+    }
+
+    const parseScheduling = (data) => {
+        let times
+        let digits
+        if (changes === 'hourly') {
+            times = null
+            digits = "*"
+        } else {
+            times = parseInt(time)
+            digits = time
+        }
+
+        let days
+        let frame
+        if (filterChange === 'daily') {
+            days = null
+            frame = null
+        } else if (filterChange === 'weekly') {
+            days = oriChange
+            frame = null
+        } else if (filterChange === 'monthly') {
+            if (onTheChange === "Calendar Day") {
+                days = null
+            } else {
+                days = onTheChange
+            }
+            frame = onThe
+        }
+
+        let filterTimes
+
+        if (filterDate === 'pm' ) {
+            filterTimes = parseInt(filterTime) + 12
+        } else if (filterDate === 'am') {
+            filterTimes = parseInt(filterTime)
+        }
+
+        if (day === 'pm') {
+            times = parseInt(time) + 12
+            digits = parseInt(time) + 12
+        } else {
+            times = parseInt(time)
+            digits = parseInt(time)
+        }
+        
+        data["schedules"] = {
+                "cache_field_values": {
+                    "schedule_day": days,
+                    "schedule_frame": frame,
+                    "schedule_hour": filterTimes,
+                    "schedule_type": filterChange,
+                },
+                "metadata_sync": {
+                    "schedule_day": null,
+                    "schedule_frame": null,
+                    "schedule_hour": times,
+                    "schedule_type": changes
+                }
+        }
+
+        let filterdates
+        switch (oriChange) {
+            case "sun":
+                filterdates = 1
+                break;
+            case "mon":
+                filterdates = 2
+                break;
+            case "tue":
+                filterdates = 3
+                break;
+            case "wed":
+                filterdates = 4
+                break;
+            case "thu":
+                filterdates = 5
+                break;
+            case "fri":
+                filterdates = 6
+                break;
+            case "sat":
+                filterdates = 7
+                break;
+            default:
+                break;
+        }
+
+        let onTheDates
+        switch (onTheChange) {
+            case "sun":
+                onTheDates = 1
+                break;
+            case "mon":
+                onTheDates = 2
+                break;
+            case "tue":
+                onTheDates = 3
+                break;
+            case "wed":
+                onTheDates = 4
+                break;
+            case "thu":
+                onTheDates = 5
+                break;
+            case "fri":
+                onTheDates = 6
+                break;
+            case "sat":
+                onTheDates = 7
+                break;
+            case "Calendar Day":
+                onTheDates = null
+            default:
+                break;
+        }
+
+        if (filterChange === 'daily') {
+            data["cache_field_values_schedule"] = `0 0 ${filterTimes} * * ? *`
+        } else if (filterChange === 'weekly') {
+            data["cache_field_values_schedule"] = `0 0 ${filterTimes} ? * ${filterdates} *`
+        } else if (filterChange === 'monthly') {
+            if (onTheChange === "Calendar Day") {
+                if (onThe === 'first') {
+                    data["cache_field_values_schedule"] = `0 0 ${filterTimes} 1 * ? *`
+                } else if (onThe === 'last') {
+                    data["cache_field_values_schedule"] = `0 0 ${filterTimes} L * ? *`
+                } 
+            }
+            if (onThe === 'first' && onTheChange !== "Calendar Day") {
+                data["cache_field_values_schedule"] = `0 0 ${filterTimes} ? * ${onTheDates}#1 *`
+            } else if (onThe === 'last' && onTheChange !== "Calendar Day") {
+                data["cache_field_values_schedule"] = `0 0 ${filterTimes} ? * ${onTheDates}L *`
+            } else if (onThe === 'mid') {
+                data["cache_field_values_schedule"] = `0 0 ${filterTimes} 15 * ? *`
+            } 
+        }
+
+        data["metadata_sync_schedule"] = `0 0 ${digits} * * ? *`
+
+
+
+        return data
+    }
+
+    const parseTunneling = (data) => {
+        if (sshTunnel) {
+            data.details["tunnel-port"]= tunnelPort
+            data.details["tunnel-user"] = tunnelUser
+            data.details["tunnel-auth-option"] = sshAuth
+            data.details["tunnel-enabled"]= sshTunnel
+            data.details["tunnel-host"]= tunnelHost
+            if (sshAuth === "ssh-key") {
+                data.details["tunnel-private-key"]= tunnelPrivateKey
+                data.details["tunnel-private-key-passphrase"]= tunnelPassword
+            } else if (sshAuth === "password") {
+                data.details["tunnel-pass"] = tunnelPassword
+            }
+        }
+
+        return data
+    }
+
     return (
         <>
             <DatabaseDriver
+                jsonProcess={jsonProcess}
+                parseTunneling={parseTunneling}
+                parseScheduling={parseScheduling}
                 errorInput={errorInput}
                 inputting={inputting}
                 engine={engine}

@@ -10,9 +10,13 @@ import SchedulingTab from './components/SchedulingTab'
 import Scheduling from './components/Scheduling'
 
 function MySQL(props) {
+    const [key, changeKey] = useState("0")
+
 const { status,
         page,
         setPage,
+        parseScheduling,
+        parseTunneling,
         errorInput,
         inputting,
         engine,
@@ -70,9 +74,7 @@ const { status,
     const submit = (e) => {
         e.preventDefault()
             
-        let data 
-        if (sshTunnel === false) {
-            data = {
+        let data = {
                 "auto_run_queries": autoRunQueries,
                 "details": {
                     "additional-options": jdbc,
@@ -82,67 +84,19 @@ const { status,
                     "password": password,
                     "port": port,
                     "ssl": sslSwitch,
-                    "user": username
+                    "user": username,
+                    "tunnel-enabled": sshTunnel
                 },
                 "engine": engine,
                 "is_full_sync": true,
                 "is_on_demand": false,
                 "name": name
-            }
-            
-        } else if (sshAuth === "ssh-key") {
-            data = {
-                "auto_run_queries": autoRunQueries,
-                "details": {
-                    "additional-options": jdbc,
-                    "dbname": dbname,
-                    "host": host,
-                    "let-user-control-scheduling": userControlScheduling,
-                    "password": password,
-                    "port": port,
-                    "ssl": sslSwitch,
-                    "tunnel-auth-option": sshAuth,
-                    "tunnel-enabled": sshTunnel,
-                    "tunnel-host": tunnelHost,
-                    "tunnel-private-key": tunnelPrivateKey,
-                    "tunnel-private-key-passphrase": tunnelPassword,
-                    "tunnel-port": tunnelPort,
-                    "tunnel-user": tunnelUser,
-                    "user": username
-                },
-                "engine": engine,
-                "is_full_sync": true,
-                "is_on_demand": false,
-                "name": name
-            }
-            
-        } else if (sshAuth === "password") {
-            data = {
-                "auto_run_queries": autoRunQueries,
-                "details": {
-                    "additional-options": jdbc,
-                    "dbname": dbname,
-                    "host": host,
-                    "let-user-control-scheduling": userControlScheduling,
-                    "password": password,
-                    "port": port,
-                    "ssl": sslSwitch,
-                    "tunnel-auth-option": sshAuth,
-                    "tunnel-enabled": sshTunnel,
-                    "tunnel-host": tunnelHost,
-                    "tunnel-pass": tunnelPassword,
-                    "tunnel-port": tunnelPort,
-                    "tunnel-user": tunnelUser,
-                    "user": username
-                },
-                "engine": engine,
-                "is_full_sync": true,
-                "is_on_demand": false,
-                "name": name
-            }
         }
-        if (data.details["let-user-control-scheduling"]) { 
-            const validate = {"details": data}
+        
+        const file = parseTunneling(data)
+        
+        if (file.details["let-user-control-scheduling"]) { 
+            const validate = {"details": file}
             api.validateDatabase(validate)
                 .then(response => {
                     if (response.data.valid) {
@@ -156,7 +110,7 @@ const { status,
                     console.log(error)
                 })
         } else {
-            api.createDatabase(data)
+            api.createDatabase(file)
                 .then(response => {
                     window.location.href = '/database'
                     console.log(response)
@@ -167,7 +121,17 @@ const { status,
         }
 
         if (page) {
-            api.createDatabase(data)
+            const datas = parseScheduling(file)
+ 
+            if (key === '1') {
+                datas["is_full_sync"] = false
+                datas["is_on_demand"] = true
+            } else if (key === '2') {
+                datas["is_full_sync"] = false
+                datas["is_on_demand"] = false
+            }
+
+            api.createDatabase(datas)
                 .then(response => {
                     window.location.href = '/database'
                     console.log(response)
@@ -185,8 +149,9 @@ const { status,
                 <CardBody>
                     <Row>
                         <Col md="8">
-                            {page?
+                            {page ?
                                 <Scheduling
+                                    changeKey={changeKey}
                                     filterChange={filterChange}
                                     filterTime={filterTime}
                                     filterDate={filterDate}
@@ -207,8 +172,9 @@ const { status,
                                     changeOriChange={changeOriChange}
                                 />
                                 :
-                            connection && status !== 'add' ?
+                                connection && status !== 'add' ?
                                 <SchedulingTab
+                                    changeKey={changeKey}
                                     filterChange={filterChange}
                                     filterTime={filterTime}
                                     filterDate={filterDate}

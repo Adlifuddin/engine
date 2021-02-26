@@ -20,8 +20,6 @@ function App() {
             console.log(error)
         })
     }
-    
-    
   }, [false])
 
   return (

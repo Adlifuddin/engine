@@ -1,18 +1,32 @@
-import React, { useState } from 'react'
-import { Form, Accordion, Card  } from 'react-bootstrap'
+import React, { useState, useContext } from 'react'
+import { Form, Accordion, Card, useAccordionToggle, AccordionContext, Button  } from 'react-bootstrap'
 import ScheduleTime from './ScheduleTime'
 import ScheduleTimeFilter from './ScheduleTimeFilter'
-import {TiTickOutline} from 'react-icons/ti'
+import { TiTickOutline } from 'react-icons/ti'
 
 function Scheduling(props) {
-    const [keys, setKeys] = useState('0')
-    
-    const { setKey, changes, time, day, onChanges, onDayChange, onTimeChange, filterTimeChanges, filterDayChanges, filterChanges, filterTime, filterDate, filterChange, changingOnThe, onThe, onTheChange, changeOnTheChange, oriChange, changeOriChange } = props
+    const { changeKey, changes, time, day, onChanges, onDayChange, onTimeChange, filterTimeChanges, filterDayChanges, filterChanges, filterTime, filterDate, filterChange, changingOnThe, onThe, onTheChange, changeOnTheChange, oriChange, changeOriChange } = props
 
+    function ContextAwareToggle({ children, eventKey, callback }) {
+        const currentEventKey = useContext(AccordionContext);
 
-    const clicking = (e) => { 
-        setKey(e.target.id)
-        setKeys(e.target.id)
+        const decoratedOnClick = useAccordionToggle(
+            eventKey,
+            () => callback && callback(eventKey),
+        );
+
+        const isCurrentEventKey = currentEventKey === eventKey;
+
+        return (
+            <Button
+                type="button"
+                style={{ backgroundColor: isCurrentEventKey ? '#90ee90' : 'white', color: 'black' }}
+                onClick={decoratedOnClick}
+            >
+                {children}
+                {isCurrentEventKey ? <TiTickOutline/> : <></>}
+            </Button>
+        );
     }
         return (
             <>
@@ -30,16 +44,11 @@ function Scheduling(props) {
                         When should Nexent automatically scan and cache field values?
                     </Form.Text>
                     <br/>
-                    <Accordion>
+                    <Accordion onSelect={(e) => changeKey(e)}>
                         <Card>
-                            <Accordion.Toggle as={Card.Body} variant="link" id="0" eventKey="0" onClick={clicking}>
-                                Regularly, on a schedule
-                                {keys === '0' ? 
-                                    <TiTickOutline />
-                                    :
-                                    <></>
-                                }
-                            </Accordion.Toggle>
+                            <Card.Body>
+                                <ContextAwareToggle eventKey="0" keys="0">Regularly, on a schedule</ContextAwareToggle>
+                            </Card.Body>
                             <Accordion.Collapse eventKey="0">
                                 <Card.Body>
                                     <ScheduleTimeFilter id="example-collapse-text"
@@ -60,14 +69,9 @@ function Scheduling(props) {
                             </Accordion.Collapse>
                         </Card>
                         <Card>
-                            <Accordion.Toggle as={Card.Body} variant="link" eventKey="1" id='1'  onClick={clicking}>
-                                Only when adding a new filter widget
-                                {keys === '1' ? 
-                                    <TiTickOutline />
-                                    :
-                                    <></>
-                                }
-                            </Accordion.Toggle>
+                            <Card.Body>
+                                <ContextAwareToggle eventKey="1" keys="1">Only when adding a new filter widget</ContextAwareToggle>
+                            </Card.Body>
                             <Accordion.Collapse eventKey="1">
                                 <Card.Body>
                                     When a user adds a new filter to a dashboard or a SQL question, 
@@ -76,14 +80,9 @@ function Scheduling(props) {
                             </Accordion.Collapse>
                         </Card>
                         <Card>
-                            <Accordion.Toggle as={Card.Body} variant="link" eventKey="2" id='2' onClick={clicking}>
-                                Never, I'll do this manually if I need to
-                                {keys === '2' ? 
-                                    <TiTickOutline />
-                                    :
-                                    <></>
-                                }
-                            </Accordion.Toggle>
+                            <Card.Body>
+                                <ContextAwareToggle eventKey="2" keys="2">Never, I'll do this manually if I need to</ContextAwareToggle>
+                            </Card.Body>
                         </Card>
                     </Accordion>
                 </Form.Group>

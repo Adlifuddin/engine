@@ -6,7 +6,7 @@ from flask_cors import CORS
 from json import dumps
 from flask_jsonpify import jsonify
 from .serializer import *
-from .connection import CreateConnectionCoreUser
+from .connection import CreateConnectionCoreUser, CreateConnectionDriveUser
 from .settings import *
 import json
 
@@ -28,7 +28,7 @@ class Test(Resource):
 class Add(Resource):
     def post(self):
         try: 
-            conn = CreateConnectionCoreUser().connect()
+            conn = CreateConnectionDriveUser().connect()
             args = request.json
             tableName = args[0]
             file = args[1]

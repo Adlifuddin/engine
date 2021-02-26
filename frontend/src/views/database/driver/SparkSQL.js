@@ -9,6 +9,7 @@ import api from '../../../api/metabaseApi'
 import Scheduling from './components/Scheduling'
 
 function SparkSQL(props) {
+    const [key, changeKey] = useState("0")
 const { inputting,
         engine,
         status,
@@ -16,7 +17,8 @@ const { inputting,
         userControlScheduling,
         name,
         host,
-        port,
+    port,
+        parseScheduling,
         dbname,
         username,
         password,
@@ -59,15 +61,20 @@ const { inputting,
         e.preventDefault()
 
         let data = {
-                // "auto_run_queries": autoRunQueries,
-                // "details": {
-                //     "let-user-control-scheduling": userControlScheduling,
-                //     "db": db,
-                // },
-                // "engine": engine,
-                // "is_full_sync": true,
-                // "is_on_demand": false,
-                // "name": name
+            "auto_run_queries": autoRunQueries,
+                "details": { 
+                    "dbname": dbname,
+                    "host": host,
+                    "jdbc-flags": jdbc,
+                    "let-user-control-scheduling": userControlScheduling,
+                    "password": password,
+                    "port": port,
+                    "user": username,
+                },
+                'engine': engine,
+                'is_full_sync': true,
+                'is_on_demand': false,
+                'name': name,
             }
         if (data.details["let-user-control-scheduling"]) {
             const validate = { "details": data }
@@ -95,11 +102,22 @@ const { inputting,
         }
 
         if (page) {
-            api.createDatabase(data)
+            const datas = parseScheduling(data)
+ 
+            if (key === '1') {
+                datas["is_full_sync"] = false
+                datas["is_on_demand"] = true
+            } else if (key === '2') {
+                datas["is_full_sync"] = false
+                datas["is_on_demand"] = false
+            }
+
+            api.createDatabase(datas)
                 .then(response => {
                     window.location.href = '/database'
                     console.log(response)
-                }) 
+
+                })
                 .catch(error => {
                     console.log(error)
                 })
@@ -115,6 +133,7 @@ const { inputting,
                         <Col md="8">
                             {page?
                                 <Scheduling
+                                    changeKey={changeKey}
                                     filterChange={filterChange}
                                     filterTime={filterTime}
                                     filterDate={filterDate}
@@ -137,6 +156,7 @@ const { inputting,
                                 :
                             connection && status !== 'add' ?
                                 <SchedulingTab
+                                    changeKey={changeKey}
                                     filterChange={filterChange}
                                     filterTime={filterTime}
                                     filterDate={filterDate}

@@ -9,6 +9,7 @@ import api from '../../../api/metabaseApi'
 import Scheduling from './components/Scheduling'
 
 function SQLite(props) {
+    const [key, changeKey] = useState("0")
     const { status,
         inputting,
         engine,
@@ -22,6 +23,7 @@ function SQLite(props) {
         c,
         filterChange,
         filterTime,
+        parseScheduling,
         filterDate,
         filterTimeChanges,
         filterDayChanges,
@@ -57,15 +59,15 @@ function SQLite(props) {
         e.preventDefault()
 
         let data = {
-                // "auto_run_queries": autoRunQueries,
-                // "details": {
-                //     "let-user-control-scheduling": userControlScheduling,
-                //     "db": db,
-                // },
-                // "engine": engine,
-                // "is_full_sync": true,
-                // "is_on_demand": false,
-                // "name": name
+                "auto_run_queries": autoRunQueries,
+                "details": {
+                    "let-user-control-scheduling": userControlScheduling,
+                    "db": db,
+                },
+                "engine": engine,
+                "is_full_sync": true,
+                "is_on_demand": false,
+                "name": name
             }
         if (data.details["let-user-control-scheduling"]) {
             const validate = { "details": data }
@@ -93,7 +95,17 @@ function SQLite(props) {
         }
 
         if (page) {
-            api.createDatabase(data)
+            const datas = parseScheduling(data)
+ 
+            if (key === '1') {
+                datas["is_full_sync"] = false
+                datas["is_on_demand"] = true
+            } else if (key === '2') {
+                datas["is_full_sync"] = false
+                datas["is_on_demand"] = false
+            }
+
+            api.createDatabase(datas)
                 .then(response => {
                     window.location.href = '/database'
                     console.log(response)
@@ -113,6 +125,7 @@ function SQLite(props) {
                         <Col md="8">
                             {page?
                                 <Scheduling
+                                    changeKey={changeKey}
                                     filterChange={filterChange}
                                     filterTime={filterTime}
                                     filterDate={filterDate}
@@ -135,6 +148,7 @@ function SQLite(props) {
                                 :
                             connection && status !== 'add' ?
                                 <SchedulingTab
+                                    changeKey={changeKey}
                                     filterChange={filterChange}
                                     filterTime={filterTime}
                                     filterDate={filterDate}

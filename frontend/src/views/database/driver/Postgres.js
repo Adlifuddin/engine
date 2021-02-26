@@ -10,9 +10,12 @@ import SchedulingTab from './components/SchedulingTab'
 import Scheduling from './components/Scheduling'
 
 function Postgres(props) {
-    const [key, setKey] = useState('0')
-const { status,
+    const [key, changeKey] = useState("0")
+    
+    const { status,
         page, 
+        parseScheduling,
+        parseTunneling,
         setPage,
         errorInput,
         inputting,
@@ -70,9 +73,7 @@ const { status,
 
     const submit = (e) => {
         e.preventDefault()
-        let data 
-        if (sshTunnel === false) {
-            data = {
+        let data = {
                 "auto_run_queries": autoRunQueries,
                 "details": {
                     "additional-options": jdbc,
@@ -82,69 +83,18 @@ const { status,
                     "password": password,
                     "port": port,
                     "ssl": sslSwitch,
-                    "user": username
+                    "user": username,
+                    "tunnel-enabled": sshTunnel
                 },
                 "engine": engine,
                 "is_full_sync": true,
                 "is_on_demand": false,
-                "is_sample": false,
                 "name": name
             }
-        } else if (sshAuth === "ssh-key") {
-            data = {
-                "auto_run_queries": autoRunQueries,
-                "details": {
-                    "additional-options": jdbc,
-                    "dbname": dbname,
-                    "host": host,
-                    "let-user-control-scheduling": userControlScheduling,
-                    "password": password,
-                    "port": port,
-                    "ssl": sslSwitch,
-                    "tunnel-auth-option": sshAuth,
-                    "tunnel-enabled": sshTunnel,
-                    "tunnel-host": tunnelHost,
-                    "tunnel-private-key": tunnelPrivateKey,
-                    "tunnel-private-key-passphrase": tunnelPassword,
-                    "tunnel-port": tunnelPort,
-                    "tunnel-user": tunnelUser,
-                    "user": username
-                },
-                "engine": engine,
-                "is_full_sync": true,
-                "is_on_demand": false,
-                "is_sample": false,
-                "name": name
-            }
-        } else if (sshAuth === "password") {
-            data = {
-                "auto_run_queries": autoRunQueries,
-                "details": {
-                    "additional-options": jdbc,
-                    "dbname": dbname,
-                    "host": host,
-                    "let-user-control-scheduling": userControlScheduling,
-                    "password": password,
-                    "port": port,
-                    "ssl": sslSwitch,
-                    "tunnel-auth-option": sshAuth,
-                    "tunnel-enabled": sshTunnel,
-                    "tunnel-host": tunnelHost,
-                    "tunnel-pass": tunnelPassword,
-                    "tunnel-port": tunnelPort,
-                    "tunnel-user": tunnelUser,
-                    "user": username
-                },
-                "engine": engine,
-                "is_full_sync": true,
-                "is_on_demand": false,
-                "is_sample": false,
-                "name": name
-            }
-            
-        }
-        if (data.details["let-user-control-scheduling"]) {
-            const validate = { "details": data }
+
+        const file = parseTunneling(data)
+        if (file.details["let-user-control-scheduling"]) {
+            const validate = { "details": file }
             api.validateDatabase(validate)
                 .then(response => {
                     if (response.data.valid) {
@@ -159,7 +109,7 @@ const { status,
                 })
                 
         } else {
-            api.createDatabase(data)
+            api.createDatabase(file)
                 .then(response => {
                     window.location.href = '/database'
                     console.log(response)
@@ -170,161 +120,21 @@ const { status,
         }
 
         if (page) {
-            let times
-            let digits
-            if (changes === 'hourly') {
-                times = null
-                digits = "*"
-            } else {
-                times = parseInt(time)
-                digits = time
-            }
-
-            let days
-            let frame
-            if (filterChange === 'daily') {
-                days = null
-                frame = null
-            } else if (filterChange === 'weekly') {
-                days = oriChange
-                frame = null
-            } else if (filterChange === 'monthly') {
-                if (onTheChange === "Calendar Day") {
-                    days = null
-                } else {
-                    days = onTheChange
-                }
-                frame = onThe
-            }
-
-            let filterTimes
-
-            if (filterDate === 'pm' ) {
-                filterTimes = parseInt(filterTime) + 12
-                
-            } else if (filterDate === 'am') {
-                filterTimes = parseInt(filterTime)
-            }
-
-            if (day === 'pm') {
-                times = parseInt(time) + 12
-                digits = parseInt(time) + 12
-            } else {
-                times = parseInt(time)
-                digits = parseInt(time)
-            }
-            
-            data["schedules"] = {
-                    "cache_field_values": {
-                        "schedule_day": days,
-                        "schedule_frame": frame,
-                        "schedule_hour": filterTimes,
-                        "schedule_type": filterChange,
-                    },
-                    "metadata_sync": {
-                        "schedule_day": null,
-                        "schedule_frame": null,
-                        "schedule_hour": times,
-                        "schedule_type": changes
-                    }
-            }
-
-            let filterdates
-            switch (oriChange) {
-                case "sun":
-                    filterdates = 1
-                    break;
-                case "mon":
-                    filterdates = 2
-                    break;
-                case "tue":
-                    filterdates = 3
-                    break;
-                case "wed":
-                    filterdates = 4
-                    break;
-                case "thu":
-                    filterdates = 5
-                    break;
-                case "fri":
-                    filterdates = 6
-                    break;
-                case "sat":
-                    filterdates = 7
-                    break;
-                default:
-                    break;
-            }
-
-            let onTheDates
-            switch (onTheChange) {
-                case "sun":
-                    onTheDates = 1
-                    break;
-                case "mon":
-                    onTheDates = 2
-                    break;
-                case "tue":
-                    onTheDates = 3
-                    break;
-                case "wed":
-                    onTheDates = 4
-                    break;
-                case "thu":
-                    onTheDates = 5
-                    break;
-                case "fri":
-                    onTheDates = 6
-                    break;
-                case "sat":
-                    onTheDates = 7
-                    break;
-                case "Calendar Day":
-                    onTheDates = null
-                default:
-                    break;
-            }
-
-           
-
-
-            if (filterChange === 'daily') {
-                data["cache_field_values_schedule"] = `0 0 ${filterTimes} * * ? *`
-            } else if (filterChange === 'weekly') {
-                data["cache_field_values_schedule"] = `0 0 ${filterTimes} ? * ${filterdates} *`
-            } else if (filterChange === 'monthly') {
-                if (onTheChange === "Calendar Day") {
-                    if (onThe === 'first') {
-                        data["cache_field_values_schedule"] = `0 0 ${filterTimes} 1 * ? *`
-                    } else if (onThe === 'last') {
-                        data["cache_field_values_schedule"] = `0 0 ${filterTimes} L * ? *`
-                    } 
-                }
-                if (onThe === 'first' && onTheChange !== "Calendar Day") {
-                    data["cache_field_values_schedule"] = `0 0 ${filterTimes} ? * ${onTheDates}#1 *`
-                } else if (onThe === 'last' && onTheChange !== "Calendar Day") {
-                    data["cache_field_values_schedule"] = `0 0 ${filterTimes} ? * ${onTheDates}L *`
-                } else if (onThe === 'mid') {
-                    data["cache_field_values_schedule"] = `0 0 ${filterTimes} 15 * ? *`
-                } 
-            }
-
-            data["metadata_sync_schedule"] = `0 0 ${digits} * * ? *`
-
-
+            const datas = parseScheduling(file)
+ 
             if (key === '1') {
-                data["is_full_sync"] = false
-                data["is_on_demand"] = true
+                datas["is_full_sync"] = false
+                datas["is_on_demand"] = true
             } else if (key === '2') {
-                data["is_full_sync"] = false
-                data["is_on_demand"] = false
+                datas["is_full_sync"] = false
+                datas["is_on_demand"] = false
             }
 
-            api.createDatabase(data)
+            api.createDatabase(datas)
                 .then(response => {
                     window.location.href = '/database'
                     console.log(response)
-                }) 
+                })
                 .catch(error => {
                     console.log(error)
                 })
@@ -340,7 +150,7 @@ const { status,
                         <Col md="8">
                             {page?
                                 <Scheduling
-                                    setKey={setKey}
+                                    changeKey={changeKey}
                                     filterChange={filterChange}
                                     filterTime={filterTime}
                                     filterDate={filterDate}
@@ -363,7 +173,7 @@ const { status,
                                 :
                             connection && status !== 'add' ?
                                     <SchedulingTab
-                                        setKey={setKey}
+                                        changeKey={changeKey}
                                         filterChange={filterChange}
                                         filterTime={filterTime}
                                         filterDate={filterDate}

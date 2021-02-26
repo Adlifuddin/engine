@@ -16,7 +16,9 @@ import SqlServer from '../driver/SqlServer'
 function DatabaseDriver(props) {
     const { status,
             errorInput,
+            jsonProcess,
             inputting,
+            parseTunneling,
             engine,
             sslSwitch,
             sshTunnel,
@@ -35,6 +37,7 @@ function DatabaseDriver(props) {
             sshAuth,
             jdbc,
             switches,
+            parseScheduling,
             jvmTimezone,
             datasetId,
             GaAccountID,
@@ -81,6 +84,8 @@ function DatabaseDriver(props) {
     switch (engine) {
         case "postgres":
             return <Postgres
+                        parseTunneling={parseTunneling}
+                        parseScheduling={parseScheduling}
                         page={page}
                         setPage={setPage}
                         status={status}
@@ -129,6 +134,8 @@ function DatabaseDriver(props) {
                     />;
         case "sqlite":
             return <SQLite
+                        parseTunneling={parseTunneling}
+                        parseScheduling={parseScheduling}
                         page={page}
                         setPage={setPage}
                         errorInput={errorInput}
@@ -164,6 +171,8 @@ function DatabaseDriver(props) {
             />
         case "redshift":
             return <RedShift
+                        parseTunneling={parseTunneling}
+                        parseScheduling={parseScheduling}
                         page={page}
                         setPage={setPage}
                         errorInput={errorInput}
@@ -210,6 +219,8 @@ function DatabaseDriver(props) {
             />
         case "bigquery":
             return <BigQuery
+                        jsonProcess={jsonProcess}
+                        parseScheduling={parseScheduling}
                         errorInput={errorInput}
                         page={page}
                         setPage={setPage}
@@ -247,6 +258,8 @@ function DatabaseDriver(props) {
                     />
         case "mysql":
             return <MySQL
+                        parseTunneling={parseTunneling}
+                        parseScheduling={parseScheduling}
                         page={page}
                         setPage={setPage}
                         status={status}
@@ -295,6 +308,8 @@ function DatabaseDriver(props) {
                     />;
         case "druid":
             return <Druid
+                        parseTunneling={parseTunneling}
+                        parseScheduling={parseScheduling}
                         errorInput={errorInput}
                         page={page}
                         setPage={setPage}
@@ -338,6 +353,7 @@ function DatabaseDriver(props) {
                     />;
         case "googleanalytics":
             return <GoogleAnalytics
+                        parseScheduling={parseScheduling}
                         errorInput={errorInput}
                         page={page}
                         setPage={setPage}
@@ -376,6 +392,7 @@ function DatabaseDriver(props) {
                     />;
         case "h2":
             return <H2
+                        parseScheduling={parseScheduling}
                         errorInput={errorInput}
                         page={page}
                         setPage={setPage}
@@ -411,6 +428,8 @@ function DatabaseDriver(props) {
                     />;
         case "mongo":
             return <MongoDB
+                        parseTunneling={parseTunneling}
+                        parseScheduling={parseScheduling}
                         errorInput={errorInput}
                         page={page}
                         setPage={setPage}
@@ -462,6 +481,8 @@ function DatabaseDriver(props) {
             />;
         case "presto":
             return <Presto
+                        parseTunneling={parseTunneling}
+                        parseScheduling={parseScheduling}
                         errorInput={errorInput}
                         page={page}
                         setPage={setPage}
@@ -509,6 +530,8 @@ function DatabaseDriver(props) {
                     />
         case "snowflake":
             return <Snowflake
+                        parseTunneling={parseTunneling}
+                        parseScheduling={parseScheduling}
                         errorInput={errorInput}
                         page={page}
                         setPage={setPage}
@@ -559,6 +582,8 @@ function DatabaseDriver(props) {
                     />
         case "sparksql":
             return <SparkSQL
+                        parseTunneling={parseTunneling}
+                        parseScheduling={parseScheduling}
                         errorInput={errorInput}
                         page={page}
                         setPage={setPage}
@@ -599,6 +624,8 @@ function DatabaseDriver(props) {
             />
         case "sqlserver":
             return <SqlServer
+                        parseTunneling={parseTunneling}
+                        parseScheduling={parseScheduling}
                         errorInput={errorInput}
                         page={page}
                         setPage={setPage}

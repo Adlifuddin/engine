@@ -10,6 +10,7 @@ import api from '../../../api/metabaseApi'
 import Scheduling from './components/Scheduling'
 
 function Snowflake(props) {
+    const [key, changeKey] = useState("0")
 const { status,
         page,
         setPage,
@@ -56,7 +57,9 @@ const { status,
         onTheChange,
         oriChange,
         changeOriChange,
-        time,} = props
+        time,
+        parseScheduling,
+        parseTunneling} = props
     
     const [connection, setConnection] = useState(false)
 
@@ -72,18 +75,28 @@ const { status,
         e.preventDefault()
 
         let data = {
-                // "auto_run_queries": autoRunQueries,
-                // "details": {
-                //     "let-user-control-scheduling": userControlScheduling,
-                //     "db": db,
-                // },
-                // "engine": engine,
-                // "is_full_sync": true,
-                // "is_on_demand": false,
-                // "name": name
-            }
-        if (data.details["let-user-control-scheduling"]) {
-            const validate = { "details": data }
+            "auto_run_queries": true,
+            "details": {
+                "account": account,
+                "additional-options": jdbc,
+                "db": dbname,
+                "let-user-control-scheduling": userControlScheduling,
+                "password": password,
+                "regionid": region,
+                "role": role,
+                "schema": schema,
+                "tunnel-enabled": sshTunnel,
+                "user": username,
+                "warehouse": warehouse,
+            },
+            'engine': engine,
+            'is_full_sync': true,
+            'is_on_demand': false,
+            'name': name,
+        }
+        const file = parseTunneling(data)
+        if (file.details["let-user-control-scheduling"]) {
+            const validate = { "details": file }
             api.validateDatabase(validate)
                 .then(response => {
                     if (response.data.valid) {
@@ -97,7 +110,7 @@ const { status,
                     console.log(error)
                 })
         } else {
-            api.createDatabase(data)
+            api.createDatabase(file)
                 .then(response => {
                     window.location.href = '/database'
                     console.log(response)
@@ -108,10 +121,21 @@ const { status,
         }
 
         if (page) {
-            api.createDatabase(data)
+            const datas = parseScheduling(file)
+ 
+            if (key === '1') {
+                datas["is_full_sync"] = false
+                datas["is_on_demand"] = true
+            } else if (key === '2') {
+                datas["is_full_sync"] = false
+                datas["is_on_demand"] = false
+            }
+
+            api.createDatabase(datas)
                 .then(response => {
                     window.location.href = '/database'
                     console.log(response)
+
                 }) 
                 .catch(error => {
                     console.log(error)
@@ -129,6 +153,7 @@ const { status,
                         <Col md="8">
                             {page?
                                 <Scheduling
+                                    changeKey={changeKey}
                                     filterChange={filterChange}
                                     filterTime={filterTime}
                                     filterDate={filterDate}
@@ -151,6 +176,7 @@ const { status,
                                 :
                             connection && status !== 'add' ?
                                 <SchedulingTab
+                                    changeKey={changeKey}
                                     filterChange={filterChange}
                                     filterTime={filterTime}
                                     filterDate={filterDate}
@@ -209,7 +235,7 @@ const { status,
                                         />
                                     </Form.Group>
                                     <Form.Group controlId="formBasicDatabaseName">
-                                        <Form.Label>Database Name</Form.Label>
+                                        <Form.Label>Database Name (case sensitive)</Form.Label>
                                         <Form.Control
                                             type="text"
                                             placeholder="birds_of_the_world"
@@ -325,7 +351,7 @@ const { status,
                                         />
                                     </Form.Group>
                                     <Form.Group controlId="formBasicDatabaseName">
-                                        <Form.Label>Database Name</Form.Label>
+                                        <Form.Label>Database Name (case sensitive)</Form.Label>
                                         <Form.Control
                                             type="text"
                                             placeholder="birds_of_the_world"
