@@ -59,7 +59,7 @@ function SideBarSubMenu(){
                 </SubMenu>
 
                 <SubMenu title="Downloads" icon={<FiDownload />}>
-                  <MenuItem>Overview</MenuItem>
+                  <MenuItem>Overview<Link to="/audit/downloads/overview" /></MenuItem>
                   <MenuItem>All Downloads<Link to="/audit/downloads/all" /></MenuItem>
                 </SubMenu>
             </div>        
