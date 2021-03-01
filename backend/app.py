@@ -5,9 +5,9 @@ import sqlalchemy as db
 from flask_cors import CORS 
 from json import dumps
 from flask_jsonpify import jsonify
-from .serializer import *
-from .connection import CreateConnectionCoreUser, CreateConnectionDriveUser
-from .settings import *
+from serializer import *
+from connection import CreateConnectionCoreUser, CreateConnectionDriveUser
+from settings import *
 import json
 
 app = Flask(__name__)
@@ -233,7 +233,7 @@ class AuditLog(Resource):
 class Downloads(Resource):
     def get(self):
         engine = CreateConnectionCoreUser()
-        query = "select a.started_at as downloadAt, a.result_rows as rowsDownloaded, b.name as query, a.native as queryType, c.name as sourceDatabases, d.name as tables, e.first_name as user from public.query_execution a left join public.report_card b on a.card_id = b.id left join public.metabase_database c on a.database_id = c.id left join public.metabase_table d on b.table_id = d.id left join public.core_user e on a.executor_id = e.id where a.context ilike 'csv-download' group by b.name,a.native,c.name,d.name,a.started_at,a.result_rows,e.first_name"
+        query = "select a.started_at as downloadAt, a.result_rows as rowsDownloaded, b.name as query, a.native as queryType, c.name as sourceDatabases, d.name as tables, e.first_name as user from public.query_execution a left join public.report_card b on a.card_id = b.id left join public.metabase_database c on a.database_id = c.id left join public.metabase_table d on b.table_id = d.id left join public.core_user e on a.executor_id = e.id where a.context ilike 'csv-download' or a.context ilike 'json-download' or a.context ilike 'xlsx-download' group by b.name,a.native,c.name,d.name,a.started_at,a.result_rows,e.first_name"
         connection = engine.connect()
         result = connection.execute(query)
         results = [dict(zip(tuple (result.keys()) ,i)) for i in result.cursor]
