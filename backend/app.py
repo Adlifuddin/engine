@@ -218,6 +218,15 @@ class DashboardsMostPopular(Resource):
         connection = engine.connect()
         result = connection.execute(query)
         results = [dict(zip(tuple (result.keys()) ,i)) for i in result.cursor]
+        return jsonify(results)    
+
+class DashboardsCommonQuestion(Resource):
+    def get(self):
+        engine = CreateConnectionCoreUser()
+        query = "select  count(a.card_id) as count, b.name as card from report_dashboardcard a left join report_card b on a.card_id = b.id group by card_id, b.name order by count desc limit 10"
+        connection = engine.connect()
+        result = connection.execute(query)
+        results = [dict(zip(tuple (result.keys()) ,i)) for i in result.cursor]
         return jsonify(results)       
 
 
@@ -283,7 +292,7 @@ api.add_resource(QuestionsPopularQueries, '/api/audit/questions/popularqueries')
 api.add_resource(QuestionsSlowestQueries, '/api/audit/questions/slowestqueries')
 api.add_resource(DashboardsMostPopular, '/api/audit/dashboards/mostpopular')
 api.add_resource(DownloadsOverview, '/api/audit/downloads/overview')
-api.add_resource(downloadsPerUser, '/api/audit/downloads/downloadperuser')
+api.add_resource(DashboardsCommonQuestion, '/api/audit/dashboards/commonquestion')
 
 
 if __name__ == '__main__':
