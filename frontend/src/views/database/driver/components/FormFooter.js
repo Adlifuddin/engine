@@ -3,7 +3,7 @@ import {Row, Col} from 'reactstrap'
 import { Form } from 'react-bootstrap'
 
 function FormFooter(props) {
-    const {switches, autoRunQueries, userControlScheduling}= props
+    const {switches, autoRunQueries, userControlScheduling, refingerprint}= props
 
     return (
         <>
@@ -44,6 +44,26 @@ function FormFooter(props) {
                             id="user-control-scheduling"
                             checked={userControlScheduling}
                             onChange={switches("user-control-scheduling")}        
+                        />
+                    </Col>
+                </Row>
+            </Form.Group>
+            <Form.Group controlId="formrefringerPrint">
+                <Row>
+                    <Col md="11">
+                        <Form.Label>Periodically refingerprint tables</Form.Label>
+                        <Form.Text className="text-muted">
+                            When syncing with this database,
+                            Nexent will scan a subset of values of fields to gather statistics that enable things like improved binning behavior in charts, 
+                            and to generally make your Nexent instance smarter.
+                        </Form.Text>
+                    </Col>
+                    <Col md="1">
+                        <Form.Check 
+                            type="switch"
+                            id="refingerprint"
+                            checked={refingerprint}
+                            onChange={switches("refingerprint")}        
                         />
                     </Col>
                 </Row>

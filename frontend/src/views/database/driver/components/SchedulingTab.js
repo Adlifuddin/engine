@@ -1,6 +1,6 @@
 import React, {useState} from 'react'
 import Scheduling from './Scheduling'
-import {  Tab, Tabs} from 'react-bootstrap'
+import { Tab, Tabs} from 'react-bootstrap'
 
 function SchedulingTab(props) {
     const [keys, setKeys] = useState('connection');
@@ -23,7 +23,8 @@ function SchedulingTab(props) {
             onTheChange,
             oriChange,
             changeOriChange,
-            children } = props
+            children,
+            activeKey,} = props
     
     return (
         <Tabs
@@ -36,6 +37,7 @@ function SchedulingTab(props) {
             </Tab>
             <Tab eventKey="schedule" title="Scheduling">
                 <Scheduling
+                    activeKey={activeKey}
                     changeKey={changeKey}
                     filterChange={filterChange}
                     filterTime={filterTime}

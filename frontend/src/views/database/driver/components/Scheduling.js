@@ -1,11 +1,11 @@
-import React, { useState, useContext } from 'react'
+import React, { useContext } from 'react'
 import { Form, Accordion, Card, useAccordionToggle, AccordionContext, Button  } from 'react-bootstrap'
 import ScheduleTime from './ScheduleTime'
 import ScheduleTimeFilter from './ScheduleTimeFilter'
 import { TiTickOutline } from 'react-icons/ti'
 
 function Scheduling(props) {
-    const { changeKey, changes, time, day, onChanges, onDayChange, onTimeChange, filterTimeChanges, filterDayChanges, filterChanges, filterTime, filterDate, filterChange, changingOnThe, onThe, onTheChange, changeOnTheChange, oriChange, changeOriChange } = props
+    const { activeKey, changeKey, changes, time, day, onChanges, onDayChange, onTimeChange, filterTimeChanges, filterDayChanges, filterChanges, filterTime, filterDate, filterChange, changingOnThe, onThe, onTheChange, changeOnTheChange, oriChange, changeOriChange } = props
 
     function ContextAwareToggle({ children, eventKey, callback }) {
         const currentEventKey = useContext(AccordionContext);
@@ -43,8 +43,8 @@ function Scheduling(props) {
                         This can be a somewhat resource-intensive process, particularly if you have a very large database.
                         When should Nexent automatically scan and cache field values?
                     </Form.Text>
-                    <br/>
-                    <Accordion onSelect={(e) => changeKey(e)}>
+                    <br />
+                    <Accordion onSelect={(e) => changeKey(e)} defaultActiveKey={activeKey}>
                         <Card>
                             <Card.Body>
                                 <ContextAwareToggle eventKey="0" keys="0">Regularly, on a schedule</ContextAwareToggle>

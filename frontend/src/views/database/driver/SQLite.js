@@ -8,8 +8,26 @@ import SchedulingTab from './components/SchedulingTab'
 import api from '../../../api/metabaseApi'
 import Scheduling from './components/Scheduling'
 
+function Childrens(props) {
+    const {engine, inputting, name, db, switches, autoRunQueries, userControlScheduling, refingerprint} = props
+    return (
+        <>
+            <FormComponent engine={engine} inputting={inputting} name={name}/>
+            <Form.Group controlId="formBasicHost">
+                <Form.Label>Filename</Form.Label>
+                <Form.Control
+                    type="text"
+                    placeholder="/home/camsaul/toucan_sightings.sqlite"
+                    value={db}
+                    onChange={inputting("db")}
+                />
+            </Form.Group>
+                <FormFooter switches={switches} autoRunQueries={autoRunQueries} userControlScheduling={userControlScheduling} refingerprint={refingerprint}/>
+        </>
+    )
+}
+
 function SQLite(props) {
-    const [key, changeKey] = useState("0")
     const { status,
         inputting,
         engine,
@@ -42,7 +60,10 @@ function SQLite(props) {
         time,
         page,
         setPage,
-        errorInput,} = props
+        errorInput,
+        changeKey,
+        activeKey,
+        refingerprint} = props
 
     const [connection, setConnection] = useState(false)
 
@@ -67,7 +88,8 @@ function SQLite(props) {
                 "engine": engine,
                 "is_full_sync": true,
                 "is_on_demand": false,
-                "name": name
+                "name": name,
+                "refingerprint": refingerprint
             }
         if (data.details["let-user-control-scheduling"]) {
             const validate = { "details": data }
@@ -96,15 +118,6 @@ function SQLite(props) {
 
         if (page) {
             const datas = parseScheduling(data)
- 
-            if (key === '1') {
-                datas["is_full_sync"] = false
-                datas["is_on_demand"] = true
-            } else if (key === '2') {
-                datas["is_full_sync"] = false
-                datas["is_on_demand"] = false
-            }
-
             api.createDatabase(datas)
                 .then(response => {
                     window.location.href = '/database'
@@ -125,6 +138,7 @@ function SQLite(props) {
                         <Col md="8">
                             {page?
                                 <Scheduling
+                                    activeKey={activeKey}
                                     changeKey={changeKey}
                                     filterChange={filterChange}
                                     filterTime={filterTime}
@@ -148,6 +162,7 @@ function SQLite(props) {
                                 :
                             connection && status !== 'add' ?
                                 <SchedulingTab
+                                    activeKey={activeKey}
                                     changeKey={changeKey}
                                     filterChange={filterChange}
                                     filterTime={filterTime}
@@ -169,32 +184,28 @@ function SQLite(props) {
                                     changeOriChange={changeOriChange}
                                     connection={connection}
                                 >
-                                    <FormComponent engine={engine} inputting={inputting} name={name}/>
-                                    <Form.Group controlId="formBasicHost">
-                                        <Form.Label>Filename</Form.Label>
-                                        <Form.Control
-                                            type="text"
-                                            placeholder="/home/camsaul/toucan_sightings.sqlite"
-                                            value={db}
-                                            onChange={inputting("db")}
-                                        />
-                                    </Form.Group>
-                                    <FormFooter switches={switches} autoRunQueries={autoRunQueries} userControlScheduling={userControlScheduling}/>
+                                    <Childrens
+                                        engine={engine}
+                                        inputting={inputting}
+                                        name={name}
+                                        db={db}
+                                        switches={switches}
+                                        autoRunQueries={autoRunQueries}
+                                        userControlScheduling={userControlScheduling}
+                                        refingerprint={refingerprint}
+                                    />
                                 </SchedulingTab>
                                 :
-                                <>
-                                    <FormComponent engine={engine} inputting={inputting} name={name}/>
-                                    <Form.Group controlId="formBasicHost">
-                                        <Form.Label>Filename</Form.Label>
-                                        <Form.Control
-                                            type="text"
-                                            placeholder="/home/camsaul/toucan_sightings.sqlite"
-                                            value={db}
-                                            onChange={inputting("db")}
-                                        />
-                                    </Form.Group>
-                                    <FormFooter switches={switches} autoRunQueries={autoRunQueries} userControlScheduling={userControlScheduling}/>
-                                </>
+                                <Childrens
+                                    engine={engine}
+                                    inputting={inputting}
+                                    name={name}
+                                    db={db}
+                                    switches={switches}
+                                    autoRunQueries={autoRunQueries}
+                                    userControlScheduling={userControlScheduling}
+                                    refingerprint={refingerprint}
+                                />
                             }
                             {c}
                         </Col>

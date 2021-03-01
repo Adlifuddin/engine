@@ -5,7 +5,6 @@ import Layouts from './layout/Layouts'
 import metabaseApi from './api/metabaseApi'
 
 function App() {
-
   useEffect(() => {
     const data = {
                   "username": "jiahao.leong@nexent.co",

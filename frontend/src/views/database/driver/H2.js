@@ -8,8 +8,26 @@ import api from '../../../api/metabaseApi'
 import SchedulingTab from './components/SchedulingTab'
 import Scheduling from './components/Scheduling'
 
+function Childrens(props) {
+    const {engine, inputting, name, db, switches, autoRunQueries, userControlScheduling, refingerprint} = props
+    return (
+        <>
+            <FormComponent engine={engine} inputting={inputting} name={name}/>
+                <Form.Group controlId="formBasicHost">
+                    <Form.Label>Connection String</Form.Label>
+                    <Form.Control
+                        type="text"
+                        placeholder="file:/Users/camsaul/bird_sightings/toucans"
+                        value={db}
+                        onChange={inputting("db")}
+                    />
+            </Form.Group>
+            <FormFooter switches={switches} autoRunQueries={autoRunQueries} userControlScheduling={userControlScheduling} refingerprint={refingerprint}/>
+        </>
+    )
+}
+
 function H2(props) {
-    const [key, changeKey] = useState("0")
 const { status,
         errorInput,
         inputting,
@@ -42,7 +60,10 @@ const { status,
         time,
         page,
         setPage,
-        parseScheduling,} = props
+        parseScheduling,
+        changeKey,
+        activeKey,
+        refingerprint} = props
     const [connection, setConnection] = useState(false)
 
     useEffect(() => {
@@ -65,7 +86,8 @@ const { status,
                 "engine": engine,
                 "is_full_sync": true,
                 "is_on_demand": false,
-                "name": name
+                "name": name,
+                "refingerprint": refingerprint
             }
         if (data.details["let-user-control-scheduling"]) {
             const validate = { "details": data }
@@ -94,15 +116,6 @@ const { status,
 
         if (page) {
             const datas = parseScheduling(data)
- 
-            if (key === '1') {
-                datas["is_full_sync"] = false
-                datas["is_on_demand"] = true
-            } else if (key === '2') {
-                datas["is_full_sync"] = false
-                datas["is_on_demand"] = false
-            }
-
             api.createDatabase(datas)
                 .then(response => {
                     window.location.href = '/database'
@@ -124,6 +137,7 @@ const { status,
                         <Col md="8">
                             {page?
                                 <Scheduling
+                                    activeKey={activeKey}
                                     changeKey={changeKey}
                                     filterChange={filterChange}
                                     filterTime={filterTime}
@@ -147,6 +161,7 @@ const { status,
                                 :
                                 connection && status !== 'add' ?
                                 <SchedulingTab
+                                    activeKey={activeKey}
                                     changeKey={changeKey}
                                     filterChange={filterChange}
                                     filterTime={filterTime}
@@ -168,32 +183,28 @@ const { status,
                                     changeOriChange={changeOriChange}
                                     connection={connection}
                                 >
-                                    <FormComponent engine={engine} inputting={inputting} name={name}/>
-                                        <Form.Group controlId="formBasicHost">
-                                            <Form.Label>Connection String</Form.Label>
-                                            <Form.Control
-                                                type="text"
-                                                placeholder="file:/Users/camsaul/bird_sightings/toucans"
-                                                value={db}
-                                                onChange={inputting("db")}
-                                            />
-                                        </Form.Group>
-                                    <FormFooter switches={switches} autoRunQueries={autoRunQueries} userControlScheduling={userControlScheduling} />
+                                    <Childrens
+                                        engine={engine}
+                                        inputting={inputting}
+                                        name={name}
+                                        db={db}
+                                        switches={switches}
+                                        autoRunQueries={autoRunQueries}
+                                        userControlScheduling={userControlScheduling}
+                                        refingerprint={refingerprint}
+                                    />
                                 </SchedulingTab>
                                 :
-                                <>
-                                    <FormComponent engine={engine} inputting={inputting} name={name}/>
-                                        <Form.Group controlId="formBasicHost">
-                                            <Form.Label>Connection String</Form.Label>
-                                            <Form.Control
-                                                type="text"
-                                                placeholder="file:/Users/camsaul/bird_sightings/toucans"
-                                                value={db}
-                                                onChange={inputting("db")}
-                                            />
-                                        </Form.Group>
-                                    <FormFooter switches={switches} autoRunQueries={autoRunQueries} userControlScheduling={userControlScheduling} />
-                                </>
+                                <Childrens
+                                    engine={engine}
+                                    inputting={inputting}
+                                    name={name}
+                                    db={db}
+                                    switches={switches}
+                                    autoRunQueries={autoRunQueries}
+                                    userControlScheduling={userControlScheduling}
+                                    refingerprint={refingerprint}
+                                />
                             }
                             {c}
                         </Col>

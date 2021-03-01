@@ -9,8 +9,65 @@ import SchedulingTab from './components/SchedulingTab'
 import api from '../../../api/metabaseApi'
 import Scheduling from './components/Scheduling'
 
+function Childrens(props) {
+    const {engine, inputting, name, host, port, switches,sshTunnel, tunnelPassword, tunnelHost, tunnelPort, tunnelPrivateKey, tunnelUser, sshAuth, autoRunQueries, userControlScheduling, refingerprint} = props
+    return (
+         <>
+            <FormComponent engine={engine} inputting={inputting} name={name}/>
+            <Form.Group controlId="formBasicHost">
+                <Form.Label>Host</Form.Label>
+                <Form.Control
+                    type="text"
+                    placeholder="localhost"
+                    value={host}
+                    onChange={inputting("host")}
+                />
+            </Form.Group>
+            <Form.Group controlId="formBasicPort">
+                <Form.Label>Broker node port</Form.Label>
+                <Form.Control
+                    type="number"
+                    placeholder="8082"
+                    value={port}
+                    onChange={inputting("port")}
+                />
+            </Form.Group>
+            <Form.Group controlId="formSSH-Tunnel">
+                <Row>
+                    <Col md="11">
+                        <Form.Label>Use an SSH-tunnel for database connections</Form.Label>
+                        <Form.Text className="text-muted">
+                            Some database installations can only be accessed by connecting through an SSH 
+                            bastion host. This option also provides an extra layer of security when a VPN is 
+                            not available. Enabling this is usually slower than a direct connection.
+                        </Form.Text>
+                    </Col>
+                    <Col md="1">
+                        <Form.Check 
+                            type="switch"
+                            id="ssh-tunnel"
+                            checked={sshTunnel}
+                            onChange={switches("ssh-tunnel")}
+                        />
+                    </Col>
+                </Row>
+            </Form.Group>
+            <SSHTunnel
+                inputting={inputting}
+                tunnelHost={tunnelHost}
+                tunnelPort={tunnelPort}
+                tunnelUser={tunnelUser}
+                sshAuth={sshAuth}
+                tunnelPrivateKey={tunnelPrivateKey}
+                tunnelPassword={tunnelPassword}
+                sshTunnel={sshTunnel}
+            />
+            <FormFooter switches={switches} autoRunQueries={autoRunQueries} userControlScheduling={userControlScheduling} refingerprint={refingerprint}/>
+        </>
+    )
+}
+
 function Druid(props) {
-    const [key, changeKey] = useState("0")
 const { status,
         page,
         setPage,
@@ -33,7 +90,7 @@ const { status,
         d,
         b,
         c,
-    filterChange,
+        filterChange,
         parseScheduling,
         filterTime,
         filterDate,
@@ -52,7 +109,10 @@ const { status,
         oriChange,
         changeOriChange,
         time,
-        parseTunneling,} = props
+        parseTunneling,
+        activeKey,
+        changeKey,
+        refingerprint} = props
     
     const [connection, setConnection] = useState(false)
    
@@ -78,7 +138,8 @@ const { status,
                 "engine": engine,
                 "is_full_sync": true,
                 "is_on_demand": false,
-                "name": name
+                "name": name,
+                "refingerprint": refingerprint
             }
          const file = parseTunneling(data)
 
@@ -109,15 +170,6 @@ const { status,
 
         if (page) {
             const datas = parseScheduling(file)
- 
-            if (key === '1') {
-                datas["is_full_sync"] = false
-                datas["is_on_demand"] = true
-            } else if (key === '2') {
-                datas["is_full_sync"] = false
-                datas["is_on_demand"] = false
-            }
-
             api.createDatabase(datas)
                 .then(response => {
                     window.location.href = '/database'
@@ -138,6 +190,7 @@ const { status,
                         <Col md="8">
                             {page?
                                 <Scheduling
+                                    activeKey={activeKey}
                                     changeKey={changeKey}
                                     filterChange={filterChange}
                                     filterTime={filterTime}
@@ -161,6 +214,7 @@ const { status,
                                 :
                                 connection && status !== 'add' ?
                                 <SchedulingTab
+                                    activeKey={activeKey}
                                     changeKey={changeKey}
                                     filterChange={filterChange}
                                     filterTime={filterTime}
@@ -182,110 +236,42 @@ const { status,
                                     changeOriChange={changeOriChange}
                                     connection={connection}
                                 >
-                                    <FormComponent engine={engine} inputting={inputting} name={name}/>
-                                    <Form.Group controlId="formBasicHost">
-                                        <Form.Label>Host</Form.Label>
-                                        <Form.Control
-                                            type="text"
-                                            placeholder="localhost"
-                                            value={host}
-                                            onChange={inputting("host")}
-                                        />
-                                    </Form.Group>
-                                    <Form.Group controlId="formBasicPort">
-                                        <Form.Label>Broker node port</Form.Label>
-                                        <Form.Control
-                                            type="number"
-                                            placeholder="8082"
-                                            value={port}
-                                            onChange={inputting("port")}
-                                        />
-                                    </Form.Group>
-                                    <Form.Group controlId="formSSH-Tunnel">
-                                        <Row>
-                                            <Col md="11">
-                                                <Form.Label>Use an SSH-tunnel for database connections</Form.Label>
-                                                <Form.Text className="text-muted">
-                                                    Some database installations can only be accessed by connecting through an SSH 
-                                                    bastion host. This option also provides an extra layer of security when a VPN is 
-                                                    not available. Enabling this is usually slower than a direct connection.
-                                                </Form.Text>
-                                            </Col>
-                                            <Col md="1">
-                                                <Form.Check 
-                                                    type="switch"
-                                                    id="ssh-tunnel"
-                                                    checked={sshTunnel}
-                                                    onChange={switches("ssh-tunnel")}
-                                                />
-                                            </Col>
-                                        </Row>
-                                    </Form.Group>
-                                    <SSHTunnel
-                                        inputting={inputting}
-                                        tunnelHost={tunnelHost}
-                                        tunnelPort={tunnelPort}
-                                        tunnelUser={tunnelUser}
-                                        sshAuth={sshAuth}
-                                        tunnelPrivateKey={tunnelPrivateKey}
-                                        tunnelPassword={tunnelPassword}
-                                        sshTunnel={sshTunnel}
-                                    />
-                                    <FormFooter switches={switches} autoRunQueries={autoRunQueries} userControlScheduling={userControlScheduling}/>
+                                    <Childrens
+                                    engine={engine}
+                                    inputting={inputting}
+                                    name={name}
+                                    host={host}
+                                    port={port}
+                                    switches={switches}
+                                    sshTunnel={sshTunnel}
+                                    tunnelPassword={tunnelPassword}
+                                    tunnelHost={tunnelHost}
+                                    tunnelPort={tunnelPort}
+                                    tunnelPrivateKey={tunnelPrivateKey}
+                                    tunnelUser={tunnelUser}
+                                    sshAuth={sshAuth}
+                                    autoRunQueries={autoRunQueries}
+                                    userControlScheduling={userControlScheduling}
+                                    refingerprint={refingerprint} />
                                 </SchedulingTab>
                                 :
-                                <>
-                                    <FormComponent engine={engine} inputting={inputting} name={name}/>
-                                    <Form.Group controlId="formBasicHost">
-                                        <Form.Label>Host</Form.Label>
-                                        <Form.Control
-                                            type="text"
-                                            placeholder="localhost"
-                                            value={host}
-                                            onChange={inputting("host")}
-                                        />
-                                    </Form.Group>
-                                    <Form.Group controlId="formBasicPort">
-                                        <Form.Label>Broker node port</Form.Label>
-                                        <Form.Control
-                                            type="number"
-                                            placeholder="8082"
-                                            value={port}
-                                            onChange={inputting("port")}
-                                        />
-                                    </Form.Group>
-                                    <Form.Group controlId="formSSH-Tunnel">
-                                        <Row>
-                                            <Col md="11">
-                                                <Form.Label>Use an SSH-tunnel for database connections</Form.Label>
-                                                <Form.Text className="text-muted">
-                                                    Some database installations can only be accessed by connecting through an SSH 
-                                                    bastion host. This option also provides an extra layer of security when a VPN is 
-                                                    not available. Enabling this is usually slower than a direct connection.
-                                                </Form.Text>
-                                            </Col>
-                                            <Col md="1">
-                                                <Form.Check 
-                                                    type="switch"
-                                                    id="ssh-tunnel"
-                                                    checked={sshTunnel}
-                                                    onChange={switches("ssh-tunnel")}
-                                                />
-                                            </Col>
-                                        </Row>
-                                    </Form.Group>
-                                    <SSHTunnel
-                                        inputting={inputting}
-                                        tunnelHost={tunnelHost}
-                                        tunnelPort={tunnelPort}
-                                        tunnelUser={tunnelUser}
-                                        sshAuth={sshAuth}
-                                        tunnelPrivateKey={tunnelPrivateKey}
-                                        tunnelPassword={tunnelPassword}
-                                        sshTunnel={sshTunnel}
-                                    />
-                                    <FormFooter switches={switches} autoRunQueries={autoRunQueries} userControlScheduling={userControlScheduling}/>
-                                </>
+                                <Childrens
+                                    engine={engine}
+                                    inputting={inputting}
+                                    name={name}
+                                    host={host}
+                                    port={port}
+                                    switches={switches}
+                                    sshTunnel={sshTunnel}
+                                    tunnelPassword={tunnelPassword}
+                                    tunnelHost={tunnelHost}
+                                    tunnelPort={tunnelPort}
+                                    tunnelPrivateKey={tunnelPrivateKey}
+                                    tunnelUser={tunnelUser}
+                                    sshAuth={sshAuth}
+                                    autoRunQueries={autoRunQueries}
+                                    userControlScheduling={userControlScheduling}
+                                    refingerprint={refingerprint} />
                             }
                             
                             {c}

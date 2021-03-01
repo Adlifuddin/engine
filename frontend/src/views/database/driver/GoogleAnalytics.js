@@ -8,13 +8,61 @@ import SchedulingTab from './components/SchedulingTab'
 import api from '../../../api/metabaseApi'
 import Scheduling from './components/Scheduling'
 
+function Childrens(props) {
+    const { engine, inputting, name, GaAccountID, GaClientID, switches, GaSecret, authCode, autoRunQueries, userControlScheduling, refingerprint} = props
+    return (
+        <>
+            <FormComponent engine={engine} inputting={inputting} name={name}/>
+            <Form.Group controlId="formBasicAccountID">
+                <Form.Label>Google Analytics Account ID</Form.Label>
+                <Form.Control
+                    type="number"
+                    placeholder="1234567"
+                    value={GaAccountID}
+                    onChange={inputting("GaAccountID")}
+                />
+            </Form.Group>
+            <Form.Group controlId="formBasicClientID">
+                <Form.Label>Client ID</Form.Label>
+                <Form.Text>
+                    <a href="https://console.developers.google.com/apis/credentials/oauthclient?project=">Click here</a> to generate a Client ID and Client Secret for your project. Choose "Other" as the application type. Name it whatever you'd like.
+                </Form.Text>
+                <Form.Control
+                    type="text"
+                    placeholder="1201327674725-y6ferb0feo1hfssr7t40o4aikqll46d4.apps.googleusercontent.com"
+                    value={GaClientID}
+                    onChange={inputting("GaClientID")}
+                />
+            </Form.Group>
+            <Form.Group controlId="formBasicClientSecret">
+                <Form.Label>Client Secret</Form.Label>
+                <Form.Control
+                    type="text"
+                    placeholder="dJNi4utWgMzyIFo2JbnsK6Np"
+                    value={GaSecret}
+                    onChange={inputting("GaSecret")}
+                />
+            </Form.Group>
+            <Form.Group controlId="formBasicAuthCode">
+                <Form.Label>Auth Code</Form.Label>
+                <Form.Control
+                    type="text"
+                    placeholder="4/HSk-KtxkSzTt61j5zcbee2Rmm5JHkRFbL5gD5lgkXek"
+                    value={authCode}
+                    onChange={inputting("authCode")}
+                />
+            </Form.Group>
+            <FormFooter switches={switches} autoRunQueries={autoRunQueries} userControlScheduling={userControlScheduling} refingerprint={refingerprint}/>
+        </>
+    )
+}
+
 function GoogleAnalytics(props) {
-    const [key, changeKey] = useState("0")
 const { status,
         inputting,
         page,
         setPage,
-    errorInput,
+        errorInput,
         parseScheduling,
         engine,
         autoRunQueries, 
@@ -45,9 +93,11 @@ const { status,
         onTheChange,
         oriChange,
         changeOriChange,
-        time,} = props
-        
-    
+        time,
+        activeKey,
+        changeKey,
+        refingerprint} = props
+
     const [connection, setConnection] = useState(false)
    
 
@@ -74,7 +124,8 @@ const { status,
                 "engine": engine,
                 "is_full_sync": true,
                 "is_on_demand": false,
-                "name": name
+                "name": name,
+                "refingerprint": refingerprint
             }
         if (data.details["let-user-control-scheduling"]) {
             const validate = { "details": data }
@@ -103,15 +154,6 @@ const { status,
 
         if (page) {
            const datas = parseScheduling(data)
- 
-            if (key === '1') {
-                datas["is_full_sync"] = false
-                datas["is_on_demand"] = true
-            } else if (key === '2') {
-                datas["is_full_sync"] = false
-                datas["is_on_demand"] = false
-            }
-
             api.createDatabase(datas)
                 .then(response => {
                     window.location.href = '/database'
@@ -133,6 +175,7 @@ const { status,
                         <Col md="8">
                             {page?
                                 <Scheduling
+                                    activeKey={activeKey}
                                     changeKey={changeKey}
                                     filterChange={filterChange}
                                     filterTime={filterTime}
@@ -156,6 +199,7 @@ const { status,
                                 :
                             connection && status !== 'add' ?
                                 <SchedulingTab
+                                    activeKey={activeKey}
                                     changeKey={changeKey}
                                     filterChange={filterChange}
                                     filterTime={filterTime}
@@ -177,92 +221,34 @@ const { status,
                                     changeOriChange={changeOriChange}
                                     connection={connection}
                                 >
-                                    <FormComponent engine={engine} inputting={inputting} name={name}/>
-                                    <Form.Group controlId="formBasicAccountID">
-                                        <Form.Label>Google Analytics Account ID</Form.Label>
-                                        <Form.Control
-                                            type="number"
-                                            placeholder="1234567"
-                                            value={GaAccountID}
-                                            onChange={inputting("GaAccountID")}
-                                        />
-                                    </Form.Group>
-                                    <Form.Group controlId="formBasicClientID">
-                                        <Form.Label>Client ID</Form.Label>
-                                        <Form.Text>
-                                            <a href="https://console.developers.google.com/apis/credentials/oauthclient?project=">Click here</a> to generate a Client ID and Client Secret for your project. Choose "Other" as the application type. Name it whatever you'd like.
-                                        </Form.Text>
-                                        <Form.Control
-                                            type="text"
-                                            placeholder="1201327674725-y6ferb0feo1hfssr7t40o4aikqll46d4.apps.googleusercontent.com"
-                                            value={GaClientID}
-                                            onChange={inputting("GaClientID")}
-                                        />
-                                    </Form.Group>
-                                    <Form.Group controlId="formBasicClientSecret">
-                                        <Form.Label>Client Secret</Form.Label>
-                                        <Form.Control
-                                            type="text"
-                                            placeholder="dJNi4utWgMzyIFo2JbnsK6Np"
-                                            value={GaSecret}
-                                            onChange={inputting("GaSecret")}
-                                        />
-                                    </Form.Group>
-                                    <Form.Group controlId="formBasicAuthCode">
-                                        <Form.Label>Auth Code</Form.Label>
-                                        <Form.Control
-                                            type="text"
-                                            placeholder="4/HSk-KtxkSzTt61j5zcbee2Rmm5JHkRFbL5gD5lgkXek"
-                                            value={authCode}
-                                            onChange={inputting("authCode")}
-                                        />
-                                    </Form.Group>
-                                    <FormFooter switches={switches} autoRunQueries={autoRunQueries} userControlScheduling={userControlScheduling}/>
+                                    <Childrens
+                                        engine={engine}
+                                        inputting={inputting}
+                                        name={name}
+                                        GaAccountID={GaAccountID}
+                                        GaClientID={GaClientID}
+                                        switches={switches}
+                                        GaSecret={GaSecret}
+                                        authCode={authCode}
+                                        autoRunQueries={autoRunQueries}
+                                        userControlScheduling={userControlScheduling}
+                                        refingerprint={refingerprint}
+                                    />
                                 </SchedulingTab>
-                                        :
-                                        <>
-                                            <FormComponent engine={engine} inputting={inputting} name={name}/>
-                                    <Form.Group controlId="formBasicAccountID">
-                                        <Form.Label>Google Analytics Account ID</Form.Label>
-                                        <Form.Control
-                                            type="number"
-                                            placeholder="1234567"
-                                            value={GaAccountID}
-                                            onChange={inputting("GaAccountID")}
-                                        />
-                                    </Form.Group>
-                                    <Form.Group controlId="formBasicClientID">
-                                        <Form.Label>Client ID</Form.Label>
-                                        <Form.Text>
-                                            <a href="https://console.developers.google.com/apis/credentials/oauthclient?project=">Click here</a> to generate a Client ID and Client Secret for your project. Choose "Other" as the application type. Name it whatever you'd like.
-                                        </Form.Text>
-                                        <Form.Control
-                                            type="text"
-                                            placeholder="1201327674725-y6ferb0feo1hfssr7t40o4aikqll46d4.apps.googleusercontent.com"
-                                            value={GaClientID}
-                                            onChange={inputting("GaClientID")}
-                                        />
-                                    </Form.Group>
-                                    <Form.Group controlId="formBasicClientSecret">
-                                        <Form.Label>Client Secret</Form.Label>
-                                        <Form.Control
-                                            type="text"
-                                            placeholder="dJNi4utWgMzyIFo2JbnsK6Np"
-                                            value={GaSecret}
-                                            onChange={inputting("GaSecret")}
-                                        />
-                                    </Form.Group>
-                                    <Form.Group controlId="formBasicAuthCode">
-                                        <Form.Label>Auth Code</Form.Label>
-                                        <Form.Control
-                                            type="text"
-                                            placeholder="4/HSk-KtxkSzTt61j5zcbee2Rmm5JHkRFbL5gD5lgkXek"
-                                            value={authCode}
-                                            onChange={inputting("authCode")}
-                                        />
-                                    </Form.Group>
-                                    <FormFooter switches={switches} autoRunQueries={autoRunQueries} userControlScheduling={userControlScheduling}/>
-                                </>
+                                :
+                                <Childrens
+                                    engine={engine}
+                                    inputting={inputting}
+                                    name={name}
+                                    GaAccountID={GaAccountID}
+                                    GaClientID={GaClientID}
+                                    switches={switches}
+                                    GaSecret={GaSecret}
+                                    authCode={authCode}
+                                    autoRunQueries={autoRunQueries}
+                                    userControlScheduling={userControlScheduling}
+                                    refingerprint={refingerprint}
+                                />
                             }
                             
                             {c}

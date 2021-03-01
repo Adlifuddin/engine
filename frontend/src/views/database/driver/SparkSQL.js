@@ -8,8 +8,70 @@ import SchedulingTab from './components/SchedulingTab'
 import api from '../../../api/metabaseApi'
 import Scheduling from './components/Scheduling'
 
+function Childrens(props) {
+    const {engine, inputting, name, host, port, dbname, username, password, jdbc, switches, autoRunQueries, userControlScheduling, refingerprint } = props
+    return (
+        <>
+            <FormComponent engine={engine} inputting={inputting} name={name}/>
+            <Form.Group controlId="formBasicHost">
+                <Form.Label>Host</Form.Label>
+                <Form.Control
+                    type="text"
+                    placeholder="localhost"
+                    value={host}
+                    onChange={inputting("host")}
+                />
+            </Form.Group>
+            <Form.Group controlId="formBasicPort">
+                <Form.Label>Port</Form.Label>
+                <Form.Control
+                    type="number"
+                    placeholder="10000"
+                    value={port}
+                    onChange={inputting("port")}
+                />
+            </Form.Group>
+            <Form.Group controlId="formBasicDatabaseName">
+                <Form.Label>Database Name</Form.Label>
+                <Form.Control
+                    type="text"
+                    placeholder="birds_of_the_world"
+                    value={dbname}
+                    onChange={inputting("dbname")}
+                />
+            </Form.Group>
+            <Form.Group controlId="formBasicUsername">
+                <Form.Label>Username</Form.Label>
+                <Form.Control
+                    type="username"
+                    placeholder="What username do you use to login to the database?"
+                    value={username}
+                    onChange={inputting("username")}
+                />
+            </Form.Group>
+            <Form.Group controlId="formBasicPassword">
+                <Form.Label>Password</Form.Label>
+                <Form.Control
+                    type="password"
+                    placeholder="&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;"
+                    value={password}
+                    onChange={inputting("password")}
+                />
+            </Form.Group>
+            <Form.Group controlId="formBasicUsername">
+                <Form.Label>Additional JDBC connection string options</Form.Label>
+                <Form.Control
+                    type="text"
+                    placeholder=";transportMode=http"
+                    value={jdbc}
+                    onChange={inputting("jdbc")}
+                />
+            </Form.Group> 
+            <FormFooter switches={switches} autoRunQueries={autoRunQueries} userControlScheduling={userControlScheduling} refingerprint={refingerprint}/>
+        </>
+    )
+}
 function SparkSQL(props) {
-    const [key, changeKey] = useState("0")
 const { inputting,
         engine,
         status,
@@ -17,7 +79,7 @@ const { inputting,
         userControlScheduling,
         name,
         host,
-    port,
+        port,
         parseScheduling,
         dbname,
         username,
@@ -47,7 +109,10 @@ const { inputting,
         time,
         page,
         setPage,
-        errorInput,} = props
+        errorInput,
+        changeKey,
+        activeKey,
+        refingerprint} = props
     const [connection, setConnection] = useState(false)
     useEffect(() => {
         if (userControlScheduling) {
@@ -75,6 +140,7 @@ const { inputting,
                 'is_full_sync': true,
                 'is_on_demand': false,
                 'name': name,
+                "refingerprint": refingerprint
             }
         if (data.details["let-user-control-scheduling"]) {
             const validate = { "details": data }
@@ -103,15 +169,6 @@ const { inputting,
 
         if (page) {
             const datas = parseScheduling(data)
- 
-            if (key === '1') {
-                datas["is_full_sync"] = false
-                datas["is_on_demand"] = true
-            } else if (key === '2') {
-                datas["is_full_sync"] = false
-                datas["is_on_demand"] = false
-            }
-
             api.createDatabase(datas)
                 .then(response => {
                     window.location.href = '/database'
@@ -133,6 +190,7 @@ const { inputting,
                         <Col md="8">
                             {page?
                                 <Scheduling
+                                    activeKey={activeKey}
                                     changeKey={changeKey}
                                     filterChange={filterChange}
                                     filterTime={filterTime}
@@ -156,6 +214,7 @@ const { inputting,
                                 :
                             connection && status !== 'add' ?
                                 <SchedulingTab
+                                    activeKey={activeKey}
                                     changeKey={changeKey}
                                     filterChange={filterChange}
                                     filterTime={filterTime}
@@ -177,122 +236,38 @@ const { inputting,
                                     changeOriChange={changeOriChange}
                                     connection={connection}
                                 >
-                                    <FormComponent engine={engine} inputting={inputting} name={name}/>
-                                    <Form.Group controlId="formBasicHost">
-                                        <Form.Label>Host</Form.Label>
-                                        <Form.Control
-                                            type="text"
-                                            placeholder="localhost"
-                                            value={host}
-                                            onChange={inputting("host")}
-                                        />
-                                    </Form.Group>
-                                    <Form.Group controlId="formBasicPort">
-                                        <Form.Label>Port</Form.Label>
-                                        <Form.Control
-                                            type="number"
-                                            placeholder="10000"
-                                            value={port}
-                                            onChange={inputting("port")}
-                                        />
-                                    </Form.Group>
-                                    <Form.Group controlId="formBasicDatabaseName">
-                                        <Form.Label>Database Name</Form.Label>
-                                        <Form.Control
-                                            type="text"
-                                            placeholder="birds_of_the_world"
-                                            value={dbname}
-                                            onChange={inputting("dbname")}
-                                        />
-                                    </Form.Group>
-                                    <Form.Group controlId="formBasicUsername">
-                                        <Form.Label>Username</Form.Label>
-                                        <Form.Control
-                                            type="username"
-                                            placeholder="What username do you use to login to the database?"
-                                            value={username}
-                                            onChange={inputting("username")}
-                                        />
-                                    </Form.Group>
-                                    <Form.Group controlId="formBasicPassword">
-                                        <Form.Label>Password</Form.Label>
-                                        <Form.Control
-                                            type="password"
-                                            placeholder="&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;"
-                                            value={password}
-                                            onChange={inputting("password")}
-                                        />
-                                    </Form.Group>
-                                    <Form.Group controlId="formBasicUsername">
-                                        <Form.Label>Additional JDBC connection string options</Form.Label>
-                                        <Form.Control
-                                            type="text"
-                                            placeholder=";transportMode=http"
-                                            value={jdbc}
-                                            onChange={inputting("jdbc")}
-                                        />
-                                    </Form.Group>
-                                    <FormFooter switches={switches} autoRunQueries={autoRunQueries} userControlScheduling={userControlScheduling}/>
+                                    <Childrens
+                                        engine={engine}
+                                        inputting={inputting}
+                                        name={name}
+                                        host={host}
+                                        port={port}
+                                        dbname={dbname}
+                                        username={username}
+                                        password={password}
+                                        jdbc={jdbc}
+                                        switches={switches}
+                                        autoRunQueries={autoRunQueries}
+                                        userControlScheduling={userControlScheduling}
+                                        refingerprint={refingerprint}
+                                    />
                                 </SchedulingTab>
                                 :
-                                <>
-                                    <FormComponent engine={engine} inputting={inputting} name={name}/>
-                                    <Form.Group controlId="formBasicHost">
-                                        <Form.Label>Host</Form.Label>
-                                        <Form.Control
-                                            type="text"
-                                            placeholder="localhost"
-                                            value={host}
-                                            onChange={inputting("host")}
-                                        />
-                                    </Form.Group>
-                                    <Form.Group controlId="formBasicPort">
-                                        <Form.Label>Port</Form.Label>
-                                        <Form.Control
-                                            type="number"
-                                            placeholder="10000"
-                                            value={port}
-                                            onChange={inputting("port")}
-                                        />
-                                    </Form.Group>
-                                    <Form.Group controlId="formBasicDatabaseName">
-                                        <Form.Label>Database Name</Form.Label>
-                                        <Form.Control
-                                            type="text"
-                                            placeholder="birds_of_the_world"
-                                            value={dbname}
-                                            onChange={inputting("dbname")}
-                                        />
-                                    </Form.Group>
-                                    <Form.Group controlId="formBasicUsername">
-                                        <Form.Label>Username</Form.Label>
-                                        <Form.Control
-                                            type="username"
-                                            placeholder="What username do you use to login to the database?"
-                                            value={username}
-                                            onChange={inputting("username")}
-                                        />
-                                    </Form.Group>
-                                    <Form.Group controlId="formBasicPassword">
-                                        <Form.Label>Password</Form.Label>
-                                        <Form.Control
-                                            type="password"
-                                            placeholder="&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;"
-                                            value={password}
-                                            onChange={inputting("password")}
-                                        />
-                                    </Form.Group>
-                                    <Form.Group controlId="formBasicUsername">
-                                        <Form.Label>Additional JDBC connection string options</Form.Label>
-                                        <Form.Control
-                                            type="text"
-                                            placeholder=";transportMode=http"
-                                            value={jdbc}
-                                            onChange={inputting("jdbc")}
-                                        />
-                                    </Form.Group>
-                                    <FormFooter switches={switches} autoRunQueries={autoRunQueries} userControlScheduling={userControlScheduling}/>
-                                </>
+                                <Childrens
+                                    engine={engine}
+                                    inputting={inputting}
+                                    name={name}
+                                    host={host}
+                                    port={port}
+                                    dbname={dbname}
+                                    username={username}
+                                    password={password}
+                                    jdbc={jdbc}
+                                    switches={switches}
+                                    autoRunQueries={autoRunQueries}
+                                    userControlScheduling={userControlScheduling}
+                                    refingerprint={refingerprint}
+                                />
 
                             }
                             {c}

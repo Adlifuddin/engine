@@ -1,5 +1,6 @@
-import React from 'react'
+import React, {useEffect, useState} from 'react'
 import DatabaseContainer from './DatabaseContainer'
+
 
 function DatabaseUpdate(props) {
     const path = props.location.pathname
@@ -7,7 +8,9 @@ function DatabaseUpdate(props) {
     const status = pathname[2]
 
     return (
-        <DatabaseContainer status={status}/>
+        <>
+            <DatabaseContainer status={status}/>
+        </>
     )
 }
 

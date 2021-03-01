@@ -78,12 +78,22 @@ function DatabaseDriver(props) {
             changeOriChange,
             time,
             page,
-            setPage,} = props
+            setPage,
+            databaseData,
+            activeKey,
+            changeKey,
+            refingerprint,
+            includeUserIDandHash,
+            } = props
 
 
     switch (engine) {
         case "postgres":
             return <Postgres
+                        refingerprint={refingerprint}
+                        activeKey={activeKey}
+                        changeKey={changeKey}
+                        databaseData={databaseData}
                         parseTunneling={parseTunneling}
                         parseScheduling={parseScheduling}
                         page={page}
@@ -131,9 +141,10 @@ function DatabaseDriver(props) {
                         onTheChange={onTheChange}
                         oriChange={oriChange}
                         changeOriChange={changeOriChange}
-                    />;
+                    />
         case "sqlite":
             return <SQLite
+                        refingerprint={refingerprint}
                         parseTunneling={parseTunneling}
                         parseScheduling={parseScheduling}
                         page={page}
@@ -171,6 +182,7 @@ function DatabaseDriver(props) {
             />
         case "redshift":
             return <RedShift
+                        refingerprint={refingerprint}
                         parseTunneling={parseTunneling}
                         parseScheduling={parseScheduling}
                         page={page}
@@ -219,6 +231,8 @@ function DatabaseDriver(props) {
             />
         case "bigquery":
             return <BigQuery
+                        includeUserIDandHash={includeUserIDandHash}
+                        refingerprint={refingerprint}
                         jsonProcess={jsonProcess}
                         parseScheduling={parseScheduling}
                         errorInput={errorInput}
@@ -258,6 +272,7 @@ function DatabaseDriver(props) {
                     />
         case "mysql":
             return <MySQL
+                        refingerprint={refingerprint}
                         parseTunneling={parseTunneling}
                         parseScheduling={parseScheduling}
                         page={page}
@@ -308,6 +323,7 @@ function DatabaseDriver(props) {
                     />;
         case "druid":
             return <Druid
+                        refingerprint={refingerprint}
                         parseTunneling={parseTunneling}
                         parseScheduling={parseScheduling}
                         errorInput={errorInput}
@@ -353,6 +369,7 @@ function DatabaseDriver(props) {
                     />;
         case "googleanalytics":
             return <GoogleAnalytics
+                        refingerprint={refingerprint}
                         parseScheduling={parseScheduling}
                         errorInput={errorInput}
                         page={page}
@@ -392,6 +409,7 @@ function DatabaseDriver(props) {
                     />;
         case "h2":
             return <H2
+                        refingerprint={refingerprint}
                         parseScheduling={parseScheduling}
                         errorInput={errorInput}
                         page={page}
@@ -428,6 +446,7 @@ function DatabaseDriver(props) {
                     />;
         case "mongo":
             return <MongoDB
+                        refingerprint={refingerprint}
                         parseTunneling={parseTunneling}
                         parseScheduling={parseScheduling}
                         errorInput={errorInput}
@@ -481,6 +500,7 @@ function DatabaseDriver(props) {
             />;
         case "presto":
             return <Presto
+                        refingerprint={refingerprint}
                         parseTunneling={parseTunneling}
                         parseScheduling={parseScheduling}
                         errorInput={errorInput}
@@ -530,6 +550,7 @@ function DatabaseDriver(props) {
                     />
         case "snowflake":
             return <Snowflake
+                        refingerprint={refingerprint}
                         parseTunneling={parseTunneling}
                         parseScheduling={parseScheduling}
                         errorInput={errorInput}
@@ -582,6 +603,7 @@ function DatabaseDriver(props) {
                     />
         case "sparksql":
             return <SparkSQL
+                        refingerprint={refingerprint}
                         parseTunneling={parseTunneling}
                         parseScheduling={parseScheduling}
                         errorInput={errorInput}
@@ -624,6 +646,7 @@ function DatabaseDriver(props) {
             />
         case "sqlserver":
             return <SqlServer
+                        refingerprint={refingerprint}
                         parseTunneling={parseTunneling}
                         parseScheduling={parseScheduling}
                         errorInput={errorInput}

@@ -5,10 +5,12 @@ import { Card, Row, Modal, ModalHeader, ModalBody, Col, ModalFooter } from 'reac
 import { Button, Spinner } from 'react-bootstrap'
 import api from '../../api/metabaseApi'
 import { TiTick } from 'react-icons/ti'
+import ApiLoader from '../../components/Loader/ApiLoader'
 import DatabaseDriver from './components/DatabaseDriver'
 
 function DatabaseContainer(props) {
     const { status } = props
+    
     const [modal, setModal] = useState(false);
     const [Delete, setDelete] = useState("")
     const toggle = () => setModal(!modal);
@@ -18,7 +20,7 @@ function DatabaseContainer(props) {
     const [loading, setLoading] = useState("nothing")
     const [ReScanLoading, setReScanLoading] = useState("nothing")
     const [error, setError] = useState("")
-
+    const [load, setLoad] = useState(false)
     const [databaseData, setDatabaseData] = useState([])
     const [sslSwitch, setSSLSwitch] = useState(false);
     const [sshTunnel, setSSHTunnel] = useState(false);
@@ -69,6 +71,10 @@ function DatabaseContainer(props) {
     const [oriChange, setOriChange] = useState('mon')
     const [page, setPage] = useState(false)
 
+    const [activeKey, changeKey] = useState("0")
+    const [refingerprint, setRefingerprint] = useState(false)
+    const [includeUserIDandHash, setIncludeUserIDandHash] = useState(true)
+
     const parseTiming = (data) => {
         setChanges(data.metadata_sync['schedule_type'])
         setTime(data.metadata_sync['schedule_hour'])
@@ -81,11 +87,44 @@ function DatabaseContainer(props) {
             const times = data.metadata_sync['schedule_hour'] - 12
             setTime(times)
         }
-        console.log(data)
+    }
+
+    const parseFilter = (data) => {
+        setFilterChange(data.cache_field_values["schedule_type"])
+        setFilterDate('am')
+        if (data.cache_field_values["schedule_type"] === "monthly") {
+            setonTheChange(data.cache_field_values["schedule_day"])
+            setonThe(data.cache_field_values["schedule_frame"])
+        } else if (data.cache_field_values["schedule_type"] === "weekly") {
+            setOriChange(data.cache_field_values["schedule_day"])
+        }
+        if (data.cache_field_values['schedule_hour'] === 12) {
+            setFilterDate('pm')
+        }
+        if (data.cache_field_values['schedule_hour'] > 12) {
+            setFilterDate('pm')
+            const times = data.cache_field_values['schedule_hour'] - 12
+            setFilterTime(times)
+        }
+    }
+
+    const parseKey = (keys) => {
+        if (!keys.is_full_sync && keys.is_on_demand) {
+            changeKey('1')
+            parseFilter(keys.schedules)
+        } else if (!keys.is_full_sync && !keys.is_on_demand) {
+            changeKey('2')
+            parseFilter(keys.schedules)
+        } else {
+            changeKey('0')
+            parseFilter(keys.schedules)
+        }
+        setLoad(false)
     }
 
     useEffect(() => {
         if (status !== 'add') {
+            setLoad(true)
             api.databaseListID(status)
                 .then(response => {
                     if (response.data.details) {
@@ -95,6 +134,8 @@ function DatabaseContainer(props) {
                         setDatabaseData(data)
                         setAutoRunQueries(data.auto_run_queries)
                         setUserControlScheduling(data.details["let-user-control-scheduling"])
+                        setRefingerprint(data.refingerprint)
+                        parseKey(data)
                         if (data.details['tunnel-enabled']) {
                             setTunnelHost(data.details["tunnel-host"])
                             setTunnelPort(data.details["tunnel-port"])
@@ -122,6 +163,7 @@ function DatabaseContainer(props) {
                                 setJvmTimezone(data.details["use-jvm-timezone"])
                                 setDatasetId(data.details["dataset-id"])
                                 setJSON(data.details["service-account-json"])
+                                setIncludeUserIDandHash(data.details["include-user-id-and-hash"])
                                 break;
                             case "druid":
                                 setHost(data.details.host)
@@ -219,6 +261,13 @@ function DatabaseContainer(props) {
                 break;
             case 'dnsSRV':
                 setDnsSRV(e.target.checked)
+                break;
+            case 'refingerprint':
+                setRefingerprint(e.target.checked)
+                break;
+            case 'includeUserIDandHash':
+                setIncludeUserIDandHash(e.target.checked)
+                break;
             default:
                 break;
         }
@@ -337,33 +386,33 @@ function DatabaseContainer(props) {
                     <Button variant="success" type="submit">Save Changes</Button>
                 </Col>
                 <Col>
-                    <p style={{color: 'red'}}>{error}</p>
+                    <p style={{ color: 'red' }}>{error}</p>
                 </Col>
             </Row>
         )
     } else if (userControlScheduling && status === 'add') {
         c = (
-             <Row>
+            <Row>
                 <Col md="1">
-                    {page?
+                    {page ?
                         <Button variant="success" type="submit">Save</Button>
                         :
                         <Button variant="success" type="submit">Next</Button>
                     }
                 </Col>
                 <Col>
-                    <p style={{color: 'red'}}>{error}</p>
+                    <p style={{ color: 'red' }}>{error}</p>
                 </Col>
             </Row>
         )
-    } else if(page){
+    } else if (page) {
         c = (
             <Row>
                 <Col md="1">
                     <Button variant="success" type="submit">Save</Button>
                 </Col>
                 <Col>
-                    <p style={{color: 'red'}}>{error}</p>
+                    <p style={{ color: 'red' }}>{error}</p>
                 </Col>
             </Row>
         )
@@ -751,7 +800,13 @@ function DatabaseContainer(props) {
 
         data["metadata_sync_schedule"] = `0 0 ${digits} * * ? *`
 
-
+        if (activeKey === '1') {
+                data["is_full_sync"] = false
+                data["is_on_demand"] = true
+        } else if (activeKey === '2') {
+            data["is_full_sync"] = false
+            data["is_on_demand"] = false
+        }
 
         return data
     }
@@ -776,7 +831,15 @@ function DatabaseContainer(props) {
 
     return (
         <>
+            {load?
+            <ApiLoader apiload={load} />
+                :
             <DatabaseDriver
+                includeUserIDandHash={includeUserIDandHash}
+                refingerprint={refingerprint}
+                activeKey={activeKey}
+                changeKey={changeKey}
+                databaseData={databaseData}
                 jsonProcess={jsonProcess}
                 parseTunneling={parseTunneling}
                 parseScheduling={parseScheduling}
@@ -842,7 +905,9 @@ function DatabaseContainer(props) {
                 onTheChange={onTheChange}
                 oriChange={oriChange}
                 changeOriChange={changeOriChange}
+                load={load}
             />
+            }
         </>
     )
 
