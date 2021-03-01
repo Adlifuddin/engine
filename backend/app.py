@@ -242,11 +242,22 @@ class Downloads(Resource):
 class DownloadsOverview(Resource):
     def get(self):
         engine = CreateConnectionCoreUser()
-        query = "select a.started_at as downloadAt, a.result_rows as rowsDownloaded, e.first_name as user from public.query_execution a left join public.core_user e on a.executor_id = e.id group by a.started_at,a.result_rows,e.first_name"
+        query = "select a.started_at as date, a.result_rows as rows, e.first_name as user from public.query_execution a left join public.core_user e on a.executor_id = e.id where a.context ilike 'csv-download' or a.context ilike 'json-download' or a.context ilike 'xlsx-download' group by a.started_at,a.result_rows,e.first_name"
         connection = engine.connect()
         result = connection.execute(query)
         results = [dict(zip(tuple (result.keys()) ,i)) for i in result.cursor]
         return jsonify(results)
+
+class downloadsPerUser(Resource):
+    def get(self):
+        engine = CreateConnectionCoreUser()
+        query = "select count(distinct a.id)as count, concat(b.first_name,' ',b.last_name) as name from query_execution a left join core_user b on a.executor_id = b.id where a.context ilike 'csv-download' or a.context ilike 'json-download' or a.context ilike 'xlsx-download' group by b.first_name, b.last_name order by count desc limit 10"
+        connection = engine.connect()
+        result = connection.execute(query)
+        results = [dict(zip(tuple (result.keys()) ,i)) for i in result.cursor]
+        return jsonify(results)
+
+
 
 
 api.add_resource(Test, '/api/test')
@@ -272,6 +283,7 @@ api.add_resource(QuestionsPopularQueries, '/api/audit/questions/popularqueries')
 api.add_resource(QuestionsSlowestQueries, '/api/audit/questions/slowestqueries')
 api.add_resource(DashboardsMostPopular, '/api/audit/dashboards/mostpopular')
 api.add_resource(DownloadsOverview, '/api/audit/downloads/overview')
+api.add_resource(downloadsPerUser, '/api/audit/downloads/downloadperuser')
 
 
 if __name__ == '__main__':
