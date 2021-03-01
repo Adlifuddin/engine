@@ -51,7 +51,7 @@ function DashboardOverview(){
                         </Breadcrumb>
                         <Row>
                             <Col>
-                                <h3 style={{color:"white",marginBottom:"20px"}}>Most popular dashboards and their average loading times</h3>
+                                <h3 style={{color:"white",marginBottom:"20px"}}>Most popular dashboards & average loading times</h3>
                                 <Table striped bordered hover variant="light">
                             <thead>
                                 <tr>

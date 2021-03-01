@@ -65,10 +65,10 @@ function DownloadOverview(){
 
                             <Col>
                                 <h3 style={{color:"white",marginBottom:"20px"}}>Downloads Per User</h3>
-                                <BarChart margin={{left:150}} layout="vertical" width={600} height={600} data={downloadperUser}>
+                                <BarChart margin={{left:150, bottom: 30}} layout="vertical" width={600} height={300} data={downloadperUser}>
                                     <CartesianGrid vertical={true} horizontal={false} />
-                                    <XAxis tick={{ fontWeight:"bold" }} stroke="white" type="number" dataKey="count"/>
-                                    <YAxis tick={{ fontSize:"10.5px",fontWeight:"bold" }} stroke="white" type="category" dataKey="name" />
+                                    <XAxis tick={{ fontSize:"12px",fontWeight:"bold" }} stroke="white" type="number" dataKey="count" allowDecimals={false} label={{ value: "Download",fill:"white", dy: 25}} />
+                                    <YAxis tick={{ fontSize:"12px",fontWeight:"bold" }} stroke="white" type="category" dataKey="name" label={{ value: "User",fill:"white", angle:270, dx:-35}} />
                                     <Tooltip />
                                     <Bar dataKey="count" fill="#8884d8" />
                                 </BarChart>  
