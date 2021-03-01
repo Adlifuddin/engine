@@ -10,7 +10,7 @@ function DownloadOverview(){
 
     useEffect(() => {
         axios
-            .get("http://localhost:5000/api/audit/databases")
+            .get("http://localhost:5000/api/audit/downloads/overview")
             .then(res => {
                 setDownload(res.data)
             })
@@ -42,8 +42,8 @@ function DownloadOverview(){
                                 <h3 style={{color:"white",marginBottom:"20px"}}>Largest downloads in the last 30 days</h3>
                                 <ScatterChart width={1200} height={300} margin={{ top: 20, right: 20, bottom: 30, left: 150 }}>
                                     <CartesianGrid  />
-                                    <XAxis type="category" tick={{ fontSize:"12px",fontWeight:"bold" }} stroke="white" dataKey="created_at" label={{ value: "Day",fill:"white", dy: 25}} tickFormatter={formatAxis} />
-                                    <YAxis type="number" tick={{ fontSize:"12px",fontWeight:"bold" }} stroke="white" dataKey="table" label={{ value: "Rows in Query",fill:"white", angle:270, dx:-25}} />
+                                    <XAxis type="category" tick={{ fontSize:"12px",fontWeight:"bold" }} stroke="white" dataKey="downloadat" label={{ value: "Day",fill:"white", dy: 25}} tickFormatter={formatAxis} />
+                                    <YAxis type="number" tick={{ fontSize:"12px",fontWeight:"bold" }} stroke="white" dataKey="rowsdownloaded" label={{ value: "Rows in Query",fill:"white", angle:270, dx:-25}} />
                                     <Tooltip cursor={{ strokeDasharray: '3 3' }} />
                                     <Scatter data={download} fill="red" r={250}  />
                                 </ScatterChart>

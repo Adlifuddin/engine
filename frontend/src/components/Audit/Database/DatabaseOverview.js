@@ -74,11 +74,11 @@ function DatabaseOverview(){
                                 <h3 style={{color:"white",marginBottom:"20px"}}>Queries per database each day</h3>
                                 <LineChart margin={{left:150,right:20, bottom:40}} width={1200} height={300} data={query}>
                                     <CartesianGrid vertical={false}  />
-                                    <XAxis tick={{ fontSize:"11.5px",fontWeight:"bold" }} stroke="white" type="category" dataKey="date" tickFormatter={formatXAxis}/>
-                                    <YAxis tick={{ fontSize:"11.5px",fontWeight:"bold" }} stroke="white" type="number" dataKey="queries" />
+                                    <XAxis tick={{ fontSize:"12.5px",fontWeight:"bold" }} stroke="white" type="category" dataKey="date" label={{ value: "Day",fill:"white", dy: 25}} tickFormatter={formatXAxis}/>
+                                    <YAxis tick={{ fontSize:"12.5px",fontWeight:"bold" }} stroke="white" type="number" dataKey="queries" label={{ value: "Total Query",fill:"white", angle:270, dx:-25}} />
                                     <Tooltip />                                  
                                     <Line type="linear" dataKey="queries" strokeWidth={2} fill="#8884d8" dot={false} />
-                                </LineChart>  
+                                </LineChart>   
                             </Col>
                         </Row>
                     </Col>

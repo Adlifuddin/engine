@@ -47,22 +47,18 @@ function MemberOverview(){
                             <Breadcrumb.Item href="/">Audit</Breadcrumb.Item>
                             <Breadcrumb.Item active>Team Members Overview</Breadcrumb.Item>
                         </Breadcrumb>
-                        <BarChart margin={{left:25}} layout="vertical" width={1300} height={450} data={overview}>
-                            <CartesianGrid vertical={true} horizontal={false} />
-                            <XAxis tick={{ fontWeight:"bold" }} stroke="white" type="number" dataKey="exectime"/>
-                            <YAxis tick={{ fontWeight:"bold" }} stroke="white" type="category" dataKey="user" />
-                            <Tooltip />
-                            <Bar dataKey="exectime" fill="#8884d8" />
-                        </BarChart> 
-                         
-                        <br />
-                        <LineChart margin={{left:25}} width={1300} height={450} data={overview}>
-                            <CartesianGrid  />
-                            <XAxis tick={{ fontWeight:"bold" }} stroke="white" type="category" dataKey="user"/>
-                            <YAxis />
-                            <Tooltip />
-                            <Line type="monotone" dataKey="exectime" fill="#8884d8" />
-                        </LineChart>  
+                        <Row>
+                            <Col>
+                                <h3 style={{color:"white",marginBottom:"20px"}}>Most active user</h3>
+                                <BarChart margin={{left:150,right:20, bottom:40}} layout="vertical" width={1300} height={400} data={overview}>
+                                    <CartesianGrid vertical={true} horizontal={false} />
+                                    <XAxis tick={{ fontSize:"15px", fontWeight:"bold" }} stroke="white" type="number" dataKey="exectime" label={{ value: "Total execution time (seconds)",fill:"white", dy: 25}} />
+                                    <YAxis tick={{ fontSize:"15px", fontWeight:"bold" }} stroke="white" type="category" dataKey="user" />
+                                    <Tooltip />
+                                    <Bar dataKey="exectime" fill="#8884d8" />
+                                </BarChart> 
+                            </Col>
+                        </Row>
                     </Col>
                 </Row>  
             </Container> 
