@@ -292,6 +292,7 @@ api.add_resource(QuestionsPopularQueries, '/api/audit/questions/popularqueries')
 api.add_resource(QuestionsSlowestQueries, '/api/audit/questions/slowestqueries')
 api.add_resource(DashboardsMostPopular, '/api/audit/dashboards/mostpopular')
 api.add_resource(DownloadsOverview, '/api/audit/downloads/overview')
+api.add_resource(downloadsPerUser, '/api/audit/downloads/downloadperuser')
 api.add_resource(DashboardsCommonQuestion, '/api/audit/dashboards/commonquestion')
 
 
