@@ -5,9 +5,9 @@ import sqlalchemy as db
 from flask_cors import CORS 
 from json import dumps
 from flask_jsonpify import jsonify
-from .serializer import *
-from .connection import CreateConnectionCoreUser, CreateConnectionDriveUser
-from .settings import *
+from serializer import *
+from connection import CreateConnectionCoreUser, CreateConnectionDriveUser
+from settings import *
 import json
 
 app = Flask(__name__)
@@ -218,6 +218,15 @@ class DashboardsMostPopular(Resource):
         connection = engine.connect()
         result = connection.execute(query)
         results = [dict(zip(tuple (result.keys()) ,i)) for i in result.cursor]
+        return jsonify(results)    
+
+class DashboardsCommonQuestion(Resource):
+    def get(self):
+        engine = CreateConnectionCoreUser()
+        query = "select  count(a.card_id) as count, b.name as card from report_dashboardcard a left join report_card b on a.card_id = b.id group by card_id, b.name order by count desc limit 10"
+        connection = engine.connect()
+        result = connection.execute(query)
+        results = [dict(zip(tuple (result.keys()) ,i)) for i in result.cursor]
         return jsonify(results)       
 
 
@@ -233,11 +242,31 @@ class AuditLog(Resource):
 class Downloads(Resource):
     def get(self):
         engine = CreateConnectionCoreUser()
-        query = "select a.started_at as downloadAt, a.result_rows as rowsDownloaded, b.name as query, a.native as queryType, c.name as sourceDatabases, d.name as tables, e.first_name as user from public.query_execution a left join public.report_card b on a.card_id = b.id left join public.metabase_database c on a.database_id = c.id left join public.metabase_table d on b.table_id = d.id left join public.core_user e on a.executor_id = e.id where a.context ilike 'csv-download' group by b.name,a.native,c.name,d.name,a.started_at,a.result_rows,e.first_name"
+        query = "select a.started_at as downloadAt, a.result_rows as rowsDownloaded, b.name as query, a.native as queryType, c.name as sourceDatabases, d.name as tables, e.first_name as user from public.query_execution a left join public.report_card b on a.card_id = b.id left join public.metabase_database c on a.database_id = c.id left join public.metabase_table d on b.table_id = d.id left join public.core_user e on a.executor_id = e.id where a.context ilike 'csv-download' or a.context ilike 'json-download' or a.context ilike 'xlsx-download' group by b.name,a.native,c.name,d.name,a.started_at,a.result_rows,e.first_name"
         connection = engine.connect()
         result = connection.execute(query)
         results = [dict(zip(tuple (result.keys()) ,i)) for i in result.cursor]
         return jsonify(results)
+
+class DownloadsOverview(Resource):
+    def get(self):
+        engine = CreateConnectionCoreUser()
+        query = "select a.started_at as date, a.result_rows as rows, e.first_name as user from public.query_execution a left join public.core_user e on a.executor_id = e.id where a.context ilike 'csv-download' or a.context ilike 'json-download' or a.context ilike 'xlsx-download' group by a.started_at,a.result_rows,e.first_name"
+        connection = engine.connect()
+        result = connection.execute(query)
+        results = [dict(zip(tuple (result.keys()) ,i)) for i in result.cursor]
+        return jsonify(results)
+
+class downloadsPerUser(Resource):
+    def get(self):
+        engine = CreateConnectionCoreUser()
+        query = "select count(distinct a.id)as count, concat(b.first_name,' ',b.last_name) as name from query_execution a left join core_user b on a.executor_id = b.id where a.context ilike 'csv-download' or a.context ilike 'json-download' or a.context ilike 'xlsx-download' group by b.first_name, b.last_name order by count desc limit 10"
+        connection = engine.connect()
+        result = connection.execute(query)
+        results = [dict(zip(tuple (result.keys()) ,i)) for i in result.cursor]
+        return jsonify(results)
+
+
 
 
 api.add_resource(Test, '/api/test')
@@ -262,6 +291,9 @@ api.add_resource(DatabasesQuery, '/api/audit/databases/queries')
 api.add_resource(QuestionsPopularQueries, '/api/audit/questions/popularqueries')
 api.add_resource(QuestionsSlowestQueries, '/api/audit/questions/slowestqueries')
 api.add_resource(DashboardsMostPopular, '/api/audit/dashboards/mostpopular')
+api.add_resource(DownloadsOverview, '/api/audit/downloads/overview')
+api.add_resource(downloadsPerUser, '/api/audit/downloads/downloadperuser')
+api.add_resource(DashboardsCommonQuestion, '/api/audit/dashboards/commonquestion')
 
 
 if __name__ == '__main__':

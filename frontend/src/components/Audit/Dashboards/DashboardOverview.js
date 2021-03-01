@@ -20,6 +20,21 @@ function DashboardOverview(){
 
     }, [])
 
+
+    const [mostcommon,setMostCommon] = useState([])
+
+    useEffect(() => {
+        axios
+            .get("http://localhost:5000/api/audit/dashboards/commonquestion")
+            .then(res => {
+                setMostCommon(res.data)
+            })
+            .catch(err => {
+                console.log(err)
+            })
+
+    }, [])
+
    
     
     return(
@@ -36,7 +51,7 @@ function DashboardOverview(){
                         </Breadcrumb>
                         <Row>
                             <Col>
-                                <h3 style={{color:"white",marginBottom:"20px"}}>Most popular dashboards and their average loading times</h3>
+                                <h3 style={{color:"white",marginBottom:"20px"}}>Most popular dashboards & average loading times</h3>
                                 <Table striped bordered hover variant="light">
                             <thead>
                                 <tr>
@@ -51,6 +66,26 @@ function DashboardOverview(){
                                         <td>{mostpopular.dashboard}</td>
                                         <td>{mostpopular.views}</td>
                                         <td>{mostpopular.avgrunningtime}</td>
+                                    </tr>
+                                </tbody>
+                            ))}
+                        </Table> 
+                            </Col>
+
+                            <Col>
+                                <h3 style={{color:"white",marginBottom:"20px"}}>Questions included the most in dashboards</h3>
+                                <Table striped bordered hover variant="light">
+                            <thead>
+                                <tr>
+                                    <th>Card</th>
+                                    <th>Count</th>
+                                </tr>
+                            </thead>
+                            {mostcommon.map(mostcommon => (
+                                <tbody key={mostcommon.id}>
+                                    <tr>
+                                        <td>{mostcommon.card}</td>
+                                        <td>{mostcommon.count}</td>
                                     </tr>
                                 </tbody>
                             ))}

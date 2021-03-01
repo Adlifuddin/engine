@@ -39,8 +39,29 @@ function DatabaseOverview(){
         return tickItem
     }
 
-    const mySet = new Set(query.db)
-    const uniqLine = [...mySet]
+    function getUniqueValue(data){
+        const uniqueNames = []
+        for( var i = 0; i< data.length; i++){    
+            if(uniqueNames.indexOf(data[i].db) === -1){
+                uniqueNames.push(data[i].db);        
+            }        
+        }
+        return uniqueNames
+    }
+
+    const uniqueValues = getUniqueValue(query)
+
+   function filtering(data, values){
+        return data.filter(x => x.db == values)
+   }
+  
+   function nestedFilter(filteredData){
+       return filteredData.date
+   }
+
+   function nestedFilter(filteredData){
+    return filteredData.db
+   }
 
     return (
         <div>
@@ -72,13 +93,23 @@ function DatabaseOverview(){
                         <Row>
                             <Col>
                                 <h3 style={{color:"white",marginBottom:"20px"}}>Queries per database each day</h3>
+                                {uniqueValues.map((value, index) => (
+                                    
+                                    <LineChart key={index} margin={{left:150,right:20, bottom:40}} width={1200} height={300} data={filtering(query,value)}>
+                                        <CartesianGrid vertical={false}  />
+                                        <XAxis tick={{ fontSize:"12px",fontWeight:"bold" }} stroke="white" type="category" dataKey="date" label={{ value: "Day",fill:"white", dy: 25}} tickFormatter={formatXAxis}/>
+                                        <YAxis tick={{ fontSize:"12px",fontWeight:"bold" }} stroke="white" type="number" dataKey="queries" label={{ value: "Total Query",fill:"white", angle:270, dx:-25}} />
+                                        <Tooltip />                                  
+                                        <Line type="linear" dataKey="queries" strokeWidth={2} fill="#8884d8" dot={false} />
+                                    </LineChart>   
+                                ))}
                                 <LineChart margin={{left:150,right:20, bottom:40}} width={1200} height={300} data={query}>
                                     <CartesianGrid vertical={false}  />
-                                    <XAxis tick={{ fontSize:"11.5px",fontWeight:"bold" }} stroke="white" type="category" dataKey="date" tickFormatter={formatXAxis}/>
-                                    <YAxis tick={{ fontSize:"11.5px",fontWeight:"bold" }} stroke="white" type="number" dataKey="queries" />
+                                    <XAxis tick={{ fontSize:"12px",fontWeight:"bold" }} stroke="white" type="category" dataKey="date" label={{ value: "Day",fill:"white", dy: 25}} tickFormatter={formatXAxis}/>
+                                    <YAxis tick={{ fontSize:"12px",fontWeight:"bold" }} stroke="white" type="number" dataKey="queries" label={{ value: "Total Query",fill:"white", angle:270, dx:-25}} />
                                     <Tooltip />                                  
                                     <Line type="linear" dataKey="queries" strokeWidth={2} fill="#8884d8" dot={false} />
-                                </LineChart>  
+                                </LineChart>   
                             </Col>
                         </Row>
                     </Col>
