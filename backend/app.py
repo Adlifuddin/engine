@@ -82,6 +82,16 @@ class MembersMostCreated(Resource):
         results = [dict(zip(tuple (result.keys()) ,i)) for i in result.cursor]
         return jsonify(results)
 
+class MembersActivenNew(Resource):
+    def get(self):
+        engine = CreateConnectionCoreUser()
+        query = "select count(distinct executor_id) as active, started_at::date as date from query_execution group by date union select count(distinct id) as newuser, date_joined::date as date from core_user group by date_joined order by date asc"
+        connection = engine.connect()
+        result = connection.execute(query)
+        results = [dict(zip(tuple (result.keys()) ,i)) for i in result.cursor]
+        return jsonify(results)
+
+
 class Databases(Resource):
     def get(self):
         engine = CreateConnectionCoreUser()
@@ -305,6 +315,7 @@ api.add_resource(DownloadsOverview, '/api/audit/downloads/overview')
 api.add_resource(downloadsPerUser, '/api/audit/downloads/downloadperuser')
 api.add_resource(DashboardsCommonQuestion, '/api/audit/dashboards/commonquestion')
 api.add_resource(downloadsPerSize, '/api/audit/downloads/downloadpersize')
+api.add_resource(MembersActivenNew, '/api/audit/members/activennew')
 
 if __name__ == '__main__':
      app.run()
