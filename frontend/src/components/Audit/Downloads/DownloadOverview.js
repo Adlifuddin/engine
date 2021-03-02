@@ -34,6 +34,21 @@ function DownloadOverview(){
 
     }, [])
 
+    const [downloadperSize,setDownloadPerSize] = useState([])
+
+    useEffect(() => {
+        axios
+            .get("http://localhost:5000/api/audit/downloads/downloadpersize")
+            .then(res => {
+                setDownloadPerSize(res.data)
+            })
+            .catch(err => {
+                console.log(err)
+            })
+
+    }, [])
+
+
     const formatAxis = (tickItem) => {
         tickItem = new Date(tickItem).toLocaleDateString()
         return tickItem
@@ -71,6 +86,17 @@ function DownloadOverview(){
                                     <YAxis tick={{ fontSize:"12px",fontWeight:"bold" }} stroke="white" type="category" dataKey="name" label={{ value: "User",fill:"white", angle:270, dx:-35}} />
                                     <Tooltip />
                                     <Bar dataKey="count" fill="#8884d8" />
+                                </BarChart>  
+                            </Col>
+
+                            <Col>
+                                <h3 style={{color:"white",marginBottom:"20px"}}>Downloads Per Size</h3>
+                                <BarChart margin={{left:150, bottom: 30}} layout="horizontal" width={600} height={300} data={downloadperSize}>
+                                    <CartesianGrid vertical={false} horizontal={true} />
+                                    <XAxis tick={{ fontSize:"12px",fontWeight:"bold" }} stroke="white" type="category" dataKey="rows"  label={{ value: "Rows Downloaded",fill:"white", dy: 25}} />
+                                    <YAxis tick={{ fontSize:"12px",fontWeight:"bold" }} stroke="white" type="number" dataKey="download" label={{ value: "Downloads",fill:"white", angle:270, dx:-35}} />
+                                    <Tooltip />
+                                    <Bar dataKey="download" fill="#8884d8" />
                                 </BarChart>  
                             </Col>
 

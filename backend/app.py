@@ -266,6 +266,16 @@ class downloadsPerUser(Resource):
         results = [dict(zip(tuple (result.keys()) ,i)) for i in result.cursor]
         return jsonify(results)
 
+class downloadsPerSize(Resource):
+    def get(self):
+        engine = CreateConnectionCoreUser()
+        query = "WITH range_values AS ( SELECT min(result_rows) as minval,max(result_rows) as maxval,started_at FROM query_execution group by started_at) select generate_series(a.minval,a.maxval,100) as rows, count(b.id) as download from range_values a left join query_execution b on a.started_at = b.started_at where b.context ilike 'json-download' or b.context ilike 'csv-download' or b.context ilike 'xlsx-download' group by rows order by rows asc"
+        connection = engine.connect()
+        result = connection.execute(query)
+        results = [dict(zip(tuple (result.keys()) ,i)) for i in result.cursor]
+        return jsonify(results)
+
+
 
 
 
@@ -294,7 +304,7 @@ api.add_resource(DashboardsMostPopular, '/api/audit/dashboards/mostpopular')
 api.add_resource(DownloadsOverview, '/api/audit/downloads/overview')
 api.add_resource(downloadsPerUser, '/api/audit/downloads/downloadperuser')
 api.add_resource(DashboardsCommonQuestion, '/api/audit/dashboards/commonquestion')
-
+api.add_resource(downloadsPerSize, '/api/audit/downloads/downloadpersize')
 
 if __name__ == '__main__':
      app.run()
