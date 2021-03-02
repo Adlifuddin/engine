@@ -50,12 +50,23 @@ function MemberOverview(){
                         <Row>
                             <Col>
                                 <h3 style={{color:"white",marginBottom:"20px"}}>Most active user</h3>
-                                <BarChart margin={{left:150,right:20, bottom:40}} layout="vertical" width={1300} height={400} data={overview}>
+                                <BarChart margin={{left:150,right:20, bottom:40}} layout="vertical" width={1300} height={500} data={overview}>
                                     <CartesianGrid vertical={true} horizontal={false} />
                                     <XAxis tick={{ fontSize:"15px", fontWeight:"bold" }} stroke="white" type="number" dataKey="exectime" label={{ value: "Total execution time (seconds)",fill:"white", dy: 25}} />
                                     <YAxis tick={{ fontSize:"15px", fontWeight:"bold" }} stroke="white" type="category" dataKey="user" />
                                     <Tooltip />
                                     <Bar dataKey="exectime" fill="#8884d8" />
+                                </BarChart> 
+                            </Col>
+
+                            <Col>
+                                <h3 style={{color:"white",marginBottom:"20px"}}>Members who are creating most things</h3>
+                                <BarChart margin={{left:150,right:20, bottom:40}} layout="vertical" width={1300} height={500} data={mostCreated}>
+                                    <CartesianGrid vertical={true} horizontal={false} />
+                                    <XAxis tick={{ fontSize:"15px", fontWeight:"bold" }} stroke="white" type="number" dataKey="total" label={{ value: "Total",fill:"white", dy: 25}} />
+                                    <YAxis tick={{ fontSize:"15px", fontWeight:"bold" }} stroke="white" type="category" dataKey="name" />
+                                    <Tooltip />
+                                    <Bar dataKey="total" fill="#8884d8" />
                                 </BarChart> 
                             </Col>
                         </Row>
