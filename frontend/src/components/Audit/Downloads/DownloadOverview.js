@@ -79,8 +79,8 @@ function DownloadOverview(){
                             </Col>
 
                             <Col>
-                                <h3 style={{color:"white",marginBottom:"20px"}}>Downloads Per User</h3>
-                                <BarChart margin={{left:150, bottom: 30}} layout="vertical" width={600} height={300} data={downloadperUser}>
+                                <h3 style={{color:"white",marginBottom:"20px", marginTop:"20px"}}>Downloads Per User</h3>
+                                <BarChart margin={{left:100, bottom: 30}} layout="vertical" width={500} height={280} data={downloadperUser}>
                                     <CartesianGrid vertical={true} horizontal={false} />
                                     <XAxis tick={{ fontSize:"12px",fontWeight:"bold" }} stroke="white" type="number" dataKey="count" allowDecimals={false} label={{ value: "Download",fill:"white", dy: 25}} />
                                     <YAxis tick={{ fontSize:"12px",fontWeight:"bold" }} stroke="white" type="category" dataKey="name" label={{ value: "User",fill:"white", angle:270, dx:-35}} />
@@ -90,8 +90,8 @@ function DownloadOverview(){
                             </Col>
 
                             <Col>
-                                <h3 style={{color:"white",marginBottom:"20px"}}>Downloads Per Size</h3>
-                                <BarChart margin={{left:150, bottom: 30}} layout="horizontal" width={600} height={300} data={downloadperSize}>
+                                <h3 style={{color:"white",marginBottom:"20px", marginTop:"20px"}}>Downloads Per Size</h3>
+                                <BarChart margin={{left:100, bottom: 30}} layout="horizontal" width={500} height={280} data={downloadperSize}>
                                     <CartesianGrid vertical={false} horizontal={true} />
                                     <XAxis tick={{ fontSize:"12px",fontWeight:"bold" }} stroke="white" type="category" dataKey="rows"  label={{ value: "Rows Downloaded",fill:"white", dy: 25}} />
                                     <YAxis tick={{ fontSize:"12px",fontWeight:"bold" }} stroke="white" type="number" dataKey="download" label={{ value: "Downloads",fill:"white", angle:270, dx:-35}} />

@@ -1,6 +1,6 @@
 import React,{useState, useEffect} from 'react'
 import axios from 'axios'
-import { Container, Row, Col, Table, Breadcrumb } from 'react-bootstrap'
+import { Container, Row, Col, ButtonGroup, ToggleButton, Breadcrumb } from 'react-bootstrap'
 import SideBar from '../SideBar/SideBar';
 import { Legend, Line, LineChart ,Bar, BarChart, CartesianGrid, XAxis, YAxis, Tooltip } from 'recharts';
 
@@ -62,6 +62,7 @@ function DatabaseOverview(){
    function nestedFilter(filteredData){
     return filteredData.db
    }
+   const [checked, setChecked] = useState(false);
 
     return (
         <div>
@@ -93,15 +94,30 @@ function DatabaseOverview(){
                         <Row>
                             <Col>
                                 <h3 style={{color:"white",marginBottom:"20px"}}>Queries per database each day</h3>
+                                
                                 {uniqueValues.map((value, index) => (
+                                    <div>
+                                        <ButtonGroup toggle className="mb-2">
+                                            <ToggleButton
+                                            type="checkbox"
+                                            variant="secondary"
+                                            checked={null}
+                                            value="1"
+                                            onClick={(e) => setChecked(!checked)}
+                                            >
+                                            {value !== null && value}
+                                            </ToggleButton>
+                                        </ButtonGroup>
+
+                                        <LineChart key={index} margin={{left:150,right:20, bottom:40}} width={1200} height={300} data={filtering(query,value)}>
+                                            <CartesianGrid vertical={false}  />
+                                            <XAxis tick={{ fontSize:"12px",fontWeight:"bold" }} stroke="white" type="category" dataKey="date" label={{ value: "Day",fill:"white", dy: 25}} tickFormatter={formatXAxis}/>
+                                            <YAxis tick={{ fontSize:"12px",fontWeight:"bold" }} stroke="white" type="number" dataKey="queries" label={{ value: "Total Query",fill:"white", angle:270, dx:-25}} />
+                                            <Tooltip />                                  
+                                            <Line type="linear" dataKey="queries" strokeWidth={2} fill="#8884d8" dot={false} />
+                                        </LineChart>   
+                                    </div>
                                     
-                                    <LineChart key={index} margin={{left:150,right:20, bottom:40}} width={1200} height={300} data={filtering(query,value)}>
-                                        <CartesianGrid vertical={false}  />
-                                        <XAxis tick={{ fontSize:"12px",fontWeight:"bold" }} stroke="white" type="category" dataKey="date" label={{ value: "Day",fill:"white", dy: 25}} tickFormatter={formatXAxis}/>
-                                        <YAxis tick={{ fontSize:"12px",fontWeight:"bold" }} stroke="white" type="number" dataKey="queries" label={{ value: "Total Query",fill:"white", angle:270, dx:-25}} />
-                                        <Tooltip />                                  
-                                        <Line type="linear" dataKey="queries" strokeWidth={2} fill="#8884d8" dot={false} />
-                                    </LineChart>   
                                 ))}
                                 <LineChart margin={{left:150,right:20, bottom:40}} width={1200} height={300} data={query}>
                                     <CartesianGrid vertical={false}  />
