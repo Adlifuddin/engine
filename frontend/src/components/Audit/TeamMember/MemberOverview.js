@@ -71,7 +71,7 @@ function MemberOverview(){
                         <Row>
                             <Col>
                                 <h3 style={{color:"white",marginBottom:"20px"}}>Active and New User</h3>
-                                <LineChart margin={{left:150,right:20, bottom:40}} width={1300} height={360} data={activennew}>
+                                <LineChart margin={{left:100,right:20, bottom:40}} width={1300} height={250} data={activennew}>
                                     <CartesianGrid vertical={false}  />
                                     <XAxis tick={{ fontSize:"12px",fontWeight:"bold" }} stroke="white" type="category" dataKey="date" label={{ value: "Day",fill:"white", dy: 25}} tickFormatter={formatXAxis}/>
                                     <YAxis tick={{ fontSize:"12px",fontWeight:"bold" }} stroke="white" type="number" dataKey="active" label={{ value: "active and new users",fill:"white", angle:270, dx:-25}} />
@@ -83,7 +83,7 @@ function MemberOverview(){
                         <Row>
                             <Col>
                                 <h3 style={{color:"white",marginBottom:"20px"}}>Most active user</h3>
-                                <BarChart margin={{left:150,right:20, bottom:40}} layout="vertical" width={1300} height={360} data={overview}>
+                                <BarChart margin={{left:100, bottom:40}} layout="vertical" width={600} height={360} data={overview}>
                                     <CartesianGrid vertical={true} horizontal={false} />
                                     <XAxis tick={{ fontSize:"12px", fontWeight:"bold" }} stroke="white" type="number" dataKey="exectime" label={{ value: "Total execution time (milliseconds)",fill:"white", dy: 25}} />
                                     <YAxis tick={{ fontSize:"10px", fontWeight:"bold" }} stroke="white" type="category" dataKey="user" />
@@ -94,7 +94,7 @@ function MemberOverview(){
 
                             <Col>
                                 <h3 style={{color:"white",marginBottom:"20px"}}>Members who are creating most things</h3>
-                                <BarChart margin={{left:150,right:20, bottom:40}} layout="vertical" width={1300} height={360} data={mostCreated}>
+                                <BarChart margin={{left:100, bottom:40}} layout="vertical" width={600} height={360} data={mostCreated}>
                                     <CartesianGrid vertical={true} horizontal={false} />
                                     <XAxis tick={{ fontSize:"12px", fontWeight:"bold" }} stroke="white" type="number" dataKey="total" label={{ value: "Total",fill:"white", dy: 25}} />
                                     <YAxis tick={{ fontSize:"10px", fontWeight:"bold" }} stroke="white" type="category" dataKey="name" />
