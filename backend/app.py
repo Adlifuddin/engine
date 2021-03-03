@@ -239,6 +239,15 @@ class DashboardsCommonQuestion(Resource):
         results = [dict(zip(tuple (result.keys()) ,i)) for i in result.cursor]
         return jsonify(results)       
 
+class DashboardsViewsnSaved(Resource):
+    def get(self):
+        engine = CreateConnectionCoreUser()
+        query = "select count(*) as count, timestamp::date as date from view_log where model ilike 'dashboard' group by timestamp::date union all select count(*) as count , created_at::date as date from report_dashboard group by created_at::date order by date asc"
+        connection = engine.connect()
+        result = connection.execute(query)
+        results = [dict(zip(tuple (result.keys()) ,i)) for i in result.cursor]
+        return jsonify(results)       
+
 
 class AuditLog(Resource):
     def get(self):
@@ -316,6 +325,7 @@ api.add_resource(downloadsPerUser, '/api/audit/downloads/downloadperuser')
 api.add_resource(DashboardsCommonQuestion, '/api/audit/dashboards/commonquestion')
 api.add_resource(downloadsPerSize, '/api/audit/downloads/downloadpersize')
 api.add_resource(MembersActivenNew, '/api/audit/members/activennew')
+api.add_resource(DashboardsViewsnSaved, '/api/audit/dashboards/viewsnsaved')
 
 if __name__ == '__main__':
      app.run()

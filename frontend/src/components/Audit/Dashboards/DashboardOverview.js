@@ -35,6 +35,25 @@ function DashboardOverview(){
 
     }, [])
 
+    const [viewsnsaved,setViewsnsaved] = useState([])
+
+    useEffect(() => {
+        axios
+            .get("http://localhost:5000/api/audit/dashboards/viewsnsaved")
+            .then(res => {
+                setViewsnsaved(res.data)
+            })
+            .catch(err => {
+                console.log(err)
+            })
+
+    }, [])
+
+    const formatXAxis = (tickItem) => {
+        tickItem = new Date(tickItem).toLocaleDateString()
+        return tickItem
+    }
+
    
     
     return(
@@ -48,7 +67,19 @@ function DashboardOverview(){
                         <Breadcrumb>
                             <Breadcrumb.Item href="/">Audit</Breadcrumb.Item>
                             <Breadcrumb.Item active>Dashboards Overview</Breadcrumb.Item>
-                        </Breadcrumb>
+                        </Breadcrumb> 
+                        <Row>
+                            <Col>
+                                <h3 style={{color:"white",marginBottom:"20px"}}>Dashboard Views and Saved</h3>
+                                <LineChart margin={{left:100,right:20, bottom:40}} width={1300} height={250} data={viewsnsaved}>
+                                    <CartesianGrid vertical={false}  />
+                                    <XAxis tick={{ fontSize:"12px",fontWeight:"bold" }} stroke="white" type="category" dataKey="date" label={{ value: "Day",fill:"white", dy: 25}} tickFormatter={formatXAxis}/>
+                                    <YAxis tick={{ fontSize:"12px",fontWeight:"bold" }} stroke="white" type="number" dataKey="count" label={{ value: "views & saved dashboard",fill:"white", angle:270, dx:-25}} />
+                                    <Tooltip />                                  
+                                    <Line type="linear" dataKey="count" strokeWidth={2} fill="#8884d8" dot={false} />
+                                </LineChart>   
+                            </Col>
+                        </Row>
                         <Row>
                             <Col>
                                 <h3 style={{color:"white",marginBottom:"20px"}}>Most popular dashboards & average loading times</h3>
