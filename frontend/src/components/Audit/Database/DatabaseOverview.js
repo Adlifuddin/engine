@@ -79,7 +79,7 @@ function DatabaseOverview(){
                         <Row>
                             <Col fluid>
                                 <h4 style={{color:"white",marginBottom:"20px"}}>Total Queries And Their Average Speed</h4>
-                                <ResponsiveContainer width="90%" height={300}>
+                                <ResponsiveContainer width="95%" height={300}>
                                     <BarChart margin={{left:150,right:20, bottom:40}} layout="horizontal" data={queriesnavgexec}>
                                         <CartesianGrid vertical={false} horizontal={true} />
                                         <XAxis tick={{ fontSize:"11.5px",fontWeight:"bold" }} stroke="white" type="category" dataKey="db" label={{ value: "Database",fill:"white", dy: 25}}/>
@@ -110,8 +110,8 @@ function DatabaseOverview(){
                                             {value !== null && value}
                                             </ToggleButton>
                                         </ButtonGroup>
-                                        <ResponsiveContainer width="90%" height={300}>
-                                            <LineChart key={index} margin={{left:150,right:20, bottom:40}} width={1200} height={300} data={filtering(query,value)}>
+                                        <ResponsiveContainer width="95%" height={300}>
+                                            <LineChart key={index} margin={{left:150,right:20, bottom:40}} data={filtering(query,value)}>
                                                 <CartesianGrid vertical={false}  />
                                                 <XAxis tick={{ fontSize:"12px",fontWeight:"bold" }} stroke="white" type="category" dataKey="date" label={{ value: "Day",fill:"white", dy: 25}} tickFormatter={formatXAxis}/>
                                                 <YAxis tick={{ fontSize:"12px",fontWeight:"bold" }} stroke="white" type="number" dataKey="queries" label={{ value: "Total Query",fill:"white", angle:270, dx:-25}} />
@@ -122,8 +122,8 @@ function DatabaseOverview(){
                                     </div>
                                     
                                 ))}
-                                <ResponsiveContainer width="90%" height={300}>
-                                    <LineChart margin={{left:150,right:20, bottom:40}} width={1200} height={300} data={query}>
+                                <ResponsiveContainer width="95%" height={300}>
+                                    <LineChart margin={{left:150,right:20, bottom:40}} data={query}>
                                         <CartesianGrid vertical={false}  />
                                         <XAxis tick={{ fontSize:"12px",fontWeight:"bold" }} stroke="white" type="category" dataKey="date" label={{ value: "Day",fill:"white", dy: 25}} tickFormatter={formatXAxis}/>
                                         <YAxis tick={{ fontSize:"12px",fontWeight:"bold" }} stroke="white" type="number" dataKey="queries" label={{ value: "Total Query",fill:"white", angle:270, dx:-25}} />

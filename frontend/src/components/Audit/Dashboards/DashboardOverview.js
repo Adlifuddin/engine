@@ -2,7 +2,7 @@ import React,{useState, useEffect} from 'react'
 import axios from 'axios'
 import { Container, Row, Col, Table, Breadcrumb } from 'react-bootstrap'
 import SideBar from '../SideBar/SideBar';
-import { Line, LineChart ,Bar, BarChart, CartesianGrid, XAxis, YAxis, Tooltip } from 'recharts';
+import { Line, LineChart , ResponsiveContainer, CartesianGrid, XAxis, YAxis, Tooltip } from 'recharts';
 
 
 function DashboardOverview(){
@@ -71,13 +71,15 @@ function DashboardOverview(){
                         <Row>
                             <Col>
                                 <h4 style={{color:"white",marginBottom:"20px"}}>Dashboard Views and Saved</h4>
-                                <LineChart margin={{left:100,right:20, bottom:40}} width={1300} height={250} data={viewsnsaved}>
-                                    <CartesianGrid vertical={false}  />
-                                    <XAxis tick={{ fontSize:"12px",fontWeight:"bold" }} stroke="white" type="category" dataKey="date" label={{ value: "Day",fill:"white", dy: 25}} tickFormatter={formatXAxis}/>
-                                    <YAxis tick={{ fontSize:"12px",fontWeight:"bold" }} stroke="white" type="number" dataKey="count" label={{ value: "views & saved dashboard",fill:"white", angle:270, dx:-25}} />
-                                    <Tooltip />                                  
-                                    <Line type="linear" dataKey="count" strokeWidth={2} fill="#8884d8" dot={false} />
-                                </LineChart>   
+                                <ResponsiveContainer width="90%" height={250}>
+                                    <LineChart margin={{left:100,right:20, bottom:40}} data={viewsnsaved}>
+                                        <CartesianGrid vertical={false}  />
+                                        <XAxis tick={{ fontSize:"12px",fontWeight:"bold" }} stroke="white" type="category" dataKey="date" label={{ value: "Day",fill:"white", dy: 25}} tickFormatter={formatXAxis}/>
+                                        <YAxis tick={{ fontSize:"12px",fontWeight:"bold" }} stroke="white" type="number" dataKey="count" label={{ value: "views & saved dashboard",fill:"white", angle:270, dx:-25}} />
+                                        <Tooltip />                                  
+                                        <Line type="linear" dataKey="count" strokeWidth={2} fill="#8884d8" dot={false} />
+                                    </LineChart>   
+                                </ResponsiveContainer>
                             </Col>
                         </Row>
                         <Row>
