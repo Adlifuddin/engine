@@ -70,7 +70,7 @@ function DashboardOverview(){
                         </Breadcrumb> 
                         <Row>
                             <Col>
-                                <h3 style={{color:"white",marginBottom:"20px"}}>Dashboard Views and Saved</h3>
+                                <h4 style={{color:"white",marginBottom:"20px"}}>Dashboard Views and Saved</h4>
                                 <LineChart margin={{left:100,right:20, bottom:40}} width={1300} height={250} data={viewsnsaved}>
                                     <CartesianGrid vertical={false}  />
                                     <XAxis tick={{ fontSize:"12px",fontWeight:"bold" }} stroke="white" type="category" dataKey="date" label={{ value: "Day",fill:"white", dy: 25}} tickFormatter={formatXAxis}/>
@@ -82,45 +82,45 @@ function DashboardOverview(){
                         </Row>
                         <Row>
                             <Col>
-                                <h3 style={{color:"white",marginBottom:"20px"}}>Most popular dashboards & average loading times</h3>
-                                <Table striped bordered hover variant="light">
-                            <thead>
-                                <tr>
-                                    <th>Dashboards</th>
-                                    <th>Views</th>
-                                    <th>Avg.Question Load Time(ms)</th>  
-                                </tr>
-                            </thead>
-                            {mostpopular.map(mostpopular => (
-                                <tbody key={mostpopular.id}>
-                                    <tr>
-                                        <td>{mostpopular.dashboard}</td>
-                                        <td>{mostpopular.views}</td>
-                                        <td>{mostpopular.avgrunningtime}</td>
-                                    </tr>
-                                </tbody>
-                            ))}
-                        </Table> 
+                                <h4 style={{color:"white",marginBottom:"5px"}}>Most popular dashboards & average loading times</h4>
+                                <Table striped bordered hover variant="light" size="sm">
+                                    <thead>
+                                        <tr>
+                                            <th>Dashboards</th>
+                                            <th>Views</th>
+                                            <th>Avg.Question Load Time(ms)</th>  
+                                        </tr>
+                                    </thead>
+                                    {mostpopular.map(mostpopular => (
+                                        <tbody key={mostpopular.id}>
+                                            <tr>
+                                                <td>{mostpopular.dashboard}</td>
+                                                <td>{mostpopular.views}</td>
+                                                <td>{mostpopular.avgrunningtime}</td>
+                                            </tr>
+                                        </tbody>
+                                    ))}
+                                </Table> 
                             </Col>
 
                             <Col>
-                                <h3 style={{color:"white",marginBottom:"20px"}}>Questions included the most in dashboards</h3>
-                                <Table striped bordered hover variant="light">
-                            <thead>
-                                <tr>
-                                    <th>Card</th>
-                                    <th>Count</th>
-                                </tr>
-                            </thead>
-                            {mostcommon.map(mostcommon => (
-                                <tbody key={mostcommon.id}>
-                                    <tr>
-                                        <td>{mostcommon.card}</td>
-                                        <td>{mostcommon.count}</td>
-                                    </tr>
-                                </tbody>
-                            ))}
-                        </Table> 
+                                <h4 style={{color:"white",marginBottom:"5px"}}>Questions included the most in dashboards</h4>
+                                <Table striped bordered hover variant="light" size="sm">
+                                    <thead>
+                                        <tr>
+                                            <th>Card</th>
+                                            <th>Count</th>
+                                        </tr>
+                                    </thead>
+                                    {mostcommon.map(mostcommon => (
+                                        <tbody key={mostcommon.id}>
+                                            <tr>
+                                                <td>{mostcommon.card}</td>
+                                                <td>{mostcommon.count}</td>
+                                            </tr>
+                                        </tbody>
+                                    ))}
+                                </Table> 
                             </Col>
                         </Row>
                     </Col>

@@ -51,8 +51,8 @@ function TableOverview(){
                         </Breadcrumb>
                         <Row>
                             <Col>
-                                <h3 style={{color:"white",marginBottom:"20px"}}>Most-queried tables</h3>
-                                <BarChart margin={{left:150}} layout="vertical" width={600} height={630} data={mostQueried}>
+                                <h4 style={{color:"white",marginBottom:"20px"}}>Most-queried tables</h4>
+                                <BarChart margin={{left:120}} layout="vertical" width={600} height={630} data={mostQueried}>
                                     <CartesianGrid vertical={true} horizontal={false} />
                                     <XAxis tick={{ fontWeight:"bold" }} stroke="white" type="number" dataKey="exec"/>
                                     <YAxis tick={{ fontSize:"10.5px",fontWeight:"bold" }} stroke="white" type="category" dataKey="tables" />
@@ -61,8 +61,8 @@ function TableOverview(){
                                 </BarChart>  
                             </Col>
                             <Col>
-                                <h3 style={{color:"white",marginBottom:"20px"}}>Least-queried tables</h3>
-                                <BarChart margin={{left:150}} layout="vertical" width={600} height={630} data={leastQueried}>
+                                <h4 style={{color:"white",marginBottom:"20px"}}>Least-queried tables</h4>
+                                <BarChart margin={{left:120}} layout="vertical" width={600} height={630} data={leastQueried}>
                                     <CartesianGrid vertical={true} horizontal={false} />
                                     <XAxis tick={{ fontWeight:"bold" }} stroke="white" type="number" dataKey="exec"/>
                                     <YAxis tick={{ fontSize:"10.5px",fontWeight:"bold" }} stroke="white" type="category" dataKey="tables" />

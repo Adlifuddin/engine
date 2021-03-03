@@ -51,8 +51,8 @@ function SchemaOverview(){
                         </Breadcrumb>
                         <Row>
                             <Col>
-                                <h3 style={{color:"white",marginBottom:"20px"}}>Most-queried schemas</h3>
-                                <BarChart margin={{left:150}} layout="vertical" width={600} height={600} data={mostQueried}>
+                                <h4 style={{color:"white",marginBottom:"20px"}}>Most-queried schemas</h4>
+                                <BarChart margin={{left:100}} layout="vertical" width={600} height={600} data={mostQueried}>
                                     <CartesianGrid vertical={true} horizontal={false} />
                                     <XAxis tick={{ fontWeight:"bold" }} stroke="white" type="number" dataKey="exec"/>
                                     <YAxis tick={{ fontSize:"10.5px",fontWeight:"bold" }} stroke="white" type="category" dataKey="schema" />
@@ -62,8 +62,8 @@ function SchemaOverview(){
                             </Col>
 
                             <Col>
-                                <h3 style={{color:"white",marginBottom:"20px"}}>Slowest schemas</h3>
-                                <BarChart margin={{left:150}} layout="vertical" width={600} height={600} data={slowestSchema}>
+                                <h4 style={{color:"white",marginBottom:"20px"}}>Slowest schemas</h4>
+                                <BarChart margin={{left:100}} layout="vertical" width={600} height={600} data={slowestSchema}>
                                     <CartesianGrid vertical={true} horizontal={false} />
                                     <XAxis tick={{ fontWeight:"bold" }} stroke="white" type="number" dataKey="avgexec"/>
                                     <YAxis tick={{ fontSize:"10.5px",fontWeight:"bold" }} stroke="white" type="category" dataKey="schema" />

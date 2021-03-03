@@ -51,8 +51,8 @@ function QuestionOverview(){
                         </Breadcrumb>
                         <Row>
                             <Col>
-                                <h3 style={{color:"white",marginBottom:"20px"}}>Most Popular Queries</h3>
-                                <BarChart margin={{left:100,top:15}} layout="vertical" width={600} height={680} data={popularqueries}>
+                                <h4 style={{color:"white",marginBottom:"20px"}}>Most Popular Queries</h4>
+                                <BarChart margin={{left:80,top:15}} layout="vertical" width={600} height={680} data={popularqueries}>
                                     <CartesianGrid vertical={true} horizontal={false} />
                                     <XAxis tick={{ fontWeight:"bold" }} stroke="white" type="number" dataKey="executions"/>
                                     <YAxis tick={{ fontSize:"9px",fontWeight:"bold" }} stroke="white" type="category" dataKey="card" />
@@ -62,8 +62,8 @@ function QuestionOverview(){
                             </Col>
 
                             <Col>
-                                <h3 style={{color:"white",marginBottom:"20px"}}>Slowest Queries</h3>
-                                <BarChart margin={{left:100,top:15}} layout="vertical" width={600} height={680} data={slowestqueries}>
+                                <h4 style={{color:"white",marginBottom:"20px"}}>Slowest Queries</h4>
+                                <BarChart margin={{left:80,top:15}} layout="vertical" width={600} height={680} data={slowestqueries}>
                                     <CartesianGrid vertical={true} horizontal={false} />
                                     <XAxis tick={{ fontWeight:"bold" }} stroke="white" type="number" dataKey="avgrunningtime"/>
                                     <YAxis tick={{ fontSize:"8px",fontWeight:"bold" }} stroke="white" type="category" dataKey="card" />

@@ -78,7 +78,7 @@ function DatabaseOverview(){
                         </Breadcrumb>
                         <Row>
                             <Col>
-                                <h3 style={{color:"white",marginBottom:"20px"}}>Total Queries And Their Average Speed</h3>
+                                <h4 style={{color:"white",marginBottom:"20px"}}>Total Queries And Their Average Speed</h4>
                                 <BarChart margin={{left:150,right:20, bottom:40}} layout="horizontal" width={1200} height={300} data={queriesnavgexec}>
                                     <CartesianGrid vertical={false} horizontal={true} />
                                     <XAxis tick={{ fontSize:"11.5px",fontWeight:"bold" }} stroke="white" type="category" dataKey="db" label={{ value: "Database",fill:"white", dy: 25}}/>
@@ -93,7 +93,7 @@ function DatabaseOverview(){
                         </Row>
                         <Row>
                             <Col>
-                                <h3 style={{color:"white",marginBottom:"20px"}}>Queries per database each day</h3>
+                                <h4 style={{color:"white",marginBottom:"20px"}}>Queries per database each day</h4>
                                 
                                 {uniqueValues.map((value, index) => (
                                     <div>
