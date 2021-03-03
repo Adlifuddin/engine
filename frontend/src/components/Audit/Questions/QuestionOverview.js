@@ -52,10 +52,10 @@ function QuestionOverview(){
                         <Row>
                             <Col>
                                 <h3 style={{color:"white",marginBottom:"20px"}}>Most Popular Queries</h3>
-                                <BarChart margin={{left:150,top:15}} layout="vertical" width={600} height={680} data={popularqueries}>
+                                <BarChart margin={{left:100,top:15}} layout="vertical" width={600} height={680} data={popularqueries}>
                                     <CartesianGrid vertical={true} horizontal={false} />
                                     <XAxis tick={{ fontWeight:"bold" }} stroke="white" type="number" dataKey="executions"/>
-                                    <YAxis tick={{ fontSize:"8px",fontWeight:"bold" }} stroke="white" type="category" dataKey="card" />
+                                    <YAxis tick={{ fontSize:"9px",fontWeight:"bold" }} stroke="white" type="category" dataKey="card" />
                                     <Tooltip />
                                     <Bar dataKey="executions" fill="#8884d8" />
                                 </BarChart>  
@@ -63,10 +63,10 @@ function QuestionOverview(){
 
                             <Col>
                                 <h3 style={{color:"white",marginBottom:"20px"}}>Slowest Queries</h3>
-                                <BarChart margin={{left:150,top:15}} layout="vertical" width={600} height={680} data={slowestqueries}>
+                                <BarChart margin={{left:100,top:15}} layout="vertical" width={600} height={680} data={slowestqueries}>
                                     <CartesianGrid vertical={true} horizontal={false} />
                                     <XAxis tick={{ fontWeight:"bold" }} stroke="white" type="number" dataKey="avgrunningtime"/>
-                                    <YAxis tick={{ fontSize:"9px",fontWeight:"bold" }} stroke="white" type="category" dataKey="card" />
+                                    <YAxis tick={{ fontSize:"8px",fontWeight:"bold" }} stroke="white" type="category" dataKey="card" />
                                     <Tooltip />
                                     <Bar dataKey="avgrunningtime" fill="#8884d8" />
                                 </BarChart>  
