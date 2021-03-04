@@ -75,6 +75,45 @@ function SQLite(props) {
             setConnection(false)
         }
     }, [userControlScheduling])
+
+    const createDatabases = (data) => {
+        api.createDatabase(data)
+            .then(response => {
+                const id = response.data.id
+                api.getPermissionGraph()
+                    .then(response => {
+                        var datas = response.data
+                        var groups = response.data.groups
+
+                        var payload = {
+                            ...datas,
+                            groups: {
+                                ...groups,
+                                "1": {
+                                    [id]: {native: "none", schemas: "none"}
+                                },
+                                "5": {
+                                    [id]: { native: "write", schemas: "all" }
+                                }
+                            }
+                        }
+                        api.putPermissionGraph(payload)
+                            .then(response => {
+                                console.log(response)
+                                window.location.href = '/database'
+                            })
+                            .catch(error => {
+                                console.log(error)
+                            })
+                    })
+                    .catch(error => {
+                        console.log(error)
+                    })
+            })
+            .catch(error => {
+                console.log(error)
+            })
+    }
     
 
     const submit = (e) => {
@@ -123,76 +162,12 @@ function SQLite(props) {
                         console.log(error)
                     })
             } else {
-                api.createDatabase(data)
-                    .then(response => {
-                        const id = response.data.id
-                        api.getPermissionGraph()
-                            .then(response => {
-                                var data = response.data
-                                var groups = response.data.groups
-
-                                var payload = {
-                                    ...data,
-                                    groups: {
-                                        ...groups,
-                                        "1": {
-                                            [id]: { native: "none", schemas: "none" }
-                                        }
-                                    }
-                                }
-                                api.putPermissionGraph(payload)
-                                    .then(response => {
-                                        console.log(response)
-                                        window.location.href = '/database'
-                                    })
-                                    .catch(error => {
-                                        console.log(error)
-                                    })
-                            })
-                            .catch(error => {
-                                console.log(error)
-                            })
-                    })
-                    .catch(error => {
-                        console.log(error)
-                    })
+                createDatabases(data)
             }
 
             if (page) {
                 const datas = parseScheduling(data)
-                api.createDatabase(datas)
-                    .then(response => {
-                        const id = response.data.id
-                        api.getPermissionGraph()
-                            .then(response => {
-                                var data = response.data
-                                var groups = response.data.groups
-
-                                var payload = {
-                                    ...data,
-                                    groups: {
-                                        ...groups,
-                                        "1": {
-                                            [id]: { native: "none", schemas: "none" }
-                                        }
-                                    }
-                                }
-                                api.putPermissionGraph(payload)
-                                    .then(response => {
-                                        console.log(response)
-                                        window.location.href = '/database'
-                                    })
-                                    .catch(error => {
-                                        console.log(error)
-                                    })
-                            })
-                            .catch(error => {
-                                console.log(error)
-                            })
-                    })
-                    .catch(error => {
-                        console.log(error)
-                    })
+                createDatabases(datas)
             }
         }
     }

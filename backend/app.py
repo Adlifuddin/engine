@@ -54,7 +54,6 @@ class Add(Resource):
         except Exception:
             data = json.dumps({'success': False, "message": "Error Found"})
             return Response(data, status=400, mimetype='application/json')
-
 class Members(Resource):
     def get(self):
         engine = CreateConnectionCoreUser()

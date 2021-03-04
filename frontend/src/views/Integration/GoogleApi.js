@@ -173,6 +173,17 @@ function GoogleApi() {
       myJsonString
     ]
     setStatus('loading')
+    var datas  ={
+      "uri": `https://sheets.googleapis.com/v4/spreadsheets/${ids}/values/${currentSheetsName}!A:AZ?key=${developerKey}`,
+      "tablename": `${j}`
+      }
+    api.updateDrive(datas)
+      .then(response => {
+        console.log(response)
+      })
+      .catch(error => {
+        console.log(error)
+      })
     api.uploadDrive(file)
       .then(response => {
         if (response.data.success && response.data) {
@@ -248,7 +259,7 @@ function GoogleApi() {
                   Authorization: `Bearer ${oauthToken}`
                 }
               })
-            .then(responses => {
+          .then(responses => {
               setSheets(data)
               setLoading(false)
                 const datas = responses.data.values

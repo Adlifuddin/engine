@@ -1,4 +1,4 @@
-from connection import CreateConnectionCoreUser
+from .connection import CreateConnectionCoreUser
 
 def unpack(resource):
     ti = []
@@ -15,9 +15,9 @@ def unpack(resource):
         titles.append(r)
     l = " VARCHAR , ".join(titles)
     titlehead = f" {l} VARCHAR "
-    
+
     return titlehead
-  
+
 def createTitle(title):
     ti = []
     for item in title:
