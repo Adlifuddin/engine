@@ -15,6 +15,7 @@ import SqlServer from '../driver/SqlServer'
 
 function DatabaseDriver(props) {
     const { status,
+            updateLoading,
             errorInput,
             jsonProcess,
             inputting,
@@ -90,6 +91,7 @@ function DatabaseDriver(props) {
     switch (engine) {
         case "postgres":
             return <Postgres
+                        updateLoading={updateLoading}
                         refingerprint={refingerprint}
                         activeKey={activeKey}
                         changeKey={changeKey}
@@ -144,6 +146,7 @@ function DatabaseDriver(props) {
                     />
         case "sqlite":
             return <SQLite
+                        updateLoading={updateLoading}
                         refingerprint={refingerprint}
                         parseTunneling={parseTunneling}
                         parseScheduling={parseScheduling}
@@ -182,6 +185,7 @@ function DatabaseDriver(props) {
             />
         case "redshift":
             return <RedShift
+                        updateLoading={updateLoading}
                         refingerprint={refingerprint}
                         parseTunneling={parseTunneling}
                         parseScheduling={parseScheduling}
@@ -231,6 +235,7 @@ function DatabaseDriver(props) {
             />
         case "bigquery":
             return <BigQuery
+                        updateLoading={updateLoading}
                         includeUserIDandHash={includeUserIDandHash}
                         refingerprint={refingerprint}
                         jsonProcess={jsonProcess}
@@ -272,6 +277,7 @@ function DatabaseDriver(props) {
                     />
         case "mysql":
             return <MySQL
+                        updateLoading={updateLoading}
                         refingerprint={refingerprint}
                         parseTunneling={parseTunneling}
                         parseScheduling={parseScheduling}
@@ -323,6 +329,7 @@ function DatabaseDriver(props) {
                     />;
         case "druid":
             return <Druid
+                        updateLoading={updateLoading}
                         refingerprint={refingerprint}
                         parseTunneling={parseTunneling}
                         parseScheduling={parseScheduling}
@@ -369,6 +376,7 @@ function DatabaseDriver(props) {
                     />;
         case "googleanalytics":
             return <GoogleAnalytics
+                        updateLoading={updateLoading}
                         refingerprint={refingerprint}
                         parseScheduling={parseScheduling}
                         errorInput={errorInput}
@@ -409,6 +417,7 @@ function DatabaseDriver(props) {
                     />;
         case "h2":
             return <H2
+                        updateLoading={updateLoading}
                         refingerprint={refingerprint}
                         parseScheduling={parseScheduling}
                         errorInput={errorInput}
@@ -446,6 +455,7 @@ function DatabaseDriver(props) {
                     />;
         case "mongo":
             return <MongoDB
+                        updateLoading={updateLoading}
                         refingerprint={refingerprint}
                         parseTunneling={parseTunneling}
                         parseScheduling={parseScheduling}
@@ -500,6 +510,7 @@ function DatabaseDriver(props) {
             />;
         case "presto":
             return <Presto
+                        updateLoading={updateLoading}
                         refingerprint={refingerprint}
                         parseTunneling={parseTunneling}
                         parseScheduling={parseScheduling}
@@ -550,6 +561,7 @@ function DatabaseDriver(props) {
                     />
         case "snowflake":
             return <Snowflake
+                        updateLoading={updateLoading}
                         refingerprint={refingerprint}
                         parseTunneling={parseTunneling}
                         parseScheduling={parseScheduling}
@@ -603,6 +615,7 @@ function DatabaseDriver(props) {
                     />
         case "sparksql":
             return <SparkSQL
+                        updateLoading={updateLoading}
                         refingerprint={refingerprint}
                         parseTunneling={parseTunneling}
                         parseScheduling={parseScheduling}
@@ -646,6 +659,7 @@ function DatabaseDriver(props) {
             />
         case "sqlserver":
             return <SqlServer
+                        updateLoading={updateLoading}
                         refingerprint={refingerprint}
                         parseTunneling={parseTunneling}
                         parseScheduling={parseScheduling}

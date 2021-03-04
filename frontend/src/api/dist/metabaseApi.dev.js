@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports["default"] = exports.session = exports.validateDatabase = exports.deleteDatabase = exports.discardValue = exports.reScanValue = exports.syncSchema = exports.createDatabase = exports.databaseListID = exports.databaseList = void 0;
+exports["default"] = exports.session = exports.putPermissionGraph = exports.getPermissionGraph = exports.getPermissionGroup = exports.updateDatabase = exports.validateDatabase = exports.deleteDatabase = exports.discardValue = exports.reScanValue = exports.syncSchema = exports.createDatabase = exports.databaseListID = exports.databaseList = void 0;
 
 var _axios = _interopRequireDefault(require("axios"));
 
@@ -67,10 +67,35 @@ exports.deleteDatabase = deleteDatabase;
 
 var validateDatabase = function validateDatabase(payload) {
   return api.post("database/validate", payload, config);
+};
+
+exports.validateDatabase = validateDatabase;
+
+var updateDatabase = function updateDatabase(payload, id) {
+  return api.put("database/".concat(id), payload, config);
+}; //group
+
+
+exports.updateDatabase = updateDatabase;
+
+var getPermissionGroup = function getPermissionGroup() {
+  return api.get("permissions/group", config);
+};
+
+exports.getPermissionGroup = getPermissionGroup;
+
+var getPermissionGraph = function getPermissionGraph() {
+  return api.get("permissions/graph", config);
+};
+
+exports.getPermissionGraph = getPermissionGraph;
+
+var putPermissionGraph = function putPermissionGraph(payload) {
+  return api.put("permissions/graph", payload, config);
 }; // Create Sessions
 
 
-exports.validateDatabase = validateDatabase;
+exports.putPermissionGraph = putPermissionGraph;
 
 var session = function session(payload) {
   return api.post("session/", payload);
@@ -86,7 +111,11 @@ var apis = {
   reScanValue: reScanValue,
   discardValue: discardValue,
   deleteDatabase: deleteDatabase,
-  validateDatabase: validateDatabase
+  validateDatabase: validateDatabase,
+  updateDatabase: updateDatabase,
+  getPermissionGraph: getPermissionGraph,
+  getPermissionGroup: getPermissionGroup,
+  putPermissionGraph: putPermissionGraph
 };
 var _default = apis;
 exports["default"] = _default;

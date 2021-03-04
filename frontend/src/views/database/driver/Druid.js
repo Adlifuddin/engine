@@ -68,9 +68,10 @@ function Childrens(props) {
 }
 
 function Druid(props) {
-const { status,
+    const { status,
         page,
         setPage,
+        updateLoading,
         errorInput,
         inputting,
         engine,
@@ -127,57 +128,117 @@ const { status,
 
     const submit = (e) => {
         e.preventDefault()
-        let data  = {
-                "auto_run_queries": autoRunQueries,
-                "details": {
-                    "let-user-control-scheduling": userControlScheduling,
-                    "port": port,
-                    "host": host,
-                    "tunnel-enabled": sshTunnel,
-                },
-                "engine": engine,
-                "is_full_sync": true,
-                "is_on_demand": false,
-                "name": name,
-                "refingerprint": refingerprint
-            }
-         const file = parseTunneling(data)
-
-        if (file.details["let-user-control-scheduling"]) {
-            const validate = { "details": file }
-            api.validateDatabase(validate)
-                .then(response => {
-                    if (response.data.valid) {
-                        setPage(true)
-                    } else {
-                        setPage(false)
-                        errorInput("Couldn't connect to the database. Please check the connection details.")
-                    }
-                })
-                .catch(error => {
-                    console.log(error)
-                })
-        } else {
-            api.createDatabase(file)
-                .then(response => {
-                    window.location.href = '/database'
-                    console.log(response)
-                }) 
-                .catch(error => {
-                    console.log(error)
-                })
+        let data = {
+            "auto_run_queries": autoRunQueries,
+            "details": {
+                "let-user-control-scheduling": userControlScheduling,
+                "port": port,
+                "host": host,
+                "tunnel-enabled": sshTunnel,
+            },
+            "engine": engine,
+            "is_full_sync": true,
+            "is_on_demand": false,
+            "name": name,
+            "refingerprint": refingerprint
         }
+        const file = parseTunneling(data)
+        const updateSubmits = document.querySelector('#update-save')
+        if (updateSubmits !== null) {
+            updateLoading("update")
+            const updates = updateSubmits.id
+            if (updates === 'update-save') {
+                const datas = parseScheduling(file)
+                api.updateDatabase(datas, status)
+                    .then(response => {
+                        updateLoading('done')
+                        window.location.reload()
+                        console.log(response)
+                    })
+                    .catch(error => {
+                        console.log(error)
+                    })
+            }
+        } else {
+            if (file.details["let-user-control-scheduling"]) {
+                const validate = { "details": file }
+                api.validateDatabase(validate)
+                    .then(response => {
+                        if (response.data.valid) {
+                            setPage(true)
+                        } else {
+                            setPage(false)
+                            errorInput("Couldn't connect to the database. Please check the connection details.")
+                        }
+                    })
+                    .catch(error => {
+                        console.log(error)
+                    })
+            } else {
+                api.createDatabase(file)
+                    .then(response => {
+                       const id = response.data.id
+                        api.getPermissionGraph()
+                        .then(response => {
+                            var data = response.data
+                            var groups = response.data.groups
 
-        if (page) {
-            const datas = parseScheduling(file)
-            api.createDatabase(datas)
-                .then(response => {
-                    window.location.href = '/database'
-                    console.log(response)
-                }) 
-                .catch(error => {
-                    console.log(error)
-                })
+                            var payload = {
+                                ...data,
+                                groups: {
+                                    ...groups,
+                                    "1": {
+                                        [id]: {native: "none", schemas: "none"}
+                                    }
+                                }
+                            }
+                            api.putPermissionGraph(payload)
+                                .then(response => {
+                                    console.log(response)
+                                    window.location.href = '/database'
+                                })
+                                .catch(error => {
+                                    console.log(error)
+                                })
+                        })
+                    })
+                    .catch(error => {
+                        console.log(error)
+                    })
+            }
+            if (page) {
+                const datas = parseScheduling(file)
+                api.createDatabase(datas)
+                    .then(response => {
+                        const id = response.data.id
+                        api.getPermissionGraph()
+                        .then(response => {
+                            var data = response.data
+                            var groups = response.data.groups
+
+                            var payload = {
+                                ...data,
+                                groups: {
+                                    ...groups,
+                                    "1": {
+                                        [id]: {native: "none", schemas: "none"}
+                                    }
+                                }
+                            }
+                            api.putPermissionGraph(payload)
+                                .then(response => {
+                                    console.log(response)
+                                    window.location.href = '/database'
+                                })
+                                .catch(error => {
+                                    console.log(error)
+                                })
+                        })
+                    })
+                    .catch(error => {
+                        console.log(error)
+                    })
+            }
         }
     }
 

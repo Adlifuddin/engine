@@ -96,7 +96,8 @@ const { status,
         time,
         activeKey,
         changeKey,
-        refingerprint} = props
+        refingerprint,
+        updateLoading} = props
 
     const [connection, setConnection] = useState(false)
    
@@ -111,7 +112,6 @@ const { status,
 
     const submit = (e) => {
         e.preventDefault()
-
         let data = {
                 "auto_run_queries": autoRunQueries,
                 "details": {
@@ -127,42 +127,103 @@ const { status,
                 "name": name,
                 "refingerprint": refingerprint
             }
-        if (data.details["let-user-control-scheduling"]) {
-            const validate = { "details": data }
-            api.validateDatabase(validate)
-                .then(response => {
-                    if (response.data.valid) {
-                        setPage(true)
-                    } else {
-                        setPage(false)
-                        errorInput("Couldn't connect to the database. Please check the connection details.")
-                    }
-                })
-                .catch(error => {
-                    console.log(error)
-                })
+        const updateSubmits = document.querySelector('#update-save')
+        if (updateSubmits !== null) {
+            updateLoading("update")
+            const updates = updateSubmits.id
+            if (updates === 'update-save') {
+                const datas = parseScheduling(data)
+                api.updateDatabase(datas, status)
+                    .then(response => {
+                        updateLoading('done')
+                        window.location.reload()
+                        console.log(response)
+                    })
+                    .catch(error => {
+                        console.log(error)
+                    })
+            }
         } else {
-            api.createDatabase(data)
-                .then(response => {
-                    window.location.href = '/database'
-                    console.log(response)
-                }) 
-                .catch(error => {
-                    console.log(error)
-                })
-        }
+            if (data.details["let-user-control-scheduling"]) {
+                const validate = { "details": data }
+                api.validateDatabase(validate)
+                    .then(response => {
+                        if (response.data.valid) {
+                            setPage(true)
+                        } else {
+                            setPage(false)
+                            errorInput("Couldn't connect to the database. Please check the connection details.")
+                        }
+                    })
+                    .catch(error => {
+                        console.log(error)
+                    })
+            } else {
+                api.createDatabase(data)
+                    .then(response => {
+                        const id = response.data.id
+                        api.getPermissionGraph()
+                            .then(response => {
+                                var data = response.data
+                                var groups = response.data.groups
 
-        if (page) {
-           const datas = parseScheduling(data)
-            api.createDatabase(datas)
-                .then(response => {
-                    window.location.href = '/database'
-                    console.log(response)
+                                var payload = {
+                                    ...data,
+                                    groups: {
+                                        ...groups,
+                                        "1": {
+                                            [id]: { native: "none", schemas: "none" }
+                                        }
+                                    }
+                                }
+                                api.putPermissionGraph(payload)
+                                    .then(response => {
+                                        console.log(response)
+                                        window.location.href = '/database'
+                                    })
+                                    .catch(error => {
+                                        console.log(error)
+                                    })
+                            })
+                    })
+                    .catch(error => {
+                        console.log(error)
+                    })
+            }
+            if (page) {
+                const datas = parseScheduling(data)
+                api.createDatabase(datas)
+                    .then(response => {
+                        const id = response.data.id
+                        api.getPermissionGraph()
+                            .then(response => {
+                                var data = response.data
+                                var groups = response.data.groups
 
-                }) 
-                .catch(error => {
-                    console.log(error)
-                })
+                                var payload = {
+                                    ...data,
+                                    groups: {
+                                        ...groups,
+                                        "1": {
+                                            [id]: { native: "none", schemas: "none" }
+                                        }
+                                    }
+                                }
+                                api.putPermissionGraph(payload)
+                                    .then(response => {
+                                        console.log(response)
+                                        window.location.href = '/database'
+                                    })
+                                    .catch(error => {
+                                        console.log(error)
+                                    })
+                            })
+
+                    })
+                    .catch(error => {
+                        console.log(error)
+                    })
+            }
         }
     }
 

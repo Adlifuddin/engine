@@ -74,6 +74,7 @@ function DatabaseContainer(props) {
     const [activeKey, changeKey] = useState("0")
     const [refingerprint, setRefingerprint] = useState(false)
     const [includeUserIDandHash, setIncludeUserIDandHash] = useState(true)
+    const [databaseID, setDatabaseID] = useState('')
 
     const parseTiming = (data) => {
         setChanges(data.metadata_sync['schedule_type'])
@@ -130,6 +131,7 @@ function DatabaseContainer(props) {
                     if (response.data.details) {
                         const data = response.data
                         setName(data.name)
+                        setDatabaseID(data.id)
                         setEngine(data.engine)
                         setDatabaseData(data)
                         setAutoRunQueries(data.auto_run_queries)
@@ -380,16 +382,34 @@ function DatabaseContainer(props) {
 
     let c 
     if (databaseData.details) {
-        c = (
-            <Row>
-                <Col md="3">
-                    <Button variant="success" type="submit">Save Changes</Button>
-                </Col>
-                <Col>
-                    <p style={{ color: 'red' }}>{error}</p>
-                </Col>
-            </Row>
-        )
+        if (loading === 'nothing') {
+            c = (
+                <Row>
+                    <Col md="3">
+                        <Button variant="primary" type="submit" id="update-save">Save Changes</Button>
+                    </Col>
+                    <Col>
+                        <p style={{ color: 'red' }}>{error}</p>
+                    </Col>
+                </Row>
+            )
+        } else if (loading === 'update') {
+            c = (
+                <Button variant="light">
+                    <Spinner
+                        as="span"
+                        animation="border"
+                        size="sm"
+                        role="status"
+                        aria-hidden="true"
+                    /> 
+                    <span className="sr-only">Loading...</span>
+                </Button>
+            )
+
+        } else if (loading === 'done') {
+            c =(<Button variant="success"><TiTick/> Success</Button>)
+        }
     } else if (userControlScheduling && status === 'add') {
         c = (
             <Row>
@@ -829,12 +849,34 @@ function DatabaseContainer(props) {
         return data
     }
 
+    const updateLoading = (loadingEffect) => {
+        switch(loadingEffect) {
+            case "update":
+                setLoading(loadingEffect)
+                window.setTimeout(() => {
+                    setLoading("nothing")
+                }, 3000)
+                break;
+            case "done":
+                setLoading(loadingEffect)
+                window.setTimeout(() => {
+                    setLoading("nothing")
+                }, 3000)
+                break;
+            default:
+                setLoading("nothing")
+                break;
+        }
+    }
+
     return (
         <>
             {load?
             <ApiLoader apiload={load} />
                 :
             <DatabaseDriver
+                databaseID={databaseID}
+                updateLoading={updateLoading}
                 includeUserIDandHash={includeUserIDandHash}
                 refingerprint={refingerprint}
                 activeKey={activeKey}

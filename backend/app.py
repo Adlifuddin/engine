@@ -5,9 +5,9 @@ import sqlalchemy as db
 from flask_cors import CORS 
 from json import dumps
 from flask_jsonpify import jsonify
-from serializer import *
-from connection import CreateConnectionCoreUser, CreateConnectionDriveUser
-from settings import *
+from .serializer import *
+from .connection import CreateConnectionCoreUser, CreateConnectionDriveUser
+from .settings import *
 import json
 
 app = Flask(__name__)

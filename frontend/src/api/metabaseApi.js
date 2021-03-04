@@ -24,6 +24,12 @@ export const reScanValue = (payload, id) => api.post(`database/${id}/rescan_valu
 export const discardValue = (payload, id) => api.post(`database/${id}/discard_values`, payload, config)
 export const deleteDatabase = (id) => api.delete(`database/${id}`, config)
 export const validateDatabase = (payload) => api.post(`database/validate`, payload, config)
+export const updateDatabase = (payload, id) => api.put(`database/${id}`, payload, config)
+
+//group
+export const getPermissionGroup = () => api.get(`permissions/group`, config)
+export const getPermissionGraph = () => api.get(`permissions/graph`, config)
+export const putPermissionGraph = (payload) => api.put(`permissions/graph`, payload, config)
 
 // Create Sessions
 export const session = (payload) => api.post("session/", payload)
@@ -39,6 +45,10 @@ const apis = {
     discardValue,
     deleteDatabase,
     validateDatabase,
+    updateDatabase,
+    getPermissionGraph,
+    getPermissionGroup,
+    putPermissionGraph,
 }
 
 export default apis

@@ -53,9 +53,7 @@ function GoogleApi() {
 
   // Scope to use to access user's Drive items.
   var scope = ['https://www.googleapis.com/auth/drive.file', "https://www.googleapis.com/auth/spreadsheets"];
-  
   const processData = dataString => {
-    
     const header = dataString[0]
 
     const headers = header.map(element => element.replace(/[&\/\\#,+()$~%.'":*?<>{}]/g, ""));
@@ -89,7 +87,7 @@ function GoogleApi() {
         if (Object.values(obj).filter(x => x).length > 0) {
           list.push(obj);
         }
-       
+        
       }
     }
 
@@ -139,7 +137,6 @@ function GoogleApi() {
             .catch(error => {
             console.log(error)
           })
-       
       }
   }
 
@@ -199,11 +196,6 @@ function GoogleApi() {
         }
         
       })
-  }
-  
-
-  const click = () => {
-    setModal(true)
   }
 
   const changes = (e) => {
