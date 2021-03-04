@@ -1,6 +1,6 @@
 import React,{useState, useEffect} from 'react'
 import axios from 'axios'
-import { Container, Row, Col, Tab, Tabs, Breadcrumb } from 'react-bootstrap'
+import { Container, Row, Col, Tab, Tabs, Card, Breadcrumb } from 'react-bootstrap'
 import SideBar from '../SideBar/SideBar';
 import { Legend, Line, LineChart ,Bar, BarChart, CartesianGrid, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts';
 
@@ -77,14 +77,14 @@ function DatabaseOverview(){
                             <Breadcrumb.Item active>Databases Overview</Breadcrumb.Item>
                         </Breadcrumb>
                         <Row>
-                            <Col fluid>
-                                <h4 style={{color:"white",marginBottom:"20px"}}>Total Queries And Their Average Speed</h4>
+                            <Col style={{backgroundColor:"rgb(255, 255, 255, 0.75)", borderRadius:"5px", marginBottom:"20px"}} fluid>
+                                <h4 style={{color:"black",marginBottom:"20px",marginTop:"10px"}}>Total Queries And Their Average Speed</h4>
                                 <ResponsiveContainer width="95%" height={300}>
                                     <BarChart margin={{left:80,right:20, bottom:40}} layout="horizontal" data={queriesnavgexec}>
                                         <CartesianGrid vertical={false} horizontal={true} />
-                                        <XAxis tick={{ fontSize:"11.5px",fontWeight:"bold" }} stroke="white" type="category" dataKey="db" label={{ value: "Database",fill:"white", dy: 25}}/>
-                                        <YAxis yAxisId="left" tick={{ fontSize:"11.5px",fontWeight:"bold" }} stroke="white" type="number" dataKey="queries" label={{ value: "Queries",fill:"white", angle:270, dx:-25}} />
-                                        <YAxis yAxisId="right" orientation='right' tick={{ fontSize:"10.5px",fontWeight:"bold" }} stroke="white" type="number" dataKey="avgexectime" label={{ value: "Avg. Running Time (ms)",fill:"white", angle:90, dx:25}} />
+                                        <XAxis tick={{ fontSize:"11.5px",fontWeight:"bold" }} stroke="black" type="category" dataKey="db" label={{ value: "Database",fill:"black", dy: 25}}/>
+                                        <YAxis yAxisId="left" tick={{ fontSize:"11.5px",fontWeight:"bold" }} stroke="black" type="number" dataKey="queries" label={{ value: "Queries",fill:"black", angle:270, dx:-25}} />
+                                        <YAxis yAxisId="right" orientation='right' tick={{ fontSize:"10.5px",fontWeight:"bold" }} stroke="black" type="number" dataKey="avgexectime" label={{ value: "Avg. Running Time (ms)",fill:"black", angle:90, dx:25}} />
                                         <Tooltip />
                                         <Legend verticalAlign="top" height={30} />
                                         <Bar yAxisId="left" dataKey="queries" fill="#54C571" />
@@ -94,12 +94,12 @@ function DatabaseOverview(){
                             </Col>
                         </Row>
                         <Row>
-                            <Col fluid>
-                                <h4 style={{color:"white",marginBottom:"20px"}}>Queries per database each day</h4>
-                                <Tabs  id="uncontrolled-tab">
+                            <Col style={{backgroundColor:"rgb(255, 255, 255, 0.75)", borderRadius:"5px"}} fluid>
+                                <h4 style={{color:"black",marginBottom:"20px", marginTop:"10px"}}>Queries per database each day</h4>
+                                {/* <Tabs  id="uncontrol"led-tab">
                                     <Tab eventKey="all" title="All">
                                         <ResponsiveContainer width="95%" height={280}>
-                                            <LineChart margin={{left:80,right:20, bottom:40}} data={query}>
+                                            <LineChart margin={{left:50,right:20, bottom:40}} data={query}>
                                                 <CartesianGrid vertical={false}  />
                                                 <XAxis tick={{ fontSize:"12px",fontWeight:"bold" }} stroke="white" type="category" dataKey="date" label={{ value: "Day",fill:"white", dy: 25}} tickFormatter={formatXAxis}/>
                                                 <YAxis tick={{ fontSize:"12px",fontWeight:"bold" }} stroke="white" type="number" dataKey="queries" label={{ value: "Total Query",fill:"white", angle:270, dx:-25}} />
@@ -111,7 +111,7 @@ function DatabaseOverview(){
                                     {uniqueValues.map((value, index) => (
                                         <Tab eventKey={value} title={value}>
                                             <ResponsiveContainer width="95%" height={280}>
-                                                <LineChart key={index} margin={{left:80,right:20, bottom:40}} data={filtering(query,value)}>
+                                                <LineChart key={index} margin={{left:50,right:20, bottom:40}} data={filtering(query,value)}>
                                                     <CartesianGrid vertical={false}  />
                                                     <XAxis tick={{ fontSize:"12px",fontWeight:"bold" }} stroke="white" type="category" dataKey="date" label={{ value: "Day",fill:"white", dy: 25}} tickFormatter={formatXAxis}/>
                                                     <YAxis tick={{ fontSize:"12px",fontWeight:"bold" }} stroke="white" type="number" dataKey="queries" label={{ value: "Total Query",fill:"white", angle:270, dx:-25}} />
@@ -121,8 +121,37 @@ function DatabaseOverview(){
                                             </ResponsiveContainer>
                                         </Tab>  
                                     ))}
+                                </Tabs>   */}
+                                
+                                <Tabs  id="uncontrolled-tab">
+                                    <Tab style={{Textcolor:"white"}} eventKey="all" title="All">
+                                        <ResponsiveContainer width="95%" height={280}>
+                                            <LineChart margin={{left:50,right:20, bottom:40}} data={query}>
+                                                <CartesianGrid vertical={false}  />
+                                                <XAxis tick={{ fontSize:"12px",fontWeight:"bold" }} stroke="black" type="category" dataKey="date" label={{ value: "Day",fill:"black", dy: 25}} tickFormatter={formatXAxis}/>
+                                                <YAxis tick={{ fontSize:"12px",fontWeight:"bold" }} stroke="black" type="number" dataKey="queries" label={{ value: "Total Query",fill:"black", angle:270, dx:-25}} />
+                                                <Tooltip />                                  
+                                                <Line type="linear" dataKey="queries" strokeWidth={2} fill="#8884d8" dot={false} />
+                                            </LineChart> 
+                                        </ResponsiveContainer>
+                                    </Tab> 
+                                    {uniqueValues.map((value, index) => (
+                                        <Tab eventKey={value} title={value}>
+                                            <ResponsiveContainer width="95%" height={280}>
+                                                <LineChart key={index} margin={{left:50,right:20, bottom:40}} data={filtering(query,value)}>
+                                                    <CartesianGrid vertical={false}  />
+                                                    <XAxis tick={{ fontSize:"12px",fontWeight:"bold" }} stroke="black" type="category" dataKey="date" label={{ value: "Day",fill:"black", dy: 25}} tickFormatter={formatXAxis}/>
+                                                    <YAxis tick={{ fontSize:"12px",fontWeight:"bold" }} stroke="black" type="number" dataKey="queries" label={{ value: "Total Query",fill:"black", angle:270, dx:-25}} />
+                                                    <Tooltip />                                  
+                                                    <Line type="linear" dataKey="queries" strokeWidth={2} fill="#8884d8" dot={false} />
+                                                </LineChart>   
+                                            </ResponsiveContainer>
+                                        </Tab>  
+                                    ))}
                                 </Tabs>  
+                      
                             </Col>
+
                         </Row>
                     </Col>
                 </Row>  
