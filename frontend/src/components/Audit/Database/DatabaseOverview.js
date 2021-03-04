@@ -1,6 +1,6 @@
 import React,{useState, useEffect} from 'react'
 import axios from 'axios'
-import { Container, Row, Col, ButtonGroup, ToggleButton, Breadcrumb } from 'react-bootstrap'
+import { Container, Row, Col, Tab, Tabs, Breadcrumb } from 'react-bootstrap'
 import SideBar from '../SideBar/SideBar';
 import { Legend, Line, LineChart ,Bar, BarChart, CartesianGrid, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts';
 
@@ -80,7 +80,7 @@ function DatabaseOverview(){
                             <Col fluid>
                                 <h4 style={{color:"white",marginBottom:"20px"}}>Total Queries And Their Average Speed</h4>
                                 <ResponsiveContainer width="95%" height={300}>
-                                    <BarChart margin={{left:150,right:20, bottom:40}} layout="horizontal" data={queriesnavgexec}>
+                                    <BarChart margin={{left:80,right:20, bottom:40}} layout="horizontal" data={queriesnavgexec}>
                                         <CartesianGrid vertical={false} horizontal={true} />
                                         <XAxis tick={{ fontSize:"11.5px",fontWeight:"bold" }} stroke="white" type="category" dataKey="db" label={{ value: "Database",fill:"white", dy: 25}}/>
                                         <YAxis yAxisId="left" tick={{ fontSize:"11.5px",fontWeight:"bold" }} stroke="white" type="number" dataKey="queries" label={{ value: "Queries",fill:"white", angle:270, dx:-25}} />
@@ -96,41 +96,32 @@ function DatabaseOverview(){
                         <Row>
                             <Col fluid>
                                 <h4 style={{color:"white",marginBottom:"20px"}}>Queries per database each day</h4>
-                                
-                                {uniqueValues.map((value, index) => (
-                                    <div>
-                                        <ButtonGroup toggle className="mb-2">
-                                            <ToggleButton
-                                            type="checkbox"
-                                            variant="secondary"
-                                            checked={null}
-                                            value="1"
-                                            onClick={(e) => setChecked(!checked)}
-                                            >
-                                            {value !== null && value}
-                                            </ToggleButton>
-                                        </ButtonGroup>
-                                        <ResponsiveContainer width="95%" height={300}>
-                                            <LineChart key={index} margin={{left:150,right:20, bottom:40}} data={filtering(query,value)}>
+                                <Tabs  id="uncontrolled-tab">
+                                    <Tab eventKey="all" title="All">
+                                        <ResponsiveContainer width="95%" height={280}>
+                                            <LineChart margin={{left:80,right:20, bottom:40}} data={query}>
                                                 <CartesianGrid vertical={false}  />
                                                 <XAxis tick={{ fontSize:"12px",fontWeight:"bold" }} stroke="white" type="category" dataKey="date" label={{ value: "Day",fill:"white", dy: 25}} tickFormatter={formatXAxis}/>
                                                 <YAxis tick={{ fontSize:"12px",fontWeight:"bold" }} stroke="white" type="number" dataKey="queries" label={{ value: "Total Query",fill:"white", angle:270, dx:-25}} />
                                                 <Tooltip />                                  
                                                 <Line type="linear" dataKey="queries" strokeWidth={2} fill="#8884d8" dot={false} />
-                                            </LineChart>   
+                                            </LineChart> 
                                         </ResponsiveContainer>
-                                    </div>
-                                    
-                                ))}
-                                <ResponsiveContainer width="95%" height={300}>
-                                    <LineChart margin={{left:150,right:20, bottom:40}} data={query}>
-                                        <CartesianGrid vertical={false}  />
-                                        <XAxis tick={{ fontSize:"12px",fontWeight:"bold" }} stroke="white" type="category" dataKey="date" label={{ value: "Day",fill:"white", dy: 25}} tickFormatter={formatXAxis}/>
-                                        <YAxis tick={{ fontSize:"12px",fontWeight:"bold" }} stroke="white" type="number" dataKey="queries" label={{ value: "Total Query",fill:"white", angle:270, dx:-25}} />
-                                        <Tooltip />                                  
-                                        <Line type="linear" dataKey="queries" strokeWidth={2} fill="#8884d8" dot={false} />
-                                    </LineChart> 
-                                </ResponsiveContainer>  
+                                    </Tab> 
+                                    {uniqueValues.map((value, index) => (
+                                        <Tab eventKey={value} title={value}>
+                                            <ResponsiveContainer width="95%" height={280}>
+                                                <LineChart key={index} margin={{left:80,right:20, bottom:40}} data={filtering(query,value)}>
+                                                    <CartesianGrid vertical={false}  />
+                                                    <XAxis tick={{ fontSize:"12px",fontWeight:"bold" }} stroke="white" type="category" dataKey="date" label={{ value: "Day",fill:"white", dy: 25}} tickFormatter={formatXAxis}/>
+                                                    <YAxis tick={{ fontSize:"12px",fontWeight:"bold" }} stroke="white" type="number" dataKey="queries" label={{ value: "Total Query",fill:"white", angle:270, dx:-25}} />
+                                                    <Tooltip />                                  
+                                                    <Line type="linear" dataKey="queries" strokeWidth={2} fill="#8884d8" dot={false} />
+                                                </LineChart>   
+                                            </ResponsiveContainer>
+                                        </Tab>  
+                                    ))}
+                                </Tabs>  
                             </Col>
                         </Row>
                     </Col>
