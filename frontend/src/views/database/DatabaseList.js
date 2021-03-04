@@ -5,6 +5,7 @@ import api from '../../api/metabaseApi'
 import { Link } from 'react-router-dom'
 import './DatabaseList.css'
 import ApiLoader from '../../components/Loader/ApiLoader'
+import Create from './components/DatabaseFunction'
 
 function DatabaseList() {
     const [databaseLists, setDatabaseList] = useState([])
@@ -30,13 +31,7 @@ function DatabaseList() {
 
     const deleteDatabase = () => {
         if (Delete === 'delete') {
-            api.deleteDatabase(id)
-                .then(response => {
-                    window.location.href = "/database"
-                })
-                .catch(error => {
-                    console.log(error)
-                })
+            Create.deleteDatabases(id)
         }
     }
 

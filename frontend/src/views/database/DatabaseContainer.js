@@ -7,6 +7,7 @@ import api from '../../api/metabaseApi'
 import { TiTick } from 'react-icons/ti'
 import ApiLoader from '../../components/Loader/ApiLoader'
 import DatabaseDriver from './components/DatabaseDriver'
+import Create from './components/DatabaseFunction'
 
 function DatabaseContainer(props) {
     const { status } = props
@@ -75,6 +76,7 @@ function DatabaseContainer(props) {
     const [refingerprint, setRefingerprint] = useState(false)
     const [includeUserIDandHash, setIncludeUserIDandHash] = useState(true)
     const [databaseID, setDatabaseID] = useState('')
+    const [updateLoad, setUpdateLoad] = useState('nothing')
 
     const parseTiming = (data) => {
         setChanges(data.metadata_sync['schedule_type'])
@@ -382,7 +384,7 @@ function DatabaseContainer(props) {
 
     let c 
     if (databaseData.details) {
-        if (loading === 'nothing') {
+        if (updateLoad === 'nothing') {
             c = (
                 <Row>
                     <Col md="3">
@@ -393,7 +395,7 @@ function DatabaseContainer(props) {
                     </Col>
                 </Row>
             )
-        } else if (loading === 'update') {
+        } else if (updateLoad === 'update') {
             c = (
                 <Button variant="light">
                     <Spinner
@@ -407,7 +409,7 @@ function DatabaseContainer(props) {
                 </Button>
             )
 
-        } else if (loading === 'done') {
+        } else if (updateLoad === 'done') {
             c =(<Button variant="success"><TiTick/> Success</Button>)
         }
     } else if (userControlScheduling && status === 'add') {
@@ -451,60 +453,22 @@ function DatabaseContainer(props) {
 
     const syncSchema = () => {
         setLoading("loading")
-        api.syncSchema({}, status)
-            .then(response => {
-                const data = response.data
-                setLoading("loaded")
-                window.setTimeout(() => {
-                    setLoading("nothing")
-                }, 3000)
-            })
-            .catch(error => {
-                console.log(error)
-                setLoading("nothing")
-            })
+        Create.syncSchemas(status, setLoading)
     }
 
     const reScanValue = () => {
         setReScanLoading("loading")
-        api.reScanValue({}, status)
-            .then(response => {
-                const data = response.data
-                setReScanLoading("loaded")
-                window.setTimeout(() => {
-                    setReScanLoading("nothing")
-                }, 3000)
-            })
-            .catch(error => {
-                console.log(error)
-                setReScanLoading("nothing")
-            })
+        Create.reScanValues(status, setReScanLoading)
+        
     }
 
     const discardSavedFiled = () => {
-        api.discardValue({}, status)
-            .then(response => {
-                const data = response.data
-                if (data) {
-                    if (data.status === 'ok') {
-                        setModal(false)
-                    }
-                }
-            })
-            .catch(error => {
-                console.log(error)
-            })
+        Create.discardValues(status, setModal)
     }
 
     const deleteDatabase = () => {
         if (Delete === 'delete') {
-            api.deleteDatabase(status)
-                .then(response => {
-                    window.location.href = "/database"
-                })
-                .catch(error => {
-                    console.log(error)
-                })
+            Create.deleteDatabases(status)
         }
     }
 
@@ -672,9 +636,13 @@ function DatabaseContainer(props) {
     }
 
     const jsonProcess = (event) => {
-        var reader = new FileReader();
-        reader.onload = onReaderLoad;
-        reader.readAsText(event.target.files[0]);
+        if (event.target.files[0] !== undefined) {
+            var reader = new FileReader();
+            reader.onload = onReaderLoad;
+            reader.readAsText(event.target.files[0]);
+        } else {
+            setJSON()
+        }
     }
 
     function onReaderLoad(event) {
@@ -852,22 +820,24 @@ function DatabaseContainer(props) {
     const updateLoading = (loadingEffect) => {
         switch(loadingEffect) {
             case "update":
-                setLoading(loadingEffect)
+                setUpdateLoad(loadingEffect)
                 window.setTimeout(() => {
-                    setLoading("nothing")
+                    setUpdateLoad("nothing")
                 }, 3000)
                 break;
             case "done":
-                setLoading(loadingEffect)
+                setUpdateLoad(loadingEffect)
                 window.setTimeout(() => {
-                    setLoading("nothing")
+                    setUpdateLoad("nothing")
                 }, 3000)
                 break;
             default:
-                setLoading("nothing")
+                setUpdateLoad("nothing")
                 break;
         }
     }
+
+    
 
     return (
         <>

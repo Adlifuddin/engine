@@ -1,13 +1,13 @@
 import React, {useState, useEffect} from 'react'
 import {Card, CardBody, Row, Col} from 'reactstrap'
-import { Form, Breadcrumb } from 'react-bootstrap'
+import { Form } from 'react-bootstrap'
 import SSHTunnel from './components/SSHTunnel'
 import Breadcrumbs from './components/Breadcrumb'
 import FormComponent from './components/FormComponent'
 import FormFooter from './components/FormFooter'
 import SchedulingTab from './components/SchedulingTab'
 import Scheduling from './components/Scheduling'
-import api from '../../../api/metabaseApi'
+import Create from '../components/DatabaseFunction'
 
 function Childrens(props) {
     const {engine, inputting, name, host, port, dbname, username, password, sslSwitch, switches,sshTunnel, sshAuth, tunnelHost, tunnelPassword, tunnelPort, tunnelPrivateKey, tunnelUser, autoRunQueries, userControlScheduling, refingerprint} = props
@@ -172,45 +172,6 @@ const { inputting,
         }
     }, [userControlScheduling])
 
-    const createDatabases = (data) => {
-        api.createDatabase(data)
-            .then(response => {
-                const id = response.data.id
-                api.getPermissionGraph()
-                    .then(response => {
-                        var datas = response.data
-                        var groups = response.data.groups
-
-                        var payload = {
-                            ...datas,
-                            groups: {
-                                ...groups,
-                                "1": {
-                                    [id]: {native: "none", schemas: "none"}
-                                },
-                                "5": {
-                                    [id]: { native: "write", schemas: "all" }
-                                }
-                            }
-                        }
-                        api.putPermissionGraph(payload)
-                            .then(response => {
-                                console.log(response)
-                                window.location.href = '/database'
-                            })
-                            .catch(error => {
-                                console.log(error)
-                            })
-                    })
-                    .catch(error => {
-                        console.log(error)
-                    })
-            })
-            .catch(error => {
-                console.log(error)
-            })
-    }
-
     const submit = (e) => {
         e.preventDefault()
         let data = {
@@ -239,39 +200,20 @@ const { inputting,
             const updates = updateSubmits.id
             if (updates === 'update-save') {
                 const datas = parseScheduling(file)
-                api.updateDatabase(datas, status)
-                    .then(response => {
-                        updateLoading('done')
-                        window.location.reload()
-                        console.log(response)
-                    })
-                    .catch(error => {
-                        console.log(error)
-                    })
+                Create.updateDatabases(datas, status, updateLoading)
             }
         } else {
         
             if (file.details["let-user-control-scheduling"]) {
                 const validate = { "details": file }
-                api.validateDatabase(validate)
-                    .then(response => {
-                        if (response.data.valid) {
-                            setPage(true)
-                        } else {
-                            setPage(false)
-                            errorInput("Couldn't connect to the database. Please check the connection details.")
-                        }
-                    })
-                    .catch(error => {
-                        console.log(error)
-                    })
+                Create.validateDatabases(validate, setPage, errorInput)
             } else {
-                createDatabases(file)
+                Create.createDatabases(file)
             }
 
             if (page) {
                 const datas = parseScheduling(file)
-                createDatabases(datas)
+                Create.createDatabases(datas)
             }
         }
     }
