@@ -2,7 +2,7 @@ import React,{useState, useEffect} from 'react'
 import axios from 'axios'
 import { Container, Row, Col, Table, Breadcrumb } from 'react-bootstrap'
 import SideBar from '../SideBar/SideBar';
-import { Line, LineChart ,Bar, BarChart, CartesianGrid, XAxis, YAxis, Tooltip } from 'recharts';
+import { ResponsiveContainer ,Bar, BarChart, CartesianGrid, XAxis, YAxis, Tooltip } from 'recharts';
 
 function TableOverview(){
 
@@ -51,24 +51,28 @@ function TableOverview(){
                         </Breadcrumb>
                         <Row>
                             <Col>
-                                <h3 style={{color:"white",marginBottom:"20px"}}>Most-queried tables</h3>
-                                <BarChart margin={{left:150}} layout="vertical" width={600} height={630} data={mostQueried}>
-                                    <CartesianGrid vertical={true} horizontal={false} />
-                                    <XAxis tick={{ fontWeight:"bold" }} stroke="white" type="number" dataKey="exec"/>
-                                    <YAxis tick={{ fontSize:"10.5px",fontWeight:"bold" }} stroke="white" type="category" dataKey="tables" />
-                                    <Tooltip />
-                                    <Bar dataKey="exec" fill="#8884d8" />
-                                </BarChart>  
+                                <h4 style={{color:"white",marginBottom:"20px"}}>Most-queried tables</h4>
+                                <ResponsiveContainer width="90%" height={630}>
+                                    <BarChart margin={{left:120}} layout="vertical" data={mostQueried}>
+                                        <CartesianGrid vertical={true} horizontal={false} />
+                                        <XAxis tick={{ fontWeight:"bold" }} stroke="white" type="number" dataKey="exec"/>
+                                        <YAxis tick={{ fontSize:"10.5px",fontWeight:"bold" }} stroke="white" type="category" dataKey="tables" />
+                                        <Tooltip />
+                                        <Bar dataKey="exec" fill="#8884d8" />
+                                    </BarChart>  
+                                </ResponsiveContainer>
                             </Col>
                             <Col>
-                                <h3 style={{color:"white",marginBottom:"20px"}}>Least-queried tables</h3>
-                                <BarChart margin={{left:150}} layout="vertical" width={600} height={630} data={leastQueried}>
-                                    <CartesianGrid vertical={true} horizontal={false} />
-                                    <XAxis tick={{ fontWeight:"bold" }} stroke="white" type="number" dataKey="exec"/>
-                                    <YAxis tick={{ fontSize:"10.5px",fontWeight:"bold" }} stroke="white" type="category" dataKey="tables" />
-                                    <Tooltip />
-                                    <Bar dataKey="exec" fill="#8884d8" />
-                                </BarChart>  
+                                <h4 style={{color:"white",marginBottom:"20px"}}>Least-queried tables</h4>
+                                <ResponsiveContainer width="90%" height={630}>
+                                    <BarChart margin={{left:120}} layout="vertical" data={leastQueried}>
+                                        <CartesianGrid vertical={true} horizontal={false} />
+                                        <XAxis tick={{ fontWeight:"bold" }} stroke="white" type="number" dataKey="exec"/>
+                                        <YAxis tick={{ fontSize:"10.5px",fontWeight:"bold" }} stroke="white" type="category" dataKey="tables" />
+                                        <Tooltip />
+                                        <Bar dataKey="exec" fill="#8884d8" />
+                                    </BarChart>  
+                                </ResponsiveContainer>
                             </Col>
                         </Row>                    
                     </Col>

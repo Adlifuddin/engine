@@ -2,7 +2,7 @@ import React,{useState, useEffect} from 'react'
 import axios from 'axios'
 import { Container, Row, Col, Table, Breadcrumb } from 'react-bootstrap'
 import SideBar from '../SideBar/SideBar';
-import { Line, LineChart ,Bar, BarChart, CartesianGrid, XAxis, YAxis, Tooltip } from 'recharts';
+import { ResponsiveContainer ,Bar, BarChart, CartesianGrid, XAxis, YAxis, Tooltip } from 'recharts';
 
 function SchemaOverview(){
 
@@ -51,25 +51,29 @@ function SchemaOverview(){
                         </Breadcrumb>
                         <Row>
                             <Col>
-                                <h3 style={{color:"white",marginBottom:"20px"}}>Most-queried schemas</h3>
-                                <BarChart margin={{left:150}} layout="vertical" width={600} height={600} data={mostQueried}>
-                                    <CartesianGrid vertical={true} horizontal={false} />
-                                    <XAxis tick={{ fontWeight:"bold" }} stroke="white" type="number" dataKey="exec"/>
-                                    <YAxis tick={{ fontSize:"10.5px",fontWeight:"bold" }} stroke="white" type="category" dataKey="schema" />
-                                    <Tooltip />
-                                    <Bar dataKey="exec" fill="#8884d8" />
-                                </BarChart>  
+                                <h4 style={{color:"white",marginBottom:"20px"}}>Most-queried schemas</h4>
+                                <ResponsiveContainer width="90%" height={600}>
+                                    <BarChart margin={{left:100}} layout="vertical" data={mostQueried}>
+                                        <CartesianGrid vertical={true} horizontal={false} />
+                                        <XAxis tick={{ fontWeight:"bold" }} stroke="white" type="number" dataKey="exec"/>
+                                        <YAxis tick={{ fontSize:"10.5px",fontWeight:"bold" }} stroke="white" type="category" dataKey="schema" />
+                                        <Tooltip />
+                                        <Bar dataKey="exec" fill="#8884d8" />
+                                    </BarChart>  
+                                </ResponsiveContainer>
                             </Col>
 
                             <Col>
-                                <h3 style={{color:"white",marginBottom:"20px"}}>Slowest schemas</h3>
-                                <BarChart margin={{left:150}} layout="vertical" width={600} height={600} data={slowestSchema}>
-                                    <CartesianGrid vertical={true} horizontal={false} />
-                                    <XAxis tick={{ fontWeight:"bold" }} stroke="white" type="number" dataKey="avgexec"/>
-                                    <YAxis tick={{ fontSize:"10.5px",fontWeight:"bold" }} stroke="white" type="category" dataKey="schema" />
-                                    <Tooltip />
-                                    <Bar dataKey="avgexec" fill="#8884d8" />
-                                </BarChart>  
+                                <h4 style={{color:"white",marginBottom:"20px"}}>Slowest schemas</h4>
+                                <ResponsiveContainer width="90%" height={600}>
+                                    <BarChart margin={{left:100}} layout="vertical" data={slowestSchema}>
+                                        <CartesianGrid vertical={true} horizontal={false} />
+                                        <XAxis tick={{ fontWeight:"bold" }} stroke="white" type="number" dataKey="avgexec"/>
+                                        <YAxis tick={{ fontSize:"10.5px",fontWeight:"bold" }} stroke="white" type="category" dataKey="schema" />
+                                        <Tooltip />
+                                        <Bar dataKey="avgexec" fill="#8884d8" />
+                                    </BarChart>  
+                                </ResponsiveContainer>
                             </Col>
                         </Row>
                     </Col>

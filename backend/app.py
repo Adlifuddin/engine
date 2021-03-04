@@ -67,7 +67,7 @@ class Members(Resource):
 class MembersOverview(Resource):
     def get(self):
         engine = CreateConnectionCoreUser()
-        query = "select b.first_name as user, sum(a.running_time) as exectime from public.query_execution a left join public.core_user b on a.executor_id = b.id left join public.metabase_database c on a.database_id = c.id where b.first_name is not null group by b.first_name order by exectime desc limit 10"     
+        query = "select concat(b.first_name,' ',b.last_name) as user, sum(a.running_time) as exectime from public.query_execution a left join public.core_user b on a.executor_id = b.id left join public.metabase_database c on a.database_id = c.id where b.first_name is not null group by b.first_name, b.last_name order by exectime desc limit 10"     
         connection = engine.connect()
         result = connection.execute(query)
         results = [dict(zip(tuple (result.keys()) ,i)) for i in result.cursor]
@@ -76,11 +76,21 @@ class MembersOverview(Resource):
 class MembersMostCreated(Resource):
     def get(self):
         engine = CreateConnectionCoreUser()
-        query = "select ((select count(id) as sum from report_card group by creator_id)+(select count(id) as sum from report_dashboard group by creator_id)) as total, first_name as user from core_user order by total desc limit 10"
+        query = "with totalCard as(select count(*) as sum, creator_id from report_card group by creator_id),totalDashboard as(select count(*) as sum , creator_id from report_dashboard group by creator_id),total as(select sum(a.sum+b.sum) as total, a.creator_id from totalCard a left join totalDashboard b on a.creator_id = b.creator_id group by a.creator_id) select total as total, concat(b.first_name,' ',b.last_name) as name from total a left join core_user b on a.creator_id = b.id where total is not null order by total desc limit 10"
         connection = engine.connect()
         result = connection.execute(query)
         results = [dict(zip(tuple (result.keys()) ,i)) for i in result.cursor]
         return jsonify(results)
+
+class MembersActivenNew(Resource):
+    def get(self):
+        engine = CreateConnectionCoreUser()
+        query = "select count(distinct executor_id) as active, started_at::date as date from query_execution group by date union select count(distinct id) as newuser, date_joined::date as date from core_user group by date_joined order by date asc"
+        connection = engine.connect()
+        result = connection.execute(query)
+        results = [dict(zip(tuple (result.keys()) ,i)) for i in result.cursor]
+        return jsonify(results)
+
 
 class Databases(Resource):
     def get(self):
@@ -229,6 +239,15 @@ class DashboardsCommonQuestion(Resource):
         results = [dict(zip(tuple (result.keys()) ,i)) for i in result.cursor]
         return jsonify(results)       
 
+class DashboardsViewsnSaved(Resource):
+    def get(self):
+        engine = CreateConnectionCoreUser()
+        query = "select count(*) as count, timestamp::date as date from view_log where model ilike 'dashboard' group by timestamp::date union all select count(*) as count , created_at::date as date from report_dashboard group by created_at::date order by date asc"
+        connection = engine.connect()
+        result = connection.execute(query)
+        results = [dict(zip(tuple (result.keys()) ,i)) for i in result.cursor]
+        return jsonify(results)       
+
 
 class AuditLog(Resource):
     def get(self):
@@ -266,6 +285,16 @@ class downloadsPerUser(Resource):
         results = [dict(zip(tuple (result.keys()) ,i)) for i in result.cursor]
         return jsonify(results)
 
+class downloadsPerSize(Resource):
+    def get(self):
+        engine = CreateConnectionCoreUser()
+        query = "WITH range_values AS ( SELECT min(result_rows) as minval,max(result_rows) as maxval,started_at FROM query_execution group by started_at) select generate_series(a.minval,a.maxval,100) as rows, count(b.id) as download from range_values a left join query_execution b on a.started_at = b.started_at where b.context ilike 'json-download' or b.context ilike 'csv-download' or b.context ilike 'xlsx-download' group by rows order by rows asc"
+        connection = engine.connect()
+        result = connection.execute(query)
+        results = [dict(zip(tuple (result.keys()) ,i)) for i in result.cursor]
+        return jsonify(results)
+
+
 
 
 
@@ -294,7 +323,9 @@ api.add_resource(DashboardsMostPopular, '/api/audit/dashboards/mostpopular')
 api.add_resource(DownloadsOverview, '/api/audit/downloads/overview')
 api.add_resource(downloadsPerUser, '/api/audit/downloads/downloadperuser')
 api.add_resource(DashboardsCommonQuestion, '/api/audit/dashboards/commonquestion')
-
+api.add_resource(downloadsPerSize, '/api/audit/downloads/downloadpersize')
+api.add_resource(MembersActivenNew, '/api/audit/members/activennew')
+api.add_resource(DashboardsViewsnSaved, '/api/audit/dashboards/viewsnsaved')
 
 if __name__ == '__main__':
      app.run()
