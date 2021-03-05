@@ -50,27 +50,27 @@ function TableOverview(){
                             <Breadcrumb.Item active>Tables Overview</Breadcrumb.Item>
                         </Breadcrumb>
                         <Row>
-                            <Col>
-                                <h4 style={{color:"white",marginBottom:"20px"}}>Most-queried tables</h4>
+                            <Col style={{backgroundColor:"rgb(255, 255, 255, 0.75)", borderRadius:"5px", marginRight:"10px"}} fluid>
+                                <h4 style={{color:"black", fontWeight:"bold", marginBottom:"20px", marginTop:"10px"}}>Most-queried tables</h4>
                                 <ResponsiveContainer width="90%" height={630}>
-                                    <BarChart margin={{left:120}} layout="vertical" data={mostQueried}>
+                                    <BarChart margin={{left:120,top:20}} layout="vertical" data={mostQueried}>
                                         <CartesianGrid vertical={true} horizontal={false} />
-                                        <XAxis tick={{ fontWeight:"bold" }} stroke="white" type="number" dataKey="exec"/>
-                                        <YAxis tick={{ fontSize:"10.5px",fontWeight:"bold" }} stroke="white" type="category" dataKey="tables" />
+                                        <XAxis tick={{ fontWeight:"bold" }} stroke="black" type="number" dataKey="exec"/>
+                                        <YAxis tick={{ fontSize:"10.5px",fontWeight:"bold" }} stroke="black" type="category" dataKey="tables" />
                                         <Tooltip />
-                                        <Bar dataKey="exec" fill="#8884d8" />
+                                        <Bar dataKey="exec" fill="#009933" />
                                     </BarChart>  
                                 </ResponsiveContainer>
                             </Col>
-                            <Col>
-                                <h4 style={{color:"white",marginBottom:"20px"}}>Least-queried tables</h4>
+                            <Col style={{backgroundColor:"rgb(255, 255, 255, 0.75)", borderRadius:"5px", marginRight:"10px"}} fluid>
+                                <h4 style={{color:"black", fontWeight:"bold", marginBottom:"20px", marginTop:"10px"}}>Least-queried tables</h4>
                                 <ResponsiveContainer width="90%" height={630}>
-                                    <BarChart margin={{left:120}} layout="vertical" data={leastQueried}>
+                                    <BarChart margin={{left:120,top:20}} layout="vertical" data={leastQueried}>
                                         <CartesianGrid vertical={true} horizontal={false} />
-                                        <XAxis tick={{ fontWeight:"bold" }} stroke="white" type="number" dataKey="exec"/>
-                                        <YAxis tick={{ fontSize:"10.5px",fontWeight:"bold" }} stroke="white" type="category" dataKey="tables" />
+                                        <XAxis tick={{ fontWeight:"bold" }} stroke="black" type="number" dataKey="exec"/>
+                                        <YAxis tick={{ fontSize:"10.5px",fontWeight:"bold" }} stroke="black" type="category" dataKey="tables" />
                                         <Tooltip />
-                                        <Bar dataKey="exec" fill="#8884d8" />
+                                        <Bar dataKey="exec" fill="#730099" />
                                     </BarChart>  
                                 </ResponsiveContainer>
                             </Col>

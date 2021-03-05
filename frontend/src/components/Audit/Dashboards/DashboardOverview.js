@@ -69,22 +69,22 @@ function DashboardOverview(){
                             <Breadcrumb.Item active>Dashboards Overview</Breadcrumb.Item>
                         </Breadcrumb> 
                         <Row>
-                            <Col>
-                                <h4 style={{color:"white",marginBottom:"20px"}}>Dashboard Views and Saved</h4>
+                            <Col style={{backgroundColor:"rgb(255, 255, 255, 0.75)", marginBottom:"10px", borderRadius:"5px"}} fluid>
+                                <h4 style={{color:"black", fontWeight:"bold", marginBottom:"10px", marginTop:"10px"}}>Dashboard Views and Saved</h4>
                                 <ResponsiveContainer width="90%" height={250}>
                                     <LineChart margin={{left:100,right:20, bottom:40}} data={viewsnsaved}>
                                         <CartesianGrid vertical={false}  />
-                                        <XAxis tick={{ fontSize:"12px",fontWeight:"bold" }} stroke="white" type="category" dataKey="date" label={{ value: "Day",fill:"white", dy: 25}} tickFormatter={formatXAxis}/>
-                                        <YAxis tick={{ fontSize:"12px",fontWeight:"bold" }} stroke="white" type="number" dataKey="count" label={{ value: "views & saved dashboard",fill:"white", angle:270, dx:-25}} />
+                                        <XAxis tick={{ fontSize:"12px",fontWeight:"bold" }} stroke="black" type="category" dataKey="date" label={{ value: "Day",fill:"black", dy: 25}} tickFormatter={formatXAxis}/>
+                                        <YAxis tick={{ fontSize:"12px",fontWeight:"bold" }} stroke="black" type="number" dataKey="count" label={{ value: "views & saved dashboard",fill:"black", angle:270, dx:-25}} />
                                         <Tooltip />                                  
-                                        <Line type="linear" dataKey="count" strokeWidth={2} fill="#8884d8" dot={false} />
+                                        <Line type="linear" dataKey="count" strokeWidth={2} stroke="#0000b3" dot={false} />
                                     </LineChart>   
                                 </ResponsiveContainer>
                             </Col>
                         </Row>
                         <Row>
-                            <Col>
-                                <h4 style={{color:"white",marginBottom:"5px"}}>Most popular dashboards & average loading times</h4>
+                            <Col style={{backgroundColor:"rgb(255, 255, 255, 0.75)", marginRight:'10px', borderRadius:"5px"}} fluid>
+                                <h4 style={{color:"black", fontWeight:"bold", marginBottom:"20px", marginTop:"10px"}}>Most popular dashboards & average loading times</h4>
                                 <Table striped bordered hover variant="light" size="sm">
                                     <thead>
                                         <tr>
@@ -105,8 +105,8 @@ function DashboardOverview(){
                                 </Table> 
                             </Col>
 
-                            <Col>
-                                <h4 style={{color:"white",marginBottom:"5px"}}>Questions included the most in dashboards</h4>
+                            <Col style={{backgroundColor:"rgb(255, 255, 255, 0.75)",borderRadius:"5px"}} fluid>
+                                <h4 style={{color:"black", fontWeight:"bold", marginBottom:"20px", marginTop:"10px"}}>Questions included the most in dashboards</h4>
                                 <Table striped bordered hover variant="light" size="sm">
                                     <thead>
                                         <tr>

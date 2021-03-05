@@ -50,28 +50,28 @@ function QuestionOverview(){
                             <Breadcrumb.Item active>Questions Overview</Breadcrumb.Item>
                         </Breadcrumb>
                         <Row>
-                            <Col>
-                                <h4 style={{color:"white",marginBottom:"20px"}}>Most Popular Queries</h4>
+                            <Col style={{backgroundColor:"rgb(255, 255, 255, 0.75)", borderRadius:"5px", marginRight:"10px"}} fluid>
+                                <h4 style={{color:"black", fontWeight:"bold", marginBottom:"10px", marginTop:"10px"}}>Most Popular Queries</h4>
                                 <ResponsiveContainer width="90%" height={670}>
                                     <BarChart margin={{left:80,top:15}} layout="vertical" data={popularqueries}>
                                         <CartesianGrid vertical={true} horizontal={false} />
-                                        <XAxis tick={{ fontWeight:"bold" }} stroke="white" type="number" dataKey="executions"/>
-                                        <YAxis tick={{ fontSize:"9px",fontWeight:"bold" }} stroke="white" type="category" dataKey="card" />
+                                        <XAxis tick={{ fontWeight:"bold" }} stroke="black" type="number" dataKey="executions"/>
+                                        <YAxis tick={{ fontSize:"9px",fontWeight:"bold" }} stroke="black" type="category" dataKey="card" />
                                         <Tooltip />
-                                        <Bar dataKey="executions" fill="#8884d8" />
+                                        <Bar dataKey="executions" fill="#009933" />
                                     </BarChart>  
                                 </ResponsiveContainer>
                             </Col>
 
-                            <Col>
-                                <h4 style={{color:"white",marginBottom:"20px"}}>Slowest Queries</h4>
+                            <Col style={{backgroundColor:"rgb(255, 255, 255, 0.75)", borderRadius:"5px", marginRight:"10px"}} fluid>
+                                <h4 style={{color:"black", fontWeight:"bold", marginBottom:"10px", marginTop:"10px"}}>Slowest Queries</h4>
                                 <ResponsiveContainer width="90%" height={670}>
                                     <BarChart margin={{left:80,top:15}} layout="vertical"  data={slowestqueries}>
                                         <CartesianGrid vertical={true} horizontal={false} />
-                                        <XAxis tick={{ fontWeight:"bold" }} stroke="white" type="number" dataKey="avgrunningtime"/>
-                                        <YAxis tick={{ fontSize:"8px",fontWeight:"bold" }} stroke="white" type="category" dataKey="card" />
+                                        <XAxis tick={{ fontWeight:"bold" }} stroke="black" type="number" dataKey="avgrunningtime"/>
+                                        <YAxis tick={{ fontSize:"8px",fontWeight:"bold" }} stroke="black" type="category" dataKey="card" />
                                         <Tooltip />
-                                        <Bar dataKey="avgrunningtime" fill="#8884d8" />
+                                        <Bar dataKey="avgrunningtime" fill="#730099" />
                                     </BarChart>  
                                 </ResponsiveContainer>
                             </Col>

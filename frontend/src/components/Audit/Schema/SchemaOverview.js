@@ -50,28 +50,28 @@ function SchemaOverview(){
                             <Breadcrumb.Item active>Schemas Overview</Breadcrumb.Item>
                         </Breadcrumb>
                         <Row>
-                            <Col>
-                                <h4 style={{color:"white",marginBottom:"20px"}}>Most-queried schemas</h4>
+                            <Col style={{backgroundColor:"rgb(255, 255, 255, 0.75)", borderRadius:"5px", marginRight:"10px"}} fluid>
+                                <h4 style={{color:"black", fontWeight:"bold", marginBottom:"20px", marginTop:"10px"}}>Most-queried schemas</h4>
                                 <ResponsiveContainer width="90%" height={600}>
                                     <BarChart margin={{left:100}} layout="vertical" data={mostQueried}>
                                         <CartesianGrid vertical={true} horizontal={false} />
-                                        <XAxis tick={{ fontWeight:"bold" }} stroke="white" type="number" dataKey="exec"/>
-                                        <YAxis tick={{ fontSize:"10.5px",fontWeight:"bold" }} stroke="white" type="category" dataKey="schema" />
+                                        <XAxis tick={{ fontWeight:"bold" }} stroke="black" type="number" dataKey="exec"/>
+                                        <YAxis tick={{ fontSize:"10.5px",fontWeight:"bold" }} stroke="black" type="category" dataKey="schema" />
                                         <Tooltip />
-                                        <Bar dataKey="exec" fill="#8884d8" />
+                                        <Bar dataKey="exec" fill="#009933" />
                                     </BarChart>  
                                 </ResponsiveContainer>
                             </Col>
 
-                            <Col>
-                                <h4 style={{color:"white",marginBottom:"20px"}}>Slowest schemas</h4>
+                            <Col style={{backgroundColor:"rgb(255, 255, 255, 0.75)", borderRadius:"5px"}} fluid>
+                                <h4 style={{color:"black", fontWeight:"bold", marginBottom:"20px", marginTop:"10px"}}>Slowest schemas</h4>
                                 <ResponsiveContainer width="90%" height={600}>
                                     <BarChart margin={{left:100}} layout="vertical" data={slowestSchema}>
                                         <CartesianGrid vertical={true} horizontal={false} />
-                                        <XAxis tick={{ fontWeight:"bold" }} stroke="white" type="number" dataKey="avgexec"/>
-                                        <YAxis tick={{ fontSize:"10.5px",fontWeight:"bold" }} stroke="white" type="category" dataKey="schema" />
+                                        <XAxis tick={{ fontWeight:"bold" }} stroke="black" type="number" dataKey="avgexec"/>
+                                        <YAxis tick={{ fontSize:"10.5px",fontWeight:"bold" }} stroke="black" type="category" dataKey="schema" />
                                         <Tooltip />
-                                        <Bar dataKey="avgexec" fill="#8884d8" />
+                                        <Bar dataKey="avgexec" fill="#730099" />
                                     </BarChart>  
                                 </ResponsiveContainer>
                             </Col>
