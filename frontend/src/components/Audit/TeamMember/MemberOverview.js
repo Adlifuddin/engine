@@ -73,7 +73,7 @@ function MemberOverview(){
                                 <h4 style={{color:"black", fontWeight:"bold", marginBottom:"20px", marginTop:"10px"}}>Active and New User</h4>
                                 <ResponsiveContainer width="95%" height={250}>
                                     <LineChart margin={{left:100,right:20, bottom:40}} data={activennew}>
-                                        <CartesianGrid vertical={false}  />
+                                        <CartesianGrid stroke="#545454" vertical={false}  />
                                         <XAxis tick={{ fontSize:"12px",fontWeight:"bold" }} stroke="black" type="category" dataKey="date" label={{ value: "Day",fill:"black", dy: 25}} tickFormatter={formatXAxis}/>
                                         <YAxis tick={{ fontSize:"12px",fontWeight:"bold" }} stroke="black" type="number" dataKey="active" label={{ value: "active and new users",fill:"black", angle:270, dx:-25}} />
                                         <Tooltip />                                  
@@ -87,7 +87,7 @@ function MemberOverview(){
                                 <h4 style={{color:"black", fontWeight:"bold", marginBottom:"20px", marginTop:"10px"}}>Most active user</h4>
                                 <ResponsiveContainer width="90%" height={360}>
                                     <BarChart margin={{left:100, bottom:40}} layout="vertical" width={600} height={360} data={overview}>
-                                        <CartesianGrid vertical={true} horizontal={false} />
+                                        <CartesianGrid stroke="#545454" vertical={true} horizontal={false} />
                                         <XAxis tick={{ fontSize:"12px", fontWeight:"bold" }} stroke="black" type="number" dataKey="exectime" label={{ value: "Total execution time (milliseconds)",fill:"black", dy: 25}} />
                                         <YAxis tick={{ fontSize:"10px", fontWeight:"bold" }} stroke="black" type="category" dataKey="user" />
                                         <Tooltip />

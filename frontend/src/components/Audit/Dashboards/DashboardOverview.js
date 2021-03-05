@@ -73,7 +73,7 @@ function DashboardOverview(){
                                 <h4 style={{color:"black", fontWeight:"bold", marginBottom:"10px", marginTop:"10px"}}>Dashboard Views and Saved</h4>
                                 <ResponsiveContainer width="90%" height={250}>
                                     <LineChart margin={{left:100,right:20, bottom:40}} data={viewsnsaved}>
-                                        <CartesianGrid vertical={false}  />
+                                        <CartesianGrid stroke="#545454" vertical={false}  />
                                         <XAxis tick={{ fontSize:"12px",fontWeight:"bold" }} stroke="black" type="category" dataKey="date" label={{ value: "Day",fill:"black", dy: 25}} tickFormatter={formatXAxis}/>
                                         <YAxis tick={{ fontSize:"12px",fontWeight:"bold" }} stroke="black" type="number" dataKey="count" label={{ value: "views & saved dashboard",fill:"black", angle:270, dx:-25}} />
                                         <Tooltip />                                  

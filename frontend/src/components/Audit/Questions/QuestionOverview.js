@@ -54,7 +54,7 @@ function QuestionOverview(){
                                 <h4 style={{color:"black", fontWeight:"bold", marginBottom:"10px", marginTop:"10px"}}>Most Popular Queries</h4>
                                 <ResponsiveContainer width="90%" height={670}>
                                     <BarChart margin={{left:80,top:15}} layout="vertical" data={popularqueries}>
-                                        <CartesianGrid vertical={true} horizontal={false} />
+                                        <CartesianGrid stroke="#545454" vertical={true} horizontal={false} />
                                         <XAxis tick={{ fontWeight:"bold" }} stroke="black" type="number" dataKey="executions"/>
                                         <YAxis tick={{ fontSize:"9px",fontWeight:"bold" }} stroke="black" type="category" dataKey="card" />
                                         <Tooltip />
@@ -67,7 +67,7 @@ function QuestionOverview(){
                                 <h4 style={{color:"black", fontWeight:"bold", marginBottom:"10px", marginTop:"10px"}}>Slowest Queries</h4>
                                 <ResponsiveContainer width="90%" height={670}>
                                     <BarChart margin={{left:80,top:15}} layout="vertical"  data={slowestqueries}>
-                                        <CartesianGrid vertical={true} horizontal={false} />
+                                        <CartesianGrid stroke="#545454" vertical={true} horizontal={false} />
                                         <XAxis tick={{ fontWeight:"bold" }} stroke="black" type="number" dataKey="avgrunningtime"/>
                                         <YAxis tick={{ fontSize:"8px",fontWeight:"bold" }} stroke="black" type="category" dataKey="card" />
                                         <Tooltip />

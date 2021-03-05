@@ -54,7 +54,7 @@ function TableOverview(){
                                 <h4 style={{color:"black", fontWeight:"bold", marginBottom:"20px", marginTop:"10px"}}>Most-queried tables</h4>
                                 <ResponsiveContainer width="90%" height={630}>
                                     <BarChart margin={{left:120,top:20}} layout="vertical" data={mostQueried}>
-                                        <CartesianGrid vertical={true} horizontal={false} />
+                                        <CartesianGrid stroke="#545454" vertical={true} horizontal={false} />
                                         <XAxis tick={{ fontWeight:"bold" }} stroke="black" type="number" dataKey="exec"/>
                                         <YAxis tick={{ fontSize:"10.5px",fontWeight:"bold" }} stroke="black" type="category" dataKey="tables" />
                                         <Tooltip />
@@ -66,7 +66,7 @@ function TableOverview(){
                                 <h4 style={{color:"black", fontWeight:"bold", marginBottom:"20px", marginTop:"10px"}}>Least-queried tables</h4>
                                 <ResponsiveContainer width="90%" height={630}>
                                     <BarChart margin={{left:120,top:20}} layout="vertical" data={leastQueried}>
-                                        <CartesianGrid vertical={true} horizontal={false} />
+                                        <CartesianGrid stroke="#545454" vertical={true} horizontal={false} />
                                         <XAxis tick={{ fontWeight:"bold" }} stroke="black" type="number" dataKey="exec"/>
                                         <YAxis tick={{ fontSize:"10.5px",fontWeight:"bold" }} stroke="black" type="category" dataKey="tables" />
                                         <Tooltip />

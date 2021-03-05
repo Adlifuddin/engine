@@ -71,7 +71,7 @@ function DownloadOverview(){
                                 <h4 style={{color:"black", fontWeight:"bold", marginBottom:"10px", marginTop:"10px"}}>Largest downloads in the last 30 days</h4>
                                 <ResponsiveContainer width="99%" height={300}>
                                     <ScatterChart margin={{ top: 20, right: 20, bottom: 30, left: 50 }}>
-                                        <CartesianGrid  />
+                                        <CartesianGrid stroke="#545454" />
                                         <XAxis type="category" tick={{ fontSize:"12px",fontWeight:"bold" }} stroke="black" dataKey="date" label={{ value: "Day",fill:"black", dy: 25}} tickFormatter={formatAxis} />
                                         <YAxis type="number" tick={{ fontSize:"12px",fontWeight:"bold" }} stroke="black" dataKey="rows" label={{ value: "Rows in Query",fill:"black", angle:270, dx:-25}} />
                                         <Tooltip cursor={{ strokeDasharray: '3 3' }} />
@@ -85,7 +85,7 @@ function DownloadOverview(){
                                 <h4 style={{color:"black", fontWeight:"bold", marginBottom:"10px", marginTop:"10px"}}>Downloads Per User</h4>
                                 <ResponsiveContainer width="90%" height={280}>
                                     <BarChart margin={{left:50, bottom: 30}} layout="vertical"  data={downloadperUser}>
-                                        <CartesianGrid vertical={true} horizontal={false} />
+                                        <CartesianGrid stroke="#545454" vertical={true} horizontal={false} />
                                         <XAxis tick={{ fontSize:"12px",fontWeight:"bold" }} stroke="black" type="number" dataKey="count" allowDecimals={false} label={{ value: "Download",fill:"black", dy: 25}} />
                                         <YAxis tick={{ fontSize:"12px",fontWeight:"bold" }} stroke="black" type="category" dataKey="name" label={{ value: "User",fill:"black", angle:270, dx:-60}} />
                                         <Tooltip />
@@ -98,9 +98,9 @@ function DownloadOverview(){
                                 <h4 style={{color:"black", fontWeight:"bold", marginBottom:"10px", marginTop:"10px"}}>Downloads Per Size</h4>
                                 <ResponsiveContainer width="90%" height={280}>
                                     <BarChart margin={{left:50, bottom: 30}} layout="horizontal" width={500} height={280} data={downloadperSize}>
-                                        <CartesianGrid vertical={false} horizontal={true} />
+                                        <CartesianGrid stroke="#545454" vertical={false} horizontal={true} />
                                         <XAxis tick={{ fontSize:"12px",fontWeight:"bold" }} stroke="black" type="category" dataKey="rows"  label={{ value: "Rows Downloaded",fill:"black", dy: 25}} />
-                                        <YAxis tick={{ fontSize:"12px",fontWeight:"bold" }} stroke="black" type="number" dataKey="download" label={{ value: "Downloads",fill:"black", angle:270, dx:-35}} />
+                                        <YAxis tick={{ fontSize:"12px",fontWeight:"bold" }} stroke="black" type="number" dataKey="download" allowDecimals={false} label={{ value: "Downloads",fill:"black", angle:270, dx:-35}} />
                                         <Tooltip />
                                         <Bar dataKey="download" fill="#730099" />
                                     </BarChart>  

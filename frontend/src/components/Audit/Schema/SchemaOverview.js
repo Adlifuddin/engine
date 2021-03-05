@@ -54,7 +54,7 @@ function SchemaOverview(){
                                 <h4 style={{color:"black", fontWeight:"bold", marginBottom:"20px", marginTop:"10px"}}>Most-queried schemas</h4>
                                 <ResponsiveContainer width="90%" height={600}>
                                     <BarChart margin={{left:100}} layout="vertical" data={mostQueried}>
-                                        <CartesianGrid vertical={true} horizontal={false} />
+                                        <CartesianGrid stroke="#545454" vertical={true} horizontal={false} />
                                         <XAxis tick={{ fontWeight:"bold" }} stroke="black" type="number" dataKey="exec"/>
                                         <YAxis tick={{ fontSize:"10.5px",fontWeight:"bold" }} stroke="black" type="category" dataKey="schema" />
                                         <Tooltip />
@@ -67,7 +67,7 @@ function SchemaOverview(){
                                 <h4 style={{color:"black", fontWeight:"bold", marginBottom:"20px", marginTop:"10px"}}>Slowest schemas</h4>
                                 <ResponsiveContainer width="90%" height={600}>
                                     <BarChart margin={{left:100}} layout="vertical" data={slowestSchema}>
-                                        <CartesianGrid vertical={true} horizontal={false} />
+                                        <CartesianGrid stroke="#545454" vertical={true} horizontal={false} />
                                         <XAxis tick={{ fontWeight:"bold" }} stroke="black" type="number" dataKey="avgexec"/>
                                         <YAxis tick={{ fontSize:"10.5px",fontWeight:"bold" }} stroke="black" type="category" dataKey="schema" />
                                         <Tooltip />

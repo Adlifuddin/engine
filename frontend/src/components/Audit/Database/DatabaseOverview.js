@@ -81,7 +81,7 @@ function DatabaseOverview(){
                                 <h4 style={{color:"black", fontWeight:"bold", marginBottom:"20px", marginTop:"10px"}}>Total queries & average speed</h4>
                                 <ResponsiveContainer width="95%" height={300}>
                                     <BarChart margin={{left:80,right:20, bottom:40}} layout="horizontal" data={queriesnavgexec}>
-                                        <CartesianGrid vertical={false} horizontal={true} />
+                                        <CartesianGrid stroke="#545454" vertical={false} horizontal={true} />
                                         <XAxis tick={{ fontSize:"11.5px",fontWeight:"bold" }} stroke="black" type="category" dataKey="db" label={{ value: "Database",fill:"black", dy: 25}}/>
                                         <YAxis yAxisId="left" tick={{ fontSize:"11.5px",fontWeight:"bold" }} stroke="black" type="number" dataKey="queries" label={{ value: "Queries",fill:"black", angle:270, dx:-25}} />
                                         <YAxis yAxisId="right" orientation='right' tick={{ fontSize:"10.5px",fontWeight:"bold" }} stroke="black" type="number" dataKey="avgexectime" label={{ value: "Avg. Running Time (ms)",fill:"black", angle:90, dx:25}} />
@@ -100,7 +100,7 @@ function DatabaseOverview(){
                                     <Tab style={{Textcolor:"white"}} eventKey="all" title="All">
                                         <ResponsiveContainer width="95%" height={280}>
                                             <LineChart margin={{left:50,right:20, bottom:40}} data={query}>
-                                                <CartesianGrid vertical={false}  />
+                                                <CartesianGrid stroke="#545454" vertical={false}  />
                                                 <XAxis tick={{ fontSize:"12px",fontWeight:"bold" }} stroke="black" type="category" dataKey="date" label={{ value: "Day",fill:"black", dy: 25}} tickFormatter={formatXAxis}/>
                                                 <YAxis tick={{ fontSize:"12px",fontWeight:"bold" }} stroke="black" type="number" dataKey="queries" label={{ value: "Total Query",fill:"black", angle:270, dx:-25}} />
                                                 <Tooltip />                                  
