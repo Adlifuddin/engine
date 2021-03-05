@@ -93,7 +93,7 @@ function MemberOverview(){
                                 <ResponsiveContainer width="90%" height={360}>
                                     <BarChart margin={{left:100, bottom:40}} layout="vertical" width={600} height={360} data={overview}>
                                         <CartesianGrid stroke="#545454" vertical={true} horizontal={false} />
-                                        <XAxis tick={{ fontSize:"12px", fontWeight:"bold" }} stroke="black" type="number" allowDecimals={false} dataKey="exectime" label={{ value: "Total execution time (minutes)",fill:"black", dy: 25}} tickFormatter={formatTime} />
+                                        <XAxis tick={{ fontSize:"12px", fontWeight:"bold" }} stroke="black" type="number" allowDecimals={false} dataKey="exectime" label={{ value: "Total execution time (minutes)",fill:"black", dy: 25}} />
                                         <YAxis tick={{ fontSize:"10px", fontWeight:"bold" }} stroke="black" type="category" dataKey="user" />
                                         <Tooltip />
                                         <Bar dataKey="exectime" fill="#009933" />

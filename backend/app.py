@@ -66,7 +66,7 @@ class Members(Resource):
 class MembersOverview(Resource):
     def get(self):
         engine = CreateConnectionCoreUser()
-        query = "select concat(b.first_name,' ',b.last_name) as user, sum(a.running_time) as exectime from public.query_execution a left join public.core_user b on a.executor_id = b.id left join public.metabase_database c on a.database_id = c.id where b.first_name is not null group by b.first_name, b.last_name order by exectime desc limit 10"     
+        query = "select concat(b.first_name,' ',b.last_name) as user, sum(ROUND(a.running_time)/60000)::numeric(10,0) as exectime from public.query_execution a left join public.core_user b on a.executor_id = b.id left join public.metabase_database c on a.database_id = c.id where b.first_name is not null group by b.first_name, b.last_name order by exectime desc limit 10"     
         connection = engine.connect()
         result = connection.execute(query)
         results = [dict(zip(tuple (result.keys()) ,i)) for i in result.cursor]
