@@ -1,5 +1,5 @@
 import React, {useEffect, useState}  from 'react'
-import {Card, CardBody, Row, Col} from 'reactstrap'
+import {Card, CardBody, Row, Col, CardHeader} from 'reactstrap'
 import { Form } from 'react-bootstrap'
 import SSHTunnel from './components/SSHTunnel'
 import Breadcrumbs from './components/Breadcrumb'
@@ -9,6 +9,7 @@ import SchedulingTab from './components/SchedulingTab'
 import api from '../../../api/metabaseApi'
 import Scheduling from './components/Scheduling'
 import Create from '../components/DatabaseFunction'
+import {CardColor, CardHeaderColor} from '../../../components/customStyle/DatabaseColor'
 
 function Childrens(props) {
     const {engine, inputting, name, host, port, switches,sshTunnel, tunnelPassword, tunnelHost, tunnelPort, tunnelPrivateKey, tunnelUser, sshAuth, autoRunQueries, userControlScheduling, refingerprint} = props
@@ -167,8 +168,10 @@ function Druid(props) {
     }
 
     return (
-         <Card style={{margin: '20px'}}>
+        <Card style={CardColor}>
+            <CardHeader style={CardHeaderColor}>
                 <Breadcrumbs b={b} />
+            </CardHeader>
             <Form onSubmit={submit}>
                 <CardBody>
                     <Row>

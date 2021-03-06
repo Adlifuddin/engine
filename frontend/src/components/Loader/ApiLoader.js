@@ -8,7 +8,7 @@ const override = css`
   margin-top: 100px;
 `
 const customStyle = {
-    color: "white",
+    color: "grey",
     display: "block",
     textAlign: "center",
     marginTop: "50px"
@@ -17,7 +17,7 @@ const customStyle = {
 function ApiLoader(props){
     return (
         <div>
-            <RingLoader color="white" css={override} size={250} loading={props.apiload}/>
+            <RingLoader color="grey" css={override} size={250} loading={props.apiload}/>
             <h2 style={customStyle}>Loading...</h2>
         </div>
     )

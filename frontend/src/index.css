@@ -1,10 +1,94 @@
+@import 'bootstrap/dist/css/bootstrap.min.css';
+
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
+  font-family: 'Lato', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  font-size: 0.875em;
+  font-style: normal;
+  color: rgb(76, 87, 115);
+}
+
+.dropdown-menu {
+  right: 1px;
+  left: auto;
+  margin-top: 10px;
+  font-size: 0.875em;
+}
+
+
+.dropdown-toggle::after {
+  display: none;
+}
+
+a:hover {
+  text-decoration: none;
+}
+
+.breadcrumb {
+  background-color: transparent;
+}
+
+.database {
+  color: rgb(193, 196, 203);
+  font-size: 0.75rem;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.database:hover {
+  color: rgb(76, 87, 115);
+  font-size: 0.75rem;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.datasource {
+  font-size: 0.75rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  cursor: default;
+}
+
+h3 {
+  font-weight: 700;
+  font-size: 1.20em;
+}
+
+.btn {
+  border: 1px solid rgb(228, 228, 228);
+    border-top-color: rgb(228, 228, 228);
+    border-right-color: rgb(228, 228, 228);
+    border-bottom-color: rgb(228, 228, 228);
+    border-left-color: rgb(228, 228, 228);
+}
+
+.add-database{
+  color: rgb(255, 255, 255);
+  background: rgb(120, 144, 156) none repeat scroll 0% 0%;
+  border: 1px solid rgb(120, 144, 156);
+  float: right;
+  padding: 0.75rem 1rem;
+  box-sizing: border-box;
+  cursor: pointer;
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 0.875em;
+  font-family: "Lato", sans-serif;
+  border-radius: 6px;
+}
+
+.btn{
+  font-size: 0.875em;
+}
+
+.add-database:hover {
+  color: rgb(120, 144, 156);
+  border-color: rgb(214, 214, 214);
+  background: rgb(249, 251, 252) none repeat scroll 0% 0%;
+    background-color: rgb(249, 251, 252);
+  transition: all 200ms linear 0s;
 }
 
 code {

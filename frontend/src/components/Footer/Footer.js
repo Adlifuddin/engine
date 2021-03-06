@@ -11,7 +11,7 @@ function Footer(props){
 	bottom: "0",
 	textAlign: "center",
 	color: "#fff",
-    background: "#2F2FA2",
+    background: "rgb(113, 114, 173)",
     fontWeight: "bold"
   }
 

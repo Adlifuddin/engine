@@ -534,7 +534,7 @@ function DatabaseContainer(props) {
     if (databaseData.details) {
         d = (
             <Col md="4">
-                <Card>
+                <Card style={{backgroundColor: 'rgb(249, 251, 252)', borderColor: 'transparent'}}>
                     <Row>
                         <Col>
                             <br/>

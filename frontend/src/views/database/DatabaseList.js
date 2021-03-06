@@ -6,6 +6,7 @@ import { Link } from 'react-router-dom'
 import './DatabaseList.css'
 import ApiLoader from '../../components/Loader/ApiLoader'
 import Create from './components/DatabaseFunction'
+import {CardHeaderColor, CardColor} from '../../components/customStyle/DatabaseColor'
 
 function DatabaseList() {
     const [databaseLists, setDatabaseList] = useState([])
@@ -56,14 +57,14 @@ function DatabaseList() {
             {loading === true ?
                 <ApiLoader apiload={loading} />
                 :
-                <Card style={{ margin: '20px' }}>
-                    <CardHeader>
+                <Card style={CardColor}>
+                    <CardHeader style={CardHeaderColor}>
                         <Row>
                             <Col>
                                 <h3>Databases</h3>
                             </Col>
                             <Col>
-                                <Link to="/database/add"><Button style={{ float: 'right'}}>Add a Database</Button></Link>
+                                <Link to="/database/add"><Button className="add-database">Add database</Button></Link>
                             </Col>
                         </Row>
                     </CardHeader>
@@ -71,8 +72,8 @@ function DatabaseList() {
                     <Table hover borderless >
                         <thead>
                             <tr id="title">
-                                <th style={{ color: '#78909c' }}>Name</th>
-                                <th style={{ color: '#78909c' }}>Engine</th>
+                                <th style={{ color: 'rgb(76, 87, 115)' }}>Name</th>
+                                <th style={{ color: 'rgb(76, 87, 115)' }}>Engine</th>
                                 <th>   </th>
                             </tr>
                         </thead>
@@ -80,7 +81,7 @@ function DatabaseList() {
                             {databaseLists.map(x => (
                                 <tr key={x.id}>
                                     <td><Link to={{ pathname: `/database/${x.id}`, query: { name: x.name, id: x.id } }} style={{ color: '#78909c', fontWeight: 'bold' }}>{x.name}</Link></td>
-                                    <td style={{ color: '#78909c' }}>{x.engine}</td>
+                                    <td style={{ color: '#78909c', textTransform: 'uppercase'}}>{x.engine}</td>
                                     <td style={{ width: '632.22px', height: '65px' }}><Button variant="danger" id='danger-button' style={{ float: 'right' }} onClick={toggleDeleting} value={x.id}>Delete</Button></td>
                                 </tr>
                             ))}

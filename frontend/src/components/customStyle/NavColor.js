@@ -6,10 +6,12 @@ export const navBrand = {
 }
 
 export const navBar = {
-    backgroundColor:"#2F2FA2" 
+    backgroundColor: "rgb(113, 114, 173)" 
 }
 
 export const navLink = {
-    fontWeight:"bold"
+    fontWeight:"bold",
+    fontSize: '0.85rem',
+    fontFamily: '"Lato", sans-serif',
 }
 

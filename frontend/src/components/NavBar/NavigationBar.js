@@ -1,20 +1,29 @@
-import React, { useState } from 'react';
-import { Nav, Navbar, Container } from 'react-bootstrap'
+import React, { useState, useEffect } from 'react';
+import { Nav, Navbar, Container, NavDropdown, Collapse, Button } from 'react-bootstrap'
 import { navBar, navBrand, navLink } from '../customStyle/NavColor'
 import Logo from "../../assets/images/Nexent_200x30px.svg"
 import './Navbar.css'
-import { NavLink, Link, useLocation } from "react-router-dom";
+import { NavLink, Link, useLocation, Redirect } from "react-router-dom";
 import {
   BackgroundColorContext,
   backgroundColors,
 } from "../../contexts/BackgroundColorContext";
 import { PropTypes } from "prop-types";
+import {FiSettings} from 'react-icons/fi'
 
 function NavigationBar(props) {
   const location = useLocation();
+
   const activeRoute = (routeName) => {
     return location.pathname === routeName ? "active" : "";
   };
+
+  useEffect(() => {
+    const dat = document.getElementsByClassName('dropdown-menu show')
+    console.log(dat)
+  }, [])
+
+  
 
   const { routes } = props;
 
@@ -23,29 +32,40 @@ function NavigationBar(props) {
       {({ color }) => (
     <Navbar variant="dark" style={navBar} data={color}>
       <Navbar.Brand style={navBrand} href="#">
-        <img alt="logo" src={Logo}/>{' '}
+        <span>
+          <img alt="logo" src={Logo}/>{' '}
+        </span>
       </Navbar.Brand>
-        <Nav className="mr-auto">
-        {routes.map((prop, key) => {
-              if (prop.redirect) {
-                return null
-              } else if (prop.invisible) {
-                return null
-              };
-              return (
-                  <li
-                    className={
-                      activeRoute(prop.path) + (prop.pro ? " active-pro" : "")
-                    }
-                    id={prop.path}
-                    key={key}
-                  >
-                    <Nav.Link as={Link} style={navLink} key={key} to={prop.layout + prop.path} className="nav-link" activeclassname="active">{prop.name}</Nav.Link>
-                  </li>
-              );
-        })}
-      </Nav>
-        </Navbar>
+            <Nav className="mr-auto">
+            {routes.map((prop, key) => {
+                  if (prop.redirect) {
+                    return null
+                  } else if (prop.invisible) {
+                    return null
+                  };
+                  return (
+                      <li
+                        className={
+                          activeRoute(prop.path) + (prop.pro ? " active-pro" : "")
+                        }
+                        id={prop.path}
+                        key={key}
+                      >
+                        <Nav.Link as={Link} style={navLink} key={key} to={prop.layout + prop.path} className="nav-link" activeclassname="active">{prop.name}</Nav.Link>
+                      </li>
+                  );
+            })}
+          </Nav>
+          <Nav>
+            <NavDropdown title={<FiSettings/>} id="collasible-nav-dropdown">
+              <NavDropdown.Item href="/integration">Activity</NavDropdown.Item>
+              <NavDropdown.Item href="https://dashboard-demo.nexent.co">Exit Admin</NavDropdown.Item>
+              <NavDropdown.Item href="/home">About Nexent</NavDropdown.Item>
+              <NavDropdown.Divider />
+              <NavDropdown.Item href="#">Signed Out</NavDropdown.Item>
+            </NavDropdown>
+          </Nav>
+      </Navbar>
         )}
     </BackgroundColorContext.Consumer>
   );
