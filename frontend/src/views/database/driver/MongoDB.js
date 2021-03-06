@@ -208,7 +208,7 @@ function MongoDB(props) {
     if (statuses) {
         stats = (
             <>
-                <a href="#" onClick={() => setStatuses(!statuses)}>Fill out individual fields</a>
+                <a href='#' onClick={() => setStatuses(!statuses)}>Fill out individual fields</a>
                 <Form.Group controlId="formBasicConnectionString">
                     <Form.Label>Paste your connection string</Form.Label>
                     <Form.Control
@@ -223,7 +223,7 @@ function MongoDB(props) {
     } else {
         stats = (
             <>
-                <a href="#" onClick={() => setStatuses(!statuses)}>Paste a connection String</a>
+                <a href='#' onClick={() => setStatuses(!statuses)}>Paste a connection String</a>
                 <Form.Group controlId="formBasicHost">
                     <Form.Label>Host</Form.Label>
                     <Form.Control

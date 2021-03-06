@@ -27,7 +27,7 @@ function DatabaseList() {
             .catch(error => {
                 console.log(error)
             })
-    }, [false])
+    }, [])
 
 
     const deleteDatabase = () => {
