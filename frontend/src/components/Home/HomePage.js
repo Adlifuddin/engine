@@ -11,7 +11,9 @@ function HomePage(){
         backgroundRepeat: 'no-repeat',
         background: `url(${main})`,
         maxWidth: '100%',
-        height: '93%',
+        height: '94%',
+        backgroundPosition: 'center',
+        backgroundSize: 'cover',
     }
 
     return (
@@ -30,9 +32,7 @@ function HomePage(){
                         </Col>
                     </Row>  
                 </Container>
-                
             </Container>   
-            <Footer footerPosition="absolute"/>
         </div>
     )   
 }

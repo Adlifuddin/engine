@@ -4,7 +4,7 @@ function Footer(props){
 
   const latestYear = new Date() 
   const footerPosition = props.footerPosition
-  console.log(footerPosition)
+
   const footerStyle = {
     position: footerPosition,
     width: "100%",
@@ -17,8 +17,8 @@ function Footer(props){
 
   return (
     <div style={footerStyle}>
-		Copyright © {latestYear.getFullYear()} by Nexent Sdn Bhd
-	</div>
+      Copyright © {latestYear.getFullYear()} by Nexent Sdn Bhd
+    </div>
        
   );
 }

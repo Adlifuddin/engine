@@ -8,6 +8,8 @@ body {
   font-size: 0.875em;
   font-style: normal;
   color: rgb(76, 87, 115);
+  position: relative;
+  min-height: 100vh;
 }
 
 .dropdown-menu {

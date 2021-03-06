@@ -4,6 +4,7 @@ import { Route, Switch, Redirect } from "react-router-dom";
 import Navbar from '../components/NavBar/NavigationBar.js';
 import routes from '../routes'
 
+
 import { BackgroundColorContext } from "../contexts/BackgroundColorContext";
 
 function Layouts(props) {
