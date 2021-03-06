@@ -5,7 +5,7 @@ import logo from '../../assets/images/google-drive.png'
 import dotenv from 'dotenv'
 import GooglePicker from 'react-google-picker'
 import { Button, Form, Spinner } from 'react-bootstrap'
-import { Row, Col, Alert, Modal, ModalHeader, ModalBody, ModalFooter, Container } from 'reactstrap';
+import { Row, Col, Alert, Modal, ModalHeader, ModalBody, ModalFooter, Container, Card} from 'reactstrap';
 import spinner from '../../assets/images/Eclipse-1s-200px.svg'
 import DataTableExtensions from 'react-data-table-component-extensions';
 import './GoogleApi.css'
@@ -313,7 +313,7 @@ function GoogleApi() {
     )
   } else if (loading === false) {
     loadings = (
-      <DataTableExtensions {...tableData} style={{color: 'white'}} export={false} print={false}>
+      <DataTableExtensions {...tableData} style={{color: 'black'}} export={false} print={false}>
         <DataTable
           key={data}
           pagination
@@ -432,7 +432,10 @@ function GoogleApi() {
           </ModalFooter>
         </Form>
       </Modal>
-      {sheet}
+      <Card>
+        {sheet}
+      </Card>
+      
       {loadings}
     </div>
   )
