@@ -41,16 +41,14 @@ function QuestionOverview(){
         <div>
             <Container fluid>
                 <Row>
-                    <Col style={{marginLeft:"0px"}}>
-                        <SideBar />
-                    </Col>
-                    <Col style={{marginTop:"10px", marginRight:"50px"}} xs lg={9}>  
+                    <SideBar />
+                    <Col style={{marginTop:"10px", marginLeft:"100px"}} xs lg={9}>  
                         <Breadcrumb>
                             <Breadcrumb.Item href="/">Audit</Breadcrumb.Item>
                             <Breadcrumb.Item active>Questions Overview</Breadcrumb.Item>
                         </Breadcrumb>
                         <Row>
-                            <Col style={{backgroundColor:"rgb(255, 255, 255, 0.75)", borderRadius:"5px", marginRight:"10px"}} fluid>
+                            <Col style={{backgroundColor:"rgb(240, 240, 245, 0.75)", borderRadius:"5px", marginRight:"10px"}} fluid>
                                 <h4 style={{color:"black", fontWeight:"bold", marginBottom:"10px", marginTop:"10px"}}>Most Popular Queries</h4>
                                 <ResponsiveContainer width="90%" height={670}>
                                     <BarChart margin={{left:80,top:15}} layout="vertical" data={popularqueries}>
@@ -63,7 +61,7 @@ function QuestionOverview(){
                                 </ResponsiveContainer>
                             </Col>
 
-                            <Col style={{backgroundColor:"rgb(255, 255, 255, 0.75)", borderRadius:"5px", marginRight:"10px"}} fluid>
+                            <Col style={{backgroundColor:"rgb(240, 240, 245, 0.75)", borderRadius:"5px", marginRight:"10px"}} fluid>
                                 <h4 style={{color:"black", fontWeight:"bold", marginBottom:"10px", marginTop:"10px"}}>Slowest Queries</h4>
                                 <ResponsiveContainer width="90%" height={670}>
                                     <BarChart margin={{left:80,top:15}} layout="vertical"  data={slowestqueries}>

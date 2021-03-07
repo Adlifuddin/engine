@@ -19,6 +19,7 @@ import DatabaseOverview from './components/Audit/Database/DatabaseOverview'
 import QuestionOverview from './components/Audit/Questions/QuestionOverview'
 import DashboardOverview from './components/Audit/Dashboards/DashboardOverview'
 import DownloadOverview from './components/Audit/Downloads/DownloadOverview'
+import People from './components/People/People'
 
 var routes = [
     {
@@ -39,6 +40,13 @@ var routes = [
         component: GoogleAPI,
         invisible: true,
         layout: "/",
+    },
+    {
+        path: "people",
+        name: "People",
+        component: People,
+        layout: "/",
+        exact: true,
     },
     {
         path: "audit",

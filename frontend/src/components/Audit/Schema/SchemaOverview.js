@@ -41,16 +41,14 @@ function SchemaOverview(){
         <div>
             <Container fluid>
                 <Row>
-                    <Col style={{marginLeft:"0px"}}>
-                        <SideBar />
-                    </Col>
-                    <Col style={{marginTop:"10px", marginRight:"50px"}} xs lg={9}>  
+                    <SideBar />
+                    <Col style={{marginTop:"10px", marginLeft:"100px"}} xs lg={9}>  
                         <Breadcrumb>
                             <Breadcrumb.Item href="/">Schemas</Breadcrumb.Item>
                             <Breadcrumb.Item active>Schemas Overview</Breadcrumb.Item>
                         </Breadcrumb>
                         <Row>
-                            <Col style={{backgroundColor:"rgb(255, 255, 255, 0.75)", borderRadius:"5px", marginRight:"10px"}} fluid>
+                            <Col style={{backgroundColor:"rgb(240, 240, 245, 0.75)", borderRadius:"5px", marginRight:"10px"}} fluid>
                                 <h4 style={{color:"black", fontWeight:"bold", marginBottom:"20px", marginTop:"10px"}}>Most-queried schemas</h4>
                                 <ResponsiveContainer width="90%" height={600}>
                                     <BarChart margin={{left:100}} layout="vertical" data={mostQueried}>
@@ -63,7 +61,7 @@ function SchemaOverview(){
                                 </ResponsiveContainer>
                             </Col>
 
-                            <Col style={{backgroundColor:"rgb(255, 255, 255, 0.75)", borderRadius:"5px"}} fluid>
+                            <Col style={{backgroundColor:"rgb(240, 240, 245, 0.75)", borderRadius:"5px"}} fluid>
                                 <h4 style={{color:"black", fontWeight:"bold", marginBottom:"20px", marginTop:"10px"}}>Slowest schemas</h4>
                                 <ResponsiveContainer width="90%" height={600}>
                                     <BarChart margin={{left:100}} layout="vertical" data={slowestSchema}>

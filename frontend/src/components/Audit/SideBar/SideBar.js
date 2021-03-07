@@ -14,9 +14,7 @@ import {
 //import icons from react icons
 import { FiLogOut, FiArrowLeftCircle, FiArrowRightCircle } from "react-icons/fi"
 
-//import sidebar css from react-pro-sidebar module and our custom css 
-import "react-pro-sidebar/dist/css/styles.css";
-import "./SideBar.css";
+//import sidebar scss from react-pro-sidebar module and our custom css 
 import SideBarSubMenu from "./SideBarSubMenu"
 
 function SideBar(){
@@ -24,38 +22,18 @@ function SideBar(){
     //create initial menuCollapse state using useState hook
     const [menuCollapse, setMenuCollapse] = useState(false)
 
-    //create a custom function that will change menucollapse state from false to true and true to false
-    const menuIconClick = () => {
-    //condition checking to change state from true to false and vice versa
-      menuCollapse ? setMenuCollapse(false) : setMenuCollapse(true);
-    };
-
   return (
-      <div id="header">
-          {/* collapsed props to change menu size using menucollapse state */}
-        <ProSidebar collapsed={menuCollapse}>
-          <SidebarHeader>
-            <div className="closemenu" onClick={menuIconClick}>
-                {/* changing menu collapse icon on click */}
-              {menuCollapse ? (
-                <FiArrowRightCircle/>
-              ) : (
-                <FiArrowLeftCircle/>
-              )}
-            </div>
-          </SidebarHeader>
+      <div>
+        <ProSidebar>
           <SidebarContent>
-            <Menu iconShape="square">
+            <Menu iconShape="circle">
               <SideBarSubMenu />
             </Menu>
           </SidebarContent>
-          <SidebarFooter>
-            <Menu iconShape="square">
-              <MenuItem icon={<FiLogOut />}>Dashboard</MenuItem>
-            </Menu>
-          </SidebarFooter>
         </ProSidebar>
       </div>
+
+      
   )
 }
 

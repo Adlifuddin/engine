@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import {Container, Card, Row } from 'react-bootstrap'
 import Footer from '../../components/Footer/Footer'
-import {image} from './Image'
+// import {image} from './Image'
 import Modals from '../../components/Modal/Modal'
 import ApiLoader from '../../components/Loader/ApiLoader'
 
@@ -34,7 +34,7 @@ function Integration() {
     return (
         <div>
             <Container fluid >
-                {load? 
+                {/* {load? 
                     <ApiLoader apiload={load}/>
                     :
                     <Row style={{marginLeft: 'auto', marginRight: "auto", verticalAlign: "middle", overflow: "hidden"}}>
@@ -48,7 +48,7 @@ function Integration() {
                         ))
                         }
                     </Row>
-                }
+                } */}
             </Container>
         </div>
     )

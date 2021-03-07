@@ -65,16 +65,14 @@ function MemberOverview(){
         <div>
             <Container fluid>
                 <Row>
-                    <Col style={{marginLeft:"0px"}}>
-                        <SideBar />
-                    </Col>
-                    <Col style={{marginTop:"10px", marginRight:"50px"}} xs lg={9}>  
+                    <SideBar />
+                    <Col style={{marginTop:"10px", marginLeft:"100px"}} xs lg={9}>  
                         <Breadcrumb>
                             <Breadcrumb.Item href="/">Audit</Breadcrumb.Item>
                             <Breadcrumb.Item active>Team Members Overview</Breadcrumb.Item>
                         </Breadcrumb>
                         <Row>
-                            <Col style={{backgroundColor:"rgb(255, 255, 255, 0.75)", borderRadius:"5px"}}>
+                            <Col style={{backgroundColor:"rgb(240, 240, 245, 0.75)", borderRadius:"5px"}}>
                                 <h4 style={{color:"black", fontWeight:"bold", marginBottom:"20px", marginTop:"10px"}}>Active and New User</h4>
                                 <ResponsiveContainer width="95%" height={250}>
                                     <LineChart margin={{left:100,right:20, bottom:40}} data={activennew}>
@@ -88,7 +86,7 @@ function MemberOverview(){
                             </Col>
                         </Row>
                         <Row style={{marginTop:"10px"}}>
-                            <Col style={{backgroundColor:"rgb(255, 255, 255, 0.75)", borderRadius:"5px", marginRight:"10px"}}>
+                            <Col style={{backgroundColor:"rgb(240, 240, 245, 0.75)", borderRadius:"5px", marginRight:"10px"}}>
                                 <h4 style={{color:"black", fontWeight:"bold", marginBottom:"20px", marginTop:"10px"}}>Most active user</h4>
                                 <ResponsiveContainer width="90%" height={360}>
                                     <BarChart margin={{left:100, bottom:40}} layout="vertical" width={600} height={360} data={overview}>
@@ -101,7 +99,7 @@ function MemberOverview(){
                                 </ResponsiveContainer>
                             </Col>
 
-                            <Col style={{backgroundColor:"rgb(255, 255, 255, 0.75)", borderRadius:"5px"}}>
+                            <Col style={{backgroundColor:"rgb(240, 240, 245, 0.75)", borderRadius:"5px"}}>
                                 <h4 style={{color:"black", fontWeight:"bold", marginBottom:"20px", marginTop:"10px"}}>Members who are creating most things</h4>
                                 <ResponsiveContainer width="90%" height={360}>
                                     <BarChart margin={{left:100, bottom:40}} layout="vertical" width={600} height={360} data={mostCreated}>

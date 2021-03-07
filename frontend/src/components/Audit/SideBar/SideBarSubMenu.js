@@ -11,12 +11,6 @@ import {
 import { FiUsers, FiDatabase, FiEdit, FiDownload } from "react-icons/fi"
 import { FaTable, FaQuestionCircle, FaBuromobelexperte } from "react-icons/fa"
   
-//import sidebar css from react-pro-sidebar module and our custom css 
-import "react-pro-sidebar/dist/css/styles.css"
-import "./SideBar.css"
-
-
-
 function SideBarSubMenu(){
 
   const [buttonActive,setButtonActive] = useState(false)

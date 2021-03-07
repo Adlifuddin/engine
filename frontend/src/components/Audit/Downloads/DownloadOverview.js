@@ -58,16 +58,14 @@ function DownloadOverview(){
         <div>
             <Container fluid>
                 <Row>
-                    <Col style={{marginLeft:"0px"}}>
-                        <SideBar />
-                    </Col>
-                    <Col style={{marginTop:"10px", marginRight:"50px"}} xs lg={9}>  
+                    <SideBar />
+                    <Col style={{marginTop:"10px", marginLeft:"100px"}} xs lg={9}>  
                         <Breadcrumb>
                             <Breadcrumb.Item href="/">Audit</Breadcrumb.Item>
                             <Breadcrumb.Item active>Downloads Overview</Breadcrumb.Item>
                         </Breadcrumb>
                         <Row>
-                            <Col style={{backgroundColor:"rgb(255, 255, 255, 0.75)", marginBottom:"10px", borderRadius:"5px"}} fluid>
+                            <Col style={{backgroundColor:"rgb(240, 240, 245, 0.75)", marginBottom:"10px", borderRadius:"5px"}} fluid>
                                 <h4 style={{color:"black", fontWeight:"bold", marginBottom:"10px", marginTop:"10px"}}>Largest downloads in the last 30 days</h4>
                                 <ResponsiveContainer width="99%" height={300}>
                                     <ScatterChart margin={{ top: 20, right: 20, bottom: 30, left: 50 }}>
@@ -81,7 +79,7 @@ function DownloadOverview(){
                             </Col>
                         </Row>  
                         <Row>
-                            <Col style={{backgroundColor:"rgb(255, 255, 255, 0.75)", marginRight:'10px', marginBottom:"10px", borderRadius:"5px"}} fluid>
+                            <Col style={{backgroundColor:"rgb(240, 240, 245, 0.75)", marginRight:'10px', marginBottom:"10px", borderRadius:"5px"}} fluid>
                                 <h4 style={{color:"black", fontWeight:"bold", marginBottom:"10px", marginTop:"10px"}}>Downloads Per User</h4>
                                 <ResponsiveContainer width="90%" height={280}>
                                     <BarChart margin={{left:50, bottom: 30}} layout="vertical"  data={downloadperUser}>
@@ -94,7 +92,7 @@ function DownloadOverview(){
                                 </ResponsiveContainer>
                             </Col>
 
-                            <Col style={{backgroundColor:"rgb(255, 255, 255, 0.75)", marginBottom:"10px", borderRadius:"5px"}} fluid>
+                            <Col style={{backgroundColor:"rgb(240, 240, 245, 0.75)", marginBottom:"10px", borderRadius:"5px"}} fluid>
                                 <h4 style={{color:"black", fontWeight:"bold", marginBottom:"10px", marginTop:"10px"}}>Downloads Per Size</h4>
                                 <ResponsiveContainer width="90%" height={280}>
                                     <BarChart margin={{left:50, bottom: 30}} layout="horizontal" width={500} height={280} data={downloadperSize}>

@@ -60,16 +60,14 @@ function DashboardOverview(){
         <div>
             <Container fluid>
                 <Row>
-                    <Col style={{marginLeft:"0px"}}>
-                        <SideBar />
-                    </Col>
-                    <Col style={{marginTop:"10px", marginRight:"50px"}} xs lg={9}>  
+                    <SideBar />
+                    <Col style={{marginTop:"10px", marginLeft:"100px"}} xs lg={9}>  
                         <Breadcrumb>
                             <Breadcrumb.Item href="/">Audit</Breadcrumb.Item>
                             <Breadcrumb.Item active>Dashboards Overview</Breadcrumb.Item>
                         </Breadcrumb> 
                         <Row>
-                            <Col style={{backgroundColor:"rgb(255, 255, 255, 0.75)", marginBottom:"10px", borderRadius:"5px"}} fluid>
+                            <Col style={{backgroundColor:"rgb(240, 240, 245, 0.75)", marginBottom:"10px", borderRadius:"5px"}} fluid>
                                 <h4 style={{color:"black", fontWeight:"bold", marginBottom:"10px", marginTop:"10px"}}>Dashboard Views and Saved</h4>
                                 <ResponsiveContainer width="90%" height={250}>
                                     <LineChart margin={{left:100,right:20, bottom:40}} data={viewsnsaved}>
@@ -83,7 +81,7 @@ function DashboardOverview(){
                             </Col>
                         </Row>
                         <Row>
-                            <Col style={{backgroundColor:"rgb(255, 255, 255, 0.75)", marginRight:'10px', borderRadius:"5px"}} fluid>
+                            <Col style={{backgroundColor:"rgb(240, 240, 245, 0.75)", marginRight:'10px', borderRadius:"5px"}} fluid>
                                 <h4 style={{color:"black", fontWeight:"bold", marginBottom:"20px", marginTop:"10px"}}>Most popular dashboards & average loading times</h4>
                                 <Table striped bordered hover variant="light" size="sm">
                                     <thead>
@@ -105,7 +103,7 @@ function DashboardOverview(){
                                 </Table> 
                             </Col>
 
-                            <Col style={{backgroundColor:"rgb(255, 255, 255, 0.75)",borderRadius:"5px"}} fluid>
+                            <Col style={{backgroundColor:"rgb(240, 240, 245, 0.75)",borderRadius:"5px"}} fluid>
                                 <h4 style={{color:"black", fontWeight:"bold", marginBottom:"20px", marginTop:"10px"}}>Questions included the most in dashboards</h4>
                                 <Table striped bordered hover variant="light" size="sm">
                                     <thead>

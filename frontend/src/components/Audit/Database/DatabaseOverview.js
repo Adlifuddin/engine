@@ -68,16 +68,14 @@ function DatabaseOverview(){
         <div>
             <Container fluid>
                 <Row>
-                    <Col style={{marginLeft:"0px"}}>
-                        <SideBar />
-                    </Col>
-                    <Col style={{marginTop:"10px", marginRight:"50px"}} xs lg={9}>  
+                    <SideBar />
+                    <Col style={{marginTop:"10px", marginLeft:"100px"}} xs lg={9}>  
                         <Breadcrumb>
                             <Breadcrumb.Item href="/">Audit</Breadcrumb.Item>
                             <Breadcrumb.Item active>Databases Overview</Breadcrumb.Item>
                         </Breadcrumb>
                         <Row>
-                            <Col style={{backgroundColor:"rgb(255, 255, 255, 0.75)", borderRadius:"5px", marginBottom:"20px"}} fluid>
+                            <Col style={{backgroundColor:"rgb(240, 240, 245, 0.75)", borderRadius:"5px", marginBottom:"20px"}} fluid>
                                 <h4 style={{color:"black", fontWeight:"bold", marginBottom:"20px", marginTop:"10px"}}>Total queries & average speed</h4>
                                 <ResponsiveContainer width="95%" height={300}>
                                     <BarChart margin={{left:80,right:20, bottom:40}} layout="horizontal" data={queriesnavgexec}>
@@ -94,7 +92,7 @@ function DatabaseOverview(){
                             </Col>
                         </Row>
                         <Row>
-                            <Col style={{backgroundColor:"rgb(255, 255, 255, 0.75)", borderRadius:"5px"}} fluid>
+                            <Col style={{backgroundColor:"rgb(240, 240, 245, 0.75)", borderRadius:"5px"}} fluid>
                                 <h4 style={{color:"black", fontWeight:"bold", marginBottom:"20px", marginTop:"10px"}}>Queries per database each day</h4>
                                 <Tabs  id="uncontrolled-tab">
                                     <Tab style={{Textcolor:"white"}} eventKey="all" title="All">
