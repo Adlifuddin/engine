@@ -1,19 +1,19 @@
 import React from 'react' 
-import PeopleSideBar from './peopleSideBar'
+import PermissionSideBar from './permissionSideBar'
 import { Container, Row } from 'react-bootstrap'
 
 
-function People(){
+function Permission(){
     return (
         <div>
             <Container fluid>
                 <Row>    
-                    <PeopleSideBar />
+                    <PermissionSideBar />
                 </Row>
             </Container>
-        </div>     
+        </div>    
     )
 
 }
 
-export default People
+export default Permission

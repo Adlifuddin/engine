@@ -20,6 +20,7 @@ import QuestionOverview from './components/Audit/Questions/QuestionOverview'
 import DashboardOverview from './components/Audit/Dashboards/DashboardOverview'
 import DownloadOverview from './components/Audit/Downloads/DownloadOverview'
 import People from './components/People/People'
+import Permission from './components/Permission/permission'
 
 var routes = [
     {
@@ -52,6 +53,13 @@ var routes = [
         path: "audit",
         name: "Audit",
         component: Members,
+        layout: "/",
+        exact: true,
+    },
+    {
+        path: "permission",
+        name: "Permission",
+        component: Permission,
         layout: "/",
         exact: true,
     },

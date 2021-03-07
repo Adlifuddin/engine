@@ -1,22 +1,21 @@
 import React from 'react'
 import { ProSidebar, Menu, MenuItem, SidebarContent } from 'react-pro-sidebar'
 import { FaUser, FaUsers } from 'react-icons/fa'
-import './custom.scss'
 
-function PeopleSideBar(){
+function PermissionSideBar(){
     return (
 
         <div>
             <ProSidebar>
                 <SidebarContent>
                     <Menu iconShape="circle">
-                        <MenuItem icon={<FaUser />}>People</MenuItem>
-                        <MenuItem icon={<FaUsers />}>Group</MenuItem>
+                        <MenuItem icon={<FaUser />}>Permission Menu 1</MenuItem>
+                        <MenuItem icon={<FaUsers />}>Permission Menu 2</MenuItem>
                     </Menu>
-                </SidebarContent>   
+                </SidebarContent>
             </ProSidebar>
         </div>
     )
 }
 
-export default PeopleSideBar
+export default PermissionSideBar
