@@ -9,10 +9,10 @@ function ActivePeople(){
     const [id, setID] = useState("");
 
     const options = [
-        { value: 'all', label: 'All Users' },
-        { value: 'admin', label: 'Administrators' },
-        { value: 'creator', label: 'Creator' },
-        { value: 'viewer', label: 'Viewer' }
+        { value: 'All Users', label: 'All Users' },
+        { value: 'Administrators', label: 'Administrators' },
+        { value: 'Creator', label: 'Creator' },
+        { value: 'Viewer', label: 'Viewer' }
       ]
 
 

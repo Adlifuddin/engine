@@ -7,7 +7,7 @@ function Permission(){
         <div>
             <Container fluid>
                 <Row>    
-                    <div style={{fontSize:"25px", marginLeft:"65px"}}>
+                    <div style={{fontSize:"18px", marginLeft:"65px"}}>
                         <Tabs defaultActiveKey="data-permission" id="uncontrolled-tab-example">
                             <Tab eventKey="data-permission" title="Data Permissions">
                                 <h1>Data permissions</h1>
