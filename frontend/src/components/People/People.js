@@ -1,15 +1,16 @@
-import React from 'react' 
+import React, {useState} from 'react' 
 import PeopleSideBar from './peopleSideBar'
-import { Container, Row, Col, Tabs, Tab, Button } from 'react-bootstrap'
+import { Container, Row, Col, Tabs, Tab, Button, Modal, Form } from 'react-bootstrap'
 import ActivePeople from './ActivePeople'
 import DeactivatedPeople from './DeactivatedPeople'
-import {CardHeaderColor, CardColor} from '../../components/customStyle/DatabaseColor'
-import {Card, CardHeader} from 'reactstrap'
-import { Link} from 'react-router-dom';
+import AddSomeoneModal from './AddSomeoneModal'
+
 
 
 
 function People(){
+    const [AddSomeoneModalShow, setAddSomeoneModalShow] = useState(false);
+
     return (
         <div>
             <Container fluid>
@@ -19,8 +20,9 @@ function People(){
                         <div style={{fontSize:"17px"}}>
                             <Tabs defaultActiveKey="active-people" id="uncontrolled-tab-example">
                                 <Tab eventKey="active-people" title="Active">
-                                    <Button style={{float:"right", fontSize:"18px", marginTop:"15px",marginBottom:"15px"}} variant="secondary">Add someone</Button>
+                                    <Button onClick={() => setAddSomeoneModalShow(true)} style={{float:"right", fontSize:"18px", marginTop:"15px",marginBottom:"15px"}} variant="secondary">Add someone</Button>
                                     <ActivePeople /> 
+                                    <AddSomeoneModal show={AddSomeoneModalShow} onHide={() => setAddSomeoneModalShow(false)} />
                                 </Tab>
                                 <Tab eventKey="deactive-people" title="Deactivated">
                                     <DeactivatedPeople />
