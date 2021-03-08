@@ -103,7 +103,7 @@ function MemberOverview(){
                                 <h4 style={{color:"black", fontWeight:"bold", marginBottom:"20px", marginTop:"10px"}}>Members who are creating most things</h4>
                                 <ResponsiveContainer width="90%" height={360}>
                                     <BarChart margin={{left:100, bottom:40}} layout="vertical" width={600} height={360} data={mostCreated}>
-                                        <CartesianGrid vertical={true} horizontal={false} />
+                                        <CartesianGrid stroke="#545454" vertical={true} horizontal={false} />
                                         <XAxis tick={{ fontSize:"12px", fontWeight:"bold" }} stroke="black" type="number" dataKey="total" label={{ value: "Total",fill:"black", dy: 25}} />
                                         <YAxis tick={{ fontSize:"10px", fontWeight:"bold" }} stroke="black" type="category" dataKey="name" />
                                         <Tooltip />
