@@ -2,7 +2,7 @@ import React,{useState, useEffect} from 'react'
 import axios from 'axios'
 import { Table , Button} from 'react-bootstrap'
 import Select from 'react-select'
-import { FaBeer, FaEdit } from 'react-icons/fa';
+import { FaEllipsisH } from 'react-icons/fa';
 
 function ActivePeople(){
 
@@ -48,6 +48,7 @@ function ActivePeople(){
                     <th>Email</th>
                     <th>Groups</th>
                     <th>Last Login</th>
+                    <th>Action</th>
                     </tr>
                 </thead>
                 {activepeople.map(peopleactive => (
@@ -59,6 +60,9 @@ function ActivePeople(){
                                             <Select isMulti={true} defaultValue={getGroups(peopleactive.groups).map(x => ({value:x,label:x}))} options={options} />
                                         </td>
                                         <td>{peopleactive.last_login}</td>
+                                        <td style={{textAlign:"center"}}>
+                                            <FaEllipsisH />
+                                        </td>
                                     </tr>
                                     </tbody>
                             ))}
