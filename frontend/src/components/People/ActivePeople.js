@@ -1,14 +1,33 @@
-import React from 'react'
+import React,{useState, useEffect} from 'react'
+import axios from 'axios'
 import { Table } from 'react-bootstrap'
 import Select from 'react-select'
 
 function ActivePeople(){
+
+
     const options = [
         { value: 'all', label: 'All Users' },
         { value: 'admin', label: 'Administrators' },
         { value: 'creator', label: 'Creator' },
         { value: 'viewer', label: 'Viewer' }
       ]
+
+
+    const [activepeople,setactivepeople] = useState([])
+
+    useEffect(() => {
+        axios
+            .get("http://localhost:5000/api/people/activepeople")
+            .then(res => {
+                setactivepeople(res.data)
+            })
+            .catch(err => {
+                console.log(err)
+            })
+
+    }, [])
+
       
     return (
         <div>
@@ -21,16 +40,16 @@ function ActivePeople(){
                     <th>Last Login</th>
                     </tr>
                 </thead>
-                <tbody>
-                    <tr>
-                        <td>Muhammad Faizal Mat Yaacob</td>
-                        <td>example@gmail.com</td>
-                        <td style={{fontSize:"14px",width:"400px"}}>
-                            <Select isMulti={true} defaultValue={[{ value: 'all', label: 'All Users' },{ value: 'creator', label: 'Creator' }]} options={options} />
-                        </td>
-                        <td>@mdo</td>
-                    </tr>
-                </tbody>
+                {activepeople.map(peopleactive => (
+                                <tbody key={peopleactive.id}>
+                                    <tr>
+                                        <td>{peopleactive.first_name} {peopleactive.last_name}</td>
+                                        <td>{peopleactive.email}</td>
+                                        <td>{peopleactive.groups}</td>
+                                        <td>{peopleactive.last_login}</td>
+                                    </tr>
+                                    </tbody>
+                            ))}
             </Table>
         </div>
     )

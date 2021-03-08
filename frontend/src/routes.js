@@ -21,6 +21,7 @@ import DashboardOverview from './components/Audit/Dashboards/DashboardOverview'
 import DownloadOverview from './components/Audit/Downloads/DownloadOverview'
 import People from './components/People/People'
 import Permission from './components/Permission/permission'
+import Groups from './components/People/Groups'
 
 var routes = [
     {
@@ -186,6 +187,20 @@ var routes = [
         path: "audit/downloads/overview",
         name: "Audit-DownloadOverview",
         component: DownloadOverview,
+        layout: "/",
+        invisible: true,
+    },
+    {
+        path: "people/people",
+        name: "people-Allpeople",
+        component: People,
+        layout: "/",
+        invisible: true,
+    },
+    {
+        path: "people/groups",
+        name: "people-Allgroups",
+        component: Groups,
         layout: "/",
         invisible: true,
     }
