@@ -27,7 +27,7 @@ function DeactivatedPeople(){
 
     return (
         <div>
-            <Table striped bordered hover>
+            <Table hover borderless>
                 <thead>
                     <tr>
                     <th>Name</th>

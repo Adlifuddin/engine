@@ -1,10 +1,12 @@
 import React,{useState, useEffect} from 'react'
 import axios from 'axios'
-import { Table } from 'react-bootstrap'
+import { Table , Button} from 'react-bootstrap'
 import Select from 'react-select'
+import { FaBeer, FaEdit } from 'react-icons/fa';
 
 function ActivePeople(){
 
+    const [id, setID] = useState("");
 
     const options = [
         { value: 'all', label: 'All Users' },
@@ -14,6 +16,11 @@ function ActivePeople(){
       ]
 
 
+      const toggleEdit = (e) => {
+        const id = e.target.value
+        setID(id)
+        toggleEdit()
+    }
     const [activepeople,setactivepeople] = useState([])
 
     useEffect(() => {
@@ -31,7 +38,7 @@ function ActivePeople(){
       
     return (
         <div>
-            <Table striped bordered hover>
+            <Table hover borderless>
                 <thead>
                     <tr>
                     <th>Name</th>
@@ -47,6 +54,8 @@ function ActivePeople(){
                                         <td>{peopleactive.email}</td>
                                         <td>{peopleactive.groups}</td>
                                         <td>{peopleactive.last_login}</td>
+                                        <td style={{ width: '80.22px', height: '35px' }}><Button id='edit-button' style={{ float: 'right' }} onClick={toggleEdit} value={peopleactive.id} >Edit</Button></td>
+
                                     </tr>
                                     </tbody>
                             ))}
