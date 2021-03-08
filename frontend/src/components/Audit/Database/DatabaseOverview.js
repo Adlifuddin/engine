@@ -110,7 +110,7 @@ function DatabaseOverview(){
                                         <Tab eventKey={value} title={value}>
                                             <ResponsiveContainer width="95%" height={280}>
                                                 <LineChart key={index} margin={{left:50,right:20, bottom:40}} data={filtering(query,value)}>
-                                                    <CartesianGrid vertical={false}  />
+                                                    <CartesianGrid stroke="#545454" vertical={false}  />
                                                     <XAxis tick={{ fontSize:"12px",fontWeight:"bold" }} stroke="black" type="category" dataKey="date" label={{ value: "Day",fill:"black", dy: 25}} tickFormatter={formatXAxis}/>
                                                     <YAxis tick={{ fontSize:"12px",fontWeight:"bold" }} stroke="black" type="number" dataKey="queries" label={{ value: "Total Query",fill:"black", angle:270, dx:-25}} />
                                                     <Tooltip />                                  
