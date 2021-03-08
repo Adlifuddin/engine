@@ -1,10 +1,10 @@
 import React,{useState, useEffect} from 'react'
-import axios from 'axios'
 import { Container, Row, Col, Table } from 'react-bootstrap'
 import SideBar from '../SideBar/SideBar'
 import ApiLoader from '../../Loader/ApiLoader'
 import Breadcrumbs from '../Breadcrumbs/Breadcrumbs'
 import { titleHeadingColor, titleRowColor} from '../../customStyle/TableColor'
+import api from '../../../api/index'
 
 function DatabaseAudit(){
     const [loading,setLoading] = useState(false)
@@ -12,8 +12,7 @@ function DatabaseAudit(){
 
     useEffect(() => {
         setLoading(true)
-        axios
-            .get("http://localhost:5000/api/audit/databases")
+        api.databases()
             .then(res => {
                 setDatabase(res.data)
                 setLoading(false)

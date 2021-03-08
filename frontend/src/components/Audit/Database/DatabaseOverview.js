@@ -1,5 +1,4 @@
 import React,{useState, useEffect} from 'react'
-import axios from 'axios'
 import { Container, Row, Col, Tab, Tabs, Card } from 'react-bootstrap'
 import SideBar from '../SideBar/SideBar';
 import { Legend, Line, LineChart ,Bar, BarChart, CartesianGrid, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts';
@@ -7,6 +6,7 @@ import Breadcrumbs from '../Breadcrumbs/Breadcrumbs';
 import Loading from '../../Loader/Loading'
 import { CardHeaderColor, CardColor, colors } from '../../customStyle/DatabaseColor'
 import moment from 'moment'
+import api from '../../../api/index'
 
 function DatabaseOverview(){
 
@@ -15,8 +15,7 @@ function DatabaseOverview(){
     const [queriesnavgexecLoading, setqueriesnavgexecLoading] = useState(true)
     useEffect(() => {
         setqueriesnavgexecLoading(true)
-        axios
-            .get("http://localhost:5000/api/audit/databases/queriesnavgexec")
+        api.databasesAvgExec()
             .then(res => {
                 setQueriesnavgexec(res.data)
                 setqueriesnavgexecLoading(false)
@@ -33,8 +32,7 @@ function DatabaseOverview(){
 
     useEffect(() => {
         setQueryLoading(true)
-        axios
-            .get("http://localhost:5000/api/audit/databases/queries")
+        api.databasesQueries()
             .then(res => {
                 setQuery(res.data)
                 setQueryLoading(false)

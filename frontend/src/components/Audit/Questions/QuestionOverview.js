@@ -6,6 +6,8 @@ import { ResponsiveContainer ,Bar, BarChart, CartesianGrid, XAxis, YAxis, Toolti
 import Breadcrumbs from '../Breadcrumbs/Breadcrumbs';
 import Loading from '../../Loader/Loading'
 import { CardHeaderColor, CardColor, colors } from '../../customStyle/DatabaseColor'
+import api from '../../../api/index'
+
 function QuestionOverview(){
 
     const [popularqueries, setPopularqueries] = useState([])
@@ -13,8 +15,7 @@ function QuestionOverview(){
 
     useEffect(() => {
         setLoading(true)
-        axios
-            .get("http://localhost:5000/api/audit/questions/popularqueries")
+        api.questionsPopularQueries()
             .then(res => {
                 setPopularqueries(res.data)
                 setLoading(false)
@@ -31,8 +32,7 @@ function QuestionOverview(){
 
     useEffect(() => {
         setSlowLoading(true)
-        axios
-            .get("http://localhost:5000/api/audit/questions/slowestqueries")
+        api.questionSlowestQueries()
             .then(res => {
                 setSlowestqueries(res.data)
                 setSlowLoading(false)

@@ -1,5 +1,4 @@
 import React,{useState, useEffect} from 'react'
-import axios from 'axios'
 import { Container, Row, Col, Card } from 'react-bootstrap'
 import SideBar from '../SideBar/SideBar';
 import { ResponsiveContainer, Line, LineChart ,Bar, BarChart, CartesianGrid, XAxis, YAxis, Tooltip, Legend } from 'recharts';
@@ -7,6 +6,7 @@ import Breadcrumbs from '../Breadcrumbs/Breadcrumbs';
 import moment from 'moment'
 import Loading from '../../Loader/Loading'
 import { CardHeaderColor, CardColor, colors } from '../../customStyle/DatabaseColor'
+import api from '../../../api/index'
 
 function MemberOverview(){
 
@@ -15,8 +15,7 @@ function MemberOverview(){
 
     useEffect(() => {
         setOverviewLoading(true)
-        axios
-            .get("http://localhost:5000/api/audit/members/overview")
+        api.memberOverview()
             .then(res => {
                 setOverview(res.data)
                 setOverviewLoading(false)
@@ -34,8 +33,7 @@ function MemberOverview(){
 
     useEffect(() => {
         setMostCreatedLoading(true)
-        axios
-            .get("http://localhost:5000/api/audit/members/mostCreated")
+        api.memberMostCreated()
             .then(res => {
                 setmostCreated(res.data)
                 setMostCreatedLoading(false)
@@ -65,8 +63,7 @@ function MemberOverview(){
 
     useEffect(() => {
         setActivenNewLoading(true)
-        axios
-            .get("http://localhost:5000/api/audit/members/activennew")
+        api.memberActiveNNew()
             .then(res => {
                 setactivenew(res.data)
                 setActivenNewLoading(false)
@@ -93,8 +90,7 @@ function MemberOverview(){
                                         :
                                         <></>
                                     }
-                                    
-                                    <Card.Body>
+                                <Card.Body>
                                 {overviewLoading ?
                                     <Loading />
                                     :

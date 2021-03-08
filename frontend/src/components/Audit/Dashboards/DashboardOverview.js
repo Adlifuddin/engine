@@ -1,5 +1,4 @@
 import React,{useState, useEffect} from 'react'
-import axios from 'axios'
 import { Container, Row, Col, Table, Card } from 'react-bootstrap'
 import SideBar from '../SideBar/SideBar';
 import { Line, LineChart , ResponsiveContainer, CartesianGrid, XAxis, YAxis, Tooltip } from 'recharts';
@@ -7,7 +6,8 @@ import Breadcrumbs from '../Breadcrumbs/Breadcrumbs'
 import moment from 'moment'
 import Loading from '../../Loader/Loading'
 import { CardHeaderColor, CardColor, colors } from '../../customStyle/DatabaseColor'
-import { titleHeadingColor, titleRowColor} from '../../customStyle/TableColor'
+import { titleHeadingColor, titleRowColor } from '../../customStyle/TableColor'
+import api from '../../../api/index'
 
 function DashboardOverview(){
     const [mostpopular, setMostpopular] = useState([])
@@ -15,8 +15,7 @@ function DashboardOverview(){
 
     useEffect(() => {
         setLoading(true)
-        axios
-            .get("http://localhost:5000/api/audit/dashboards/mostpopular")
+        api.dashboardsMostPopular()
             .then(res => {
                 setMostpopular(res.data)
                 setLoading(false)
@@ -34,8 +33,7 @@ function DashboardOverview(){
 
     useEffect(() => {
         setCommonLoading(true)
-        axios
-            .get("http://localhost:5000/api/audit/dashboards/commonquestion")
+        api.dashboardsCommon()
             .then(res => {
                 setMostCommon(res.data)
                 setCommonLoading(false)
@@ -52,8 +50,7 @@ function DashboardOverview(){
 
     useEffect(() => {
         setViewLoading(true)
-        axios
-            .get("http://localhost:5000/api/audit/dashboards/viewsnsaved")
+        api.dashboardsSaved()
             .then(res => {
                 setViewsnsaved(res.data)
                 setViewLoading(false)

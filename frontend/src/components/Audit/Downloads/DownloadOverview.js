@@ -1,5 +1,5 @@
 import React,{useState, useEffect} from 'react'
-import axios from 'axios'
+import api from '../../../api/index'
 import { Container, Row, Col, Card } from 'react-bootstrap'
 import SideBar from '../SideBar/SideBar';
 import { ResponsiveContainer, Scatter, ScatterChart, CartesianGrid, XAxis, YAxis, Tooltip , Bar, BarChart} from 'recharts';
@@ -15,8 +15,7 @@ function DownloadOverview(){
 
     useEffect(() => {
         setLoading(true)
-        axios
-            .get("http://localhost:5000/api/audit/downloads/overview")
+        api.downloadsOverview()
             .then(res => {
                 setDownload(res.data)
                 setLoading(false)
@@ -33,8 +32,7 @@ function DownloadOverview(){
 
     useEffect(() => {
         setUserLoading(true)
-        axios
-            .get("http://localhost:5000/api/audit/downloads/downloadperuser")
+        api.downloadsUser()
             .then(res => {
                 setDownloadPerUser(res.data)
                 setUserLoading(false)
@@ -51,8 +49,7 @@ function DownloadOverview(){
 
     useEffect(() => {
         setSizeLoading(true)
-        axios
-            .get("http://localhost:5000/api/audit/downloads/downloadpersize")
+        api.downloadSize()
             .then(res => {
                 setDownloadPerSize(res.data)
                 setSizeLoading(false)

@@ -1,11 +1,11 @@
 import React,{useState, useEffect} from 'react'
-import axios from 'axios'
 import { Container, Row, Col, Card } from 'react-bootstrap'
 import SideBar from '../SideBar/SideBar';
 import { ResponsiveContainer ,Bar, BarChart, CartesianGrid, XAxis, YAxis, Tooltip } from 'recharts';
 import Breadcrumbs from '../Breadcrumbs/Breadcrumbs';
 import Loading from '../../Loader/Loading'
 import { CardHeaderColor, CardColor, colors } from '../../customStyle/DatabaseColor'
+import api from '../../../api/index'
 
 function SchemaOverview(){
 
@@ -14,8 +14,7 @@ function SchemaOverview(){
 
     useEffect(() => {
         setmostQueriedLoading(true)
-        axios
-            .get("http://localhost:5000/api/audit/schemas/mostqueried")
+        api.schemasMostQueried()
             .then(res => {
                 setmostQueried(res.data)
                 setmostQueriedLoading(false)
@@ -32,8 +31,7 @@ function SchemaOverview(){
 
     useEffect(() => {
         setslowestSchemaLoading(true)
-        axios
-            .get("http://localhost:5000/api/audit/schemas/slowestschema")
+        api.schemasSlowestQueried()
             .then(res => {
                 setslowestSchema(res.data)
                 setslowestSchemaLoading(false)
@@ -75,7 +73,7 @@ function SchemaOverview(){
                                                     <XAxis tick={{ fontWeight:"bold" }} stroke="black" type="number" dataKey="exec"/>
                                                     <YAxis tick={{ fontSize:"10.5px",fontWeight:"bold" }} stroke="black" type="category" dataKey="schema" />
                                                     <Tooltip />
-                                                    <Bar dataKey="exec" fill="#009933" />
+                                                    <Bar dataKey="exec" fill={colors[1]} />
                                                 </BarChart>  
                                             </ResponsiveContainer>
                                         }
@@ -102,7 +100,7 @@ function SchemaOverview(){
                                                     <XAxis tick={{ fontWeight:"bold" }} stroke="black" type="number" dataKey="avgexec"/>
                                                     <YAxis tick={{ fontSize:"10.5px",fontWeight:"bold" }} stroke="black" type="category" dataKey="schema" />
                                                     <Tooltip />
-                                                    <Bar dataKey="avgexec" fill="#730099" />
+                                                    <Bar dataKey="avgexec" fill={colors[3]} />
                                                 </BarChart>  
                                             </ResponsiveContainer>
                                         }

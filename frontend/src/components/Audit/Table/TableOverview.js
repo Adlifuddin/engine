@@ -6,6 +6,7 @@ import { ResponsiveContainer ,Bar, BarChart, CartesianGrid, XAxis, YAxis, Toolti
 import Breadcrumbs from '../Breadcrumbs/Breadcrumbs';
 import Loading from '../../Loader/Loading'
 import { CardHeaderColor, CardColor, colors } from '../../customStyle/DatabaseColor'
+import api from '../../../api/index';
 
 function TableOverview(){
 
@@ -14,8 +15,7 @@ function TableOverview(){
 
     useEffect(() => {
         setmostQueriedLoading(true)
-        axios
-            .get("http://localhost:5000/api/audit/tables/mostqueried")
+        api.tablesMostQueried()
             .then(res => {
                 setmostQueried(res.data)
                 setmostQueriedLoading(false)
@@ -32,8 +32,7 @@ function TableOverview(){
 
     useEffect(() => {
         setleastQueriedLoading(true)
-        axios
-            .get("http://localhost:5000/api/audit/tables/leastqueried")
+        api.tableLeastQueried()
             .then(res => {
                 setleastQueried(res.data)
                 setleastQueriedLoading(false)
