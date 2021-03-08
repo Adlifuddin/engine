@@ -1,9 +1,10 @@
 import React,{useState, useEffect} from 'react'
 import axios from 'axios'
-import { Container, Row, Col, Table, Breadcrumb } from 'react-bootstrap'
+import { Container, Row, Col, Table } from 'react-bootstrap'
 import SideBar from '../SideBar/SideBar'
 import ApiLoader from '../../Loader/ApiLoader'
-
+import Breadcrumbs from '../Breadcrumbs/Breadcrumbs'
+import { titleHeadingColor, titleRowColor} from '../../customStyle/TableColor'
 
 function Downloads(){
     const [loading,setLoading] = useState(false)
@@ -30,34 +31,31 @@ function Downloads(){
             <Container fluid>
                 <Row>
                     <SideBar />
-                    <Col style={{marginTop:"10px", marginRight:"100px"}} xs lg={9}>  
-                        <Breadcrumb>
-                            <Breadcrumb.Item href="/">Audit</Breadcrumb.Item>
-                            <Breadcrumb.Item active>Downloads</Breadcrumb.Item>
-                        </Breadcrumb>
+                    <Col>  
+                        <Breadcrumbs b="Downloads"/>
                         {loading === true? <ApiLoader apiload={loading}/> :
-                        <Table striped bordered hover variant="light">
+                        <Table borderless hover>
                             <thead>
                                 <tr>
-                                    <th>Downloaded At</th>
-                                    <th>Rows Downloaded</th>
-                                    <th>Query</th>
-                                    <th>Query Type</th>
-                                    <th>Database</th>
-                                    <th>Source Table</th>
-                                    <th>User</th>
+                                    <th style={titleHeadingColor}>Downloaded At</th>
+                                    <th style={titleHeadingColor}>Rows Downloaded</th>
+                                    <th style={titleHeadingColor}>Query</th>
+                                    <th style={titleHeadingColor}>Query Type</th>
+                                    <th style={titleHeadingColor}>Database</th>
+                                    <th style={titleHeadingColor}>Source Table</th>
+                                    <th style={titleHeadingColor}>User</th>
                                 </tr>
                             </thead>
                             {download.map(download => (
                                 <tbody key={download.id}>
                                     <tr>
-                                        <td>{download.downloadat}</td>
-                                        <td>{download.rowsdownloaded}</td>
-                                        <td>{download.query}</td>
-                                        {download.type === true ? <td>Native</td> : <td>GUI</td>}
-                                        <td>{download.sourcedatabases}</td>
-                                        <td>{download.tables}</td>
-                                        <td>{download.user}</td>
+                                        <td style={titleRowColor}>{download.downloadat}</td>
+                                        <td style={titleRowColor}>{download.rowsdownloaded}</td>
+                                        <td style={titleRowColor}>{download.query}</td>
+                                        {download.type === true ? <td style={titleRowColor}>Native</td> : <td style={titleRowColor}>GUI</td>}
+                                        <td style={titleRowColor}>{download.sourcedatabases}</td>
+                                        <td style={titleRowColor}>{download.tables}</td>
+                                        <td style={titleRowColor}>{download.user}</td>
                                     </tr>
                                 </tbody>
                             ))}

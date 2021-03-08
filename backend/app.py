@@ -1,13 +1,10 @@
 from flask import Flask, request, Response
-from flask_restful import Resource, Api, reqparse
-from sqlalchemy import MetaData, exc
-import sqlalchemy as db
+from flask_restful import Resource, reqparse, Api
 from flask_cors import CORS 
-from json import dumps
-from flask_jsonpify import jsonify
-from serializer import *
-from connection import CreateConnectionCoreUser, CreateConnectionDriveUser
-from settings import *
+from flask_jsonpify import jsonpify
+from .serializer import *
+from .connection import CreateConnectionCoreUser, CreateConnectionDriveUser
+from .settings import *
 import json
 
 app = Flask(__name__)
@@ -24,7 +21,7 @@ class Test(Resource):
         for i in data:
             print(list(i.values()))
         result = {'data': [dict(zip(tuple (query.keys()) ,i)) for i in query.cursor]}
-        return jsonify(result)
+        return jsonpify(result)
 class Add(Resource):
     def post(self):
         try: 
@@ -61,16 +58,16 @@ class Members(Resource):
         connection = engine.connect()
         result = connection.execute(query)
         results = [dict(zip(tuple (result.keys()) ,i)) for i in result.cursor]
-        return jsonify(results)
-
+        return jsonpify(results)
 class MembersOverview(Resource):
     def get(self):
         engine = CreateConnectionCoreUser()
-        query = "select concat(b.first_name,' ',b.last_name) as user, sum(ROUND(a.running_time)/60000)::numeric(10,0) as exectime from public.query_execution a left join public.core_user b on a.executor_id = b.id left join public.metabase_database c on a.database_id = c.id where b.first_name is not null group by b.first_name, b.last_name order by exectime desc limit 10"     
+        query = "select concat(b.first_name,' ',b.last_name) as user, sum(ROUND(a.running_time)/60000)::numeric(10,0) as exectime from public.query_execution a left join public.core_user b on a.executor_id = b.id left join public.metabase_database c on a.database_id = c.id where b.first_name is not null group by b.first_name, b.last_name order by exectime desc limit 10"
         connection = engine.connect()
         result = connection.execute(query)
         results = [dict(zip(tuple (result.keys()) ,i)) for i in result.cursor]
-        return jsonify(results)
+        li = parseFloat(results, "exectime")
+        return jsonpify(li)
 
 class MembersMostCreated(Resource):
     def get(self):
@@ -79,7 +76,8 @@ class MembersMostCreated(Resource):
         connection = engine.connect()
         result = connection.execute(query)
         results = [dict(zip(tuple (result.keys()) ,i)) for i in result.cursor]
-        return jsonify(results)
+        li = parseFloat(results, "total")
+        return jsonpify(li)
 
 class MembersActivenNew(Resource):
     def get(self):
@@ -88,7 +86,7 @@ class MembersActivenNew(Resource):
         connection = engine.connect()
         result = connection.execute(query)
         results = [dict(zip(tuple (result.keys()) ,i)) for i in result.cursor]
-        return jsonify(results)
+        return jsonpify(results)
 
 
 class Databases(Resource):
@@ -98,7 +96,7 @@ class Databases(Resource):
         connection = engine.connect()
         result = connection.execute(query)
         results = [dict(zip(tuple (result.keys()) ,i)) for i in result.cursor]
-        return jsonify(results)
+        return jsonpify(results)
 
 class DatabasesAvgExecAndQuery(Resource):
     def get(self):
@@ -107,7 +105,8 @@ class DatabasesAvgExecAndQuery(Resource):
         connection = engine.connect()
         result = connection.execute(query)
         results = [dict(zip(tuple (result.keys()) ,i)) for i in result.cursor]
-        return jsonify(results)
+        li = parseFloat(results, "avgexectime")
+        return jsonpify(li)
 
 class DatabasesQuery(Resource):
     def get(self):
@@ -116,7 +115,7 @@ class DatabasesQuery(Resource):
         connection = engine.connect()
         result = connection.execute(query)
         results = [dict(zip(tuple (result.keys()) ,i)) for i in result.cursor]
-        return jsonify(results)
+        return jsonpify(results)
         
 
 class Tables(Resource):
@@ -126,7 +125,7 @@ class Tables(Resource):
         connection = engine.connect()
         result = connection.execute(query)
         results = [dict(zip(tuple (result.keys()) ,i)) for i in result.cursor]
-        return jsonify(results)
+        return jsonpify(results)
 
 class TableMostQueried(Resource):
     def get(self):
@@ -135,7 +134,7 @@ class TableMostQueried(Resource):
         connection = engine.connect()
         result = connection.execute(query)
         results = [dict(zip(tuple (result.keys()) ,i)) for i in result.cursor]
-        return jsonify(results)
+        return jsonpify(results)
 
 
 class TableLeastQueried(Resource):
@@ -145,7 +144,7 @@ class TableLeastQueried(Resource):
         connection = engine.connect()
         result = connection.execute(query)
         results = [dict(zip(tuple (result.keys()) ,i)) for i in result.cursor]
-        return jsonify(results)
+        return jsonpify(results)
 
 class Checks(Resource):
     def get(self):
@@ -154,7 +153,7 @@ class Checks(Resource):
         connection = engine.connect()
         result = connection.execute(query)
         results = [dict(zip(tuple (result.keys()) ,i)) for i in result.cursor]
-        return jsonify(results)
+        return jsonpify(results)
 
 class Schema(Resource):
     def get(self):
@@ -163,7 +162,7 @@ class Schema(Resource):
         connection = engine.connect()
         result = connection.execute(query)
         results = [dict(zip(tuple (result.keys()) ,i)) for i in result.cursor]
-        return jsonify(results)
+        return jsonpify(results)
 
 class SchemaMostQueried(Resource):
     def get(self):
@@ -172,7 +171,7 @@ class SchemaMostQueried(Resource):
         connection = engine.connect()
         result = connection.execute(query)
         results = [dict(zip(tuple (result.keys()) ,i)) for i in result.cursor]
-        return jsonify(results)
+        return jsonpify(results)
 
 class SchemaSlowest(Resource):
     def get(self):
@@ -181,7 +180,8 @@ class SchemaSlowest(Resource):
         connection = engine.connect()
         result = connection.execute(query)
         results = [dict(zip(tuple (result.keys()) ,i)) for i in result.cursor]
-        return jsonify(results)
+        li = parseFloat(results, "avgexec")
+        return jsonpify(li)
 
 class Questions(Resource):
     def get(self):
@@ -190,7 +190,7 @@ class Questions(Resource):
         connection = engine.connect()
         result = connection.execute(query)
         results = [dict(zip(tuple (result.keys()) ,i)) for i in result.cursor]
-        return jsonify(results)
+        return jsonpify(results)
 
 
 class QuestionsPopularQueries(Resource):
@@ -200,7 +200,7 @@ class QuestionsPopularQueries(Resource):
         connection = engine.connect()
         result = connection.execute(query)
         results = [dict(zip(tuple (result.keys()) ,i)) for i in result.cursor]
-        return jsonify(results)
+        return jsonpify(results)
 
 class QuestionsSlowestQueries(Resource):
     def get(self):
@@ -209,7 +209,8 @@ class QuestionsSlowestQueries(Resource):
         connection = engine.connect()
         result = connection.execute(query)
         results = [dict(zip(tuple (result.keys()) ,i)) for i in result.cursor]
-        return jsonify(results)
+        li = parseFloat(results, "avgrunningtime")
+        return jsonpify(li)
 
 class Dashboards(Resource):
     def get(self):
@@ -218,7 +219,7 @@ class Dashboards(Resource):
         connection = engine.connect()
         result = connection.execute(query)
         results = [dict(zip(tuple (result.keys()) ,i)) for i in result.cursor]
-        return jsonify(results)
+        return jsonpify(results)
 
 class DashboardsMostPopular(Resource):
     def get(self):
@@ -227,7 +228,8 @@ class DashboardsMostPopular(Resource):
         connection = engine.connect()
         result = connection.execute(query)
         results = [dict(zip(tuple (result.keys()) ,i)) for i in result.cursor]
-        return jsonify(results)    
+        li = parseFloat(results, "avgrunningtime")
+        return jsonpify(li)
 
 class DashboardsCommonQuestion(Resource):
     def get(self):
@@ -236,7 +238,7 @@ class DashboardsCommonQuestion(Resource):
         connection = engine.connect()
         result = connection.execute(query)
         results = [dict(zip(tuple (result.keys()) ,i)) for i in result.cursor]
-        return jsonify(results)       
+        return jsonpify(results)
 
 class DashboardsViewsnSaved(Resource):
     def get(self):
@@ -245,7 +247,7 @@ class DashboardsViewsnSaved(Resource):
         connection = engine.connect()
         result = connection.execute(query)
         results = [dict(zip(tuple (result.keys()) ,i)) for i in result.cursor]
-        return jsonify(results)       
+        return jsonpify(results)       
 
 
 class AuditLog(Resource):
@@ -255,7 +257,7 @@ class AuditLog(Resource):
         connection = engine.connect()
         result = connection.execute(query)
         results = [dict(zip(tuple (result.keys()) ,i)) for i in result.cursor]
-        return jsonify(results)
+        return jsonpify(results)
 
 class Downloads(Resource):
     def get(self):
@@ -264,7 +266,7 @@ class Downloads(Resource):
         connection = engine.connect()
         result = connection.execute(query)
         results = [dict(zip(tuple (result.keys()) ,i)) for i in result.cursor]
-        return jsonify(results)
+        return jsonpify(results)
 
 class DownloadsOverview(Resource):
     def get(self):
@@ -273,7 +275,7 @@ class DownloadsOverview(Resource):
         connection = engine.connect()
         result = connection.execute(query)
         results = [dict(zip(tuple (result.keys()) ,i)) for i in result.cursor]
-        return jsonify(results)
+        return jsonpify(results)
 
 class downloadsPerUser(Resource):
     def get(self):
@@ -282,7 +284,7 @@ class downloadsPerUser(Resource):
         connection = engine.connect()
         result = connection.execute(query)
         results = [dict(zip(tuple (result.keys()) ,i)) for i in result.cursor]
-        return jsonify(results)
+        return jsonpify(results)
 
 class downloadsPerSize(Resource):
     def get(self):
@@ -291,7 +293,7 @@ class downloadsPerSize(Resource):
         connection = engine.connect()
         result = connection.execute(query)
         results = [dict(zip(tuple (result.keys()) ,i)) for i in result.cursor]
-        return jsonify(results)
+        return jsonpify(results)
 
 
 
@@ -327,4 +329,4 @@ api.add_resource(MembersActivenNew, '/api/audit/members/activennew')
 api.add_resource(DashboardsViewsnSaved, '/api/audit/dashboards/viewsnsaved')
 
 if __name__ == '__main__':
-     app.run()
+    api.run()

@@ -1,9 +1,10 @@
 import React,{useState, useEffect} from 'react'
 import axios from 'axios'
-import { Container, Row, Col, Table, Breadcrumb } from 'react-bootstrap'
+import { Container, Row, Col, Table } from 'react-bootstrap'
 import SideBar from '../SideBar/SideBar'
 import ApiLoader from '../../Loader/ApiLoader'
-
+import Breadcrumbs from '../Breadcrumbs/Breadcrumbs'
+import { titleHeadingColor, titleRowColor } from '../../customStyle/TableColor'
 
 function Schema(){
     const [loading,setLoading] = useState(false)
@@ -30,32 +31,32 @@ function Schema(){
             <Container fluid>
                 <Row>
                     <SideBar />
-                    <Col style={{marginTop:"10px", marginLeft:"100px"}} xs lg={9}>  
-                        <Breadcrumb>
-                            <Breadcrumb.Item href="/">Audit</Breadcrumb.Item>
-                            <Breadcrumb.Item active>Schema</Breadcrumb.Item>
-                        </Breadcrumb>
-                        {loading === true ? <ApiLoader apiload={loading}/> :
-                        <Table striped bordered hover variant="light">
-                            <thead>
-                                <tr>
-                                    <th>Title</th>
-                                    <th>Schema</th>
-                                    <th>Table</th>
-                                    <th>Saved query</th>   
-                                </tr>
-                            </thead>
-                            {schema.map(schema => (
-                                <tbody key={schema.id}>
+                    <Col>  
+                        <Breadcrumbs b="Schema"/>
+                        {loading === true ?
+                            <ApiLoader apiload={loading} />
+                            :
+                            <Table hover borderless>
+                                <thead>
                                     <tr>
-                                        <td>{schema.name}</td>
-                                        <td>{schema.schema}</td>
-                                        <td>{schema.table}</td>
-                                        <td>{schema.query}</td>
+                                        <th style={titleHeadingColor}>Title</th>
+                                        <th style={titleHeadingColor}>Schema</th>
+                                        <th style={titleHeadingColor}>Table</th>
+                                        <th style={titleHeadingColor}>Saved query</th>   
                                     </tr>
+                                </thead>
+                                <tbody >
+                                    {schema.map(schema => (
+                                        <tr key={schema.id}>
+                                            <td style={titleRowColor}>{schema.name}</td>
+                                            <td style={{...titleRowColor, textTransform: "uppercase"}}>{schema.schema}</td>
+                                            <td style={titleRowColor}>{schema.table}</td>
+                                            <td style={titleRowColor}>{schema.query}</td>
+                                        </tr>
+                                    ))}
                                 </tbody>
-                            ))}
-                        </Table>}
+                            </Table>
+                        }
                     </Col>
                 </Row>  
             </Container>      

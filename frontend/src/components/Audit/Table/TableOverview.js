@@ -1,34 +1,45 @@
 import React,{useState, useEffect} from 'react'
 import axios from 'axios'
-import { Container, Row, Col, Table, Breadcrumb } from 'react-bootstrap'
+import { Container, Row, Col, Card } from 'react-bootstrap'
 import SideBar from '../SideBar/SideBar';
 import { ResponsiveContainer ,Bar, BarChart, CartesianGrid, XAxis, YAxis, Tooltip } from 'recharts';
+import Breadcrumbs from '../Breadcrumbs/Breadcrumbs';
+import Loading from '../../Loader/Loading'
+import { CardHeaderColor, CardColor, colors } from '../../customStyle/DatabaseColor'
 
 function TableOverview(){
 
-    const [mostQueried,setmostQueried] = useState([])
+    const [mostQueried, setmostQueried] = useState([])
+    const [mostQueriedLoading, setmostQueriedLoading] = useState(true)
 
     useEffect(() => {
+        setmostQueriedLoading(true)
         axios
             .get("http://localhost:5000/api/audit/tables/mostqueried")
             .then(res => {
                 setmostQueried(res.data)
+                setmostQueriedLoading(false)
             })
             .catch(err => {
+                setmostQueriedLoading(true)
                 console.log(err)
             })
 
     }, [])
 
-    const [leastQueried,setleastQueried] = useState([])
+    const [leastQueried, setleastQueried] = useState([])
+    const [leastQueriedLoading, setleastQueriedLoading] = useState(true)
 
     useEffect(() => {
+        setleastQueriedLoading(true)
         axios
             .get("http://localhost:5000/api/audit/tables/leastqueried")
             .then(res => {
                 setleastQueried(res.data)
+                setleastQueriedLoading(false)
             })
             .catch(err => {
+                setleastQueriedLoading(true)
                 console.log(err)
             })
 
@@ -42,35 +53,62 @@ function TableOverview(){
             <Container fluid>
                 <Row>
                     <SideBar />
-                    <Col style={{marginTop:"10px", marginLeft:"100px"}} xs lg={9}>  
-                        <Breadcrumb>
-                            <Breadcrumb.Item href="/">Tables</Breadcrumb.Item>
-                            <Breadcrumb.Item active>Tables Overview</Breadcrumb.Item>
-                        </Breadcrumb>
+                    <Col>  
+                        <Breadcrumbs b="Tables Overview"/>
                         <Row>
-                            <Col style={{backgroundColor:"rgb(240, 240, 245, 0.75)", borderRadius:"5px", marginRight:"10px"}} fluid>
-                                <h4 style={{color:"black", fontWeight:"bold", marginBottom:"20px", marginTop:"10px"}}>Most-queried tables</h4>
-                                <ResponsiveContainer width="90%" height={630}>
-                                    <BarChart margin={{left:120,top:20}} layout="vertical" data={mostQueried}>
-                                        <CartesianGrid stroke="#545454" vertical={true} horizontal={false} />
-                                        <XAxis tick={{ fontWeight:"bold" }} stroke="black" type="number" dataKey="exec"/>
-                                        <YAxis tick={{ fontSize:"10.5px",fontWeight:"bold" }} stroke="black" type="category" dataKey="tables" />
-                                        <Tooltip />
-                                        <Bar dataKey="exec" fill="#009933" />
-                                    </BarChart>  
-                                </ResponsiveContainer>
+                            <Col>
+                                <Card style={CardColor}>
+                                    {!mostQueriedLoading?
+                                        <Card.Header style={{ ...CardHeaderColor, fontWeight: 'bold'}}>
+                                            Most-queried tables
+                                        </Card.Header>
+                                        :
+                                        <></>
+                                    }
+                                    <Card.Body>
+                                        {mostQueriedLoading ?
+                                            <Loading />
+                                            :
+                                            <ResponsiveContainer width="100%" height={630}>
+                                                <BarChart margin={{left:80,top:15}} layout="vertical" data={mostQueried}>
+                                                    <CartesianGrid strokeDasharray="3 3" vertical={true} horizontal={false} />
+                                                    <XAxis tick={{ fontWeight:"bold" }} stroke="black" type="number" dataKey="exec"/>
+                                                    <YAxis tick={{ fontSize:"10.5px",fontWeight:"bold" }} stroke="black" type="category" dataKey="tables" />
+                                                    <Tooltip />
+                                                    <Bar dataKey="exec" fill={colors[1]} />
+                                                </BarChart>  
+                                            </ResponsiveContainer>
+                                        }
+                                    </Card.Body>
+                                </Card>
                             </Col>
-                            <Col style={{backgroundColor:"rgb(240, 240, 245, 0.75)", borderRadius:"5px", marginRight:"10px"}} fluid>
-                                <h4 style={{color:"black", fontWeight:"bold", marginBottom:"20px", marginTop:"10px"}}>Least-queried tables</h4>
-                                <ResponsiveContainer width="90%" height={630}>
-                                    <BarChart margin={{left:120,top:20}} layout="vertical" data={leastQueried}>
-                                        <CartesianGrid stroke="#545454" vertical={true} horizontal={false} />
-                                        <XAxis tick={{ fontWeight:"bold" }} stroke="black" type="number" dataKey="exec"/>
-                                        <YAxis tick={{ fontSize:"10.5px",fontWeight:"bold" }} stroke="black" type="category" dataKey="tables" />
-                                        <Tooltip />
-                                        <Bar dataKey="exec" fill="#730099" />
-                                    </BarChart>  
-                                </ResponsiveContainer>
+                            <Col>
+                                <Card style={CardColor}>
+                                    {!leastQueriedLoading ?
+                                        <Card.Header style={{...CardHeaderColor, fontWeight: "bold"}}>
+                                            Least-queried tables
+                                        </Card.Header>
+                                        :
+                                        <></>
+                                    }
+                                    <Card.Body>
+                                        {leastQueriedLoading ?
+                                            <Loading/>
+                                            :
+                                            <ResponsiveContainer width="100%" height={630}>
+                                                <BarChart margin={{left:80,top:15}} layout="vertical" data={leastQueried}>
+                                                    <CartesianGrid strokeDasharray="3 3" vertical={true} horizontal={false} />
+                                                    <XAxis tick={{ fontWeight:"bold" }} stroke="black" type="number" dataKey="exec"/>
+                                                    <YAxis tick={{ fontSize:"10.5px",fontWeight:"bold" }} stroke="black" type="category" dataKey="tables" />
+                                                    <Tooltip />
+                                                    <Bar dataKey="exec" fill={colors[2]}/>
+                                                </BarChart>  
+                                            </ResponsiveContainer>
+                                        }
+                                    </Card.Body>
+                                </Card>
+                                <h4 style={{color:"black", fontWeight:"bold", marginBottom:"20px", marginTop:"10px"}}></h4>
+                                
                             </Col>
                         </Row>                    
                     </Col>

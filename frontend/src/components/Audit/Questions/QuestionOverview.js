@@ -1,34 +1,44 @@
 import React,{useState, useEffect} from 'react'
 import axios from 'axios'
-import { Container, Row, Col, Table, Breadcrumb } from 'react-bootstrap'
+import { Container, Row, Col, Card } from 'react-bootstrap'
 import SideBar from '../SideBar/SideBar';
 import { ResponsiveContainer ,Bar, BarChart, CartesianGrid, XAxis, YAxis, Tooltip } from 'recharts';
-
+import Breadcrumbs from '../Breadcrumbs/Breadcrumbs';
+import Loading from '../../Loader/Loading'
+import { CardHeaderColor, CardColor, colors } from '../../customStyle/DatabaseColor'
 function QuestionOverview(){
 
-    const [popularqueries,setPopularqueries] = useState([])
+    const [popularqueries, setPopularqueries] = useState([])
+    const [loading, setLoading] = useState(true)
 
     useEffect(() => {
+        setLoading(true)
         axios
             .get("http://localhost:5000/api/audit/questions/popularqueries")
             .then(res => {
                 setPopularqueries(res.data)
+                setLoading(false)
             })
             .catch(err => {
+                setLoading(true)
                 console.log(err)
             })
 
     }, [])
 
-    const [slowestqueries,setSlowestqueries] = useState([])
+    const [slowestqueries, setSlowestqueries] = useState([])
+    const [slowLoading, setSlowLoading] = useState(true)
 
     useEffect(() => {
+        setSlowLoading(true)
         axios
             .get("http://localhost:5000/api/audit/questions/slowestqueries")
             .then(res => {
                 setSlowestqueries(res.data)
+                setSlowLoading(false)
             })
             .catch(err => {
+                setSlowLoading(true)
                 console.log(err)
             })
 
@@ -42,36 +52,60 @@ function QuestionOverview(){
             <Container fluid>
                 <Row>
                     <SideBar />
-                    <Col style={{marginTop:"10px", marginLeft:"100px"}} xs lg={9}>  
-                        <Breadcrumb>
-                            <Breadcrumb.Item href="/">Audit</Breadcrumb.Item>
-                            <Breadcrumb.Item active>Questions Overview</Breadcrumb.Item>
-                        </Breadcrumb>
+                    <Col>  
+                        <Breadcrumbs b="Questions Overview"/>
                         <Row>
-                            <Col style={{backgroundColor:"rgb(240, 240, 245, 0.75)", borderRadius:"5px", marginRight:"10px"}} fluid>
-                                <h4 style={{color:"black", fontWeight:"bold", marginBottom:"10px", marginTop:"10px"}}>Most Popular Queries</h4>
-                                <ResponsiveContainer width="90%" height={670}>
-                                    <BarChart margin={{left:80,top:15}} layout="vertical" data={popularqueries}>
-                                        <CartesianGrid stroke="#545454" vertical={true} horizontal={false} />
-                                        <XAxis tick={{ fontWeight:"bold" }} stroke="black" type="number" dataKey="executions"/>
-                                        <YAxis tick={{ fontSize:"9px",fontWeight:"bold" }} stroke="black" type="category" dataKey="card" />
-                                        <Tooltip />
-                                        <Bar dataKey="executions" fill="#009933" />
-                                    </BarChart>  
-                                </ResponsiveContainer>
+                            <Col>
+                                <Card style={CardColor}>
+                                    {!loading?
+                                        <Card.Header style={{...CardHeaderColor, fontWeight: 'bold'}}>
+                                            Most Popular Queries
+                                        </Card.Header>
+                                        :
+                                        <></>
+                                    }
+                                    <Card.Body>
+                                        {loading ?
+                                            <Loading />
+                                            :
+                                            <ResponsiveContainer width="100%" height={670}>
+                                                <BarChart margin={{left:10, top:15}} layout="vertical" data={popularqueries}>
+                                                    <CartesianGrid strokeDasharray="3 3" vertical={true} horizontal={false} />
+                                                    <XAxis tick={{ fontWeight:"bold" }} stroke="black" type="number" dataKey="executions"/>
+                                                    <YAxis tick={{ fontSize:"10.5px",fontWeight:"bold" }} stroke="black" type="category" dataKey="card" />
+                                                    <Tooltip />
+                                                    <Bar dataKey="executions" fill={colors[1]} />
+                                                </BarChart>  
+                                            </ResponsiveContainer>
+                                        }
+                                    </Card.Body>
+                                </Card>
                             </Col>
-
-                            <Col style={{backgroundColor:"rgb(240, 240, 245, 0.75)", borderRadius:"5px", marginRight:"10px"}} fluid>
-                                <h4 style={{color:"black", fontWeight:"bold", marginBottom:"10px", marginTop:"10px"}}>Slowest Queries</h4>
-                                <ResponsiveContainer width="90%" height={670}>
-                                    <BarChart margin={{left:80,top:15}} layout="vertical"  data={slowestqueries}>
-                                        <CartesianGrid stroke="#545454" vertical={true} horizontal={false} />
-                                        <XAxis tick={{ fontWeight:"bold" }} stroke="black" type="number" dataKey="avgrunningtime"/>
-                                        <YAxis tick={{ fontSize:"8px",fontWeight:"bold" }} stroke="black" type="category" dataKey="card" />
-                                        <Tooltip />
-                                        <Bar dataKey="avgrunningtime" fill="#730099" />
-                                    </BarChart>  
-                                </ResponsiveContainer>
+                            <Col>
+                                <Card style={CardColor}>
+                                    {!slowLoading ?
+                                        <Card.Header style={{...CardHeaderColor, fontWeight: 'bold'}}>
+                                            Slowest Queries
+                                        </Card.Header>
+                                        :
+                                        <></>
+                                    }
+                                    <Card.Body>
+                                        {slowLoading ?
+                                            <Loading />
+                                            :
+                                            <ResponsiveContainer width="100%" height={670}>
+                                                <BarChart margin={{left:10, top:15}} layout="vertical" data={slowestqueries}>
+                                                    <CartesianGrid strokeDasharray="3 3" vertical={true} horizontal={false} />
+                                                    <XAxis tick={{ fontWeight:"bold" }} stroke="black" type="number" dataKey="avgrunningtime"/>
+                                                    <YAxis tick={{ fontSize:"10.5px",fontWeight:"bold" }} stroke="black" type="category" dataKey="card" />
+                                                    <Tooltip />
+                                                    <Bar dataKey="avgrunningtime" fill={colors[2]} />
+                                                </BarChart>  
+                                            </ResponsiveContainer>
+                                        }
+                                    </Card.Body>
+                                </Card>
                             </Col>
                         </Row>
                     </Col>

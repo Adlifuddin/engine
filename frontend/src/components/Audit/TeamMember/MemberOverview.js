@@ -1,35 +1,47 @@
 import React,{useState, useEffect} from 'react'
 import axios from 'axios'
-import { Container, Row, Col, Table, Breadcrumb } from 'react-bootstrap'
+import { Container, Row, Col, Card } from 'react-bootstrap'
 import SideBar from '../SideBar/SideBar';
-import { ResponsiveContainer, Line, LineChart ,Bar, BarChart, CartesianGrid, XAxis, YAxis, Tooltip } from 'recharts';
+import { ResponsiveContainer, Line, LineChart ,Bar, BarChart, CartesianGrid, XAxis, YAxis, Tooltip, Legend } from 'recharts';
+import Breadcrumbs from '../Breadcrumbs/Breadcrumbs';
+import moment from 'moment'
+import Loading from '../../Loader/Loading'
+import { CardHeaderColor, CardColor, colors } from '../../customStyle/DatabaseColor'
 
 function MemberOverview(){
 
-    const [overview,setOverview] = useState([])
+    const [overview, setOverview] = useState([])
+    const [overviewLoading,setOverviewLoading] = useState(true)
 
     useEffect(() => {
+        setOverviewLoading(true)
         axios
             .get("http://localhost:5000/api/audit/members/overview")
             .then(res => {
                 setOverview(res.data)
+                setOverviewLoading(false)
             })
             .catch(err => {
+                setOverviewLoading(true)
                 console.log(err)
             })
 
     }, [])
 
 
-    const [mostCreated,setmostCreated] = useState([])
+    const [mostCreated, setmostCreated] = useState([])
+    const [mostCreatedLoading,setMostCreatedLoading] = useState(true)
 
     useEffect(() => {
+        setMostCreatedLoading(true)
         axios
             .get("http://localhost:5000/api/audit/members/mostCreated")
             .then(res => {
                 setmostCreated(res.data)
+                setMostCreatedLoading(false)
             })
             .catch(err => {
+                setMostCreatedLoading(true)
                 console.log(err)
             })
 
@@ -37,7 +49,7 @@ function MemberOverview(){
 
 
     const formatXAxis = (tickItem) => {
-        tickItem = new Date(tickItem).toLocaleDateString()
+        tickItem = moment(tickItem).format("DD MMM YY");
         return tickItem
     }
 
@@ -47,16 +59,21 @@ function MemberOverview(){
     }
 
 
-    const [activennew,setactivenew] = useState([])
+    const [activennew, setactivenew] = useState([])
+    const [activenNewLoading,setActivenNewLoading] = useState(true)
+
 
     useEffect(() => {
+        setActivenNewLoading(true)
         axios
             .get("http://localhost:5000/api/audit/members/activennew")
             .then(res => {
                 setactivenew(res.data)
+                setActivenNewLoading(false)
             })
             .catch(err => {
                 console.log(err)
+                setActivenNewLoading(true)
             })
 
     }, [])
@@ -66,50 +83,84 @@ function MemberOverview(){
             <Container fluid>
                 <Row>
                     <SideBar />
-                    <Col style={{marginTop:"10px", marginLeft:"100px"}} xs lg={9}>  
-                        <Breadcrumb>
-                            <Breadcrumb.Item href="/">Audit</Breadcrumb.Item>
-                            <Breadcrumb.Item active>Team Members Overview</Breadcrumb.Item>
-                        </Breadcrumb>
+                    <Col>  
+                        <Breadcrumbs b="Team Members Overview" />
                         <Row>
-                            <Col style={{backgroundColor:"rgb(240, 240, 245, 0.75)", borderRadius:"5px"}}>
-                                <h4 style={{color:"black", fontWeight:"bold", marginBottom:"20px", marginTop:"10px"}}>Active and New User</h4>
-                                <ResponsiveContainer width="95%" height={250}>
-                                    <LineChart margin={{left:100,right:20, bottom:40}} data={activennew}>
-                                        <CartesianGrid stroke="#545454" vertical={false}  />
-                                        <XAxis tick={{ fontSize:"12px",fontWeight:"bold" }} stroke="black" type="category" dataKey="date" label={{ value: "Day",fill:"black", dy: 25}} tickFormatter={formatXAxis}/>
-                                        <YAxis tick={{ fontSize:"12px",fontWeight:"bold" }} stroke="black" type="number" dataKey="active" label={{ value: "active and new users",fill:"black", angle:270, dx:-25}} />
-                                        <Tooltip />                                  
-                                        <Line type="linear" dataKey="active" strokeWidth={2} stroke="#0000b3" dot={false} />
-                                    </LineChart>   
-                                </ResponsiveContainer>
+                            <Col>
+                                <Card style={CardColor}>
+                                    {!overviewLoading ?
+                                        <Card.Header style={{ ...CardHeaderColor, fontWeight: 'bold' }}>Active and New User</Card.Header>
+                                        :
+                                        <></>
+                                    }
+                                    
+                                    <Card.Body>
+                                {overviewLoading ?
+                                    <Loading />
+                                    :
+                                    <ResponsiveContainer width="100%" height={250}>
+                                        <LineChart margin={{bottom: 30}} data={activennew}>
+                                            <CartesianGrid strokeDasharray="3 3" vertical={false}  />
+                                            <XAxis tick={{ fontSize:"12px",fontWeight:"bold" }} stroke="black" type="category" dataKey="date" label={{ value: "Day",fill:"black", dy: 25}} tickFormatter={formatXAxis}/>
+                                            <YAxis tick={{ fontSize:"12px",fontWeight:"bold" }} stroke="black" type="number" dataKey="active" label={{ value: "Active and New Users",fill:"black", angle:270, dx:-25}} />
+                                            <Tooltip labelFormatter={formatXAxis}/>
+                                            <Line type="linear" dataKey="active" strokeWidth={2} stroke={colors[0]} dot={false} />
+                                        </LineChart>
+                                    </ResponsiveContainer>
+                                }
+                                </Card.Body>
+                                </Card>
                             </Col>
                         </Row>
                         <Row style={{marginTop:"10px"}}>
-                            <Col style={{backgroundColor:"rgb(240, 240, 245, 0.75)", borderRadius:"5px", marginRight:"10px"}}>
-                                <h4 style={{color:"black", fontWeight:"bold", marginBottom:"20px", marginTop:"10px"}}>Most active user</h4>
-                                <ResponsiveContainer width="90%" height={360}>
-                                    <BarChart margin={{left:100, bottom:40}} layout="vertical" width={600} height={360} data={overview}>
-                                        <CartesianGrid stroke="#545454" vertical={true} horizontal={false} />
-                                        <XAxis tick={{ fontSize:"12px", fontWeight:"bold" }} stroke="black" type="number" allowDecimals={false} dataKey="exectime" label={{ value: "Total execution time (minutes)",fill:"black", dy: 25}} />
-                                        <YAxis tick={{ fontSize:"10px", fontWeight:"bold" }} stroke="black" type="category" dataKey="user" />
-                                        <Tooltip />
-                                        <Bar dataKey="exectime" fill="#009933" />
-                                    </BarChart> 
-                                </ResponsiveContainer>
+                            <Col>
+                                <Card style={CardColor}>
+                                    {!mostCreatedLoading?
+                                        <Card.Header style={{ ...CardHeaderColor, fontWeight: 'bold' }}>Most active user</Card.Header>
+                                        :
+                                        <></>
+                                    }
+                                    <Card.Body>
+                                        {mostCreatedLoading ?
+                                            <Loading />
+                                            :
+                                            <ResponsiveContainer width="100%" height={360}>
+                                                <BarChart layout="vertical" width={600} height={360} data={overview}>
+                                                    <CartesianGrid stroke="#545454" vertical={true} horizontal={false} />
+                                                    <XAxis tick={{ fontSize:"12px", fontWeight:"bold" }} stroke="black" type="number" allowDecimals={false} dataKey="exectime" label={{ value: "Total execution time (minutes)",fill:"black", dy: 25}} />
+                                                    <YAxis tick={{ fontSize:"10px", fontWeight:"bold" }} stroke="black" type="category" dataKey="user" />
+                                                    <Tooltip />
+                                                    <Bar dataKey="exectime" fill={colors[9]} />
+                                                </BarChart> 
+                                            </ResponsiveContainer>
+                                        }
+                                    </Card.Body>
+                                </Card>
                             </Col>
 
-                            <Col style={{backgroundColor:"rgb(240, 240, 245, 0.75)", borderRadius:"5px"}}>
-                                <h4 style={{color:"black", fontWeight:"bold", marginBottom:"20px", marginTop:"10px"}}>Members who are creating most things</h4>
-                                <ResponsiveContainer width="90%" height={360}>
-                                    <BarChart margin={{left:100, bottom:40}} layout="vertical" width={600} height={360} data={mostCreated}>
-                                        <CartesianGrid vertical={true} horizontal={false} />
-                                        <XAxis tick={{ fontSize:"12px", fontWeight:"bold" }} stroke="black" type="number" dataKey="total" label={{ value: "Total",fill:"black", dy: 25}} />
-                                        <YAxis tick={{ fontSize:"10px", fontWeight:"bold" }} stroke="black" type="category" dataKey="name" />
-                                        <Tooltip />
-                                        <Bar dataKey="total" fill="#730099" />
-                                    </BarChart> 
-                                </ResponsiveContainer>
+                            <Col>
+                                <Card style={CardColor}>
+                                    {!activenNewLoading?
+                                        <Card.Header style={{ ...CardHeaderColor, fontWeight: 'bold' }}>Members who are creating most things</Card.Header>
+                                        :
+                                        <></>
+                                    }
+                                    <Card.Body>
+                                        {activenNewLoading ?
+                                            <Loading />
+                                            :
+                                            <ResponsiveContainer width="100%" height={360}>
+                                                <BarChart layout="vertical" width={600} height={360} data={mostCreated}>
+                                                    <CartesianGrid vertical={true} horizontal={false} />
+                                                    <XAxis tick={{ fontSize:"12px", fontWeight:"bold" }} stroke="black" type="number" dataKey="total" label={{ value: "Total",fill:"black", dy: 25}} />
+                                                    <YAxis tick={{ fontSize:"10px", fontWeight:"bold" }} stroke="black" type="category" dataKey="name" />
+                                                    <Tooltip />
+                                                    <Bar dataKey="total" fill={colors[7]} />
+                                                </BarChart> 
+                                            </ResponsiveContainer>
+                                        }
+                                    </Card.Body>
+                                </Card>
                             </Col>
                         </Row>
                     </Col>

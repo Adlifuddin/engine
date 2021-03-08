@@ -1,4 +1,4 @@
-from connection import CreateConnectionCoreUser
+from .connection import CreateConnectionCoreUser
 
 def unpack(resource):
     ti = []
@@ -45,3 +45,10 @@ def validateName(name):
         n = ''.join(names)
         h.append(n)
     return name in h
+
+def parseFloat(results, name):
+    li = []
+    for item in results:
+        item[name] = float(item[name])
+        li.append(item)
+    return li

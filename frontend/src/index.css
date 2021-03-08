@@ -19,6 +19,10 @@ body {
   font-size: 0.875em;
 }
 
+.card-header-tabs {
+  margin-bottom: 20px
+}
+
 
 .dropdown-toggle::after {
   display: none;

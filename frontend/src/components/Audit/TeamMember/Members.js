@@ -1,9 +1,10 @@
 import React,{useState, useEffect} from 'react'
 import axios from 'axios'
-import { Container, Row, Col, Table, Breadcrumb } from 'react-bootstrap'
+import { Container, Row, Col, Table } from 'react-bootstrap'
 import SideBar from '../SideBar/SideBar';
 import ApiLoader from '../../Loader/ApiLoader';
-
+import Breadcrumbs from '../Breadcrumbs/Breadcrumbs';
+import { titleHeadingColor, titleRowColor} from '../../customStyle/TableColor'
 
 
 function Members(){
@@ -29,33 +30,32 @@ function Members(){
             <Container fluid>
                 <Row>
                     <SideBar />
-                    <Col style={{marginTop:"10px", marginLeft:"100px"}} xs lg={9}>  
-                        <Breadcrumb>
-                            <Breadcrumb.Item href="/">Audit</Breadcrumb.Item>
-                            <Breadcrumb.Item active>Team Members</Breadcrumb.Item>
-                        </Breadcrumb>
+                    <Col >  
+                        <Breadcrumbs b="Team Members"/>
                         {loading === true ? <ApiLoader apiload={loading} /> :
-                        <Table striped bordered hover variant="light">
+                        <Table hover borderless>
                             <thead>
                                 <tr>
-                                    <th>Name</th>
-                                    <th>Email</th>
-                                    <th>Date Joined</th>
-                                    <th>Group</th>
-                                    <th>Last Login</th>     
+                                    <th style={titleHeadingColor}>Name</th>
+                                    <th style={titleHeadingColor}>Email</th>
+                                    <th style={titleHeadingColor}>Date Joined</th>
+                                    <th style={titleHeadingColor}>Group</th>
+                                    <th style={titleHeadingColor}>Last Login</th>     
                                 </tr>
-                            </thead>
+                                </thead>
+                            <tbody >
                             {members.map(member => (
-                                <tbody key={member.id}>
-                                    <tr>
-                                        <td>{member.first_name} {member.last_name}</td>
-                                        <td>{member.email}</td>
-                                        <td>{member.date_joined}</td>
-                                        <td>{member.user}</td>
-                                        <td>{member.last_login}</td>
+                                
+                                    <tr key={member.id}>
+                                        <td style={{ ...titleRowColor, fontWeight: 'bold' }}>{member.first_name} {member.last_name}</td>
+                                        <td style={titleRowColor}>{member.email}</td>
+                                        <td style={titleRowColor}>{member.date_joined}</td>
+                                        <td style={titleRowColor}>{member.user}</td>
+                                        <td style={titleRowColor}>{member.last_login}</td>
                                     </tr>
-                                </tbody>
+                               
                             ))}
+                            </tbody>
                         </Table>}
                     </Col>
                 </Row>  

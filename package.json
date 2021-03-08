@@ -13,7 +13,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start-watch": "npm start --prefix ./frontend",
-    "wp-server": "python -i -m backend.app",
+    "wp-server": "cd backend && flask run",
     "dev": "concurrently --kill-others \"npm run start-watch\" \"npm run wp-server\""
   },
   "repository": {

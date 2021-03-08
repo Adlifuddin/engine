@@ -3,7 +3,8 @@ import axios from 'axios'
 import { Container, Row, Col, Table, Breadcrumb } from 'react-bootstrap'
 import SideBar from '../SideBar/SideBar'
 import ApiLoader from '../../Loader/ApiLoader'
-
+import Breadcrumbs from '../Breadcrumbs/Breadcrumbs'
+import { titleHeadingColor, titleRowColor} from '../../customStyle/TableColor'
 
 function Tables(){
     const [loading,setLoading] = useState(false)
@@ -30,31 +31,28 @@ function Tables(){
             <Container fluid>
                 <Row>
                     <SideBar />
-                    <Col style={{marginTop:"10px", marginLeft:"100px"}} xs lg={9}>  
-                        <Breadcrumb>
-                            <Breadcrumb.Item href="/">Audit</Breadcrumb.Item>
-                            <Breadcrumb.Item active>Tables</Breadcrumb.Item>
-                        </Breadcrumb>
+                    <Col>  
+                        <Breadcrumbs b="Tables"/>
                         {loading === true ? <ApiLoader apiload={loading}/> :
-                        <Table striped bordered hover variant="light">
+                        <Table hover borderless>
                             <thead>
                                 <tr>
-                                    <th>Database</th>
-                                    <th>Schema</th>
-                                    <th>Table in Database</th>
-                                    <th>Table Display Name</th>   
+                                    <th style={titleHeadingColor}>Database</th>
+                                    <th style={titleHeadingColor}>Schema</th>
+                                    <th style={titleHeadingColor}>Table in Database</th>
+                                    <th style={titleHeadingColor}>Table Display Name</th>   
                                 </tr>
                             </thead>
-                            {tables.map(table => (
-                                <tbody key={table.id}>
-                                    <tr>
-                                        <td>{table.db_name}</td>
-                                        <td>{table.schema}</td>
-                                        <td>{table.table_name}</td>
-                                        <td>{table.display_name}</td>
+                            <tbody >
+                                {tables.map(table => (
+                                    <tr key={table.id}>
+                                        <td style={titleRowColor}>{table.db_name}</td>
+                                        <td style={titleRowColor}>{table.schema}</td>
+                                        <td style={titleRowColor}>{table.table_name}</td>
+                                        <td style={titleRowColor}>{table.display_name}</td>
                                     </tr>
-                                </tbody>
-                            ))}
+                                ))}
+                            </tbody>
                         </Table>}
                     </Col>
                 </Row>  

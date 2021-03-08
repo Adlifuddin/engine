@@ -1,10 +1,10 @@
 import React,{useState, useEffect} from 'react'
 import axios from 'axios'
-import { Container, Row, Col, Table, Breadcrumb } from 'react-bootstrap'
+import { Container, Row, Col, Table } from 'react-bootstrap'
 import SideBar from '../SideBar/SideBar'
 import ApiLoader from '../../Loader/ApiLoader'
-
-
+import Breadcrumbs from '../Breadcrumbs/Breadcrumbs'
+import { titleHeadingColor, titleRowColor} from '../../customStyle/TableColor'
 
 function DatabaseAudit(){
     const [loading,setLoading] = useState(false)
@@ -31,31 +31,28 @@ function DatabaseAudit(){
             <Container fluid>
                 <Row>
                     <SideBar />
-                    <Col style={{marginTop:"10px", marginLeft:"100px"}} xs lg={9}>  
-                        <Breadcrumb>
-                            <Breadcrumb.Item href="/">Audit</Breadcrumb.Item>
-                            <Breadcrumb.Item active>Databases</Breadcrumb.Item>
-                        </Breadcrumb>
+                    <Col>  
+                        <Breadcrumbs b="Databases"/>
                         {loading === true ? <ApiLoader apiload={loading}/> :
-                        <Table striped bordered hover variant="light">
+                        <Table hover borderless>
                             <thead>
                                 <tr>
-                                    <th>Title</th>
-                                    <th>Schema</th>
-                                    <th>Table</th>
-                                    <th>Added On</th>   
+                                    <th style={titleHeadingColor}>Title</th>
+                                    <th style={titleHeadingColor}>Schema</th>
+                                    <th style={titleHeadingColor}>Table</th>
+                                    <th style={titleHeadingColor}>Added On</th>   
                                 </tr>
                             </thead>
-                            {databaseAudit.map(databaseAudit => (
-                                <tbody key={databaseAudit.id}>
-                                    <tr>
-                                        <td>{databaseAudit.name}</td>
-                                        <td>{databaseAudit.schema}</td>
-                                        <td>{databaseAudit.table}</td>
-                                        <td>{databaseAudit.created_at}</td>
+                            <tbody>
+                                {databaseAudit.map(databaseAudit => ( 
+                                    <tr key={databaseAudit.id}>
+                                        <td style={titleRowColor}>{databaseAudit.name}</td>
+                                        <td style={titleRowColor}>{databaseAudit.schema}</td>
+                                        <td style={titleRowColor}>{databaseAudit.table}</td>
+                                        <td style={titleRowColor}>{databaseAudit.created_at}</td>
                                     </tr>
-                                </tbody>
-                            ))}
+                                ))}
+                            </tbody>
                         </Table>}
                     </Col>
                 </Row>  

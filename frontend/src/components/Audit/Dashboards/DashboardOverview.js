@@ -1,56 +1,72 @@
 import React,{useState, useEffect} from 'react'
 import axios from 'axios'
-import { Container, Row, Col, Table, Breadcrumb } from 'react-bootstrap'
+import { Container, Row, Col, Table, Card } from 'react-bootstrap'
 import SideBar from '../SideBar/SideBar';
 import { Line, LineChart , ResponsiveContainer, CartesianGrid, XAxis, YAxis, Tooltip } from 'recharts';
-
+import Breadcrumbs from '../Breadcrumbs/Breadcrumbs'
+import moment from 'moment'
+import Loading from '../../Loader/Loading'
+import { CardHeaderColor, CardColor, colors } from '../../customStyle/DatabaseColor'
+import { titleHeadingColor, titleRowColor} from '../../customStyle/TableColor'
 
 function DashboardOverview(){
-    const [mostpopular,setMostpopular] = useState([])
+    const [mostpopular, setMostpopular] = useState([])
+    const [loading, setLoading] = useState(true)
 
     useEffect(() => {
+        setLoading(true)
         axios
             .get("http://localhost:5000/api/audit/dashboards/mostpopular")
             .then(res => {
                 setMostpopular(res.data)
+                setLoading(false)
             })
             .catch(err => {
+                setLoading(true)
                 console.log(err)
             })
 
     }, [])
 
 
-    const [mostcommon,setMostCommon] = useState([])
+    const [mostcommon, setMostCommon] = useState([])
+    const [commonLoading, setCommonLoading] = useState(true)
 
     useEffect(() => {
+        setCommonLoading(true)
         axios
             .get("http://localhost:5000/api/audit/dashboards/commonquestion")
             .then(res => {
                 setMostCommon(res.data)
+                setCommonLoading(false)
             })
             .catch(err => {
                 console.log(err)
+                setCommonLoading(true)
             })
 
     }, [])
 
-    const [viewsnsaved,setViewsnsaved] = useState([])
+    const [viewsnsaved, setViewsnsaved] = useState([])
+    const [viewLoading, setViewLoading] = useState(true)
 
     useEffect(() => {
+        setViewLoading(true)
         axios
             .get("http://localhost:5000/api/audit/dashboards/viewsnsaved")
             .then(res => {
                 setViewsnsaved(res.data)
+                setViewLoading(false)
             })
             .catch(err => {
+                setViewLoading(true)
                 console.log(err)
             })
 
     }, [])
 
     const formatXAxis = (tickItem) => {
-        tickItem = new Date(tickItem).toLocaleDateString()
+        tickItem = moment(tickItem).format("DD MMM YY")
         return tickItem
     }
 
@@ -61,66 +77,105 @@ function DashboardOverview(){
             <Container fluid>
                 <Row>
                     <SideBar />
-                    <Col style={{marginTop:"10px", marginLeft:"100px"}} xs lg={9}>  
-                        <Breadcrumb>
-                            <Breadcrumb.Item href="/">Audit</Breadcrumb.Item>
-                            <Breadcrumb.Item active>Dashboards Overview</Breadcrumb.Item>
-                        </Breadcrumb> 
+                    <Col>  
+                        <Breadcrumbs b="Dashboards Overview"/>
                         <Row>
-                            <Col style={{backgroundColor:"rgb(240, 240, 245, 0.75)", marginBottom:"10px", borderRadius:"5px"}} fluid>
-                                <h4 style={{color:"black", fontWeight:"bold", marginBottom:"10px", marginTop:"10px"}}>Dashboard Views and Saved</h4>
-                                <ResponsiveContainer width="90%" height={250}>
-                                    <LineChart margin={{left:100,right:20, bottom:40}} data={viewsnsaved}>
-                                        <CartesianGrid stroke="#545454" vertical={false}  />
-                                        <XAxis tick={{ fontSize:"12px",fontWeight:"bold" }} stroke="black" type="category" dataKey="date" label={{ value: "Day",fill:"black", dy: 25}} tickFormatter={formatXAxis}/>
-                                        <YAxis tick={{ fontSize:"12px",fontWeight:"bold" }} stroke="black" type="number" dataKey="count" label={{ value: "views & saved dashboard",fill:"black", angle:270, dx:-25}} />
-                                        <Tooltip />                                  
-                                        <Line type="linear" dataKey="count" strokeWidth={2} stroke="#0000b3" dot={false} />
-                                    </LineChart>   
-                                </ResponsiveContainer>
+                            <Col>
+                                <Card style={CardColor}>
+                                    {!viewLoading ?
+                                        <Card.Header style={{...CardHeaderColor, fontWeight: 'bold'}}>
+                                            Dashboard Views and Saved
+                                        </Card.Header>
+                                        :
+                                        <></>
+                                    }
+                                    <Card.Body>
+                                        {viewLoading ?
+                                            <Loading />
+                                            :
+                                            <ResponsiveContainer width="100%" height={250}>
+                                                <LineChart margin={{bottom: 30}} data={viewsnsaved}>
+                                                    <CartesianGrid strokeDasharray="3 3"  vertical={false}  />
+                                                    <XAxis tick={{ fontSize:"12px",fontWeight:"bold" }} stroke="black" type="category" dataKey="date" label={{ value: "Day",fill:"black", dy: 25}} tickFormatter={formatXAxis}/>
+                                                    <YAxis tick={{ fontSize:"12px",fontWeight:"bold" }} stroke="black" type="number" dataKey="count" label={{ value: "Views & Saved Dashboard", fill:"black", angle:270, dx:-25}} />
+                                                    <Tooltip />
+                                                    <Line type="linear" dataKey="count" strokeWidth={2} stroke={colors[3]} dot={false} />
+                                                </LineChart>
+                                            </ResponsiveContainer>
+                                        }
+                                    </Card.Body>
+                                </Card>
                             </Col>
                         </Row>
                         <Row>
-                            <Col style={{backgroundColor:"rgb(240, 240, 245, 0.75)", marginRight:'10px', borderRadius:"5px"}} fluid>
-                                <h4 style={{color:"black", fontWeight:"bold", marginBottom:"20px", marginTop:"10px"}}>Most popular dashboards & average loading times</h4>
-                                <Table striped bordered hover variant="light" size="sm">
-                                    <thead>
-                                        <tr>
-                                            <th>Dashboards</th>
-                                            <th>Views</th>
-                                            <th>Avg.Question Load Time(ms)</th>  
-                                        </tr>
-                                    </thead>
-                                    {mostpopular.map(mostpopular => (
-                                        <tbody key={mostpopular.id}>
-                                            <tr>
-                                                <td>{mostpopular.dashboard}</td>
-                                                <td>{mostpopular.views}</td>
-                                                <td>{mostpopular.avgrunningtime}</td>
-                                            </tr>
-                                        </tbody>
-                                    ))}
-                                </Table> 
+                            <Col>
+                                <Card style={CardColor}>
+                                    {!loading ?
+                                        <Card.Header style={{...CardHeaderColor, fontWeight: 'bold'}}>
+                                            Most popular dashboards & average loading times
+                                        </Card.Header>
+                                        :
+                                        <></>
+                                    }
+                                    <Card.Body>
+                                        {loading?
+                                            <Loading />
+                                            :
+                                            <Table hover borderless>
+                                                <thead>
+                                                    <tr>
+                                                        <th style={titleHeadingColor}>Dashboards</th>
+                                                        <th style={titleHeadingColor}>Views</th>
+                                                        <th style={titleHeadingColor}>Avg.Question Load Time(ms)</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody >
+                                                {mostpopular.map(mostpopular => (
+                                                    <tr key={mostpopular.id}>
+                                                        <td style={titleRowColor}>{mostpopular.dashboard}</td>
+                                                        <td style={titleRowColor}>{mostpopular.views}</td>
+                                                        <td style={titleRowColor}>{mostpopular.avgrunningtime}</td>
+                                                    </tr>
+                                                ))}
+                                                </tbody>
+                                            </Table> 
+                                        }
+                                    </Card.Body>
+                                </Card>
                             </Col>
 
-                            <Col style={{backgroundColor:"rgb(240, 240, 245, 0.75)",borderRadius:"5px"}} fluid>
-                                <h4 style={{color:"black", fontWeight:"bold", marginBottom:"20px", marginTop:"10px"}}>Questions included the most in dashboards</h4>
-                                <Table striped bordered hover variant="light" size="sm">
-                                    <thead>
-                                        <tr>
-                                            <th>Card</th>
-                                            <th>Count</th>
-                                        </tr>
-                                    </thead>
-                                    {mostcommon.map(mostcommon => (
-                                        <tbody key={mostcommon.id}>
-                                            <tr>
-                                                <td>{mostcommon.card}</td>
-                                                <td>{mostcommon.count}</td>
-                                            </tr>
-                                        </tbody>
-                                    ))}
-                                </Table> 
+                            <Col>
+                                <Card style={CardColor}>
+                                    {!commonLoading ?
+                                        <Card.Header style={{...CardHeaderColor, fontWeight: 'bold'}}>
+                                            Questions included the most in dashboards
+                                        </Card.Header>
+                                        :
+                                        <></>
+                                    }
+                                    <Card.Body>
+                                        {commonLoading ?
+                                            <Loading />
+                                            :
+                                            <Table borderless hover>
+                                                <thead>
+                                                    <tr>
+                                                        <th style={titleHeadingColor}>Card</th>
+                                                        <th style={titleHeadingColor}>Count</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody >
+                                                {mostcommon.map(mostcommon => (
+                                                    <tr key={mostcommon.id}>
+                                                        <td style={titleRowColor}>{mostcommon.card}</td>
+                                                        <td style={titleRowColor}>{mostcommon.count}</td>
+                                                    </tr>
+                                                ))}
+                                                </tbody>
+                                            </Table>
+                                        }
+                                    </Card.Body>
+                                </Card>
                             </Col>
                         </Row>
                     </Col>

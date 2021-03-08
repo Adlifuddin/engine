@@ -3,7 +3,8 @@ import axios from 'axios'
 import { Container, Row, Col, Table, Breadcrumb } from 'react-bootstrap'
 import SideBar from '../SideBar/SideBar'
 import ApiLoader from '../../Loader/ApiLoader'
-
+import Breadcrumbs from '../Breadcrumbs/Breadcrumbs'
+import { titleHeadingColor, titleRowColor} from '../../customStyle/TableColor'
 
 function Questions(){
     const [loading,setLoading] = useState(false)
@@ -30,39 +31,36 @@ function Questions(){
             <Container fluid>
                 <Row>
                     <SideBar />
-                    <Col style={{marginTop:"10px", marginLeft:"100px"}} xs lg={9}>  
-                        <Breadcrumb>
-                            <Breadcrumb.Item href="/">Audit</Breadcrumb.Item>
-                            <Breadcrumb.Item active>Questions</Breadcrumb.Item>
-                        </Breadcrumb>
+                    <Col>  
+                        <Breadcrumbs b="Questions"/> 
                         {loading === true ? <ApiLoader apiload={loading}/> :
-                        <Table striped bordered hover variant="light">
+                        <Table hover borderless>
                             <thead>
                                 <tr>
-                                    <th>Name</th>
-                                    <th>Collection</th>
-                                    <th>Database</th>
-                                    <th>Table</th>
-                                    <th>Created By</th>
-                                    <th>Public Link</th>
-                                    <th>Cache TTL</th>
-                                    <th>Views</th>   
+                                    <th style={titleHeadingColor}>Name</th>
+                                    <th style={titleHeadingColor}>Collection</th>
+                                    <th style={titleHeadingColor}>Database</th>
+                                    <th style={titleHeadingColor}>Table</th>
+                                    <th style={titleHeadingColor}>Created By</th>
+                                    <th style={titleHeadingColor}>Public Link</th>
+                                    <th style={titleHeadingColor}>Cache TTL</th>
+                                    <th style={titleHeadingColor}>Views</th>   
                                 </tr>
                             </thead>
+                            <tbody >
                             {question.map(question => (
-                                <tbody key={question.id}>
-                                    <tr>
-                                        <td>{question.name}</td>
-                                        <td>{question.collection}</td>
-                                        <td>{question.database}</td>
-                                        <td>{question.table}</td>
-                                        <td>{question.created}</td>
-                                        <td>{question.publicLink}</td>
-                                        <td>{question.cacheTTL}</td>
-                                        <td>{question.views}</td>
-                                    </tr>
-                                </tbody>
+                                <tr key={question.id}>
+                                    <td style={titleRowColor}>{question.name}</td>
+                                    <td style={titleRowColor}>{question.collection}</td>
+                                    <td style={titleRowColor}>{question.database}</td>
+                                    <td style={titleRowColor}>{question.table}</td>
+                                    <td style={titleRowColor}>{question.created}</td>
+                                    <td style={titleRowColor}>{question.publicLink}</td>
+                                    <td style={titleRowColor}>{question.cacheTTL}</td>
+                                    <td style={titleRowColor}>{question.views}</td>
+                                </tr>
                             ))}
+                            </tbody>
                         </Table>}
                     </Col>
                 </Row>  

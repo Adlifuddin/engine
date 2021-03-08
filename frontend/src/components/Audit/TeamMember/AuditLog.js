@@ -1,10 +1,10 @@
 import React,{useState, useEffect} from 'react'
 import axios from 'axios'
-import { Container, Row, Col, Table, Breadcrumb } from 'react-bootstrap'
+import { Container, Row, Col, Table } from 'react-bootstrap'
 import SideBar from '../SideBar/SideBar'
 import ApiLoader from '../../Loader/ApiLoader'
-
-
+import Breadcrumbs from '../Breadcrumbs/Breadcrumbs'
+import { titleHeadingColor, titleRowColor } from '../../customStyle/TableColor'
 
 function AuditLog(){
     const [loading,setLoading] = useState(false)
@@ -31,37 +31,34 @@ function AuditLog(){
             <Container fluid>
                 <Row> 
                     <SideBar />
-                    <Col style={{marginTop:"10px", marginLeft:"100px"}} xs lg={9}>  
-                        <Breadcrumb>
-                            <Breadcrumb.Item href="/">Audit</Breadcrumb.Item>
-                            <Breadcrumb.Item active>Logs</Breadcrumb.Item>
-                        </Breadcrumb>
+                    <Col>  
+                        <Breadcrumbs b="Logs"/>
                         {loading === true ? <ApiLoader apiload={loading} /> :
-                        <Table striped bordered hover variant="light">
+                        <Table hover borderless>
                             <thead>
                                 <tr>
-                                    <th>Query</th>
-                                    <th>Viewed By</th>
-                                    <th>Type</th>
-                                    <th>Source DB</th>
-                                    <th>Table</th>
-                                    <th>Collection</th>    
-                                    <th>Viewed On</th>   
+                                    <th style={titleHeadingColor}>Query</th>
+                                    <th style={titleHeadingColor}>Viewed By</th>
+                                    <th style={titleHeadingColor}>Type</th>
+                                    <th style={titleHeadingColor}>Source DB</th>
+                                    <th style={titleHeadingColor}>Table</th>
+                                    <th style={titleHeadingColor}>Collection</th>    
+                                    <th style={titleHeadingColor}>Viewed On</th>   
                                 </tr>
                             </thead>
-                            {logs.map((log,index) => (
-                                <tbody key={index}>
-                                    <tr>
-                                        <td>{log.query}</td>
-                                        <td>{log.viewedby}</td>
-                                        {log.type === true ? <td>Native</td> : <td>GUI</td>}
-                                        <td>{log.sourcedb}</td>
-                                        <td>{log.table}</td> 
-                                        <td>{log.collection}</td>
-                                        <td>{log.viewedon}</td>
+                            <tbody >
+                                {logs.map((log,index) => (
+                                    <tr key={index}>
+                                        <td style={titleRowColor}>{log.query}</td>
+                                        <td style={titleRowColor}>{log.viewedby}</td>
+                                        {log.type === true ? <td style={titleRowColor}>Native</td> : <td style={titleRowColor}>GUI</td>}
+                                        <td style={titleRowColor}>{log.sourcedb}</td>
+                                        <td style={titleRowColor}>{log.table}</td> 
+                                        <td style={titleRowColor}>{log.collection}</td>
+                                        <td style={titleRowColor}>{log.viewedon}</td>
                                     </tr>
-                                </tbody>
-                            ))}
+                                ))}
+                            </tbody>
                         </Table>}
                     </Col>
                 </Row>  

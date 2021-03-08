@@ -6,7 +6,8 @@ import { Link } from 'react-router-dom'
 import './DatabaseList.css'
 import ApiLoader from '../../components/Loader/ApiLoader'
 import Create from './components/DatabaseFunction'
-import {CardHeaderColor, CardColor} from '../../components/customStyle/DatabaseColor'
+import { CardHeaderColor, CardColor } from '../../components/customStyle/DatabaseColor'
+import {titleHeadingColor, titleRowColor} from '../../components/customStyle/TableColor'
 
 function DatabaseList() {
     const [databaseLists, setDatabaseList] = useState([])
@@ -72,22 +73,22 @@ function DatabaseList() {
                     <Table hover borderless >
                         <thead>
                             <tr id="title">
-                                <th style={{ color: 'rgb(76, 87, 115)' }}>Name</th>
-                                <th style={{ color: 'rgb(76, 87, 115)' }}>Engine</th>
+                                <th style={titleHeadingColor}>Name</th>
+                                <th style={titleHeadingColor}>Engine</th>
                                 <th>   </th>
                             </tr>
                         </thead>
                         <tbody>
                             {databaseLists.map(x => (
                                 <tr key={x.id}>
-                                    <td><Link to={{ pathname: `/database/${x.id}`, query: { name: x.name, id: x.id } }} style={{ color: '#78909c', fontWeight: 'bold' }}>{x.name}</Link></td>
-                                    <td style={{ color: '#78909c', textTransform: 'uppercase'}}>{x.engine}</td>
+                                    <td><Link to={{ pathname: `/database/${x.id}`, query: { name: x.name, id: x.id } }} style={{ ...titleRowColor, fontWeight: 'bold' }}>{x.name}</Link></td>
+                                    <td style={{ ...titleRowColor, textTransform: 'uppercase' }}>{x.engine}</td>
                                     <td style={{ width: '632.22px', height: '65px' }}><Button variant="danger" id='danger-button' style={{ float: 'right' }} onClick={toggleDeleting} value={x.id}>Delete</Button></td>
                                 </tr>
                             ))}
                         </tbody>
                     </Table>
-                
+
                     <Modal isOpen={modalDelete} toggle={toggleDelete}>
                     <ModalHeader toggle={toggleDelete}>Delete this database?</ModalHeader>
                         <ModalBody>
