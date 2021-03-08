@@ -1,6 +1,6 @@
 import React,{useState, useEffect} from 'react'
 import axios from 'axios'
-import { Table , Button} from 'react-bootstrap'
+import { Table , Button, DropdownButton, Dropdown} from 'react-bootstrap'
 import Select from 'react-select'
 import { FaEllipsisH } from 'react-icons/fa';
 
@@ -61,7 +61,17 @@ function ActivePeople(){
                                         </td>
                                         <td>{peopleactive.last_login}</td>
                                         <td style={{textAlign:"center"}}>
-                                            <FaEllipsisH />
+                                            <Dropdown>
+                                                <Dropdown.Toggle variant="secondary" id="dropdown-basic">
+                                                    <FaEllipsisH />
+                                                </Dropdown.Toggle>
+
+                                                <Dropdown.Menu>
+                                                    <Dropdown.Item href="#/action-1">Edit user</Dropdown.Item>
+                                                    <Dropdown.Item href="#/action-2">Reset password</Dropdown.Item>
+                                                    <Dropdown.Item href="#/action-3">Deactivate user</Dropdown.Item>
+                                                </Dropdown.Menu>
+                                            </Dropdown>
                                         </td>
                                     </tr>
                                     </tbody>
