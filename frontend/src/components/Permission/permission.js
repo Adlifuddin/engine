@@ -1,6 +1,5 @@
 import React from 'react' 
-import PermissionSideBar from './permissionSideBar'
-import { Container, Row } from 'react-bootstrap'
+import { Container, Row, Tabs, Tab } from 'react-bootstrap'
 
 
 function Permission(){
@@ -8,7 +7,16 @@ function Permission(){
         <div>
             <Container fluid>
                 <Row>    
-                    <PermissionSideBar />
+                    <div style={{fontSize:"18px", marginLeft:"65px"}}>
+                        <Tabs defaultActiveKey="data-permission" id="uncontrolled-tab-example">
+                            <Tab eventKey="data-permission" title="Data Permissions">
+                                <h1>Data permissions</h1>
+                            </Tab>
+                            <Tab eventKey="collection-permission" title="Collection Permissions">
+                                <h1>Collection permissions</h1>
+                            </Tab>
+                        </Tabs>
+                    </div>
                 </Row>
             </Container>
         </div>    

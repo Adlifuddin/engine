@@ -137,7 +137,6 @@ function MemberOverview(){
                                     </Card.Body>
                                 </Card>
                             </Col>
-
                             <Col>
                                 <Card style={CardColor}>
                                     {!activenNewLoading?

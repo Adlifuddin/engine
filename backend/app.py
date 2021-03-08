@@ -296,6 +296,36 @@ class downloadsPerSize(Resource):
         return jsonpify(results)
 
 
+class PeopleActive(Resource):
+    def get(self):
+        engine = CreateConnectionCoreUser()
+        query = "select a.id, a.first_name, a.last_name, a.email, STRING_AGG(d.name, ',') as groups, a.last_login as last_login from (core_user a left join permissions_group_membership c on a.id = c.user_id left join permissions_group d on c.group_id = d.id) where a.is_active = 'true' group by a.id, c.user_id order by a.last_login desc"
+        connection = engine.connect()
+        result = connection.execute(query)
+        results = [dict(zip(tuple (result.keys()) ,i)) for i in result.cursor]
+        return jsonify(results)
+
+
+class PeopleDeactive(Resource):
+    def get(self):
+        engine = CreateConnectionCoreUser()
+        query = "select a.id, a.first_name, a.last_name, a.email, STRING_AGG(d.name, ',') as groups, a.updated_at as deactivated from (core_user a left join permissions_group_membership c on a.id = c.user_id left join permissions_group d on c.group_id = d.id) where a.is_active = 'false' group by a.id, c.user_id order by a.last_login desc"
+        connection = engine.connect()
+        result = connection.execute(query)
+        results = [dict(zip(tuple (result.keys()) ,i)) for i in result.cursor]
+        return jsonify(results)
+
+
+class PeopleGroups(Resource):
+    def get(self):
+        engine = CreateConnectionCoreUser()
+        query = "select count(a.id) as count, b.name as groups from permissions_group_membership a left join permissions_group b on a.group_id = b.id group by b.id"
+        connection = engine.connect()
+        result = connection.execute(query)
+        results = [dict(zip(tuple (result.keys()) ,i)) for i in result.cursor]
+        return jsonify(results)
+
+
 
 
 
@@ -327,6 +357,10 @@ api.add_resource(DashboardsCommonQuestion, '/api/audit/dashboards/commonquestion
 api.add_resource(downloadsPerSize, '/api/audit/downloads/downloadpersize')
 api.add_resource(MembersActivenNew, '/api/audit/members/activennew')
 api.add_resource(DashboardsViewsnSaved, '/api/audit/dashboards/viewsnsaved')
+api.add_resource(PeopleActive, '/api/people/activepeople')
+api.add_resource(PeopleDeactive, '/api/people/deactivepeople')
+api.add_resource(PeopleGroups, '/api/people/groups')
+
 
 if __name__ == '__main__':
     api.run()
