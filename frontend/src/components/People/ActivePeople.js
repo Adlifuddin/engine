@@ -35,10 +35,13 @@ function ActivePeople(){
 
     }, [])
 
-      
+    function getGroups(data){
+        return data.split(",")
+    }
+    
     return (
         <div>
-            <Table hover borderless>
+            <Table striped bordered hover>
                 <thead>
                     <tr>
                     <th>Name</th>
@@ -52,10 +55,10 @@ function ActivePeople(){
                                     <tr>
                                         <td>{peopleactive.first_name} {peopleactive.last_name}</td>
                                         <td>{peopleactive.email}</td>
-                                        <td>{peopleactive.groups}</td>
+                                        <td style={{fontSize:"14px",width:"400px"}}>
+                                            <Select isMulti={true} defaultValue={getGroups(peopleactive.groups).map(x => ({value:x,label:x}))} options={options} />
+                                        </td>
                                         <td>{peopleactive.last_login}</td>
-                                        <td style={{ width: '80.22px', height: '35px' }}><Button id='edit-button' style={{ float: 'right' }} onClick={toggleEdit} value={peopleactive.id} >Edit</Button></td>
-
                                     </tr>
                                     </tbody>
                             ))}

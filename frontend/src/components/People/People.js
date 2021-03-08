@@ -15,37 +15,22 @@ function People(){
             <Container fluid>
                 <Row>    
                     <PeopleSideBar />
-                    <Col fluid>
-                        <Card style={CardColor}>
-                            <CardHeader style={CardHeaderColor}>
-                            <Row>
-                                <Col>
-                                     <h3>People</h3>
-                                </Col>
-                                 <Col>
-                                <   Link to=""><Button className="add-database">Add Someone</Button></Link>
-                                 </Col>
-                            </Row>
-                                        </CardHeader>
                     <Col style={{marginTop:"10px", marginLeft:"100px"}} xs lg={9}>  
-                        <div style={{fontSize:"15px"}}>
+                        <div style={{fontSize:"17px"}}>
                             <Tabs defaultActiveKey="active-people" id="uncontrolled-tab-example">
                                 <Tab eventKey="active-people" title="Active">
-                                    <ActivePeople />
+                                    <Button style={{float:"right", fontSize:"18px", marginTop:"15px",marginBottom:"15px"}} variant="secondary">Add someone</Button>
+                                    <ActivePeople /> 
                                 </Tab>
                                 <Tab eventKey="deactive-people" title="Deactivated">
                                     <DeactivatedPeople />
                                 </Tab>
                             </Tabs>
-                        
-                        </div>
-                        
+                        </div>  
                     </Col>
-                    </Card>
-                 </Col>  
                 </Row>
             </Container>
-        </div>     
+        </div>    
     )
 
 }

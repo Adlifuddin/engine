@@ -27,7 +27,7 @@ function DeactivatedPeople(){
 
     return (
         <div>
-            <Table hover borderless>
+            <Table striped bordered hover>
                 <thead>
                     <tr>
                     <th>Name</th>
@@ -43,12 +43,12 @@ function DeactivatedPeople(){
                                         <td>{peopledeactive.email}</td>
                                         <td>{peopledeactive.deactivated}</td>
                                         <td style={{width:"30px"}}>
-                            <OverlayTrigger placement="bottom" overlay={renderTooltip}>
-                                <Button variant="success"><FaRedoAlt /></Button>
-                            </OverlayTrigger>
-                        </td>
+                                            <OverlayTrigger placement="bottom" overlay={renderTooltip}>
+                                                <Button variant="success"><FaRedoAlt /></Button>
+                                            </OverlayTrigger>
+                                        </td>
                                     </tr>
-                                    </tbody>
+                                </tbody>
                             ))}
             </Table>
         </div>
