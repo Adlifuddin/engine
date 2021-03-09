@@ -95,7 +95,7 @@ function DatabaseOverview(){
                                         {queriesnavgexecLoading ?
                                             <Loading />
                                             :
-                                            <ResponsiveContainer width="100%" height={300}>
+                                            <ResponsiveContainer width="99%" height={300}>
                                                 <BarChart margin={{bottom: 30}} layout="horizontal" data={queriesnavgexec}>
                                                     <CartesianGrid strokeDasharray="3 3" vertical={false} horizontal={true} />
                                                     <XAxis tick={{ fontSize:"11.5px",fontWeight:"bold" }} stroke="black" type="category" dataKey="db" label={{ value: "Database",fill:"black", dy: 25}}/>
@@ -128,7 +128,7 @@ function DatabaseOverview(){
                                             :
                                             <Tabs  id="uncontrolled-tab">
                                                 <Tab style={{Textcolor:"white", marginBottom: '100px'}} eventKey="all" title="All">
-                                                    <ResponsiveContainer width="100%" height={280}>
+                                                    <ResponsiveContainer width="99%" height={280}>
                                                         <LineChart data={query}>
                                                             <CartesianGrid strokeDasharray="3 3" vertical={false}  />
                                                             <XAxis tick={{ fontSize:"12px",fontWeight:"bold" }} stroke="black" type="category" dataKey='date' label={{ value: "Day",fill:"black", dy: 25}} tickFormatter={formatXAxis}/>
@@ -140,7 +140,7 @@ function DatabaseOverview(){
                                                 </Tab> 
                                                 {uniqueValues.map((value, index) => (
                                                     <Tab eventKey={value} title={value}>
-                                                        <ResponsiveContainer width="100%" height={280}>
+                                                        <ResponsiveContainer width="99%" height={280}>
                                                             <LineChart key={index} data={filtering(query,value)}>
                                                                 <CartesianGrid strokeDasharray="3 3" vertical={false}  />
                                                                 <XAxis tick={{ fontSize:"12px",fontWeight:"bold" }} stroke="black" type="category" dataKey="date" label={{ value: "Day",fill:"black", dy: 25}} tickFormatter={formatXAxis}/>

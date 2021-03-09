@@ -68,7 +68,7 @@ function TableOverview(){
                                         {mostQueriedLoading ?
                                             <Loading />
                                             :
-                                            <ResponsiveContainer width="100%" height={630}>
+                                            <ResponsiveContainer width="99%" height={630}>
                                                 <BarChart margin={{left:80,top:15}} layout="vertical" data={mostQueried}>
                                                     <CartesianGrid strokeDasharray="3 3" vertical={true} horizontal={false} />
                                                     <XAxis tick={{ fontWeight:"bold" }} stroke="black" type="number" dataKey="exec"/>
@@ -94,7 +94,7 @@ function TableOverview(){
                                         {leastQueriedLoading ?
                                             <Loading/>
                                             :
-                                            <ResponsiveContainer width="100%" height={630}>
+                                            <ResponsiveContainer width="99%" height={630}>
                                                 <BarChart margin={{left:80,top:15}} layout="vertical" data={leastQueried}>
                                                     <CartesianGrid strokeDasharray="3 3" vertical={true} horizontal={false} />
                                                     <XAxis tick={{ fontWeight:"bold" }} stroke="black" type="number" dataKey="exec"/>
