@@ -20,7 +20,7 @@ function AddSomeoneModal(props) {
         })    
     }, [])
 
-    const options = listGroup.map(data => ({value:data.name,label:data.name}))
+    const options = listGroup.map(data => ({value:data.id,label:data.name}))
 
     return (
         <div>
@@ -54,7 +54,7 @@ function AddSomeoneModal(props) {
 
                     <Form.Group controlId="formUserGroups">
                         <Form.Label>Groups</Form.Label>
-                        <Select isMulti={true} options={options} required type="usergroups" />
+                        <Select isMulti={true} defaultValue={{value:listGroup.id=1},{label:listGroup.name='All Users'}} options={options} required type="usergroups" />
                     </Form.Group>
 
                     <Button className="float-right" variant="primary" type="submit">
