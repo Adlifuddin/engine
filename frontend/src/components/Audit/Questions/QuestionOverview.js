@@ -68,7 +68,7 @@ function QuestionOverview(){
                                         {loading ?
                                             <Loading />
                                             :
-                                            <ResponsiveContainer width="100%" height={670}>
+                                            <ResponsiveContainer width="99%" height={670}>
                                                 <BarChart margin={{left:10, top:15}} layout="vertical" data={popularqueries}>
                                                     <CartesianGrid strokeDasharray="3 3" vertical={true} horizontal={false} />
                                                     <XAxis tick={{ fontWeight:"bold" }} stroke="black" type="number" dataKey="executions"/>
@@ -94,7 +94,7 @@ function QuestionOverview(){
                                         {slowLoading ?
                                             <Loading />
                                             :
-                                            <ResponsiveContainer width="100%" height={670}>
+                                            <ResponsiveContainer width="99%" height={670}>
                                                 <BarChart margin={{left:10, top:15}} layout="vertical" data={slowestqueries}>
                                                     <CartesianGrid strokeDasharray="3 3" vertical={true} horizontal={false} />
                                                     <XAxis tick={{ fontWeight:"bold" }} stroke="black" type="number" dataKey="avgrunningtime"/>

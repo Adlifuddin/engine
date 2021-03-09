@@ -1,8 +1,7 @@
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 import { Button, Modal, Form } from 'react-bootstrap'
 
-function DeactivateUserModal(props) {
-
+function ReactivateUserModal(props) { 
     return (
         <div>
             <Modal
@@ -13,17 +12,17 @@ function DeactivateUserModal(props) {
             >
                 <Modal.Header closeButton>
                 <Modal.Title id="contained-modal-title-vcenter">
-                    Deactivate Faizal
+                    Reactivate Faizal?
                 </Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    Faizal won't be able to log in anymore.
+                    They'll be able to log in again, and they'll be placed back into the groups they were in before their account was deactivated.
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button variant="danger" >Deactivate</Button>
+                    <Button variant="danger" >Reactivate</Button>
                 </Modal.Footer>
             </Modal>
         </div>     
     )
 }
-export default DeactivateUserModal
+export default ReactivateUserModal

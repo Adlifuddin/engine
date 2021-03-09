@@ -67,7 +67,7 @@ function SchemaOverview(){
                                         {mostQueriedLoading ?
                                             <Loading />
                                             :
-                                            <ResponsiveContainer width="100%" height={600}>
+                                            <ResponsiveContainer width="99%" height={600}>
                                                 <BarChart layout="vertical" data={mostQueried}>
                                                     <CartesianGrid stroke="#545454" vertical={true} horizontal={false} />
                                                     <XAxis tick={{ fontWeight:"bold" }} stroke="black" type="number" dataKey="exec"/>
@@ -94,7 +94,7 @@ function SchemaOverview(){
                                         {slowestSchemaLoading?
                                             <Loading />
                                             :
-                                            <ResponsiveContainer width="100%" height={600}>
+                                            <ResponsiveContainer width="99%" height={600}>
                                                 <BarChart layout="vertical" data={slowestSchema}>
                                                     <CartesianGrid stroke="#545454" vertical={true} horizontal={false} />
                                                     <XAxis tick={{ fontWeight:"bold" }} stroke="black" type="number" dataKey="avgexec"/>

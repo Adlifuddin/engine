@@ -94,7 +94,7 @@ function MemberOverview(){
                                 {overviewLoading ?
                                     <Loading />
                                     :
-                                    <ResponsiveContainer width="100%" height={250}>
+                                    <ResponsiveContainer width="99%" height={250}>
                                         <LineChart margin={{bottom: 30}} data={activennew}>
                                             <CartesianGrid strokeDasharray="3 3" vertical={false}  />
                                             <XAxis tick={{ fontSize:"12px",fontWeight:"bold" }} stroke="black" type="category" dataKey="date" label={{ value: "Day",fill:"black", dy: 25}} tickFormatter={formatXAxis}/>
@@ -120,7 +120,7 @@ function MemberOverview(){
                                         {mostCreatedLoading ?
                                             <Loading />
                                             :
-                                            <ResponsiveContainer width="100%" height={360}>
+                                            <ResponsiveContainer width="99%" height={360}>
                                                 <BarChart layout="vertical" width={600} height={360} data={overview}>
                                                     <CartesianGrid stroke="#545454" vertical={true} horizontal={false} />
                                                     <XAxis tick={{ fontSize:"12px", fontWeight:"bold" }} stroke="black" type="number" allowDecimals={false} dataKey="exectime" label={{ value: "Total execution time (minutes)",fill:"black", dy: 25}} />
@@ -144,7 +144,7 @@ function MemberOverview(){
                                         {activenNewLoading ?
                                             <Loading />
                                             :
-                                            <ResponsiveContainer width="100%" height={360}>
+                                            <ResponsiveContainer width="99%" height={360}>
                                                 <BarChart layout="vertical" width={600} height={360} data={mostCreated}>
                                                     <CartesianGrid vertical={true} horizontal={false} />
                                                     <XAxis tick={{ fontSize:"12px", fontWeight:"bold" }} stroke="black" type="number" dataKey="total" label={{ value: "Total",fill:"black", dy: 25}} />
