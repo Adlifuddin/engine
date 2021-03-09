@@ -7,20 +7,26 @@ import { FaEllipsisH } from 'react-icons/fa';
 function ActivePeople(){
 
     const [id, setID] = useState("");
+    const[listGroup, setListGroup] = useState([])
 
-    const options = [
-        { value: 'All Users', label: 'All Users' },
-        { value: 'Administrators', label: 'Administrators' },
-        { value: 'Creator', label: 'Creator' },
-        { value: 'Viewer', label: 'Viewer' }
-      ]
-
+    useEffect(() => {
+        axios
+        .get("http://localhost:5000/api/people/listgroups")
+        .then(res => {
+            console.log(res.data)
+            setListGroup(res.data)
+        })
+        .catch(err => {
+            console.log(err)
+        })    
+    }, [])
 
       const toggleEdit = (e) => {
         const id = e.target.value
         setID(id)
         toggleEdit()
     }
+
     const [activepeople,setactivepeople] = useState([])
 
     useEffect(() => {
@@ -38,6 +44,8 @@ function ActivePeople(){
     function getGroups(data){
         return data.split(",")
     }
+
+    const options = listGroup.map(data => ({value:data.name,label:data.name}))
     
     return (
         <div>
@@ -57,7 +65,7 @@ function ActivePeople(){
                                         <td>{peopleactive.first_name} {peopleactive.last_name}</td>
                                         <td>{peopleactive.email}</td>
                                         <td style={{fontSize:"14px",width:"400px"}}>
-                                            <Select isMulti={true} defaultValue={getGroups(peopleactive.groups).map(x => ({value:x,label:x}))} options={options} />
+                                            <Select isMulti={true} defaultValue={getGroups(peopleactive.groups).map(data => ({value:data,label:data}))} options={options} />
                                         </td>
                                         <td>{peopleactive.last_login}</td>
                                         <td style={{textAlign:"center"}}>

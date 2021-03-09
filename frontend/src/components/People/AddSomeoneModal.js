@@ -32,7 +32,7 @@ function AddSomeoneModal(props) {
                         <Form.Control required type="email" placeholder="youlooknicetoday@email.com" />
                     </Form.Group>
 
-                    <Button className="pull-right" variant="primary" type="submit">
+                    <Button className="float-right" variant="primary" type="submit">
                         Create
                     </Button>
                     
