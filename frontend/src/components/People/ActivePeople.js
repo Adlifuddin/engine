@@ -4,12 +4,14 @@ import { Table , Button, DropdownButton, Dropdown} from 'react-bootstrap'
 import Select from 'react-select'
 import { FaEllipsisH } from 'react-icons/fa';
 import EditUserModal from './EditUserModal';
+import ResetPasswordModal from './ResetPasswordModal';
 
 function ActivePeople(){
 
     const [id, setID] = useState("");
     const[listGroup, setListGroup] = useState([])
-    const [EditUserModalShow, setEditUserModalShow] = useState(false);
+    const [EditUserModalShow, setEditUserModalShow] = useState(false)
+    const [ResetPasswordModalShow, setResetPasswordModalShow] = useState(false)
 
     useEffect(() => {
         axios
@@ -79,7 +81,8 @@ function ActivePeople(){
                                                 <Dropdown.Menu>
                                                     <Dropdown.Item onClick={() => setEditUserModalShow(true)}>Edit user</Dropdown.Item>
                                                     <EditUserModal show={EditUserModalShow} onHide={() => setEditUserModalShow(false)} />
-                                                    <Dropdown.Item href="#/action-2">Reset password</Dropdown.Item>
+                                                    <Dropdown.Item onClick={() => setResetPasswordModalShow(true)}>Reset password</Dropdown.Item>
+                                                    <ResetPasswordModal show={ResetPasswordModalShow} onHide={() => setResetPasswordModalShow(false)} />
                                                     <Dropdown.Item href="#/action-3">Deactivate user</Dropdown.Item>
                                                 </Dropdown.Menu>
                                             </Dropdown>
