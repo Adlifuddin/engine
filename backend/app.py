@@ -219,6 +219,7 @@ class Dashboards(Resource):
         connection = engine.connect()
         result = connection.execute(query)
         results = [dict(zip(tuple (result.keys()) ,i)) for i in result.cursor]
+        
         return jsonpify(results)
 
 class DashboardsMostPopular(Resource):
@@ -303,7 +304,7 @@ class PeopleActive(Resource):
         connection = engine.connect()
         result = connection.execute(query)
         results = [dict(zip(tuple (result.keys()) ,i)) for i in result.cursor]
-        return jsonify(results)
+        return jsonpify(results)
 
 
 class PeopleDeactive(Resource):
@@ -313,8 +314,7 @@ class PeopleDeactive(Resource):
         connection = engine.connect()
         result = connection.execute(query)
         results = [dict(zip(tuple (result.keys()) ,i)) for i in result.cursor]
-        return jsonify(results)
-
+        return jsonpify(results)
 
 class PeopleGroups(Resource):
     def get(self):
@@ -323,11 +323,7 @@ class PeopleGroups(Resource):
         connection = engine.connect()
         result = connection.execute(query)
         results = [dict(zip(tuple (result.keys()) ,i)) for i in result.cursor]
-        return jsonify(results)
-
-
-
-
+        return jsonpify(results)
 
 api.add_resource(Test, '/api/test')
 api.add_resource(Add, '/api/add')

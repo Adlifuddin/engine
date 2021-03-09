@@ -203,9 +203,14 @@ var routes = [
         component: Groups,
         layout: "/",
         invisible: true,
-    }
-    
-    
+    },
+    {
+        path: "people/groups",
+        name: "people-Allgroups",
+        component: Groups,
+        layout: "/",
+        invisible: true,
+    },
 ]
 
 export default routes

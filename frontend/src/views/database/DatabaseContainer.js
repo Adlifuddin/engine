@@ -11,7 +11,7 @@ import Create from './components/DatabaseFunction'
 
 function DatabaseContainer(props) {
     const { status } = props
-    
+
     const [modal, setModal] = useState(false);
     const [Delete, setDelete] = useState("")
     const toggle = () => setModal(!modal);
