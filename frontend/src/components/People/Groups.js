@@ -7,11 +7,13 @@ import { Container, Row, Col, Tab,Tabs, Table, Button } from 'react-bootstrap'
 import { ResponsiveContainer } from 'recharts';
 import {CardHeaderColor, CardColor} from '../../components/customStyle/DatabaseColor'
 import api from '../../api/index'
+import CreateGroup from './CreateGroup'
 
 
 function Groups(){
 
     const [peopleGroups,setgroupsPeople] = useState([])
+    const [createGroupShow,setCreateGroupShow] = useState(false)
 
     useEffect(() => {
         api.peopleAllGroup()
@@ -22,7 +24,7 @@ function Groups(){
                 console.log(err)
             })
 
-    }, [])
+    }, [peopleGroups])
 
     return (
         <div>
@@ -38,7 +40,7 @@ function Groups(){
                                         <p>You can use groups to control your users' access to your data. Put users in groups and then go to the Permissions section to control each group's access. The Administrators and All Users groups are special default groups that can't be removed.</p>
                                     </Col>
                                     <Col>
-                                    <   Link to=""><Button className="add-database">Create a group</Button></Link>
+                                        <Button onClick={() => setCreateGroupShow(!createGroupShow)} className="add-database">Create a group</Button>
                                     </Col>
                                 </Row>
                             </CardHeader>      
@@ -46,9 +48,11 @@ function Groups(){
                                     <Table hover borderless>
                                         <thead>
                                             <th>Group Name</th>
-                                            <th>Members</th>   
+                                            <th>Members</th>  
+                                             
                                         </thead> 
                                         <tbody>
+                                        { createGroupShow ? <CreateGroup Show={true} /> : null }
                                         {peopleGroups.map(peopleGroups => (
                                             <tr key={peopleGroups.id}>
                                                 <td>{peopleGroups.groups}</td>
