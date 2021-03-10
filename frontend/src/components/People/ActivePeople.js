@@ -6,6 +6,7 @@ import { FaEllipsisH } from 'react-icons/fa'
 import EditUserModal from './Modal/EditUserModal'
 import ResetPasswordModal from './Modal/ResetPasswordModal'
 import DeactivateUserModal from './Modal/DeactivateUserModal'
+import api from '../../api/index'
 
 function ActivePeople(){
 
@@ -16,8 +17,7 @@ function ActivePeople(){
     const [DeactivateUserModalShow, setDeactivateUserModalShow] = useState(false)
 
     useEffect(() => {
-        axios
-        .get("http://localhost:5000/api/people/listgroups")
+        api.peopleGroupList()
         .then(res => {
             console.log(res.data)
             setListGroup(res.data)
@@ -36,8 +36,7 @@ function ActivePeople(){
     const [activepeople,setactivepeople] = useState([])
 
     useEffect(() => {
-        axios
-            .get("http://localhost:5000/api/people/activepeople")
+        api.peopleActive()
             .then(res => {
                 setactivepeople(res.data)
             })

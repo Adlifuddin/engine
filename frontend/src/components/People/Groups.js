@@ -6,7 +6,7 @@ import { Link} from 'react-router-dom';
 import { Container, Row, Col, Tab,Tabs, Table, Button } from 'react-bootstrap'
 import { ResponsiveContainer } from 'recharts';
 import {CardHeaderColor, CardColor} from '../../components/customStyle/DatabaseColor'
-
+import api from '../../api/index'
 
 
 function Groups(){
@@ -14,8 +14,7 @@ function Groups(){
     const [peopleGroups,setgroupsPeople] = useState([])
 
     useEffect(() => {
-        axios
-            .get("http://localhost:5000/api/people/groups")
+        api.peopleAllGroup()
             .then(res => {
                 setgroupsPeople(res.data)
             })

@@ -3,6 +3,7 @@ import axios from 'axios'
 import { Table, Tooltip, Button, OverlayTrigger } from 'react-bootstrap'
 import { FaRedoAlt } from 'react-icons/fa'
 import ReactivateUserModal from './Modal/ReactivateUserModal'
+import api from '../../api/index'
 
 function DeactivatedPeople(){
 
@@ -10,8 +11,7 @@ function DeactivatedPeople(){
     const [ReactivateUserModalShow, setReactivateUserModalShow] = useState(false)
 
     useEffect(() => {
-        axios
-            .get("http://localhost:5000/api/people/deactivepeople")
+        api.peopleDeactivate()
             .then(res => {
                 setdeactivepeople(res.data)
             })
