@@ -50,6 +50,52 @@ a:hover {
   text-transform: uppercase;
 }
 
+#nativewrite, #schemasall{
+  background-color: rgba(132, 187, 76, 0.15);
+}
+
+#nativenone, #schemasnone {
+  background-color: rgba(237, 110, 110, 0.15)
+}
+
+#nativenone:hover, #schemasnone:hover {
+  background-color: rgba(237, 110, 110);
+  #nativecross {
+    color: white;
+  }
+  #schemacross {
+    color: white;
+  }
+}
+
+#nativewrite:hover, #schemasall:hover{
+  background-color: rgba(136, 187, 76);
+  #nativetick {
+    color: white;
+  }
+  #schemastick {
+    color: white;
+  }
+}
+
+#nativecross, #schemacross {
+  width: 20px;
+  height: 20px;
+  color: rgba(237, 110, 110);
+}
+
+#nativetick, #schemastick {
+  width: 30px;
+  height: 30px;
+  color: rgba(136, 187, 76)
+}
+
+
+
+
+
+
+
 .datasource {
   font-size: 0.75rem;
   font-weight: bold;

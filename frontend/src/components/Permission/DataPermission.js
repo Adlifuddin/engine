@@ -2,6 +2,9 @@ import React, { useEffect, useState } from 'react'
 import api from '../../api/metabaseApi'
 import { Row, Col, Tab, Table} from 'react-bootstrap'
 import { FcDatabase } from 'react-icons/fc'
+import {TiTick} from 'react-icons/ti'
+import { ImCross } from 'react-icons/im'
+import {AiOutlineConsoleSql} from 'react-icons/ai'
 import ApiLoader from '../Loader/ApiLoader'
 
 function DataPermission() {
@@ -77,7 +80,7 @@ function DataPermission() {
                 <ApiLoader apiload={load} />
                 :
                 permissionGraph !== undefined ?
-                    <Table hover>
+                    <Table>
                         <thead>
                             <tr>
                                 <th style={{borderTop: 'transparent', borderBottom: 'transparent'}}></th>
@@ -90,10 +93,10 @@ function DataPermission() {
                         <thead>
                             <tr>
                                 <th style={{borderTop: 'transparent', borderBottom: 'transparent'}}></th>
-                                <th style={{borderLeft: "1px solid #dee2e6"}}>DATA ACCESS</th>
-                                <th style={{borderLeft: "1px solid #dee2e6"}}>SQL QUERIES</th>
-                                <th style={{borderLeft: "1px solid #dee2e6"}}>DATA ACCESS</th>
-                                <th style={{borderLeft: "1px solid #dee2e6", borderRight: "1px solid #dee2e6"}}>SQL QUERIES</th>
+                                <th style={{borderLeft: "1px solid #dee2e6", textAlign: 'center'}}>DATA ACCESS</th>
+                                <th style={{borderLeft: "1px solid #dee2e6",  textAlign: 'center'}}>SQL QUERIES</th>
+                                <th style={{borderLeft: "1px solid #dee2e6",  textAlign: 'center'}}>DATA ACCESS</th>
+                                <th style={{borderLeft: "1px solid #dee2e6", borderRight: "1px solid #dee2e6", textAlign: 'center'}}>SQL QUERIES</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -104,12 +107,32 @@ function DataPermission() {
                                         <br/>
                                         <a href="#">Your Schemas</a>
                                     </td>
-                                    <td onClick={click} id="native" style={{borderRight: "1px solid #dee2e6", borderBottom: "1px solid #dee2e6"}}>{permissionGraph[x].Analyst.native}</td>
-                                    <td onClick={click} id="schemas" style={{borderRight: "1px solid #dee2e6", borderBottom: "1px solid #dee2e6"}}>{permissionGraph[x].Analyst.schemas}</td>
-                                    <td style={{borderRight: "1px solid #dee2e6", borderBottom: "1px solid #dee2e6"}}>{permissionGraph[x].Architect.native}</td>
-                                    <td style={{borderRight: "1px solid #dee2e6", borderBottom: "1px solid #dee2e6"}}>{permissionGraph[x].Architect.schemas}</td>
+                                    <td 
+                                    onClick={click} 
+                                    id={`native${permissionGraph[x].Analyst.native}`} 
+                                    style={{borderRight: "1px solid #dee2e6", borderBottom: "1px solid #dee2e6", textAlign: 'center'}}>
+                                        {permissionGraph[x].Analyst.native=== 'none'? 
+                                            <ImCross id={`nativecross`}/> 
+                                            : 
+                                            <TiTick id={`nativetick`}/>
+                                        }
+                                    </td>
+                                    <td onClick={click} id={`schemas${permissionGraph[x].Analyst.schemas}`} style={{borderRight: "1px solid #dee2e6", borderBottom: "1px solid #dee2e6", textAlign: 'center'}}>
+                                        {permissionGraph[x].Analyst.schemas=== 'none'? 
+                                            <ImCross id={`schemacross`}/> 
+                                            : 
+                                            <AiOutlineConsoleSql id={`schemastick`}/>
+                                        }
+                                    </td>
+                                    <td id={`native${permissionGraph[x].Architect.native}`}  style={{borderRight: "1px solid #dee2e6", borderBottom: "1px solid #dee2e6", textAlign: 'center'}}>{permissionGraph[x].Architect.native=== 'none'? 
+                                            <ImCross id={`nativecross`}/> 
+                                            : 
+                                            <TiTick id={`nativetick`}/>}</td>
+                                    <td id={`schemas${permissionGraph[x].Architect.schemas}`} style={{borderRight: "1px solid #dee2e6", borderBottom: "1px solid #dee2e6", textAlign: 'center'}}>{permissionGraph[x].Architect.schemas=== 'none'? 
+                                            <ImCross id={`schemacross`}/> 
+                                            : 
+                                            <AiOutlineConsoleSql id={`schemastick`}/>}</td>
                                 </tr>
-                                
                             ))}
                         </tbody>
                     </Table>

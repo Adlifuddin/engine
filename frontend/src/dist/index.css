@@ -1,0 +1,140 @@
+@import 'bootstrap/dist/css/bootstrap.min.css';
+body {
+  margin: 0;
+  font-family: "Lato", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-size: 0.875em;
+  font-style: normal;
+  color: #4c5773;
+  position: relative;
+  min-height: 100vh;
+}
+
+.dropdown-menu {
+  right: 1px;
+  left: auto;
+  margin-top: 10px;
+  font-size: 0.875em;
+}
+
+.card-header-tabs {
+  margin-bottom: 20px;
+}
+
+.dropdown-toggle::after {
+  display: none;
+}
+
+a:hover {
+  text-decoration: none;
+}
+
+.breadcrumb {
+  background-color: transparent;
+}
+
+.database {
+  color: #c1c4cb;
+  font-size: 0.75rem;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.database:hover {
+  color: #4c5773;
+  font-size: 0.75rem;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+#nativewrite, #schemasall {
+  background-color: rgba(132, 187, 76, 0.15);
+}
+
+#nativenone, #schemasnone {
+  background-color: rgba(237, 110, 110, 0.15);
+}
+
+#nativenone:hover, #schemasnone:hover {
+  background-color: #ed6e6e;
+}
+#nativenone:hover #nativecross, #schemasnone:hover #nativecross {
+  color: white;
+}
+#nativenone:hover #schemacross, #schemasnone:hover #schemacross {
+  color: white;
+}
+
+#nativewrite:hover, #schemasall:hover {
+  background-color: #88bb4c;
+}
+#nativewrite:hover #nativetick, #schemasall:hover #nativetick {
+  color: white;
+}
+#nativewrite:hover #schemastick, #schemasall:hover #schemastick {
+  color: white;
+}
+
+#nativecross, #schemacross {
+  width: 20px;
+  height: 20px;
+  color: #ed6e6e;
+}
+
+#nativetick, #schemastick {
+  width: 30px;
+  height: 30px;
+  color: #88bb4c;
+}
+
+.datasource {
+  font-size: 0.75rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  cursor: default;
+}
+
+h3 {
+  font-weight: 700;
+  font-size: 1.2em;
+}
+
+.btn {
+  border: 1px solid #e4e4e4;
+  border-top-color: #e4e4e4;
+  border-right-color: #e4e4e4;
+  border-bottom-color: #e4e4e4;
+  border-left-color: #e4e4e4;
+}
+
+.add-database {
+  color: white;
+  background: #78909c none repeat scroll 0% 0%;
+  border: 1px solid #78909c;
+  float: right;
+  padding: 0.75rem 1rem;
+  box-sizing: border-box;
+  cursor: pointer;
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 0.875em;
+  font-family: "Lato", sans-serif;
+  border-radius: 6px;
+}
+
+.btn {
+  font-size: 0.875em;
+}
+
+.add-database:hover {
+  color: #78909c;
+  border-color: #d6d6d6;
+  background: #f9fbfc none repeat scroll 0% 0%;
+  background-color: #f9fbfc;
+  transition: all 200ms linear 0s;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
+}
