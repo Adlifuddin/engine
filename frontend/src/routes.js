@@ -22,6 +22,10 @@ import DownloadOverview from './components/Audit/Downloads/DownloadOverview'
 import People from './components/People/People'
 import Permission from './components/Permission/permission'
 import Groups from './components/People/Groups'
+import PermissionID from './components/Permission/PermissionID'
+import DataModel from './views/DataModel/DataModel'
+//import FieldUpdate from './views/DataModel/FieldUpdate'
+import UpdateTab from './views/DataModel/UpdateTab'
 
 var routes = [
     {
@@ -29,6 +33,13 @@ var routes = [
         name: "Home",
         component: HomePage,
         layout: "/",
+    },
+    {
+        path: "dataModel/:id/:index",
+        name: "fieldUpdate",
+        component: UpdateTab,
+        layout: "/",
+        invisible: true,
     },
     {
         path: "integration",
@@ -203,9 +214,27 @@ var routes = [
         component: Groups,
         layout: "/",
         invisible: true,
+    },
+    {
+        path: "people/groups",
+        name: "people-Allgroups",
+        component: Groups,
+        layout: "/",
+        invisible: true,
+    },
+    {
+        path: "permission/:id",
+        name: "permission-id",
+        component: PermissionID,
+        layout: "/",
+        invisible: true,
+    },
+    {
+        path: "dataModel",
+        name: "Data Model",
+        component: DataModel,
+        layout: "/",
     }
-    
-    
 ]
 
 export default routes

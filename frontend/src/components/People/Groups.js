@@ -6,16 +6,17 @@ import { Link} from 'react-router-dom';
 import { Container, Row, Col, Tab,Tabs, Table, Button } from 'react-bootstrap'
 import { ResponsiveContainer } from 'recharts';
 import {CardHeaderColor, CardColor} from '../../components/customStyle/DatabaseColor'
-
+import api from '../../api/index'
+import CreateGroup from './CreateGroup'
 
 
 function Groups(){
 
     const [peopleGroups,setgroupsPeople] = useState([])
+    const [createGroupShow,setCreateGroupShow] = useState(false)
 
     useEffect(() => {
-        axios
-            .get("http://localhost:5000/api/people/groups")
+        api.peopleAllGroup()
             .then(res => {
                 setgroupsPeople(res.data)
             })
@@ -23,7 +24,7 @@ function Groups(){
                 console.log(err)
             })
 
-    }, [])
+    }, [peopleGroups])
 
     return (
         <div>
@@ -33,37 +34,36 @@ function Groups(){
                     <Col fluid>
                         <Card style={CardColor}>
                             <CardHeader style={CardHeaderColor}>
-                            <Row>
-                                <Col>
-                                     <h3>Groups</h3>
-                                     <p>You can use groups to control your users' access to your data. Put users in groups and then go to the Permissions section to control each group's access. The Administrators and All Users groups are special default groups that can't be removed.</p>
-                                </Col>
-                                 <Col>
-                                <   Link to=""><Button className="add-database">Create a group</Button></Link>
-                                 </Col>
-                            </Row>
-                                        </CardHeader>
-                                           
-                                     <ResponsiveContainer width="95%" height={280}>
-                                        <Table hover borderless>
+                                <Row>
+                                    <Col>
+                                        <h3>Groups</h3>
+                                        <p>You can use groups to control your users' access to your data. Put users in groups and then go to the Permissions section to control each group's access. The Administrators and All Users groups are special default groups that can't be removed.</p>
+                                    </Col>
+                                    <Col>
+                                        <Button onClick={() => setCreateGroupShow(!createGroupShow)} className="add-database">Create a group</Button>
+                                    </Col>
+                                </Row>
+                            </CardHeader>      
+                                <ResponsiveContainer width="95%" height={280}>
+                                    <Table hover borderless>
                                         <thead>
-                                            <tr>
                                             <th>Group Name</th>
-                                            <th>Members</th>   
-                                            </tr>
+                                            <th>Members</th>  
+                                             
                                         </thead> 
+                                        <tbody>
+                                        { createGroupShow ? <CreateGroup Show={true} /> : null }
                                         {peopleGroups.map(peopleGroups => (
-                                        <tbody key={peopleGroups.id}>
-                                        <tr>
-                                            <td>{peopleGroups.groups}</td>
-                                            <td>{peopleGroups.count}</td>
-                                        </tr>
+                                            <tr key={peopleGroups.id}>
+                                                <td>{peopleGroups.groups}</td>
+                                                <td>{peopleGroups.count}</td>
+                                            </tr>
+                                            ))}
                                         </tbody>
-                                        ))}
-                                        </Table>
-                                        </ResponsiveContainer>
-                                        </Card>
-                                     </Col>              
+                                    </Table>
+                                </ResponsiveContainer>
+                        </Card>
+                    </Col>              
                 </Row>
             </Container>
         </div>     

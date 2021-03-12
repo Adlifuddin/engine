@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports["default"] = exports.session = exports.putPermissionGraph = exports.getPermissionGraph = exports.getPermissionGroup = exports.updateDatabase = exports.validateDatabase = exports.deleteDatabase = exports.discardValue = exports.reScanValue = exports.syncSchema = exports.createDatabase = exports.databaseListID = exports.databaseList = void 0;
+exports["default"] = exports.databaseTables = exports.session = exports.putPermissionGraph = exports.getPermissionGraph = exports.getPermissionGroup = exports.updateDatabase = exports.validateDatabase = exports.deleteDatabase = exports.discardValue = exports.reScanValue = exports.syncSchema = exports.createDatabase = exports.databaseListID = exports.databaseList = void 0;
 
 var _axios = _interopRequireDefault(require("axios"));
 
@@ -99,9 +99,16 @@ exports.putPermissionGraph = putPermissionGraph;
 
 var session = function session(payload) {
   return api.post("session/", payload);
-};
+}; // Permissions
+
 
 exports.session = session;
+
+var databaseTables = function databaseTables() {
+  return api.get("database?include=tables", config);
+};
+
+exports.databaseTables = databaseTables;
 var apis = {
   databaseList: databaseList,
   session: session,
@@ -115,7 +122,8 @@ var apis = {
   updateDatabase: updateDatabase,
   getPermissionGraph: getPermissionGraph,
   getPermissionGroup: getPermissionGroup,
-  putPermissionGraph: putPermissionGraph
+  putPermissionGraph: putPermissionGraph,
+  databaseTables: databaseTables
 };
 var _default = apis;
 exports["default"] = _default;

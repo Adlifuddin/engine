@@ -12,7 +12,7 @@ function Downloads(){
 
     useEffect(() => {
         setLoading(true)
-        api.downloads
+        api.downloads()
             .then(res => {
                 setDatabase(res.data)
                 setLoading(false)

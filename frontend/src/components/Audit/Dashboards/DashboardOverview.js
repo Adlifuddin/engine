@@ -90,7 +90,7 @@ function DashboardOverview(){
                                         {viewLoading ?
                                             <Loading />
                                             :
-                                            <ResponsiveContainer width="100%" height={250}>
+                                            <ResponsiveContainer width="99%" height={250}>
                                                 <LineChart margin={{bottom: 30}} data={viewsnsaved}>
                                                     <CartesianGrid strokeDasharray="3 3"  vertical={false}  />
                                                     <XAxis tick={{ fontSize:"12px",fontWeight:"bold" }} stroke="black" type="category" dataKey="date" label={{ value: "Day",fill:"black", dy: 25}} tickFormatter={formatXAxis}/>

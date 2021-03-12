@@ -55,13 +55,24 @@ function GoogleApi() {
   var scope = ['https://www.googleapis.com/auth/drive.file', "https://www.googleapis.com/auth/spreadsheets"];
   const processData = dataString => {
     const header = dataString[0]
+    const rows = dataString[4]
 
-    const headers = header.map(element => element.replace(/[&\/\\#,+()$~%.'":*?<>{}]/g, ""));
+    var headers = header.map(element => element.replace(/[&\/\\#,+()$~%.'":*?<>{}]/g, ""));
 
-    setHeader(headers)
     if (headers.length === 0) {
-      setVisible(true)
-      return false
+      let i
+      let dataRows = []
+      for (i = 0; i < rows.length; i++) {
+        dataRows.push(`A${i}`)
+      }
+
+      headers = dataRows
+      setHeader(dataRows)
+      // setVisible(true)
+      // return false
+    } else {
+      headers = header.map(element => element.replace(/[&\/\\#,+()$~%.'":*?<>{}]/g, ""))
+      setHeader(headers)
     }
 
     window.setTimeout(() => {

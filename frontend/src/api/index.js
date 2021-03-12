@@ -49,6 +49,14 @@ export const dashboardsCommon = () => api.get("audit/dashboards/commonquestion")
 export const dashboardsSaved = () => api.get("audit/dashboards/viewsnsaved")
 
 
+//People
+//Active
+export const peopleActive = () => api.get("people/activepeople")
+export const peopleGroupList = () => api.get("people/listgroups")
+export const peopleDeactivate = () => api.get("people/deactivepeople")
+export const peopleAllGroup = () => api.get("people/groups")
+
+
 const apis = {
     uploadDrive,
     updateDrive,
@@ -77,6 +85,10 @@ const apis = {
     dashboardsMostPopular,
     dashboardsCommon,
     dashboardsSaved,
+    peopleActive,
+    peopleGroupList,
+    peopleDeactivate,
+    peopleAllGroup
 }
 
 export default apis

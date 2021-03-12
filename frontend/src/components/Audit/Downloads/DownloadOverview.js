@@ -88,7 +88,7 @@ function DownloadOverview(){
                                         {loading ?
                                             <Loading />
                                             :
-                                            <ResponsiveContainer width="100%" height={300}>
+                                            <ResponsiveContainer width="99%" height={300}>
                                                 <ScatterChart margin={{ bottom: 30 }}>
                                                     <CartesianGrid strokeDasharray="3 3"  />
                                                     <XAxis type="category" tick={{ fontSize:"12px",fontWeight:"bold" }} stroke="black" dataKey="date" label={{ value: "Day",fill:"black", dy: 25}} tickFormatter={formatAxis} />
@@ -115,7 +115,7 @@ function DownloadOverview(){
                                     {userLoading ?
                                         <Loading/>
                                         :
-                                        <ResponsiveContainer width="100%" height={280}>
+                                        <ResponsiveContainer width="99%" height={280}>
                                             <BarChart margin={{ bottom: 20}} layout="vertical"  data={downloadperUser}>
                                                 <CartesianGrid strokeDasharray="3 3" vertical={true} horizontal={false} />
                                                 <XAxis tick={{ fontSize:"12px",fontWeight:"bold" }} stroke="black" type="number" dataKey="count" allowDecimals={false} label={{ value: "Download",fill:"black", dy: 25}} />
@@ -140,7 +140,7 @@ function DownloadOverview(){
                                         {sizeLoading ?
                                             <Loading />
                                             :
-                                            <ResponsiveContainer width="100%" height={280}>
+                                            <ResponsiveContainer width="99%" height={280}>
                                                 <BarChart margin={{bottom: 30}} layout="horizontal" width={500} height={280} data={downloadperSize}>
                                                     <CartesianGrid strokeDasharray="3 3" vertical={false} horizontal={true} />
                                                     <XAxis tick={{ fontSize:"12px",fontWeight:"bold" }} stroke="black" type="category" dataKey="rows"  label={{ value: "Rows Downloaded",fill:"black", dy: 25}} />

@@ -1,23 +1,24 @@
 import React from 'react' 
 import { Container, Row, Tabs, Tab } from 'react-bootstrap'
+import CollectionPermission from './CollectionPermission'
+import DataPermission from './DataPermission'
 
 
-function Permission(){
+function Permission() {
+
     return (
         <div>
             <Container fluid>
-                <Row>    
-                    <div style={{fontSize:"18px", marginLeft:"65px"}}>
-                        <Tabs defaultActiveKey="data-permission" id="uncontrolled-tab-example">
-                            <Tab eventKey="data-permission" title="Data Permissions">
-                                <h1>Data permissions</h1>
-                            </Tab>
-                            <Tab eventKey="collection-permission" title="Collection Permissions">
-                                <h1>Collection permissions</h1>
-                            </Tab>
-                        </Tabs>
-                    </div>
-                </Row>
+                <div style={{fontSize:"14px"}}>
+                    <Tabs defaultActiveKey="data-permission" id="uncontrolled-tab-example">
+                        <Tab eventKey="data-permission" title="Data Permissions">
+                            <DataPermission/>
+                        </Tab>
+                        <Tab eventKey="collection-permission" title="Collection Permissions">
+                            <CollectionPermission/>
+                        </Tab>
+                    </Tabs>
+                </div>
             </Container>
         </div>    
     )

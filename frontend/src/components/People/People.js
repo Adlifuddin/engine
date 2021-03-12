@@ -3,7 +3,7 @@ import PeopleSideBar from './peopleSideBar'
 import { Container, Row, Col, Tabs, Tab, Button, Modal, Form } from 'react-bootstrap'
 import ActivePeople from './ActivePeople'
 import DeactivatedPeople from './DeactivatedPeople'
-import AddSomeoneModal from './AddSomeoneModal'
+import AddSomeoneModal from './Modal/AddSomeoneModal'
 
 
 

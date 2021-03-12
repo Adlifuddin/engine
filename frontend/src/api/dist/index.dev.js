@@ -182,6 +182,31 @@ var dashboardsSaved = function dashboardsSaved() {
 };
 
 exports.dashboardsSaved = dashboardsSaved;
+
+var peopleActive = function peopleActive(){
+  return api.get("people/activepeople")
+};
+
+exports.peopleActive = peopleActive;
+
+var peopleGroupList = function peopleGroupList(){
+  return api.get("people/listgroups")
+};
+
+exports.peopleGroupList = peopleGroupList;
+
+var peopleDeactivate = function peopleDeactivate(){
+  return api.get("people/deactivepeople")
+};
+
+exports.peopleDeactivate = peopleDeactivate;
+
+var peopleAllGroup = function peopleAllGroup(){
+  return api.get("people/groups")
+};
+
+exports.peopleAllGroup = peopleAllGroup;
+
 var apis = {
   uploadDrive: uploadDrive,
   updateDrive: updateDrive,
@@ -209,7 +234,11 @@ var apis = {
   dashboards: dashboards,
   dashboardsMostPopular: dashboardsMostPopular,
   dashboardsCommon: dashboardsCommon,
-  dashboardsSaved: dashboardsSaved
+  dashboardsSaved: dashboardsSaved,
+  peopleActive: peopleActive,
+  peopleDeactivate: peopleDeactivate,
+  peopleGroupList: peopleGroupList,
+  peopleAllGroup: peopleAllGroup
 };
 var _default = apis;
 exports["default"] = _default;

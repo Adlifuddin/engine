@@ -34,6 +34,13 @@ export const putPermissionGraph = (payload) => api.put(`permissions/graph`, payl
 // Create Sessions
 export const session = (payload) => api.post("session/", payload)
 
+// Permissions
+export const databaseTables = () => api.get("database?include=tables", config)
+
+//list
+export const getTableIDMeta = (id) => api.get(`table/${id}/query_metadata`, config)
+export const getSchemaID = (id) => api.get(`database/${id}/schemas`, config)
+export const getSchemaTableID = (id, schema) => api.get(`database/${id}/schema/${schema}`, config)
 
 const apis = {
     databaseList,
@@ -49,6 +56,10 @@ const apis = {
     getPermissionGraph,
     getPermissionGroup,
     putPermissionGraph,
+    databaseTables,
+    getTableIDMeta,
+    getSchemaID,
+    getSchemaTableID,
 }
 
 export default apis

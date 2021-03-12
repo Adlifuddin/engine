@@ -1,7 +1,7 @@
 from flask import Flask, request, Response
 from flask_restful import Resource, reqparse, Api
 from flask_cors import CORS 
-from flask_jsonpify import jsonpify
+from flask_jsonpify import jsonify, jsonpify
 from .serializer import *
 from .connection import CreateConnectionCoreUser, CreateConnectionDriveUser
 from .settings import *
@@ -219,7 +219,8 @@ class Dashboards(Resource):
         connection = engine.connect()
         result = connection.execute(query)
         results = [dict(zip(tuple (result.keys()) ,i)) for i in result.cursor]
-        return jsonpify(results)
+        li = parseFloat(results, "exectime")
+        return jsonpify(li)
 
 class DashboardsMostPopular(Resource):
     def get(self):
@@ -303,7 +304,7 @@ class PeopleActive(Resource):
         connection = engine.connect()
         result = connection.execute(query)
         results = [dict(zip(tuple (result.keys()) ,i)) for i in result.cursor]
-        return jsonify(results)
+        return jsonpify(results)
 
 
 class PeopleDeactive(Resource):
@@ -313,8 +314,7 @@ class PeopleDeactive(Resource):
         connection = engine.connect()
         result = connection.execute(query)
         results = [dict(zip(tuple (result.keys()) ,i)) for i in result.cursor]
-        return jsonify(results)
-
+        return jsonpify(results)
 
 class PeopleGroups(Resource):
     def get(self):
@@ -323,11 +323,15 @@ class PeopleGroups(Resource):
         connection = engine.connect()
         result = connection.execute(query)
         results = [dict(zip(tuple (result.keys()) ,i)) for i in result.cursor]
-        return jsonify(results)
-
-
-
-
+        return jsonpify(results)
+class PeopleListGroups(Resource):
+    def get(self):
+        engine = CreateConnectionCoreUser()
+        query = "select * from permissions_group"
+        connection = engine.connect()
+        result = connection.execute(query)
+        results = [dict(zip(tuple (result.keys()) ,i)) for i in result.cursor]
+        return jsonpify(results)
 
 api.add_resource(Test, '/api/test')
 api.add_resource(Add, '/api/add')
@@ -360,6 +364,7 @@ api.add_resource(DashboardsViewsnSaved, '/api/audit/dashboards/viewsnsaved')
 api.add_resource(PeopleActive, '/api/people/activepeople')
 api.add_resource(PeopleDeactive, '/api/people/deactivepeople')
 api.add_resource(PeopleGroups, '/api/people/groups')
+api.add_resource(PeopleListGroups, '/api/people/listgroups')
 
 
 if __name__ == '__main__':

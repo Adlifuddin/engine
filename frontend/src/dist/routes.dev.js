@@ -35,13 +35,44 @@ var _AuditLog = _interopRequireDefault(require("./components/Audit/TeamMember/Au
 
 var _download = _interopRequireDefault(require("./components/Audit/Downloads/download"));
 
+var _TableOverview = _interopRequireDefault(require("./components/Audit/Table/TableOverview"));
+
+var _SchemaOverview = _interopRequireDefault(require("./components/Audit/Schema/SchemaOverview"));
+
+var _DatabaseOverview = _interopRequireDefault(require("./components/Audit/Database/DatabaseOverview"));
+
+var _QuestionOverview = _interopRequireDefault(require("./components/Audit/Questions/QuestionOverview"));
+
+var _DashboardOverview = _interopRequireDefault(require("./components/Audit/Dashboards/DashboardOverview"));
+
+var _DownloadOverview = _interopRequireDefault(require("./components/Audit/Downloads/DownloadOverview"));
+
+var _People = _interopRequireDefault(require("./components/People/People"));
+
+var _permission = _interopRequireDefault(require("./components/Permission/permission"));
+
+var _Groups = _interopRequireDefault(require("./components/People/Groups"));
+
+var _PermissionID = _interopRequireDefault(require("./components/Permission/PermissionID"));
+
+var _DataModel = _interopRequireDefault(require("./views/DataModel/DataModel"));
+
+var _UpdateTab = _interopRequireDefault(require("./views/DataModel/UpdateTab"));
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
+//import FieldUpdate from './views/DataModel/FieldUpdate'
 var routes = [{
   path: "home",
   name: "Home",
   component: _HomePage["default"],
   layout: "/"
+}, {
+  path: "dataModel/:id/:index",
+  name: "fieldUpdate",
+  component: _UpdateTab["default"],
+  layout: "/",
+  invisible: true
 }, {
   path: "integration",
   name: "Integration",
@@ -54,9 +85,21 @@ var routes = [{
   invisible: true,
   layout: "/"
 }, {
+  path: "people",
+  name: "People",
+  component: _People["default"],
+  layout: "/",
+  exact: true
+}, {
   path: "audit",
   name: "Audit",
   component: _Members["default"],
+  layout: "/",
+  exact: true
+}, {
+  path: "permission",
+  name: "Permission",
+  component: _permission["default"],
   layout: "/",
   exact: true
 }, {
@@ -108,15 +151,15 @@ var routes = [{
   layout: "/",
   invisible: true
 }, {
-  path: "audit/tables/all",
-  name: "Audit-AllTable",
-  component: _Table["default"],
-  layout: "/",
-  invisible: true
-}, {
   path: "audit/tables/overview",
   name: "Audit-TableOverview",
   component: _TableOverview["default"],
+  layout: "/",
+  invisible: true
+}, {
+  path: "audit/tables/all",
+  name: "Audit-AllTable",
+  component: _Table["default"],
   layout: "/",
   invisible: true
 }, {
@@ -131,28 +174,28 @@ var routes = [{
   component: _SchemaOverview["default"],
   layout: "/",
   invisible: true
-},{
+}, {
   path: "audit/questions/all",
   name: "Audit-AllQuestion",
   component: _question["default"],
   layout: "/",
   invisible: true
-},{
+}, {
   path: "audit/questions/overview",
   name: "Audit-QuestionOverview",
   component: _QuestionOverview["default"],
   layout: "/",
   invisible: true
-},{
+}, {
   path: "audit/dashboards/all",
   name: "Audit-AllDasboard",
   component: _dashboard["default"],
   layout: "/",
   invisible: true
-},{
+}, {
   path: "audit/dashboards/overview",
-  name: "Audit-DasboardOverview",
-  component: _dashboard["default"],
+  name: "Audit-DashboardOverview",
+  component: _DashboardOverview["default"],
   layout: "/",
   invisible: true
 }, {
@@ -161,6 +204,41 @@ var routes = [{
   component: _download["default"],
   layout: "/",
   invisible: true
+}, {
+  path: "audit/downloads/overview",
+  name: "Audit-DownloadOverview",
+  component: _DownloadOverview["default"],
+  layout: "/",
+  invisible: true
+}, {
+  path: "people/people",
+  name: "people-Allpeople",
+  component: _People["default"],
+  layout: "/",
+  invisible: true
+}, {
+  path: "people/groups",
+  name: "people-Allgroups",
+  component: _Groups["default"],
+  layout: "/",
+  invisible: true
+}, {
+  path: "people/groups",
+  name: "people-Allgroups",
+  component: _Groups["default"],
+  layout: "/",
+  invisible: true
+}, {
+  path: "permission/:id",
+  name: "permission-id",
+  component: _PermissionID["default"],
+  layout: "/",
+  invisible: true
+}, {
+  path: "dataModel",
+  name: "Data Model",
+  component: _DataModel["default"],
+  layout: "/"
 }];
 var _default = routes;
 exports["default"] = _default;

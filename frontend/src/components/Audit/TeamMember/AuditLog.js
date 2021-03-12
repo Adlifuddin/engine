@@ -27,10 +27,11 @@ function AuditLog(){
     
     return(
         <div>
+            
             <Container fluid>
-                <Row> 
+                <Row>
                     <SideBar />
-                    <Col>  
+                    <Col>
                         <Breadcrumbs b="Logs"/>
                         {loading === true ? <ApiLoader apiload={loading} /> :
                         <Table hover borderless>
