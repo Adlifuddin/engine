@@ -350,8 +350,8 @@ class GoogleDriveAPILink(Resource):
         query = f"INSERT INTO api_link(api, table_name) VALUES ('{apiLink}', '{tableName}')"
         connection = engine.connect()
         result = connection.execute(query)
-        results = [dict(zip(tuple (result.keys()) ,i)) for i in result.cursor]
-        return jsonpify(results)
+        data = json.dumps({'success': True, "message": "Successfully Inserted Data to the Database"})
+        return Response(data, status=200, mimetype='application/json')
 
 api.add_resource(Test, '/api/test')
 api.add_resource(Add, '/api/add')
