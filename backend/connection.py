@@ -15,6 +15,12 @@ def CreateConnectionDriveUser():
     engine = create_engine(db_url)
     return engine
 
+def CreateConnectionDriveApi():
+    db_url='postgres://{user}:{password}@{host}:{port}/{database}'.format(user='root', password='qazQAZ123!@#', host='202.165.22.213', port='5432', database='google_drive_api')
+    engine = create_engine(db_url)
+    return engine
+
+
 
 # for column in inspector.get_columns("metabase_table", schema="public"):
 #     columns.append(column['name'])

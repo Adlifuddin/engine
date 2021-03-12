@@ -26,6 +26,7 @@ import PermissionID from './components/Permission/PermissionID'
 import DataModel from './views/DataModel/DataModel'
 //import FieldUpdate from './views/DataModel/FieldUpdate'
 import UpdateTab from './views/DataModel/UpdateTab'
+import Collection from './views/Collection/Collection'
 
 var routes = [
     {
@@ -234,6 +235,12 @@ var routes = [
         name: "Data Model",
         component: DataModel,
         layout: "/",
+    },
+    {
+        path: "collection",
+        name: "Collection",
+        component: Collection,
+        layout:"/",
     }
 ]
 

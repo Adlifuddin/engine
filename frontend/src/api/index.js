@@ -56,6 +56,9 @@ export const peopleGroupList = () => api.get("people/listgroups")
 export const peopleDeactivate = () => api.get("people/deactivepeople")
 export const peopleAllGroup = () => api.get("people/groups")
 
+//Integration
+export const googleAPILink = (payload) => api.post("integration/google-drive/apiLink", payload)
+
 
 const apis = {
     uploadDrive,
@@ -88,7 +91,8 @@ const apis = {
     peopleActive,
     peopleGroupList,
     peopleDeactivate,
-    peopleAllGroup
+    peopleAllGroup,
+    googleAPILink
 }
 
 export default apis

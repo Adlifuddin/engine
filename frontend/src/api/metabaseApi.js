@@ -15,7 +15,7 @@ const config = {
 //List Database
 export const databaseList = () => api.get("database/", config)
 //List Database by Id
-export const databaseListID = (id) => api.get(`database/${id}`, config)
+export const databaseListID = (id) => api.get(`database/${id}?include=tables`, config)
 
 //add Database
 export const createDatabase = (payload) => api.post("database/", payload, config)

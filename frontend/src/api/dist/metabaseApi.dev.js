@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports["default"] = exports.databaseTables = exports.session = exports.putPermissionGraph = exports.getPermissionGraph = exports.getPermissionGroup = exports.updateDatabase = exports.validateDatabase = exports.deleteDatabase = exports.discardValue = exports.reScanValue = exports.syncSchema = exports.createDatabase = exports.databaseListID = exports.databaseList = void 0;
+exports["default"] = exports.getSchemaTableID = exports.getSchemaID = exports.getTableIDMeta = exports.databaseTables = exports.session = exports.putPermissionGraph = exports.getPermissionGraph = exports.getPermissionGroup = exports.updateDatabase = exports.validateDatabase = exports.deleteDatabase = exports.discardValue = exports.reScanValue = exports.syncSchema = exports.createDatabase = exports.databaseListID = exports.databaseList = void 0;
 
 var _axios = _interopRequireDefault(require("axios"));
 
@@ -29,7 +29,7 @@ var databaseList = function databaseList() {
 exports.databaseList = databaseList;
 
 var databaseListID = function databaseListID(id) {
-  return api.get("database/".concat(id), config);
+  return api.get("database/".concat(id, "?include=tables"), config);
 }; //add Database
 
 
@@ -106,9 +106,28 @@ exports.session = session;
 
 var databaseTables = function databaseTables() {
   return api.get("database?include=tables", config);
-};
+}; //list
+
 
 exports.databaseTables = databaseTables;
+
+var getTableIDMeta = function getTableIDMeta(id) {
+  return api.get("table/".concat(id, "/query_metadata"), config);
+};
+
+exports.getTableIDMeta = getTableIDMeta;
+
+var getSchemaID = function getSchemaID(id) {
+  return api.get("database/".concat(id, "/schemas"), config);
+};
+
+exports.getSchemaID = getSchemaID;
+
+var getSchemaTableID = function getSchemaTableID(id, schema) {
+  return api.get("database/".concat(id, "/schema/").concat(schema), config);
+};
+
+exports.getSchemaTableID = getSchemaTableID;
 var apis = {
   databaseList: databaseList,
   session: session,
@@ -123,7 +142,10 @@ var apis = {
   getPermissionGraph: getPermissionGraph,
   getPermissionGroup: getPermissionGroup,
   putPermissionGraph: putPermissionGraph,
-  databaseTables: databaseTables
+  databaseTables: databaseTables,
+  getTableIDMeta: getTableIDMeta,
+  getSchemaID: getSchemaID,
+  getSchemaTableID: getSchemaTableID
 };
 var _default = apis;
 exports["default"] = _default;

@@ -3,7 +3,7 @@ from flask_restful import Resource, reqparse, Api
 from flask_cors import CORS 
 from flask_jsonpify import jsonify, jsonpify
 from .serializer import *
-from .connection import CreateConnectionCoreUser, CreateConnectionDriveUser
+from .connection import CreateConnectionCoreUser, CreateConnectionDriveUser, CreateConnectionDriveApi
 from .settings import *
 import json
 
@@ -15,12 +15,9 @@ parser = reqparse.RequestParser()
 
 class Test(Resource):
     def get(self):
-        conn = CreateConnectionCoreUser().connect() # connect to database
+        conn = CreateConnectionDriveUser().connect() # connect to database
         query = conn.execute("SELECT table_name FROM information_schema.tables WHERE table_schema='public' AND table_type='BASE TABLE';") # This line performs query and returns json result
-        data = [dict(zip(tuple (query.keys()) ,i)) for i in query.cursor]
-        for i in data:
-            print(list(i.values()))
-        result = {'data': [dict(zip(tuple (query.keys()) ,i)) for i in query.cursor]}
+        result = [dict(zip(tuple (query.keys()) ,i)) for i in query.cursor]
         return jsonpify(result)
 class Add(Resource):
     def post(self):
@@ -333,6 +330,29 @@ class PeopleListGroups(Resource):
         results = [dict(zip(tuple (result.keys()) ,i)) for i in result.cursor]
         return jsonpify(results)
 
+class GooleDriveTable(Resource):
+    def post(self):
+        args = request.json
+        name = args['name']
+        engine = CreateConnectionDriveUser()
+        query = f'SELECT * FROM public."{name}"'
+        connection = engine.connect()
+        result = connection.execute(query)
+        results = [dict(zip(tuple (result.keys()) ,i)) for i in result.cursor]
+        return jsonpify(results)
+
+class GoogleDriveAPILink(Resource):
+    def post(self):
+        args = request.json
+        tableName = args['tablename']
+        apiLink = args['uri']
+        engine = CreateConnectionDriveApi()
+        query = f"INSERT INTO api_link(api, table_name) VALUES ('{apiLink}', '{tableName}')"
+        connection = engine.connect()
+        result = connection.execute(query)
+        results = [dict(zip(tuple (result.keys()) ,i)) for i in result.cursor]
+        return jsonpify(results)
+
 api.add_resource(Test, '/api/test')
 api.add_resource(Add, '/api/add')
 api.add_resource(Members, '/api/audit/members')
@@ -365,6 +385,8 @@ api.add_resource(PeopleActive, '/api/people/activepeople')
 api.add_resource(PeopleDeactive, '/api/people/deactivepeople')
 api.add_resource(PeopleGroups, '/api/people/groups')
 api.add_resource(PeopleListGroups, '/api/people/listgroups')
+api.add_resource(GoogleDriveAPILink, '/api/integration/google-drive/apiLink')
+api.add_resource(GooleDriveTable, '/api/google-drive-table')
 
 
 if __name__ == '__main__':
