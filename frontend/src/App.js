@@ -10,6 +10,13 @@ function App() {
                   "username": "jiahao.leong@nexent.co",
                   "password": "Jiahao051",
                  }
+    // metabaseApi.session(data)
+    //   .then(response => {
+    //       localStorage.setItem("sessions", response.data.id)
+    //   })
+    //   .catch(error => {
+    //       console.log(error)
+    //   })
     if (localStorage.getItem("sessions") !== null) {
       metabaseApi.session(data)
         .then(response => {
@@ -18,8 +25,8 @@ function App() {
         .catch(error => {
             console.log(error)
         })
-    }
-  }, [false])
+    }  
+  }, [])
 
   return (
     <Switch>
