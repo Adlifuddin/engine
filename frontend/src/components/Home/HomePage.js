@@ -1,6 +1,5 @@
 import React from 'react';
 import {Container, Row, Col, Button, Badge } from 'react-bootstrap'
-import Footer from '../Footer/Footer';
 import main from '../../assets/images/main.jpg'
 
 
