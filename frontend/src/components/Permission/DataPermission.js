@@ -29,7 +29,6 @@ function DataPermission() {
                 :
                 permissionGraph !== undefined ?
                     <Table borderless>
-                        {console.log(permissionGraph)}
                         <thead>
                             <tr>
                                 <th style={tableHeader}></th>

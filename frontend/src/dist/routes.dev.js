@@ -59,6 +59,8 @@ var _DataModel = _interopRequireDefault(require("./views/DataModel/DataModel"));
 
 var _UpdateTab = _interopRequireDefault(require("./views/DataModel/UpdateTab"));
 
+var _Collection = _interopRequireDefault(require("./views/Collection/Collection"));
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 //import FieldUpdate from './views/DataModel/FieldUpdate'
@@ -238,6 +240,11 @@ var routes = [{
   path: "dataModel",
   name: "Data Model",
   component: _DataModel["default"],
+  layout: "/"
+}, {
+  path: "collection",
+  name: "Collection",
+  component: _Collection["default"],
   layout: "/"
 }];
 var _default = routes;

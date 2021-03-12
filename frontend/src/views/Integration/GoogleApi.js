@@ -26,6 +26,7 @@ function GoogleApi() {
   const [status, setStatus] = useState("")
   const [errorCode, setErrorCode] = useState("")
   const [currentSheetsName, setCurrentSheetsName] = useState("")
+  const [fieldsId, setFieldsId] = useState("")
 
   const toggle = () => {
     setModal(!modal)
@@ -116,7 +117,8 @@ function GoogleApi() {
     setHeader(["work"])
     setVisible(false)
     if (data.action == window.google.picker.Action.PICKED) {
-        var fileId = data.docs[0].id;
+      var fileId = data.docs[0].id;
+      setFieldsId(fileId)
         setIds(fileId)
         setLoading(true)
         setSheets([])
@@ -137,7 +139,6 @@ function GoogleApi() {
               .then(responses => {
                 setSheets(data)
                 setLoading(false)
-                console.log()
                 const datas = responses.data.values
                 processData(datas)
               })
@@ -184,20 +185,23 @@ function GoogleApi() {
       myJsonString
     ]
     setStatus('loading')
-    var datas  ={
+    var apiLink  = {
       "uri": `https://sheets.googleapis.com/v4/spreadsheets/${ids}/values/${currentSheetsName}!A:AZ?key=${developerKey}`,
       "tablename": `${j}`
       }
-    api.updateDrive(datas)
-      .then(response => {
-        console.log(response)
-      })
-      .catch(error => {
-        console.log(error)
-      })
+    // api.updateDrive(datas)
+    //   .then(response => {
+    //     console.log(response)
+    //   })
+    //   .catch(error => {
+    //     console.log(error)
+    //   })
     api.uploadDrive(file)
       .then(response => {
         if (response.data.success && response.data) {
+          api.googleAPILink(apiLink)
+            .then(res => console.log(res))
+            .catch(error => console.log(error))
           setModal(false)
           setName("")
           setData([])

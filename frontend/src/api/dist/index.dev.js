@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports["default"] = exports.dashboardsSaved = exports.dashboardsCommon = exports.dashboardsMostPopular = exports.dashboards = exports.databasesQueries = exports.databasesAvgExec = exports.databases = exports.downloadSize = exports.downloadsUser = exports.downloadsOverview = exports.downloads = exports.questionSlowestQueries = exports.questionsPopularQueries = exports.questions = exports.schemasSlowestQueried = exports.schemasMostQueried = exports.schemas = exports.tableLeastQueried = exports.tablesMostQueried = exports.tables = exports.memberLogs = exports.members = exports.memberActiveNNew = exports.memberMostCreated = exports.memberOverview = exports.updateDrive = exports.uploadDrive = void 0;
+exports["default"] = exports.googleAPILink = exports.peopleAllGroup = exports.peopleDeactivate = exports.peopleGroupList = exports.peopleActive = exports.dashboardsSaved = exports.dashboardsCommon = exports.dashboardsMostPopular = exports.dashboards = exports.databasesQueries = exports.databasesAvgExec = exports.databases = exports.downloadSize = exports.downloadsUser = exports.downloadsOverview = exports.downloads = exports.questionSlowestQueries = exports.questionsPopularQueries = exports.questions = exports.schemasSlowestQueried = exports.schemasMostQueried = exports.schemas = exports.tableLeastQueried = exports.tablesMostQueried = exports.tables = exports.memberLogs = exports.members = exports.memberActiveNNew = exports.memberMostCreated = exports.memberOverview = exports.updateDrive = exports.uploadDrive = void 0;
 
 var _axios = _interopRequireDefault(require("axios"));
 
@@ -179,34 +179,42 @@ exports.dashboardsCommon = dashboardsCommon;
 
 var dashboardsSaved = function dashboardsSaved() {
   return api.get("audit/dashboards/viewsnsaved");
-};
+}; //People
+//Active
+
 
 exports.dashboardsSaved = dashboardsSaved;
 
-var peopleActive = function peopleActive(){
-  return api.get("people/activepeople")
+var peopleActive = function peopleActive() {
+  return api.get("people/activepeople");
 };
 
 exports.peopleActive = peopleActive;
 
-var peopleGroupList = function peopleGroupList(){
-  return api.get("people/listgroups")
+var peopleGroupList = function peopleGroupList() {
+  return api.get("people/listgroups");
 };
 
 exports.peopleGroupList = peopleGroupList;
 
-var peopleDeactivate = function peopleDeactivate(){
-  return api.get("people/deactivepeople")
+var peopleDeactivate = function peopleDeactivate() {
+  return api.get("people/deactivepeople");
 };
 
 exports.peopleDeactivate = peopleDeactivate;
 
-var peopleAllGroup = function peopleAllGroup(){
-  return api.get("people/groups")
-};
+var peopleAllGroup = function peopleAllGroup() {
+  return api.get("people/groups");
+}; //Integration
+
 
 exports.peopleAllGroup = peopleAllGroup;
 
+var googleAPILink = function googleAPILink(payload) {
+  return api.post("integration/google-drive/apiLink", payload);
+};
+
+exports.googleAPILink = googleAPILink;
 var apis = {
   uploadDrive: uploadDrive,
   updateDrive: updateDrive,
@@ -236,9 +244,10 @@ var apis = {
   dashboardsCommon: dashboardsCommon,
   dashboardsSaved: dashboardsSaved,
   peopleActive: peopleActive,
-  peopleDeactivate: peopleDeactivate,
   peopleGroupList: peopleGroupList,
-  peopleAllGroup: peopleAllGroup
+  peopleDeactivate: peopleDeactivate,
+  peopleAllGroup: peopleAllGroup,
+  googleAPILink: googleAPILink
 };
 var _default = apis;
 exports["default"] = _default;

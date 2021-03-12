@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from 'react'
 import DatabaseContainer from './DatabaseContainer'
+import api from '../../api/metabaseApi'
 
 
 function DatabaseUpdate(props) {
