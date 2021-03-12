@@ -55,13 +55,24 @@ var _Groups = _interopRequireDefault(require("./components/People/Groups"));
 
 var _PermissionID = _interopRequireDefault(require("./components/Permission/PermissionID"));
 
+var _DataModel = _interopRequireDefault(require("./views/DataModel/DataModel"));
+
+var _UpdateTab = _interopRequireDefault(require("./views/DataModel/UpdateTab"));
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
+//import FieldUpdate from './views/DataModel/FieldUpdate'
 var routes = [{
   path: "home",
   name: "Home",
   component: _HomePage["default"],
   layout: "/"
+}, {
+  path: "dataModel/:id/:index",
+  name: "fieldUpdate",
+  component: _UpdateTab["default"],
+  layout: "/",
+  invisible: true
 }, {
   path: "integration",
   name: "Integration",
@@ -223,6 +234,11 @@ var routes = [{
   component: _PermissionID["default"],
   layout: "/",
   invisible: true
+}, {
+  path: "dataModel",
+  name: "Data Model",
+  component: _DataModel["default"],
+  layout: "/"
 }];
 var _default = routes;
 exports["default"] = _default;
