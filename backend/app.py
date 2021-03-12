@@ -219,8 +219,8 @@ class Dashboards(Resource):
         connection = engine.connect()
         result = connection.execute(query)
         results = [dict(zip(tuple (result.keys()) ,i)) for i in result.cursor]
-        
-        return jsonpify(results)
+        li = parseFloat(results, "exectime")
+        return jsonpify(li)
 
 class DashboardsMostPopular(Resource):
     def get(self):

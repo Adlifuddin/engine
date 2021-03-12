@@ -60,41 +60,56 @@ a:hover {
 
 #nativenone:hover, #schemasnone:hover {
   background-color: rgba(237, 110, 110);
+  cursor: pointer;
   #nativecross {
     color: white;
+    cursor: pointer;
   }
   #schemacross {
     color: white;
+    cursor: pointer;
   }
 }
 
 #nativewrite:hover, #schemasall:hover{
   background-color: rgba(136, 187, 76);
+  cursor: pointer;
   #nativetick {
     color: white;
+    cursor: pointer;
   }
   #schemastick {
     color: white;
+    cursor: pointer;
   }
 }
 
 #nativecross, #schemacross {
-  width: 20px;
-  height: 20px;
+  width: 28px;
+  height: 28px;
+  margin-top: 20px;
   color: rgba(237, 110, 110);
 }
 
 #nativetick, #schemastick {
-  width: 30px;
-  height: 30px;
+  width: 38px;
+  height: 38px;
+  margin-top: 13px;
   color: rgba(136, 187, 76)
 }
 
+#data{
+  width: 30px;
+  height: 30px;
+}
 
+#links:hover {
+  text-decoration: underline;
+}
 
-
-
-
+#links {
+  text-decoration: none;
+}
 
 .datasource {
   font-size: 0.75rem;

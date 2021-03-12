@@ -58,34 +58,55 @@ a:hover {
 
 #nativenone:hover, #schemasnone:hover {
   background-color: #ed6e6e;
+  cursor: pointer;
 }
 #nativenone:hover #nativecross, #schemasnone:hover #nativecross {
   color: white;
+  cursor: pointer;
 }
 #nativenone:hover #schemacross, #schemasnone:hover #schemacross {
   color: white;
+  cursor: pointer;
 }
 
 #nativewrite:hover, #schemasall:hover {
   background-color: #88bb4c;
+  cursor: pointer;
 }
 #nativewrite:hover #nativetick, #schemasall:hover #nativetick {
   color: white;
+  cursor: pointer;
 }
 #nativewrite:hover #schemastick, #schemasall:hover #schemastick {
   color: white;
+  cursor: pointer;
 }
 
 #nativecross, #schemacross {
-  width: 20px;
-  height: 20px;
+  width: 28px;
+  height: 28px;
+  margin-top: 20px;
   color: #ed6e6e;
 }
 
 #nativetick, #schemastick {
+  width: 38px;
+  height: 38px;
+  margin-top: 13px;
+  color: #88bb4c;
+}
+
+#data {
   width: 30px;
   height: 30px;
-  color: #88bb4c;
+}
+
+#links:hover {
+  text-decoration: underline;
+}
+
+#links {
+  text-decoration: none;
 }
 
 .datasource {

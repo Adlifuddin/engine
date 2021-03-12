@@ -53,6 +53,8 @@ var _permission = _interopRequireDefault(require("./components/Permission/permis
 
 var _Groups = _interopRequireDefault(require("./components/People/Groups"));
 
+var _PermissionID = _interopRequireDefault(require("./components/Permission/PermissionID"));
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 var routes = [{
@@ -213,6 +215,12 @@ var routes = [{
   path: "people/groups",
   name: "people-Allgroups",
   component: _Groups["default"],
+  layout: "/",
+  invisible: true
+}, {
+  path: "permission/:id",
+  name: "permission-id",
+  component: _PermissionID["default"],
   layout: "/",
   invisible: true
 }];

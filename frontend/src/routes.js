@@ -22,6 +22,7 @@ import DownloadOverview from './components/Audit/Downloads/DownloadOverview'
 import People from './components/People/People'
 import Permission from './components/Permission/permission'
 import Groups from './components/People/Groups'
+import PermissionID from './components/Permission/PermissionID'
 
 var routes = [
     {
@@ -211,6 +212,13 @@ var routes = [
         layout: "/",
         invisible: true,
     },
+    {
+        path: "permission/:id",
+        name: "permission-id",
+        component: PermissionID,
+        layout: "/",
+        invisible: true,
+    }
 ]
 
 export default routes

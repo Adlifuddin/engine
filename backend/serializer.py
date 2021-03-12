@@ -49,6 +49,9 @@ def validateName(name):
 def parseFloat(results, name):
     li = []
     for item in results:
-        item[name] = float(item[name])
+        if item[name] is None:
+            item[name] = float(0)
+        else :
+            item[name] = float(item[name])
         li.append(item)
     return li
