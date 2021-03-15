@@ -63,7 +63,7 @@ function Groups(){
                                             <tr key={peopleGroups.id}>
                                                 <td>{peopleGroups.groups}</td>
                                                 <td>{peopleGroups.count}</td>
-                                                {peopleGroups.groups != "All Users" && peopleGroups.groups != "Administrators" ? <EditGroupOption /> : null}
+                                                {peopleGroups.groups != "All Users" && peopleGroups.groups != "Administrators" ? <EditGroupOption groupName={peopleGroups.groups}/> : null}
                                             </tr>
                                             ))}
                                         </tbody>

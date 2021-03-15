@@ -1,7 +1,12 @@
+import React, { useState } from 'react'
 import { FaEllipsisH } from 'react-icons/fa'
 import { Dropdown } from 'react-bootstrap'
+import EditGroupModal from './Modal/EditGroupModal'
 
-function EditGroupOption(){
+function EditGroupOption(props){
+
+    const [EditGroupModalShow, setEditGroupModalShow] = useState(false)
+
     return (
         <td>
             <Dropdown>
@@ -10,7 +15,8 @@ function EditGroupOption(){
                     </Dropdown.Toggle>
 
                     <Dropdown.Menu>
-                        <Dropdown.Item >Edit Name</Dropdown.Item>
+                        <Dropdown.Item onClick={() => setEditGroupModalShow(true)} >Edit Name</Dropdown.Item>
+                        <EditGroupModal groupName={props.groupName} show={EditGroupModalShow} onHide={() => setEditGroupModalShow(false)} />
                         <Dropdown.Item >Remove Group</Dropdown.Item>   
                     </Dropdown.Menu>
             </Dropdown> 
