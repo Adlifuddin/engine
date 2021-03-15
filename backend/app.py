@@ -343,15 +343,21 @@ class GooleDriveTable(Resource):
 
 class GoogleDriveAPILink(Resource):
     def post(self):
-        args = request.json
-        tableName = args['tablename']
-        apiLink = args['uri']
-        engine = CreateConnectionDriveApi()
-        query = f"INSERT INTO api_link(api, table_name) VALUES ('{apiLink}', '{tableName}')"
-        connection = engine.connect()
-        result = connection.execute(query)
-        data = json.dumps({'success': True, "message": "Successfully Inserted Data to the Database"})
-        return Response(data, status=200, mimetype='application/json')
+        try:
+            args = request.json
+            tableName = args['tablename']
+            apiLink = args['uri']
+            engine = CreateConnectionDriveApi()
+            query = f"INSERT INTO api_link(api, table_name) VALUES ('{apiLink}', '{tableName}')"
+            connection = engine.connect()
+            result = connection.execute(query)
+            data = json.dumps({'success': True, "message": "Successfully Inserted Data to the Database"})
+            return Response(data, status=200, mimetype='application/json')
+        except Exception:
+            print(Exception.read())
+            data = json.dumps({'success': False, "message": "Error Found"})
+            return Response(data, status=400, mimetype='application/json')
+
 
 api.add_resource(Test, '/api/test')
 api.add_resource(Add, '/api/add')

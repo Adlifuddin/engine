@@ -27,6 +27,7 @@ import DataModel from './views/DataModel/DataModel'
 //import FieldUpdate from './views/DataModel/FieldUpdate'
 import UpdateTab from './views/DataModel/UpdateTab'
 import Collection from './views/Collection/Collection'
+import PermissionTableList from './components/Permission/PermissionTableList'
 
 var routes = [
     {
@@ -229,6 +230,7 @@ var routes = [
         component: PermissionID,
         layout: "/",
         invisible: true,
+        exact: true,
     },
     {
         path: "dataModel",
@@ -241,6 +243,13 @@ var routes = [
         name: "Collection",
         component: Collection,
         layout:"/",
+    },
+    {
+        path: "permission/:id/schemas/:index/tables",
+        name: "permission-list",
+        component: PermissionTableList,
+        layout: "/",
+        invisible: true,
     }
 ]
 

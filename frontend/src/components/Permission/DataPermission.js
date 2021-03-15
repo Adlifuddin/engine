@@ -56,7 +56,7 @@ function DataPermission() {
                                             <Col md="6">
                                                 <span style={{fontWeight: 700, }}> {permissionGraph[x].name}</span>
                                                 <br/>
-                                                <Link to={{pathname:`permission/${permissionGraph[x].id}`, query:{name: permissionGraph[x].name}}} id="links" style={{ color: 'rgb(120, 144, 156)', fontWeight: 400, fontSize: '14px'}}>Your Schemas</Link>
+                                                <Link to={`permission/${permissionGraph[x].id}`} id="links" style={{ color: 'rgb(120, 144, 156)', fontWeight: 400, fontSize: '14px'}}>Your Schemas</Link>
                                             </Col>
                                         </Row>
                                     </td>
