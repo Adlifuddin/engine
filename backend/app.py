@@ -316,7 +316,7 @@ class PeopleDeactive(Resource):
 class PeopleGroups(Resource):
     def get(self):
         engine = CreateConnectionCoreUser()
-        query = "select count(a.id) as count, b.name as groups from permissions_group_membership a left join permissions_group b on a.group_id = b.id group by b.id"
+        query = "Select a.name as groups, count(b.id) from permissions_group a left join permissions_group_membership b on a.id = b.group_id where a.id != 3 group by a.name order by a.name asc" 
         connection = engine.connect()
         result = connection.execute(query)
         results = [dict(zip(tuple (result.keys()) ,i)) for i in result.cursor]
