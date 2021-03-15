@@ -24,7 +24,7 @@ function Groups(){
                 console.log(err)
             })
 
-    }, [peopleGroups])
+    }, [])
 
     return (
         <div>

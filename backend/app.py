@@ -329,6 +329,21 @@ class PeopleListGroups(Resource):
         result = connection.execute(query)
         results = [dict(zip(tuple (result.keys()) ,i)) for i in result.cursor]
         return jsonpify(results)
+    
+    def post(self):
+        try:
+            args = request.json
+            groupName = args['name']
+            engine = CreateConnectionCoreUser()
+            connection = engine.connect()
+            query = f"INSERT INTO permissions_group(name) VALUES ('{groupName}')"
+            result = connection.execute(query)
+            data = json.dumps({'success': True, "message": "Successfully Inserted Data to the Database"})
+            return Response(data, status=200, mimetype='application/json')
+        except Exception:
+            print(Exception.read())
+            data = json.dumps({'success': False, "message": "Error Found"})
+            return Response(data, status=400, mimetype='application/json')
 
 class GooleDriveTable(Resource):
     def post(self):
