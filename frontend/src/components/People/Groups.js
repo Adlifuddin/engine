@@ -3,17 +3,21 @@ import axios from 'axios'
 import {Card, CardHeader} from 'reactstrap'
 import PeopleSideBar from './peopleSideBar'
 import { Link} from 'react-router-dom';
+
 import { Container, Row, Col, Tab,Tabs, Table, Button } from 'react-bootstrap'
 import { ResponsiveContainer } from 'recharts';
 import {CardHeaderColor, CardColor} from '../../components/customStyle/DatabaseColor'
 import api from '../../api/index'
 import CreateGroup from './CreateGroup'
+import EditGroupOption from './EditGroupOption';
 
 
 function Groups(){
 
     const [peopleGroups,setgroupsPeople] = useState([])
     const [createGroupShow,setCreateGroupShow] = useState(false)
+
+    
 
     useEffect(() => {
         api.peopleAllGroup()
@@ -25,6 +29,8 @@ function Groups(){
             })
 
     }, [])
+
+    
 
     return (
         <div>
@@ -57,6 +63,7 @@ function Groups(){
                                             <tr key={peopleGroups.id}>
                                                 <td>{peopleGroups.groups}</td>
                                                 <td>{peopleGroups.count}</td>
+                                                {peopleGroups.groups != "All Users" && peopleGroups.groups != "Administrators" ? <EditGroupOption /> : null}
                                             </tr>
                                             ))}
                                         </tbody>
