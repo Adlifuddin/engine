@@ -282,9 +282,9 @@ function DataTab() {
                             <tbody>
                                 {field.map((field, index) => (
                                     <tr>
-                                        <td style={{width: 300}}>{field.display_name}</td>
-                                        <td style={{width: 300}}>{getFieldVisibility(field.visibility_type)}</td>
-                                        <td style={{width: 300}}>{getFieldType(field.special_type)}</td>
+                                        <td style={{...titleRowColor, width: 300}}>{field.display_name}</td>
+                                        <td style={{...titleRowColor, width: 300}}>{getFieldVisibility(field.visibility_type)}</td>
+                                        <td style={{...titleRowColor, width: 300}}>{getFieldType(field.special_type)}</td>
                                         <td>
                                             <Link to={`/dataModel/${field.table_id}/${index}`}>
                                                 <Button variant="outline-info" style={{ float: 'right'}}>
