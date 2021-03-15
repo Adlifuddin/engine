@@ -321,15 +321,7 @@ class PeopleGroups(Resource):
         result = connection.execute(query)
         results = [dict(zip(tuple (result.keys()) ,i)) for i in result.cursor]
         return jsonpify(results)
-class PeopleListGroups(Resource):
-    def get(self):
-        engine = CreateConnectionCoreUser()
-        query = "select * from permissions_group"
-        connection = engine.connect()
-        result = connection.execute(query)
-        results = [dict(zip(tuple (result.keys()) ,i)) for i in result.cursor]
-        return jsonpify(results)
-    
+
     def post(self):
         try:
             args = request.json
@@ -344,6 +336,16 @@ class PeopleListGroups(Resource):
             print(Exception.read())
             data = json.dumps({'success': False, "message": "Error Found"})
             return Response(data, status=400, mimetype='application/json')
+
+class PeopleListGroups(Resource):
+    def get(self):
+        engine = CreateConnectionCoreUser()
+        query = "select * from permissions_group"
+        connection = engine.connect()
+        result = connection.execute(query)
+        results = [dict(zip(tuple (result.keys()) ,i)) for i in result.cursor]
+        return jsonpify(results)
+    
 
 class GooleDriveTable(Resource):
     def post(self):

@@ -12,7 +12,7 @@ function CreateGroup(props){
 
     function handleClick(){
         axios
-            .post("http://127.0.0.1:5000/api/people/listgroups",group)
+            .post("http://127.0.0.1:5000/api/people/groups",group)
             .then(res => {
                 console.log(res)
             })
