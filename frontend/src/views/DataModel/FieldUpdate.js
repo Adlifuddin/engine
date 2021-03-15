@@ -35,8 +35,7 @@ function FieldUpdate(props) {
                 console.log(res)
                 
                 res.data.fields.map((x, i) => {
-                    // console.log(x)
-                    // edit lagi sikit
+
                     if(i == index){
                         console.log('data: ', x)
                         
@@ -112,6 +111,8 @@ function FieldUpdate(props) {
         api.updateField(field, id)
             .then(response => {
                 console.log(response)
+                //to reload window
+                window.location.reload()
             })
             .catch(error => {
                 console.log(error)
@@ -443,6 +444,7 @@ function FieldUpdate(props) {
                                                 <option value="type/Title">Title</option>
                                                 <option value="" disabled style={{fontWeight: "bold"}}>LOCATION</option>
                                                 <option value="type/City">City</option>
+                                                <option value="type/Country">Country</option>
                                                 <option value="type/Latitude">Latitude</option>
                                                 <option value="type/Longitude">Longitude</option>
                                                 <option value="type/State">State</option>
