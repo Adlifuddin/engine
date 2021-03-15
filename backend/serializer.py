@@ -1,4 +1,5 @@
 from .connection import CreateConnectionCoreUser
+import jwt, datetime
 
 def unpack(resource):
     ti = []
@@ -55,3 +56,13 @@ def parseFloat(results, name):
             item[name] = float(item[name])
         li.append(item)
     return li
+
+def encode_auth_token(payload):
+    METABASE_JWT_SHARED_SECRET = "4f866b9f30bdcb0c00cc099b8c3575b4297e7dac3ff0f9e108e5ba82909639d6";
+    try:
+        return jwt.encode(
+            payload,
+            METABASE_JWT_SHARED_SECRET,
+        )
+    except Exception as e:
+        return e

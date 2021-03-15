@@ -2,30 +2,35 @@ import React, {useEffect, useState} from 'react'
 import './App.css';
 import { Route, Switch, withRouter } from "react-router";
 import Layouts from './layout/Layouts'
-import metabaseApi from './api/metabaseApi'
-
+import LoginPage from './auth/LoginPage'
+import { useSelector, useDispatch } from 'react-redux';
+import { selectUser, login } from './features/userSlice';
 function App() {
+  const user = useSelector(selectUser);
+  const dispatch = useDispatch()
+
   useEffect(() => {
-    const data = {
-                  "username": "jiahao.leong@nexent.co",
-                  "password": "Jiahao051",
-    }
-    if (localStorage.getItem("sessions") === null) {
-      metabaseApi.session(data)
-        .then(response => {
-          localStorage.setItem("sessions", response.data.id)
-        })
-        .catch(error => {
-            console.log(error)
-        })
+    if (localStorage.getItem("sessions") !== null) {
+       dispatch(login({
+                    sessions: localStorage.getItem("sessions"),
+                    loggedIn: true,
+                }))
     }
   }, [])
 
+  if (user) {
+     return (
+      <Switch>
+        <Route path="/" render={(props) => <Layouts {...props}/>} />
+      </Switch>
+    );
+  }
+  
   return (
     <Switch>
-      <Route path="/" render={(props) => <Layouts {...props}/>} />
+      <Route path="/" component={LoginPage} />
     </Switch>
-  );
+  )
 }
 
 export default withRouter(App);

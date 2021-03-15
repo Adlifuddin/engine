@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports["default"] = exports.getSchemaTableID = exports.getSchemaID = exports.getTableIDMeta = exports.databaseTables = exports.session = exports.putPermissionGraph = exports.getPermissionGraph = exports.getPermissionGroup = exports.updateDatabase = exports.validateDatabase = exports.deleteDatabase = exports.discardValue = exports.reScanValue = exports.syncSchema = exports.createDatabase = exports.databaseListID = exports.databaseList = void 0;
+exports["default"] = exports.fieldDiscard = exports.fieldReScan = exports.updateField = exports.getSchemaTableID = exports.getSchemaID = exports.getTableIDMeta = exports.databaseTables = exports.session = exports.putPermissionGraph = exports.getPermissionGraph = exports.getPermissionGroup = exports.updateDatabase = exports.validateDatabase = exports.deleteDatabase = exports.discardValue = exports.reScanValue = exports.syncSchema = exports.createDatabase = exports.databaseListID = exports.databaseList = void 0;
 
 var _axios = _interopRequireDefault(require("axios"));
 
@@ -125,9 +125,29 @@ exports.getSchemaID = getSchemaID;
 
 var getSchemaTableID = function getSchemaTableID(id, schema) {
   return api.get("database/".concat(id, "/schema/").concat(schema), config);
-};
+}; //update
+
 
 exports.getSchemaTableID = getSchemaTableID;
+
+var updateField = function updateField(payload, id) {
+  return api.put("field/".concat(id), payload, config);
+}; //post
+
+
+exports.updateField = updateField;
+
+var fieldReScan = function fieldReScan(payload, id) {
+  return api.post("field/".concat(id, "/rescan_values"), payload, config);
+};
+
+exports.fieldReScan = fieldReScan;
+
+var fieldDiscard = function fieldDiscard(payload, id) {
+  return api.post("field/".concat(id, "/discard_values"), payload, config);
+};
+
+exports.fieldDiscard = fieldDiscard;
 var apis = {
   databaseList: databaseList,
   session: session,
@@ -145,7 +165,10 @@ var apis = {
   databaseTables: databaseTables,
   getTableIDMeta: getTableIDMeta,
   getSchemaID: getSchemaID,
-  getSchemaTableID: getSchemaTableID
+  getSchemaTableID: getSchemaTableID,
+  updateField: updateField,
+  fieldReScan: fieldReScan,
+  fieldDiscard: fieldDiscard
 };
 var _default = apis;
 exports["default"] = _default;

@@ -39,7 +39,7 @@ function Layouts(props) {
                 <div className="main-panel" data={color}>
                     <Switch>
                         {getRoutes(routes)}
-                        {/* <Redirect from="*" to="/home" /> */}
+                        <Redirect from="*" to="/home" />
                     </Switch>
                 </div>
             </div>

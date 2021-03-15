@@ -358,6 +358,22 @@ class GoogleDriveAPILink(Resource):
             data = json.dumps({'success': False, "message": "Error Found"})
             return Response(data, status=400, mimetype='application/json')
 
+class UserCredentials(Resource):
+    def get(self):
+        engine = CreateConnectionCoreUser()
+        query = "select * from core_user"
+        connection = engine.connect()
+        result = connection.execute(query)
+        results = [dict(zip(tuple (result.keys()) ,i)) for i in result.cursor]
+        return jsonpify(results)
+
+class UserLogin(Resource):
+    def post(self):
+        args = request.json
+        dat = encode_auth_token(args)
+        data = json.dumps({'success': True, "message": "Successfully Inserted Data to the Database", "token": str(dat)})
+        return Response(data, status=200, mimetype='application/json')
+
 
 api.add_resource(Test, '/api/test')
 api.add_resource(Add, '/api/add')
@@ -393,6 +409,8 @@ api.add_resource(PeopleGroups, '/api/people/groups')
 api.add_resource(PeopleListGroups, '/api/people/listgroups')
 api.add_resource(GoogleDriveAPILink, '/api/integration/google-drive/apiLink')
 api.add_resource(GooleDriveTable, '/api/google-drive-table')
+api.add_resource(UserCredentials, "/api/user/credentials")
+api.add_resource(UserLogin, "/api/user/login")
 
 
 if __name__ == '__main__':

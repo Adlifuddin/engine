@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports["default"] = exports.googleAPILink = exports.peopleAllGroup = exports.peopleDeactivate = exports.peopleGroupList = exports.peopleActive = exports.dashboardsSaved = exports.dashboardsCommon = exports.dashboardsMostPopular = exports.dashboards = exports.databasesQueries = exports.databasesAvgExec = exports.databases = exports.downloadSize = exports.downloadsUser = exports.downloadsOverview = exports.downloads = exports.questionSlowestQueries = exports.questionsPopularQueries = exports.questions = exports.schemasSlowestQueried = exports.schemasMostQueried = exports.schemas = exports.tableLeastQueried = exports.tablesMostQueried = exports.tables = exports.memberLogs = exports.members = exports.memberActiveNNew = exports.memberMostCreated = exports.memberOverview = exports.updateDrive = exports.uploadDrive = void 0;
+exports["default"] = exports.userPost = exports.userCredentials = exports.googleAPILink = exports.peopleAllGroup = exports.peopleDeactivate = exports.peopleGroupList = exports.peopleActive = exports.dashboardsSaved = exports.dashboardsCommon = exports.dashboardsMostPopular = exports.dashboards = exports.databasesQueries = exports.databasesAvgExec = exports.databases = exports.downloadSize = exports.downloadsUser = exports.downloadsOverview = exports.downloads = exports.questionSlowestQueries = exports.questionsPopularQueries = exports.questions = exports.schemasSlowestQueried = exports.schemasMostQueried = exports.schemas = exports.tableLeastQueried = exports.tablesMostQueried = exports.tables = exports.memberLogs = exports.members = exports.memberActiveNNew = exports.memberMostCreated = exports.memberOverview = exports.updateDrive = exports.uploadDrive = void 0;
 
 var _axios = _interopRequireDefault(require("axios"));
 
@@ -212,9 +212,22 @@ exports.peopleAllGroup = peopleAllGroup;
 
 var googleAPILink = function googleAPILink(payload) {
   return api.post("integration/google-drive/apiLink", payload);
-};
+}; //UserIdentification
+
 
 exports.googleAPILink = googleAPILink;
+
+var userCredentials = function userCredentials() {
+  return api.get("user/credentials");
+};
+
+exports.userCredentials = userCredentials;
+
+var userPost = function userPost(payload) {
+  return api.post("user/login", payload);
+};
+
+exports.userPost = userPost;
 var apis = {
   uploadDrive: uploadDrive,
   updateDrive: updateDrive,
@@ -247,7 +260,9 @@ var apis = {
   peopleGroupList: peopleGroupList,
   peopleDeactivate: peopleDeactivate,
   peopleAllGroup: peopleAllGroup,
-  googleAPILink: googleAPILink
+  googleAPILink: googleAPILink,
+  userCredentials: userCredentials,
+  userPost: userPost
 };
 var _default = apis;
 exports["default"] = _default;

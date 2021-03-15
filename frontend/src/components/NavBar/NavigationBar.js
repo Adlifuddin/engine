@@ -10,8 +10,11 @@ import {
 } from "../../contexts/BackgroundColorContext";
 import { PropTypes } from "prop-types";
 import {FiSettings} from 'react-icons/fi'
+import { useDispatch } from 'react-redux';
+import { logout } from '../../features/userSlice';
 
 function NavigationBar(props) {
+  const dispatch = useDispatch();
   const location = useLocation();
 
   const activeRoute = (routeName) => {
@@ -22,6 +25,16 @@ function NavigationBar(props) {
     const dat = document.getElementsByClassName('dropdown-menu show')
     console.log(dat)
   }, [])
+
+
+
+  const handleLogout = (e) => {
+    e.preventDefault()
+    localStorage.clear()
+    dispatch(logout());
+    window.location.replace('/')
+    
+  }
 
   
 
@@ -57,12 +70,13 @@ function NavigationBar(props) {
             })}
           </Nav>
           <Nav>
-            <NavDropdown title={<FiSettings/>} id="collasible-nav-dropdown">
-              <NavDropdown.Item href="/integration">Activity</NavDropdown.Item>
+            <NavDropdown title={<FiSettings />} id="collasible-nav-dropdown">
+              <NavDropdown.Item href="https://dashboard-demo.nexent.co/user/edit_current">Account Settings</NavDropdown.Item>
               <NavDropdown.Item href="https://dashboard-demo.nexent.co">Exit Admin</NavDropdown.Item>
+              <NavDropdown.Item href="/integration">Activity</NavDropdown.Item>
+              <NavDropdown.Item href="/help">Help</NavDropdown.Item>
               <NavDropdown.Item href="/home">About Nexent</NavDropdown.Item>
-              <NavDropdown.Divider />
-              <NavDropdown.Item href="#">Signed Out</NavDropdown.Item>
+              <NavDropdown.Item href="#" onClick={handleLogout}>Signed Out</NavDropdown.Item>
             </NavDropdown>
           </Nav>
       </Navbar>
