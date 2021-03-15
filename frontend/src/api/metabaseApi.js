@@ -42,6 +42,13 @@ export const getTableIDMeta = (id) => api.get(`table/${id}/query_metadata`, conf
 export const getSchemaID = (id) => api.get(`database/${id}/schemas`, config)
 export const getSchemaTableID = (id, schema) => api.get(`database/${id}/schema/${schema}`, config)
 
+//update
+export const updateField = (payload, id) => api.put(`field/${id}`, payload, config)
+
+//post
+export const fieldReScan = (payload, id) => api.post(`field/${id}/rescan_values`, payload, config)
+export const fieldDiscard = (payload, id) => api.post(`field/${id}/discard_values`, payload, config)
+
 const apis = {
     databaseList,
     session,
@@ -60,6 +67,9 @@ const apis = {
     getTableIDMeta,
     getSchemaID,
     getSchemaTableID,
+    updateField,
+    fieldReScan,
+    fieldDiscard,
 }
 
 export default apis
