@@ -38,7 +38,7 @@ var routes = [
     },
     {
         path: "dataModel/:id/:index",
-        name: "fieldUpdate",
+        name: "update",
         component: UpdateTab,
         layout: "/",
         invisible: true,
