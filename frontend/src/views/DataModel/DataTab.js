@@ -244,12 +244,6 @@ function DataTab() {
                             </Form>
                         </Row>
                         <Row>
-                            {/* <ListComponent id={id}/> */}
-                            {/* <ListGroup style={{marginTop: 50, marginLeft: 25, width: 250}}>
-                                {schema.map((schema) => (
-                                    <ListGroup.Item action href="" style={{height: 40}} onClick>{schema}</ListGroup.Item>
-                                ))}
-                            </ListGroup> */}
                             <Form style={{width: 250}}>
                                 <Form.Group>
                                     <Form.Label>Schema</Form.Label>
@@ -263,12 +257,6 @@ function DataTab() {
                             </Form>
                         </Row>
                         <Row>
-                            {/* <ListComponent id={id}/> */}
-                            {/* <ListGroup style={{marginTop: 50, marginLeft: 25, width: 250}}>
-                                {schema.map((schema) => (
-                                    <ListGroup.Item action href="" style={{height: 40}} onClick>{schema}</ListGroup.Item>
-                                ))}
-                            </ListGroup> */}
                             <Form style={{width: 250}}>
                                 <Form.Group>
                                     <Form.Label>Table</Form.Label>
