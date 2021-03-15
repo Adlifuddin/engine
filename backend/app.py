@@ -316,11 +316,27 @@ class PeopleDeactive(Resource):
 class PeopleGroups(Resource):
     def get(self):
         engine = CreateConnectionCoreUser()
-        query = "select count(a.id) as count, b.name as groups from permissions_group_membership a left join permissions_group b on a.group_id = b.id group by b.id"
+        query = "Select a.name as groups, count(b.id) from permissions_group a left join permissions_group_membership b on a.id = b.group_id where a.id != 3 group by a.name order by a.name asc" 
         connection = engine.connect()
         result = connection.execute(query)
         results = [dict(zip(tuple (result.keys()) ,i)) for i in result.cursor]
         return jsonpify(results)
+
+    def post(self):
+        try:
+            args = request.json
+            groupName = args['name']
+            engine = CreateConnectionCoreUser()
+            connection = engine.connect()
+            query = f"INSERT INTO permissions_group(name) VALUES ('{groupName}')"
+            result = connection.execute(query)
+            data = json.dumps({'success': True, "message": "Successfully Inserted Data to the Database"})
+            return Response(data, status=200, mimetype='application/json')
+        except Exception:
+            print(Exception.read())
+            data = json.dumps({'success': False, "message": "Error Found"})
+            return Response(data, status=400, mimetype='application/json')
+
 class PeopleListGroups(Resource):
     def get(self):
         engine = CreateConnectionCoreUser()
@@ -329,6 +345,7 @@ class PeopleListGroups(Resource):
         result = connection.execute(query)
         results = [dict(zip(tuple (result.keys()) ,i)) for i in result.cursor]
         return jsonpify(results)
+    
 
 class GooleDriveTable(Resource):
     def post(self):

@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom'
 
 //import tabs
 import FieldUpdate from './FieldUpdate'
+import FormattingTab from './FormattingTab'
 
 function UpdateTab(props) {
 
@@ -28,7 +29,7 @@ function UpdateTab(props) {
                                 <FieldUpdate status={status} index={index} />
                             </Tab>
                             <Tab eventKey="formatting" title="Formatting">
-                                {/* formatting tab */}
+                                <FormattingTab status={status} index={index}/>
                             </Tab>
                         </Tabs>
                     </Col>

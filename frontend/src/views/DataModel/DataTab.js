@@ -244,12 +244,6 @@ function DataTab() {
                             </Form>
                         </Row>
                         <Row>
-                            {/* <ListComponent id={id}/> */}
-                            {/* <ListGroup style={{marginTop: 50, marginLeft: 25, width: 250}}>
-                                {schema.map((schema) => (
-                                    <ListGroup.Item action href="" style={{height: 40}} onClick>{schema}</ListGroup.Item>
-                                ))}
-                            </ListGroup> */}
                             <Form style={{width: 250}}>
                                 <Form.Group>
                                     <Form.Label>Schema</Form.Label>
@@ -263,12 +257,6 @@ function DataTab() {
                             </Form>
                         </Row>
                         <Row>
-                            {/* <ListComponent id={id}/> */}
-                            {/* <ListGroup style={{marginTop: 50, marginLeft: 25, width: 250}}>
-                                {schema.map((schema) => (
-                                    <ListGroup.Item action href="" style={{height: 40}} onClick>{schema}</ListGroup.Item>
-                                ))}
-                            </ListGroup> */}
                             <Form style={{width: 250}}>
                                 <Form.Group>
                                     <Form.Label>Table</Form.Label>
@@ -294,9 +282,9 @@ function DataTab() {
                             <tbody>
                                 {field.map((field, index) => (
                                     <tr>
-                                        <td style={{width: 300}}>{field.display_name}</td>
-                                        <td style={{width: 300}}>{getFieldVisibility(field.visibility_type)}</td>
-                                        <td style={{width: 300}}>{getFieldType(field.special_type)}</td>
+                                        <td style={{...titleRowColor, width: 300}}>{field.display_name}</td>
+                                        <td style={{...titleRowColor, width: 300}}>{getFieldVisibility(field.visibility_type)}</td>
+                                        <td style={{...titleRowColor, width: 300}}>{getFieldType(field.special_type)}</td>
                                         <td>
                                             <Link to={`/dataModel/${field.table_id}/${index}`}>
                                                 <Button variant="outline-info" style={{ float: 'right'}}>
