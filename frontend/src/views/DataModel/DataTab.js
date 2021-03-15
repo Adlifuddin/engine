@@ -54,6 +54,9 @@ function DataTab() {
             .catch(err => {
                 console.log(err)
             })
+
+        setSchemaID("0")
+        setTableID("0")
     }
 
     //to get database schema and display table
@@ -71,6 +74,8 @@ function DataTab() {
             .catch(err => {
                 console.log(err)
             })
+
+        setTableID("0")
     }
 
     //to get database table and display fields
@@ -91,6 +96,134 @@ function DataTab() {
 
     }
 
+    const getFieldVisibility = (e) => {
+
+        if(e === 'details-only'){
+            return "Only in detail views"
+        }
+        else if(e === 'normal'){
+            return "Everywhere"
+        }
+        else if(e === 'sensitive'){
+            return "Do not include"
+        }
+        else {
+            return ""
+        }
+    }
+
+    const getFieldType = (e) => {
+
+        if( e == null){
+            return "No special type"
+        }
+        else{
+            const type = e.split("/")
+
+            if(type[1] === 'PK'){
+                return "Entity Key"
+            }
+            else if(type[1] === 'Name'){
+                return "Entity Name"
+            }
+            else if(type[1] === 'FK'){
+                return "Foreign Key"
+            }
+            else if(type[1] === 'Name'){
+                return "Entity Name"
+            }
+            else if(type[1] === 'ZipCode'){
+                return "Zip Code"
+            }
+            else if(type[1] === 'GrossMargin'){
+                return "Gross Margin"
+            }
+            else if(type[1] === 'Birthdate'){
+                return "Birthday"
+            }
+            else if(type[1] === 'CancelationDate'){
+                return "Cancelation date"
+            }
+            else if(type[1] === 'CancelationTime'){
+                return "Cancelation time"
+            }
+            else if(type[1] === 'CancelationTimestamp'){
+                return "Cancelation timestamp"
+            }
+            else if(type[1] === 'CreationDate'){
+                return "Creation date"
+            }
+            else if(type[1] === 'CreationTime'){
+                return "Creation time"
+            }
+            else if(type[1] === 'CreationTimestamp'){
+                return "Creation timestamp"
+            }
+            else if(type[1] === 'DeletionDate'){
+                return "Deletion date"
+            }
+            else if(type[1] === 'DeletionTime'){
+                return "Deletion time"
+            }
+            else if(type[1] === 'DeletionTimestamp'){
+                return "Deletion timestamp"
+            }
+            else if(type[1] === 'UpdatedDate'){
+                return "Updated date"
+            }
+            else if(type[1] === 'UpdatedTime'){
+                return "Updated time"
+            }
+            else if(type[1] === 'UpdatedTimestamp'){
+                return "Updated timestamp"
+            }
+            else if(type[1] === 'ISO8601DateTimeString'){
+                return "Text as a ISO-8601 timestamp"
+            }
+            else if(type[1] === 'ISO8601TimeString'){
+                return "Text as a ISO-8601 time"
+            }
+            else if(type[1] === 'ISO8601DateString'){
+                return "Text as a ISO-8601 date"
+            }
+            else if(type[1] === 'JoinDate'){
+                return "Join date"
+            }
+            else if(type[1] === 'JoinTime'){
+                return "Join time"
+            }
+            else if(type[1] === 'JoinTimestamp'){
+                return "Join timestamp"
+            }
+            else if(type[1] === 'UNIXTimestampMilliseconds'){
+                return "UNIX Timestamp (Milliseconds)"
+            }
+            else if(type[1] === 'UNIXTimestampMicroseconds'){
+                return "UNIX Timestamp (Microseconds)"
+            }
+            else if(type[1] === 'UNIXTimestampSeconds'){
+                return "UNIX Timestamp (Seconds)"
+            }
+            else if(type[1] === 'AvatarURL'){
+                return "Avatar Image URL"
+            }
+            else if(type[1] === 'ImageURL'){
+                return "Image URL"
+            }
+            else if(type[1] === 'SerializedJSON'){
+                return "Field containing JSON"
+            }
+            else if(type[1] === null){
+                return "No special type"
+            }
+            else{
+                return type[1]
+            }
+        }
+
+    }
+
+
     return (
         <div>
             <Container fluid>
@@ -102,7 +235,7 @@ function DataTab() {
                                     <FaDatabase style={{marginRight: 10}}/>
                                     <Form.Label>Database</Form.Label>
                                     <Form.Control as="select" custom onChange={onChangeDB}>
-                                        <option>Select Database..</option>
+                                        <option value="0">Select Database..</option>
                                         {db.map((db) => (
                                             <option value={db.id}>{db.name}</option>
                                         ))}
@@ -120,8 +253,8 @@ function DataTab() {
                             <Form style={{width: 250}}>
                                 <Form.Group>
                                     <Form.Label>Schema</Form.Label>
-                                    <Form.Control as="select" custom onChange={onChangeSchema}>
-                                        <option>Select Schema..</option>
+                                    <Form.Control as="select" custom onChange={onChangeSchema} value={schemaID}>
+                                        <option value="0">Select Schema..</option>
                                         {schema.map((schema) => (
                                             <option value={schema}>{schema}</option>
                                         ))}
@@ -139,8 +272,8 @@ function DataTab() {
                             <Form style={{width: 250}}>
                                 <Form.Group>
                                     <Form.Label>Table</Form.Label>
-                                    <Form.Control as="select" custom onChange={onChangeTable}>
-                                        <option>Select Table..</option>
+                                    <Form.Control as="select" custom onChange={onChangeTable} value={tableID}>
+                                        <option value="0">Select Table..</option>
                                         {table.map((table) => (
                                             <option value={table.id}>{table.name}</option>
                                         ))}
@@ -162,8 +295,8 @@ function DataTab() {
                                 {field.map((field, index) => (
                                     <tr>
                                         <td style={{width: 300}}>{field.display_name}</td>
-                                        <td style={{width: 300}}>{field.visibility_type}</td>
-                                        <td style={{width: 300}}>{field.special_type}</td>
+                                        <td style={{width: 300}}>{getFieldVisibility(field.visibility_type)}</td>
+                                        <td style={{width: 300}}>{getFieldType(field.special_type)}</td>
                                         <td>
                                             <Link to={`/dataModel/${field.table_id}/${index}`}>
                                                 <Button variant="outline-info" style={{ float: 'right'}}>
