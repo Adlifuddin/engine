@@ -304,7 +304,7 @@ function FieldUpdate(props) {
                         <option value="VEF">Venezuelan Bolivar</option>
                         <option value="VND">Vietnamese Dong</option>
                         <option value="XAF">CFA Franc BEAC</option>
-                        <option value="XOF">CFA Franc BCEAD</option>
+                        <option value="XOF">CFA Franc BCEAO</option>
                         <option value="YER">Yemeni Rial</option>
                         <option value="ZAR">South African Rand</option>
                         <option value="ZMK">Zambian Kwacha</option>

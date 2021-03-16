@@ -51,7 +51,7 @@ var routes = [
         layout: "/",
     },
     {
-        path: "dataModel/:id/:index",
+        path: "data-model/:id/:index",
         name: "update",
         component: UpdateTab,
         layout: "/",
