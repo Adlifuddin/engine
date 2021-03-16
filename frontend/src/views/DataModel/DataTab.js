@@ -286,7 +286,7 @@ function DataTab() {
                                         <td style={{...titleRowColor, width: 300}}>{getFieldVisibility(field.visibility_type)}</td>
                                         <td style={{...titleRowColor, width: 300}}>{getFieldType(field.special_type)}</td>
                                         <td>
-                                            <Link to={`/dataModel/${field.table_id}/${index}`}>
+                                            <Link to={`/data-model/${field.table_id}/${index}`}>
                                                 <Button variant="outline-info" style={{ float: 'right'}}>
                                                     <FiSettings/>
                                                 </Button>

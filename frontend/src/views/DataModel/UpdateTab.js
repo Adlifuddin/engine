@@ -19,7 +19,7 @@ function UpdateTab(props) {
             <Container fluid>
                 <Row style={{marginTop: 25, marginLeft: 15}}>
                     <Col>
-                        <a href="/datamodel">
+                        <a href="/data-model">
                             <Button variant="light" style={{marginBottom: 30, height: 50, width: 50, borderRadius:"100%"}}>
                                 <IoArrowBackSharp/>
                             </Button>
