@@ -8,7 +8,7 @@ import ResetPasswordModal from './Modal/ResetPasswordModal'
 import DeactivateUserModal from './Modal/DeactivateUserModal'
 import api from '../../api/index'
 
-function ActivePeople(){
+function ActivePeople(props){
 
     const [id, setID] = useState("");
     const[listGroup, setListGroup] = useState([])
@@ -27,11 +27,11 @@ function ActivePeople(){
         })    
     }, [])
 
-      const toggleEdit = (e) => {
-        const id = e.target.value
-        setID(id)
-        toggleEdit()
-    }
+    //   const toggleEdit = (e) => {
+    //     const id = e.target.value
+    //     setID(id)
+    //     toggleEdit()
+    // }
 
     const [activepeople,setactivepeople] = useState([])
 
@@ -39,6 +39,7 @@ function ActivePeople(){
         api.peopleActive()
             .then(res => {
                 setactivepeople(res.data)
+            
             })
             .catch(err => {
                 console.log(err)
@@ -85,7 +86,7 @@ function ActivePeople(){
                                                     <Dropdown.Item onClick={() => setResetPasswordModalShow(true)}>Reset password</Dropdown.Item>
                                                     <ResetPasswordModal show={ResetPasswordModalShow} onHide={() => setResetPasswordModalShow(false)} />
                                                     <Dropdown.Item onClick={() => setDeactivateUserModalShow(true)}>Deactivate user</Dropdown.Item>
-                                                    <DeactivateUserModal show={DeactivateUserModalShow} onHide={() => setDeactivateUserModalShow(false)} />
+                                                    <DeactivateUserModal UserId={peopleactive.id} UserName = {peopleactive.first_name} show={DeactivateUserModalShow} onHide={() => setDeactivateUserModalShow(false)} />
                                                 </Dropdown.Menu>
                                             </Dropdown>
                                         </td>
