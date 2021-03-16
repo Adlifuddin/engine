@@ -1,7 +1,7 @@
 import React from "react";
 import { Container, Row, Col, Tabs, Tab, Button, Form } from "react-bootstrap";
 import { useState, useEffect } from "react";
-import Breadcrumbs from "../Breadcrumbs";
+
 //import api
 import api from "../../../api/metabaseApi";
 
@@ -173,12 +173,6 @@ export default function DateFormat(props) {
   return (
     <>
       <Container fluid>
-        <Row style={{ marginTop: 20, marginLeft: -30 }}>
-          <Breadcrumbs
-            tableName={table}
-            fieldName={name + " - Field Setting"}
-          />
-        </Row>
         <Row style={{ marginBottom: 50, marginTop: 20 }}>
           <Col>
             <Row>
