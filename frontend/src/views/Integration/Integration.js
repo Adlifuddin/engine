@@ -42,7 +42,7 @@ function Integration() {
                     <Row style={{marginLeft: "120px"}}>
                         {images.map(x => (
                             <Col md="0.25rem" >
-                                <Card style={cardStyle} onClick={click} id="integration">
+                                <Card style={cardStyle} onClick={click} id="integrations">
                                     <Card.Img variant="top" id={x.id} src={x.image} style={{ width: '200px', height: '200px', marginLeft: '46px' }}/>
                                     <Card.Body style={{textAlign:"center"}} id={x.id}>
                                         <Card.Title id={x.id}>{x.name}</Card.Title>
