@@ -146,7 +146,7 @@ function FormattingTab(props) {
     format = (
       <>
         <LinkText status={status} index={index} />
-        <DateFormat />
+        <DateFormat status={status} index={index} />
       </>
     );
   } else if (
@@ -157,7 +157,7 @@ function FormattingTab(props) {
     format = (
       <>
         <BarChartToggle status={status} index={index} />
-        <DateFormat />
+        <DateFormat status={status} index={index} />
       </>
     );
   } else if (fieldType == "type/Number" || fieldType == null) {
@@ -165,7 +165,7 @@ function FormattingTab(props) {
       <>
         <BarChartToggle status={status} index={index} />
         <NumberStyle status={status} index={index} />
-        <CurrencyFormat />
+        <CurrencyFormat status={status} index={index} />
       </>
     );
   } else {
