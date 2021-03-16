@@ -3,7 +3,7 @@ import {Card, CardHeader, Row, Col, Table, Modal, ModalHeader, ModalBody, ModalF
 import { Button} from 'react-bootstrap'
 import api from '../../api/metabaseApi'
 import { Link } from 'react-router-dom'
-import './DatabaseList.css'
+import './DatabaseList.scss'
 import ApiLoader from '../../components/Loader/ApiLoader'
 import Create from './components/DatabaseFunction'
 import { CardHeaderColor, CardColor } from '../../components/customStyle/DatabaseColor'

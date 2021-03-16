@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { Nav, Navbar, Container, NavDropdown, Collapse, Button } from 'react-bootstrap'
 import { navBar, navBrand, navLink } from '../customStyle/NavColor'
 import Logo from "../../assets/images/Nexent_200x30px.svg"
-import './Navbar.css'
 import { NavLink, Link, useLocation, Redirect } from "react-router-dom";
 import {
   BackgroundColorContext,
@@ -44,7 +43,7 @@ function NavigationBar(props) {
     <BackgroundColorContext.Consumer>
       {({ color }) => (
     <Navbar variant="dark" style={navBar} data={color}>
-      <Navbar.Brand style={navBrand} href="#">
+      <Navbar.Brand style={navBrand} href="/home">
         <span>
           <img alt="logo" src={Logo}/>{' '}
         </span>

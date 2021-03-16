@@ -61,9 +61,10 @@ var _UpdateTab = _interopRequireDefault(require("./views/DataModel/UpdateTab"));
 
 var _Collection = _interopRequireDefault(require("./views/Collection/Collection"));
 
+var _PermissionTableList = _interopRequireDefault(require("./components/Permission/PermissionTableList"));
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-//import FieldUpdate from './views/DataModel/FieldUpdate'
 var routes = [{
   path: "home",
   name: "Home",
@@ -71,7 +72,7 @@ var routes = [{
   layout: "/"
 }, {
   path: "dataModel/:id/:index",
-  name: "fieldUpdate",
+  name: "update",
   component: _UpdateTab["default"],
   layout: "/",
   invisible: true
@@ -235,9 +236,10 @@ var routes = [{
   name: "permission-id",
   component: _PermissionID["default"],
   layout: "/",
-  invisible: true
+  invisible: true,
+  exact: true
 }, {
-  path: "dataModel",
+  path: "data-model",
   name: "Data Model",
   component: _DataModel["default"],
   layout: "/"
@@ -246,6 +248,12 @@ var routes = [{
   name: "Collection",
   component: _Collection["default"],
   layout: "/"
+}, {
+  path: "permission/:id/schemas/:index/tables",
+  name: "permission-list",
+  component: _PermissionTableList["default"],
+  layout: "/",
+  invisible: true
 }];
 var _default = routes;
 exports["default"] = _default;

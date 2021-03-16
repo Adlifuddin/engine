@@ -1,5 +1,4 @@
 import React,{useState, useEffect} from 'react'
-import axios from 'axios'
 import { Table, Tooltip, Button, OverlayTrigger } from 'react-bootstrap'
 import { FaRedoAlt } from 'react-icons/fa'
 import ReactivateUserModal from './Modal/ReactivateUserModal'

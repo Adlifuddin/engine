@@ -1,7 +1,5 @@
-import React, {useEffect, useState} from 'react'
+import React from 'react'
 import DatabaseContainer from './DatabaseContainer'
-import api from '../../api/metabaseApi'
-
 
 function DatabaseUpdate(props) {
     const path = props.location.pathname
@@ -9,9 +7,7 @@ function DatabaseUpdate(props) {
     const status = pathname[2]
 
     return (
-        <>
-            <DatabaseContainer status={status}/>
-        </>
+        <DatabaseContainer status={status}/>
     )
 }
 

@@ -3,7 +3,6 @@ import { Container, Row, Tabs, Tab } from 'react-bootstrap'
 import CollectionPermission from './CollectionPermission'
 import DataPermission from './DataPermission'
 
-
 function Permission() {
 
     return (

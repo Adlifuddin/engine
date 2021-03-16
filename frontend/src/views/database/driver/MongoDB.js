@@ -1,14 +1,13 @@
 import React, {useState, useEffect} from 'react'
-import {Card, CardBody, Row, Col, CardHeader} from 'reactstrap'
+import { CardBody, Row, Col} from 'reactstrap'
 import { Form } from 'react-bootstrap'
 import SSHTunnel from './components/SSHTunnel'
-import Breadcrumbs from './components/Breadcrumb'
 import FormComponent from './components/FormComponent'
 import FormFooter from './components/FormFooter'
 import SchedulingTab from './components/SchedulingTab'
 import Create from '../components/DatabaseFunction'
 import Scheduling from './components/Scheduling'
-import {CardColor, CardHeaderColor} from '../../../components/customStyle/DatabaseColor'
+import Database from '../Database'
 
 function Childrens(props) {
     const {engine, inputting, name, stats, sshTunnel, switches, tunnelHost, tunnelPort, tunnelPassword, tunnelPrivateKey, sshAuth,tunnelUser, autoRunQueries, userControlScheduling, refingerprint} = props
@@ -329,10 +328,7 @@ function MongoDB(props) {
 
 
     return (
-        <Card style={CardColor}>
-            <CardHeader style={CardHeaderColor}>
-                <Breadcrumbs b={b} />
-            </CardHeader>
+        <Database b={b}>
             <Form onSubmit={submit}>
                 <CardBody>
                     <Row>
@@ -423,14 +419,13 @@ function MongoDB(props) {
                                 />
 
                             }
-                            
                             {c}
                         </Col>
                         {d}
                     </Row>
-                    </CardBody>
-                </Form>
-            </Card>
+                </CardBody>
+            </Form>
+        </Database>
     )
 }
 

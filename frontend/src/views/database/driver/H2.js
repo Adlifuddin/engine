@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from 'react'
-import {Card, CardBody, Row, Col, CardHeader} from 'reactstrap'
+import {CardBody, Row, Col} from 'reactstrap'
 import { Form } from 'react-bootstrap'
-import Breadcrumbs from './components/Breadcrumb'
 import FormComponent from './components/FormComponent'
 import FormFooter from './components/FormFooter'
 import SchedulingTab from './components/SchedulingTab'
 import Scheduling from './components/Scheduling'
 import Create from '../components/DatabaseFunction'
-import {CardColor, CardHeaderColor} from '../../../components/customStyle/DatabaseColor'
+import Database from '../Database'
 
 function Childrens(props) {
     const {engine, inputting, name, db, switches, autoRunQueries, userControlScheduling, refingerprint} = props
@@ -115,11 +114,8 @@ const { status,
     }
 
     return (
-        <Card style={CardColor}>
-            <CardHeader style={CardHeaderColor}>
-                <Breadcrumbs b={b} />
-            </CardHeader>
-                <Form onSubmit={submit}>
+        <Database b={b}>
+            <Form onSubmit={submit}>
                 <CardBody>
                     <Row>
                         <Col md="8">
@@ -198,9 +194,9 @@ const { status,
                         </Col>
                         {d}
                     </Row>
-                    </CardBody>
-                </Form>
-            </Card>
+                </CardBody>
+            </Form>
+        </Database>
     )
 }
 

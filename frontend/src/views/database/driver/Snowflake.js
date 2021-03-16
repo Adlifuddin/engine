@@ -1,14 +1,13 @@
 import React, { useState, useEffect } from 'react'
-import {Card, CardBody, Row, Col, CardHeader} from 'reactstrap'
+import { CardBody, Row, Col } from 'reactstrap'
 import { Form } from 'react-bootstrap'
 import SSHTunnel from './components/SSHTunnel'
-import Breadcrumbs from './components/Breadcrumb'
 import FormComponent from './components/FormComponent'
 import FormFooter from './components/FormFooter'
 import SchedulingTab from './components/SchedulingTab'
 import Scheduling from './components/Scheduling'
 import Create from '../components/DatabaseFunction'
-import {CardColor, CardHeaderColor} from '../../../components/customStyle/DatabaseColor'
+import Database from '../Database'
 
 function Childrens(props) {
     const {engine, inputting, name, account, username, password, warehouse, dbname, region, schema, role, jdbc, sshTunnel, switches, tunnelHost, tunnelPassword, tunnelPort, tunnelPrivateKey, tunnelUser, sshAuth, refingerprint, userControlScheduling, autoRunQueries} = props
@@ -245,10 +244,7 @@ const { status,
 
 
     return (
-        <Card style={CardColor}>
-            <CardHeader style={CardHeaderColor}>
-                <Breadcrumbs b={b} />
-            </CardHeader>
+        <Database b={b}>
             <Form onSubmit={submit}>
                 <CardBody>
                     <Row>
@@ -358,9 +354,9 @@ const { status,
                         </Col>
                         {d}
                     </Row>
-                    </CardBody>
-                </Form>
-            </Card>
+                </CardBody>
+            </Form>
+        </Database>
     )
 }
 

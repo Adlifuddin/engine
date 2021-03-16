@@ -33,9 +33,11 @@ function SchedulingTab(props) {
             onSelect={(k) => setKeys(k)}
         >
             <Tab eventKey="connection" title="Connection">
+                <br/>
                 {children}
             </Tab>
             <Tab eventKey="schedule" title="Scheduling">
+                <br/>
                 <Scheduling
                     activeKey={activeKey}
                     changeKey={changeKey}

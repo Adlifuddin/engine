@@ -1,10 +1,9 @@
 import React,{useState, useEffect} from 'react'
-import { Container, Row, Col, Table } from 'react-bootstrap'
-import SideBar from '../SideBar/SideBar'
+import { Table } from 'react-bootstrap'
 import ApiLoader from '../../Loader/ApiLoader'
-import Breadcrumbs from '../Breadcrumbs/Breadcrumbs'
 import { titleHeadingColor, titleRowColor} from '../../customStyle/TableColor'
 import api from '../../../api/index'
+import Audit from '../Audit'
 
 function DatabaseAudit(){
     const [loading,setLoading] = useState(false)
@@ -26,37 +25,32 @@ function DatabaseAudit(){
    
     
     return(
-        <div>
-            <Container fluid>
-                <Row>
-                    <SideBar />
-                    <Col>  
-                        <Breadcrumbs b="Databases"/>
-                        {loading === true ? <ApiLoader apiload={loading}/> :
-                        <Table hover borderless>
-                            <thead>
-                                <tr>
-                                    <th style={titleHeadingColor}>Title</th>
-                                    <th style={titleHeadingColor}>Schema</th>
-                                    <th style={titleHeadingColor}>Table</th>
-                                    <th style={titleHeadingColor}>Added On</th>   
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {databaseAudit.map(databaseAudit => ( 
-                                    <tr key={databaseAudit.id}>
-                                        <td style={titleRowColor}>{databaseAudit.name}</td>
-                                        <td style={titleRowColor}>{databaseAudit.schema}</td>
-                                        <td style={titleRowColor}>{databaseAudit.table}</td>
-                                        <td style={titleRowColor}>{databaseAudit.created_at}</td>
-                                    </tr>
-                                ))}
-                            </tbody>
-                        </Table>}
-                    </Col>
-                </Row>  
-            </Container>      
-        </div>
+        <Audit b="Databases">
+            {loading === true ?
+                <ApiLoader apiload={loading} />
+                :
+                <Table hover borderless>
+                    <thead>
+                        <tr>
+                            <th style={titleHeadingColor}>Title</th>
+                            <th style={titleHeadingColor}>Schema</th>
+                            <th style={titleHeadingColor}>Table</th>
+                            <th style={titleHeadingColor}>Added On</th>   
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {databaseAudit.map(databaseAudit => ( 
+                            <tr key={databaseAudit.id}>
+                                <td style={titleRowColor}>{databaseAudit.name}</td>
+                                <td style={titleRowColor}>{databaseAudit.schema}</td>
+                                <td style={titleRowColor}>{databaseAudit.table}</td>
+                                <td style={titleRowColor}>{databaseAudit.created_at}</td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </Table>
+            }
+        </Audit>
     )
 }
 

@@ -11,10 +11,12 @@ function App() {
 
   useEffect(() => {
     if (localStorage.getItem("sessions") !== null) {
-       dispatch(login({
-                    sessions: localStorage.getItem("sessions"),
-                    loggedIn: true,
-                }))
+      dispatch(
+        login({
+          sessions: localStorage.getItem("sessions"),
+          loggedIn: true,
+        })
+      )
     }
   }, [])
 

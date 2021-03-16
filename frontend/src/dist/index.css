@@ -9,6 +9,8 @@ body {
   color: #4c5773;
   position: relative;
   min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 
 .dropdown-menu {
@@ -206,4 +208,20 @@ code {
   #nexentLogo {
     margin-left: 10%;
   }
+}
+.sidenav {
+  grid-area: sidebar;
+  height: 100%;
+  width: 240px;
+  display: flex;
+  position: absolute;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  overflow: auto;
+  margin-top: 58px;
+}
+
+.content {
+  margin-left: 240px;
 }

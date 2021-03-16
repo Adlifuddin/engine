@@ -7,8 +7,7 @@ import { AiFillFolder } from 'react-icons/ai'
 import {TiTick} from 'react-icons/ti'
 import { ImCross } from 'react-icons/im'
 import {Link} from 'react-router-dom'
-import {AiOutlineConsoleSql} from 'react-icons/ai'
-import Breadcrumbs from './components/Breadcrumbs'
+import Breadcrumbs from '../Breadcrumbs/Breadcrumbs'
 import ApiLoader from '../Loader/ApiLoader'
 
 function PermissionID(props) {
@@ -48,7 +47,7 @@ function PermissionID(props) {
                 <ApiLoader apiload={load} />
                 :
                 <>
-                <Breadcrumbs b={dataName.name} id={dataName.id} active={true}/>
+                <Breadcrumbs a="Databases" b={dataName.name} id={dataName.id} active={true} links="/permission"/>
                 {permissionGraph !== undefined ?
                     <Table>
                         <thead>
@@ -81,26 +80,26 @@ function PermissionID(props) {
                                         </Row>
                                     </td>
                                     <OverlayTrigger overlay={<Tooltip id="tooltip-disabled">{permissionGraph[dataName.name].Analyst.native === 'none' ? "No access" : "Unrestricted Access"}</Tooltip>}>
-                                            <td onClick={click} 
-                                                id={`native${permissionGraph[dataName.name].Analyst.native}`} 
-                                                style={tableRow}>
-                                                {permissionGraph[dataName.name].Analyst.native=== 'none'? 
-                                                    <ImCross id={`nativecross`}/> 
-                                                    : 
-                                                    <TiTick id={`nativetick`}/>
-                                                }
-                                            </td>
-                                        </OverlayTrigger>
-                                        
-                                        <OverlayTrigger overlay={<Tooltip id="tooltip-disabled">{permissionGraph[dataName.name].Architect.native === 'none' ? "No access" : "Unrestricted Access"}</Tooltip>}>
-                                            <td id={`native${permissionGraph[dataName.name].Architect.native}`}
-                                                style={{...tableRow, borderRight: "1px solid #dee2e6", borderLeft: "1px solid rgb(184, 187, 195)"}}>
-                                            {permissionGraph[dataName.name].Architect.native === 'none' ?
+                                        <td onClick={click} 
+                                            id={`native${permissionGraph[dataName.name].Analyst.native}`} 
+                                            style={tableRow}>
+                                            {permissionGraph[dataName.name].Analyst.native=== 'none'? 
                                                 <ImCross id={`nativecross`}/> 
                                                 : 
-                                                    <TiTick id={`nativetick`} />}
-                                            </td>
-                                        </OverlayTrigger>
+                                                <TiTick id={`nativetick`}/>
+                                            }
+                                        </td>
+                                    </OverlayTrigger>
+                                    
+                                    <OverlayTrigger overlay={<Tooltip id="tooltip-disabled">{permissionGraph[dataName.name].Architect.native === 'none' ? "No access" : "Unrestricted Access"}</Tooltip>}>
+                                        <td id={`native${permissionGraph[dataName.name].Architect.native}`}
+                                            style={{...tableRow, borderRight: "1px solid #dee2e6", borderLeft: "1px solid rgb(184, 187, 195)"}}>
+                                        {permissionGraph[dataName.name].Architect.native === 'none' ?
+                                            <ImCross id={`nativecross`}/> 
+                                            : 
+                                                <TiTick id={`nativetick`} />}
+                                        </td>
+                                    </OverlayTrigger>
                                 </tr>
                             ))}
                         </tbody>

@@ -1,6 +1,6 @@
 //import useState hook to create menu collapse state
 import React, { useState } from "react";
-
+import './custom.scss'
 //import react pro sidebar components
 import {
   ProSidebar,
@@ -17,8 +17,8 @@ import { FiLogOut, FiArrowLeftCircle, FiArrowRightCircle } from "react-icons/fi"
 //import sidebar scss from react-pro-sidebar module and our custom css 
 import SideBarSubMenu from "./SideBarSubMenu"
 
-function SideBar(){
-  
+
+function SideBar(props){
     //create initial menuCollapse state using useState hook
     const [menuCollapse, setMenuCollapse] = useState(false)
 
@@ -27,7 +27,9 @@ function SideBar(){
         <ProSidebar>
           <SidebarContent>
             <Menu iconShape="circle">
-              <SideBarSubMenu />
+                <SideBarSubMenu>
+                    {props.children}
+                </SideBarSubMenu>
             </Menu>
           </SidebarContent>
         </ProSidebar>

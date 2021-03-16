@@ -232,7 +232,7 @@ var routes = [
         exact: true,
     },
     {
-        path: "dataModel",
+        path: "data-model",
         name: "Data Model",
         component: DataModel,
         layout: "/",

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import {Container, Card, Row } from 'react-bootstrap'
+import {Container, Card, Row, Col } from 'react-bootstrap'
 import Footer from '../../components/Footer/Footer'
 import {images} from './Image'
 import Modals from '../../components/Modal/Modal'
@@ -37,14 +37,16 @@ function Integration() {
                 {load? 
                     <ApiLoader apiload={load}/>
                     :
-                    <Row style={{marginLeft: 'auto', marginRight: "auto", verticalAlign: "middle", overflow: "hidden"}}>
+                    <Row>
                         {images.map(x => (
-                            <Card border="warning" style={cardStyle} onClick={click} >
-                                <Card.Img  variant="top"  id={x.id} src={x.image}/>
-                                <Card.Body style={{textAlign:"center"}} id={x.id}>
-                                    <Card.Title id={x.id}>{x.name}</Card.Title>
-                                </Card.Body>
-                            </Card>
+                            <Col>
+                                <Card border="warning" style={cardStyle} onClick={click} >
+                                    <Card.Img  variant="top"  id={x.id} src={x.image}/>
+                                    <Card.Body style={{textAlign:"center"}} id={x.id}>
+                                        <Card.Title id={x.id}>{x.name}</Card.Title>
+                                    </Card.Body>
+                                </Card>
+                            </Col>
                         ))
                         }
                     </Row>

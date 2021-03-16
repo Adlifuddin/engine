@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React from 'react'
 import DatabaseContainer from './DatabaseContainer'
 
 function DatabaseView(props) {
@@ -8,7 +8,7 @@ function DatabaseView(props) {
 
     return (
         <DatabaseContainer status={status}/>
-    )    
+    )
 }
 
 export default DatabaseView
