@@ -2,9 +2,9 @@ import React,{useState, useEffect} from 'react'
 import { Row, Col, Table, Card } from 'react-bootstrap'
 import { Line, LineChart , ResponsiveContainer, CartesianGrid, XAxis, YAxis, Tooltip } from 'recharts';
 import moment from 'moment'
-import Loading from '../../Loader/Loading'
-import { CardHeaderColor, CardColor, colors } from '../../customStyle/DatabaseColor'
-import { titleHeadingColor, titleRowColor } from '../../customStyle/TableColor'
+import Loading from '../../../components/Loader/Loading'
+import { CardHeaderColor, CardColor, colors } from '../../../components/customStyle/DatabaseColor'
+import { titleHeadingColor, titleRowColor } from '../../../components/customStyle/TableColor'
 import api from '../../../api/index'
 import Audit from '../Audit'
 

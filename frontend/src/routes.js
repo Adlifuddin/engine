@@ -1,32 +1,47 @@
-import GoogleAPI from './views/Integration/GoogleApi'
 import HomePage from './components/Home/HomePage'
+
+//Integration
 import Integration from './views/Integration/Integration'
-import Members from './components/Audit/TeamMember/Members'
+import GoogleAPI from './views/Integration/GoogleApi'
+
+//Database
 import DatabaseView from './views/database/DatabaseView'
 import DatabaseUpdate from './views/database/DatabaseUpdate'
 import DatabaseList from './views/database/DatabaseList'
-import Tables from './components/Audit/Table/Table'
-import Schema from './components/Audit/Schema/schema'
-import DatabaseAudit from './components/Audit/Database/Database'
-import Questions from './components/Audit/Questions/question'
-import Dashboards from './components/Audit/Dashboards/dashboard'
-import MemberOverview from './components/Audit/TeamMember/MemberOverview'
-import AuditLog from './components/Audit/TeamMember/AuditLog'
-import Downloads from './components/Audit/Downloads/download'
-import TableOverview from './components/Audit/Table/TableOverview'
-import SchemaOverview from './components/Audit/Schema/SchemaOverview'
-import DatabaseOverview from './components/Audit/Database/DatabaseOverview'
-import QuestionOverview from './components/Audit/Questions/QuestionOverview'
-import DashboardOverview from './components/Audit/Dashboards/DashboardOverview'
-import DownloadOverview from './components/Audit/Downloads/DownloadOverview'
+
+//Audit
+import Members from './views/Audit/TeamMember/Members'
+import Tables from './views/Audit/Table/Table'
+import Schema from './views/Audit/Schema/schema'
+import DatabaseAudit from './views/Audit/Database/Database'
+import Questions from './views/Audit/Questions/question'
+import Dashboards from './views/Audit/Dashboards/dashboard'
+import MemberOverview from './views/Audit/TeamMember/MemberOverview'
+import AuditLog from './views/Audit/TeamMember/AuditLog'
+import Downloads from './views/Audit/Downloads/download'
+import TableOverview from './views/Audit/Table/TableOverview'
+import SchemaOverview from './views/Audit/Schema/SchemaOverview'
+import DatabaseOverview from './views/Audit/Database/DatabaseOverview'
+import QuestionOverview from './views/Audit/Questions/QuestionOverview'
+import DashboardOverview from './views/Audit/Dashboards/DashboardOverview'
+import DownloadOverview from './views/Audit/Downloads/DownloadOverview'
+
+//People
 import People from './components/People/People'
-import Permission from './components/Permission/permission'
 import Groups from './components/People/Groups'
+
+//Permission
+import Permission from './components/Permission/permission'
 import PermissionID from './components/Permission/PermissionID'
+import PermissionTableList from './components/Permission/PermissionTableList'
+
+//Datamodel
 import DataModel from './views/DataModel/DataModel'
 import UpdateTab from './views/DataModel/UpdateTab'
+
+//Collection
 import Collection from './views/Collection/Collection'
-import PermissionTableList from './components/Permission/PermissionTableList'
+
 
 var routes = [
     {

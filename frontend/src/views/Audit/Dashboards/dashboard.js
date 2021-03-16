@@ -1,8 +1,8 @@
 import React,{useState, useEffect} from 'react'
 import { Table } from 'react-bootstrap'
 import Audit from '../Audit'
-import ApiLoader from '../../Loader/ApiLoader'
-import { titleHeadingColor, titleRowColor} from '../../customStyle/TableColor'
+import ApiLoader from '../../../components/Loader/ApiLoader'
+import { titleHeadingColor, titleRowColor } from '../../../components/customStyle/TableColor'
 import api from '../../../api/index'
 
 function Dashboards(){

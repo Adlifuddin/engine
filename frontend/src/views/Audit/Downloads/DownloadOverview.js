@@ -3,8 +3,8 @@ import api from '../../../api/index'
 import { Row, Col, Card } from 'react-bootstrap'
 import { ResponsiveContainer, Scatter, ScatterChart, CartesianGrid, XAxis, YAxis, Tooltip , Bar, BarChart} from 'recharts';
 import moment from 'moment'
-import Loading from '../../Loader/Loading'
-import { CardHeaderColor, CardColor, colors } from '../../customStyle/DatabaseColor'
+import Loading from '../../../components/Loader/Loading'
+import { CardHeaderColor, CardColor, colors } from '../../../components/customStyle/DatabaseColor'
 import Audit from '../Audit'
 
 function DownloadOverview(){

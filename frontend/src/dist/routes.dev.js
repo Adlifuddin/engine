@@ -5,13 +5,11 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports["default"] = void 0;
 
-var _GoogleApi = _interopRequireDefault(require("./views/Integration/GoogleApi"));
-
 var _HomePage = _interopRequireDefault(require("./components/Home/HomePage"));
 
 var _Integration = _interopRequireDefault(require("./views/Integration/Integration"));
 
-var _Members = _interopRequireDefault(require("./components/Audit/TeamMember/Members"));
+var _GoogleApi = _interopRequireDefault(require("./views/Integration/GoogleApi"));
 
 var _DatabaseView = _interopRequireDefault(require("./views/database/DatabaseView"));
 
@@ -19,41 +17,45 @@ var _DatabaseUpdate = _interopRequireDefault(require("./views/database/DatabaseU
 
 var _DatabaseList = _interopRequireDefault(require("./views/database/DatabaseList"));
 
-var _Table = _interopRequireDefault(require("./components/Audit/Table/Table"));
+var _Members = _interopRequireDefault(require("./views/Audit/TeamMember/Members"));
 
-var _schema = _interopRequireDefault(require("./components/Audit/Schema/schema"));
+var _Table = _interopRequireDefault(require("./views/Audit/Table/Table"));
 
-var _Database = _interopRequireDefault(require("./components/Audit/Database/Database"));
+var _schema = _interopRequireDefault(require("./views/Audit/Schema/schema"));
 
-var _question = _interopRequireDefault(require("./components/Audit/Questions/question"));
+var _Database = _interopRequireDefault(require("./views/Audit/Database/Database"));
 
-var _dashboard = _interopRequireDefault(require("./components/Audit/Dashboards/dashboard"));
+var _question = _interopRequireDefault(require("./views/Audit/Questions/question"));
 
-var _MemberOverview = _interopRequireDefault(require("./components/Audit/TeamMember/MemberOverview"));
+var _dashboard = _interopRequireDefault(require("./views/Audit/Dashboards/dashboard"));
 
-var _AuditLog = _interopRequireDefault(require("./components/Audit/TeamMember/AuditLog"));
+var _MemberOverview = _interopRequireDefault(require("./views/Audit/TeamMember/MemberOverview"));
 
-var _download = _interopRequireDefault(require("./components/Audit/Downloads/download"));
+var _AuditLog = _interopRequireDefault(require("./views/Audit/TeamMember/AuditLog"));
 
-var _TableOverview = _interopRequireDefault(require("./components/Audit/Table/TableOverview"));
+var _download = _interopRequireDefault(require("./views/Audit/Downloads/download"));
 
-var _SchemaOverview = _interopRequireDefault(require("./components/Audit/Schema/SchemaOverview"));
+var _TableOverview = _interopRequireDefault(require("./views/Audit/Table/TableOverview"));
 
-var _DatabaseOverview = _interopRequireDefault(require("./components/Audit/Database/DatabaseOverview"));
+var _SchemaOverview = _interopRequireDefault(require("./views/Audit/Schema/SchemaOverview"));
 
-var _QuestionOverview = _interopRequireDefault(require("./components/Audit/Questions/QuestionOverview"));
+var _DatabaseOverview = _interopRequireDefault(require("./views/Audit/Database/DatabaseOverview"));
 
-var _DashboardOverview = _interopRequireDefault(require("./components/Audit/Dashboards/DashboardOverview"));
+var _QuestionOverview = _interopRequireDefault(require("./views/Audit/Questions/QuestionOverview"));
 
-var _DownloadOverview = _interopRequireDefault(require("./components/Audit/Downloads/DownloadOverview"));
+var _DashboardOverview = _interopRequireDefault(require("./views/Audit/Dashboards/DashboardOverview"));
+
+var _DownloadOverview = _interopRequireDefault(require("./views/Audit/Downloads/DownloadOverview"));
 
 var _People = _interopRequireDefault(require("./components/People/People"));
 
-var _permission = _interopRequireDefault(require("./components/Permission/permission"));
-
 var _Groups = _interopRequireDefault(require("./components/People/Groups"));
 
+var _permission = _interopRequireDefault(require("./components/Permission/permission"));
+
 var _PermissionID = _interopRequireDefault(require("./components/Permission/PermissionID"));
+
+var _PermissionTableList = _interopRequireDefault(require("./components/Permission/PermissionTableList"));
 
 var _DataModel = _interopRequireDefault(require("./views/DataModel/DataModel"));
 
@@ -61,10 +63,15 @@ var _UpdateTab = _interopRequireDefault(require("./views/DataModel/UpdateTab"));
 
 var _Collection = _interopRequireDefault(require("./views/Collection/Collection"));
 
-var _PermissionTableList = _interopRequireDefault(require("./components/Permission/PermissionTableList"));
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
+//Integration
+//Database
+//Audit
+//People
+//Permission
+//Datamodel
+//Collection
 var routes = [{
   path: "home",
   name: "Home",

@@ -2,8 +2,8 @@ import React,{useState, useEffect} from 'react'
 import {  Row, Col, Card } from 'react-bootstrap'
 import { ResponsiveContainer, Line, LineChart ,Bar, BarChart, CartesianGrid, XAxis, YAxis, Tooltip, Legend } from 'recharts';
 import moment from 'moment'
-import Loading from '../../Loader/Loading'
-import { CardHeaderColor, CardColor, colors } from '../../customStyle/DatabaseColor'
+import Loading from '../../../components/Loader/Loading'
+import { CardHeaderColor, CardColor, colors } from '../../../components/customStyle/DatabaseColor'
 import api from '../../../api/index'
 import Audit from '../Audit';
 

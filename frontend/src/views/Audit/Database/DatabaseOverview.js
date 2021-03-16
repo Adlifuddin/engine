@@ -1,8 +1,8 @@
 import React,{useState, useEffect} from 'react'
 import { Row, Col, Tab, Tabs, Card } from 'react-bootstrap'
 import { Legend, Line, LineChart ,Bar, BarChart, CartesianGrid, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts';
-import Loading from '../../Loader/Loading'
-import { CardHeaderColor, CardColor, colors } from '../../customStyle/DatabaseColor'
+import Loading from '../../../components/Loader/Loading'
+import { CardHeaderColor, CardColor, colors } from '../../../components/customStyle/DatabaseColor'
 import moment from 'moment'
 import api from '../../../api/index'
 import Audit from '../Audit'

@@ -1,7 +1,7 @@
 import React, {useState} from 'react'
 import { Container } from 'react-bootstrap'
-import Breadcrumbs from '../Breadcrumbs/Breadcrumbs'
-import Sidebar from '../Sidebar/Sidebar'
+import Breadcrumbs from '../../components/Breadcrumbs/Breadcrumbs'
+import Sidebar from '../../components/Sidebar/Sidebar'
 import { Link } from 'react-router-dom';
 import {
     SubMenu,
