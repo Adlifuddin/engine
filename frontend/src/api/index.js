@@ -52,7 +52,7 @@ export const dashboardsSaved = () => api.get("audit/dashboards/viewsnsaved")
 //People
 //Active
 export const peopleActive = () => api.get("people/activepeople")
-export const peopleGroupList = () => api.get("people/listgroups")
+export const peopleGroupList = () => api.get("people/group/list")
 export const peopleDeactivate = () => api.get("people/deactivepeople")
 export const peopleAllGroup = () => api.get("people/groups")
 

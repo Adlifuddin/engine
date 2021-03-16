@@ -54,8 +54,7 @@ function Groups(){
                                     <Table hover borderless>
                                         <thead>
                                             <th>Group Name</th>
-                                            <th>Members</th>  
-                                             
+                                            <th>Members</th>        
                                         </thead> 
                                         <tbody>
                                         { createGroupShow ? <CreateGroup Show={true} /> : null }
@@ -63,7 +62,7 @@ function Groups(){
                                             <tr key={peopleGroups.id}>
                                                 <td>{peopleGroups.groups}</td>
                                                 <td>{peopleGroups.count}</td>
-                                                {peopleGroups.groups != "All Users" && peopleGroups.groups != "Administrators" ? <EditGroupOption groupName={peopleGroups.groups}/> : null}
+                                                {peopleGroups.groups != "All Users" && peopleGroups.groups != "Administrators" ? <EditGroupOption groupId={peopleGroups.id} groupName={peopleGroups.groups}/> : null}
                                             </tr>
                                             ))}
                                         </tbody>

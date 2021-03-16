@@ -316,7 +316,7 @@ class PeopleDeactive(Resource):
 class PeopleGroups(Resource):
     def get(self):
         engine = CreateConnectionCoreUser()
-        query = "Select a.name as groups, count(b.id) from permissions_group a left join permissions_group_membership b on a.id = b.group_id where a.id != 3 group by a.name order by a.name asc" 
+        query = "Select a.id, a.name as groups, count(b.id) from permissions_group a left join permissions_group_membership b on a.id = b.group_id where a.id !=3 group by a.name, a.id order by a.name asc" 
         connection = engine.connect()
         result = connection.execute(query)
         results = [dict(zip(tuple (result.keys()) ,i)) for i in result.cursor]
@@ -345,6 +345,23 @@ class PeopleListGroups(Resource):
         result = connection.execute(query)
         results = [dict(zip(tuple (result.keys()) ,i)) for i in result.cursor]
         return jsonpify(results)
+               
+class PeopleDeleteGroup(Resource):
+    def post(self):
+        try:
+            args = request.json
+            groupId = args['id']
+            engine = CreateConnectionCoreUser()
+            connection = engine.connect()
+            query = f"Delete from permissions_group Where id = ('{groupId}')"
+            result = connection.execute(query)
+            data = json.dumps({'success': True, "message": "Successfully Deleted Data from the Database"})
+            return Response(data, status=200, mimetype='application/json')
+        except Exception:
+            print(Exception.read())
+            data = json.dumps({'success': False, "message": "Error Found"})
+            return Response(data, status=400, mimetype='application/json')
+
     
 
 class GooleDriveTable(Resource):
@@ -423,7 +440,8 @@ api.add_resource(DashboardsViewsnSaved, '/api/audit/dashboards/viewsnsaved')
 api.add_resource(PeopleActive, '/api/people/activepeople')
 api.add_resource(PeopleDeactive, '/api/people/deactivepeople')
 api.add_resource(PeopleGroups, '/api/people/groups')
-api.add_resource(PeopleListGroups, '/api/people/listgroups')
+api.add_resource(PeopleListGroups, '/api/people/group/list')
+api.add_resource(PeopleDeleteGroup, '/api/people/group/remove')
 api.add_resource(GoogleDriveAPILink, '/api/integration/google-drive/apiLink')
 api.add_resource(GooleDriveTable, '/api/google-drive-table')
 api.add_resource(UserCredentials, "/api/user/credentials")

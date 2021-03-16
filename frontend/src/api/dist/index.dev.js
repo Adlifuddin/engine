@@ -192,7 +192,7 @@ var peopleActive = function peopleActive() {
 exports.peopleActive = peopleActive;
 
 var peopleGroupList = function peopleGroupList() {
-  return api.get("people/listgroups");
+  return api.get("people/group/list");
 };
 
 exports.peopleGroupList = peopleGroupList;
