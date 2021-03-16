@@ -362,6 +362,23 @@ class PeopleDeleteGroup(Resource):
             data = json.dumps({'success': False, "message": "Error Found"})
             return Response(data, status=400, mimetype='application/json')
 
+class PeopleUpdateGroup(Resource):
+    def post(self):   
+        try:
+            args = request.json
+            groupId = args['id']
+            groupName = args['name']
+            engine = CreateConnectionCoreUser()
+            connection = engine.connect()
+            query = f"Update permissions_group Set name = '{groupName}' Where id = {groupId}"
+            result = connection.execute(query)
+            data = json.dumps({'success': True, "message": "Successfully Updated Data from the Database"})
+            return Response(data, status=200, mimetype='application/json')
+        except Exception:
+            print(Exception.read())
+            data = json.dumps({'success': False, "message": "Error Found"})
+            return Response(data, status=400, mimetype='application/json')
+            
     
 
 class GooleDriveTable(Resource):
@@ -441,6 +458,7 @@ api.add_resource(PeopleActive, '/api/people/activepeople')
 api.add_resource(PeopleDeactive, '/api/people/deactivepeople')
 api.add_resource(PeopleGroups, '/api/people/groups')
 api.add_resource(PeopleListGroups, '/api/people/group/list')
+api.add_resource(PeopleUpdateGroup, '/api/people/group/update')
 api.add_resource(PeopleDeleteGroup, '/api/people/group/remove')
 api.add_resource(GoogleDriveAPILink, '/api/integration/google-drive/apiLink')
 api.add_resource(GooleDriveTable, '/api/google-drive-table')

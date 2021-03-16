@@ -18,7 +18,7 @@ function EditGroupOption(props){
 
                     <Dropdown.Menu>
                         <Dropdown.Item onClick={() => setEditGroupModalShow(true)} >Edit Name</Dropdown.Item>
-                        <EditGroupModal groupName={props.groupName} show={EditGroupModalShow} onHide={() => setEditGroupModalShow(false)} />
+                        <EditGroupModal groupId={props.groupId} groupName={props.groupName} show={EditGroupModalShow} onHide={() => setEditGroupModalShow(false)} />
                         <Dropdown.Item onClick={() => setDeleteGroupModalShow(true)} >Remove Group</Dropdown.Item>   
                         <DeleteGroupModal groupId={props.groupId} show={DeleteGroupModalShow} onHide={() => setDeleteGroupModalShow(false)} />
                     </Dropdown.Menu>
