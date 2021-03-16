@@ -5,7 +5,7 @@ import { useState, useEffect } from 'react'
 //import api
 import api from "../../../api/metabaseApi"
 
-function LinkText(props) {
+export default function ViewAs(props) {
 
     const status = props.status
     const index = props.index
@@ -13,7 +13,7 @@ function LinkText(props) {
     const [field, setField] = useState([])
 
     const [id, setId] = useState("")
-    const [text, setText] = useState("")
+    const [view, setView] = useState("")
 
     useEffect(() => {
         api.getTableIDMeta(status)
@@ -30,8 +30,8 @@ function LinkText(props) {
                         if(x.settings != null){
 
                             if(x.settings.link_text != null){
-                                //to set text
-                                setText(x.settings.link_text)
+                                //to set view
+                                setView(x.settings.view_as)
                             }
                         }
                     }
@@ -43,32 +43,47 @@ function LinkText(props) {
     }, [])
 
 
-    //to change text
-    const changeText = (e) => {
+    //to change view
+    const changeView = (e) => {
 
-        const text = e.target.value
-        setText(text)
-
+        var view = e.target.value
+        setView(view)
+        
         if(field.settings == null){
-            
-            field.settings = {
-                link_text: text
+
+            if(view == 'null'){
+                field.settings = {
+                    view_as: null
+                }
+            }
+            else {
+                field.settings = {
+                    view_as: view
+                }
             }
         }
         else {
 
             var temp = field.settings
-            
-            field.settings = {
-                ...temp,
-                link_text: text
+
+            if(view == 'null'){
+                field.settings = {
+                    ...temp,
+                    view_as: null
+                }
+            }
+            else {
+                field.settings = {
+                    ...temp,
+                    view_as: view
+                }
             }
             
         }
 
         console.log('new settings: ', field, 'id: ', id)
 
-        //to update text
+        //to update view
         api.updateField(field, id)
             .then(response => {
                 console.log(response)
@@ -84,19 +99,18 @@ function LinkText(props) {
                 <Row style={{marginTop: 20}}>
                     <Form style={{width: 400, marginLeft: 20}}>
                         <Form.Group>
-                            <Form.Label>Link Text</Form.Label>
-                            <Form.Control
-                                type="text"
-                                required
-                                value={text}
-                                onChange={changeText}
-                            />
-                            </Form.Group>
+                            <Form.Label>View as link or image</Form.Label>
+                            <Form.Control as="select" 
+                                custom 
+                                value={view}
+                                onChange={changeView}>
+                                <option value="null">Off</option>
+                                <option value="email_link">Email link</option>
+                            </Form.Control>
+                        </Form.Group>
                     </Form>
                 </Row>
             </Container>
         </>
     )
 }
-
-export default LinkText

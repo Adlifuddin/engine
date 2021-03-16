@@ -5,7 +5,7 @@ import { useState, useEffect } from 'react'
 //import api
 import api from "../../../api/metabaseApi"
 
-function BarChartToggle(props) {
+function NumberStyle(props) {
 
     const status = props.status
     const index = props.index
@@ -13,7 +13,7 @@ function BarChartToggle(props) {
     const [field, setField] = useState([])
 
     const [id, setId] = useState("")
-    const [miniBar, setMiniBar] = useState(false)
+    const [numberStyle, setNumberStyle] = useState("")
 
     useEffect(() => {
         api.getTableIDMeta(status)
@@ -25,17 +25,15 @@ function BarChartToggle(props) {
                     if(i == index){
                         
                         setField(x)
-
                         setId(x.id)
 
                         if(x.settings != null){
 
-                            if(x.settings.show_mini_bar != null){
-                                //to set mini bar
-                                setMiniBar(x.settings.show_mini_bar)
+                            if(x.settings.number_style != null){
+                                //to set number style
+                                setNumberStyle(x.settings.number_style)
                             }
                         }
-                        
                     }
                 })
             })
@@ -44,14 +42,16 @@ function BarChartToggle(props) {
             })
     }, [])
 
-    const changeMB = (e) => {
+    //to change number style
+    const changeNumberStyle = (e) => {
 
-        setMiniBar(e.target.checked)
-
+        const numberStyle = e.target.value
+        setNumberStyle(numberStyle)
+        
         if(field.settings == null){
             
             field.settings = {
-                show_mini_bar: e.target.checked
+                number_style: numberStyle
             }
         }
         else {
@@ -60,14 +60,14 @@ function BarChartToggle(props) {
             
             field.settings = {
                 ...temp,
-                show_mini_bar: e.target.checked
+                number_style: numberStyle
             }
             
         }
 
         console.log('new settings: ', field, 'id: ', id)
 
-        //to update mini bar
+        //to update number style
         api.updateField(field, id)
             .then(response => {
                 console.log(response)
@@ -81,15 +81,19 @@ function BarChartToggle(props) {
         <>
             <Container fluid>
                 <Row style={{marginTop: 20}}>
-                    <Form style={{marginLeft: 20}}>
-                        <Form.Label>Show a mini bar chart</Form.Label>
-                        <Form.Check
-                            id="minibar-switch"
-                            type="switch"
-                            required
-                            checked={miniBar}
-                            onChange={changeMB}
-                        />
+                    <Form style={{width: 400, marginLeft: 20}}>
+                        <Form.Group>
+                            <Form.Label>Style</Form.Label>
+                            <Form.Control as="select" 
+                                custom 
+                                value={numberStyle}
+                                onChange={changeNumberStyle}>
+                                <option value="decimal">Normal</option>
+                                <option value="percent">Percent</option>
+                                <option value="scientific">Scientific</option>
+                                <option value="currency">Currency</option>
+                            </Form.Control>
+                        </Form.Group>
                     </Form>
                 </Row>
             </Container>
@@ -97,4 +101,4 @@ function BarChartToggle(props) {
     )
 }
 
-export default BarChartToggle
+export default NumberStyle
