@@ -43,7 +43,7 @@ function NavigationBar(props) {
     <BackgroundColorContext.Consumer>
       {({ color }) => (
     <Navbar variant="dark" style={navBar} data={color}>
-      <Navbar.Brand style={navBrand} href="/home">
+      <Navbar.Brand style={navBrand}>
         <span>
           <img alt="logo" src={Logo}/>{' '}
         </span>

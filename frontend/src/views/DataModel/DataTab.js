@@ -272,7 +272,7 @@ function DataTab() {
                     </Col>
                     <Col style={{marginTop: 30}}>
                         {/* add table with 3 columns name, visibility, type */}
-                        <Table borderlessS style={{width: 900}}>
+                        <Table borderless style={{width: 900}}>
                             <thead>
                                 <th style={titleHeadingColor}>Column</th>
                                 <th style={titleHeadingColor}>Visibility</th>

@@ -28,20 +28,22 @@ function Integration() {
     const cardStyle = {
         width: "18rem",
         margin: "20px 20px 20px 20px",
-        cursor: "pointer"
+        cursor: "pointer",
+        borderRadius: "25px",
+        
     }
 
     return (
-        <div>
+        <div>   
             <Container fluid >
                 {load? 
-                    <ApiLoader apiload={load}/>
+                    <ApiLoader apiload={load}/> 
                     :
-                    <Row>
+                    <Row style={{marginLeft: "120px"}}>
                         {images.map(x => (
-                            <Col>
-                                <Card border="warning" style={cardStyle} onClick={click} >
-                                    <Card.Img  variant="top"  id={x.id} src={x.image}/>
+                            <Col md="0.25rem" >
+                                <Card style={cardStyle} onClick={click} id="integration">
+                                    <Card.Img variant="top" id={x.id} src={x.image} style={{ width: '200px', height: '200px', marginLeft: '46px' }}/>
                                     <Card.Body style={{textAlign:"center"}} id={x.id}>
                                         <Card.Title id={x.id}>{x.name}</Card.Title>
                                     </Card.Body>
