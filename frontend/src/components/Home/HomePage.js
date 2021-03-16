@@ -6,11 +6,12 @@ import main from '../../assets/images/main.jpg'
 function HomePage(){
 
     const containerStyle = {
-        position: 'absolute',
+        position: 'fixed',
+        display: 'flex',
         backgroundRepeat: 'no-repeat',
         background: `url(${main})`,
         maxWidth: '100%',
-        height: '94%',
+        height: '93.85%',
         backgroundPosition: 'center',
         backgroundSize: 'cover',
     }
@@ -19,7 +20,7 @@ function HomePage(){
         <div>
             <Container style={containerStyle}>
                 <Container>
-                    <Row style={{color:"white", marginTop: '300px'}}>
+                    <Row style={{color:"white", marginTop: '290px'}}>
                         <Col>
                             <h1>Data Integration</h1>
                             <br/>

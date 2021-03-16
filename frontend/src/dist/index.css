@@ -11,6 +11,7 @@ body {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+  overflow: auto;
 }
 
 .dropdown-menu {
@@ -218,7 +219,7 @@ code {
   z-index: 1;
   top: 0;
   left: 0;
-  overflow: auto;
+  overflow: hidden;
   margin-top: 58px;
 }
 
