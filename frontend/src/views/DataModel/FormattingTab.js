@@ -12,6 +12,8 @@ import LinkText from './format/LinkText'
 import BarChartToggle from './format/BarChartToggle'
 import CurrencyFormat from './format/CurrencyFormat'
 import DateFormat from './format/DateFormat'
+import ViewAs from './format/ViewAs'
+import NumberStyle from './format/NumberStyle'
 
 function FormattingTab(props) {
 
@@ -47,22 +49,26 @@ function FormattingTab(props) {
         fieldType == 'type/Source' || fieldType == 'type/PK') {
             format = (
             <>
+                {/* finish */}
                 <NoSettings/>
             </>
         )
     }
     else if(fieldType == 'type/Name' || fieldType == 'type/Comment' || fieldType == 'type/Description' || fieldType == 'type/Title' ||
-            fieldType == 'type/Country' || fieldType == 'type/State' || fieldType == 'type/ZipCode' || fieldType == 'type/SerializedJSON') {
+            fieldType == 'type/City' || fieldType == 'type/Country' || fieldType == 'type/State' || fieldType == 'type/ZipCode' || 
+            fieldType == 'type/SerializedJSON') {
         format = (
             <>
-                <LinkText/>
+                {/* finish */}
+                <LinkText status={status} index={index} />
             </>
         )
     }
     else if(fieldType == 'type/Latitude' || fieldType == 'type/Longitude') {
         format = (
             <>
-                <BarChartToggle/>
+                {/* finish */}
+                <BarChartToggle status={status} index={index} />
             </>
         )
     }
@@ -71,6 +77,7 @@ function FormattingTab(props) {
             fieldType == 'type/Share') {
         format = (
             <>
+                <BarChartToggle status={status} index={index} />
                 <CurrencyFormat/>
             </>
         )
@@ -86,38 +93,43 @@ function FormattingTab(props) {
             </>
         )
     }
-    else if(fieldType == 'type/Email') {
+    else if(fieldType == 'type/Email' || fieldType == 'type/AvatarURL' || fieldType == 'type/ImageURL' || fieldType == 'type/URL') {
         format = (
             <>
-                {/* to be added */}
+                {/* finish */}
+                <ViewAs status={status} index={index} />
+                <LinkText status={status} index={index}/>
             </>
         )
     }
     else if(fieldType == 'type/ISO8601DateTimeString' || fieldType == 'type/ISO8601TimeString' || fieldType == 'type/ISO8601DateString') {
         format = (
             <>
-                {/* to be added */}
+                <LinkText status={status} index={index}/>
+                <DateFormat/>
             </>
         )
     }
     else if(fieldType == 'type/UNIXTimestampMilliseconds' || fieldType == 'type/UNIXTimestampMicroseconds' || fieldType == 'type/UNIXTimestampSeconds') {
         format = (
             <>
-                {/* to be added */}
+                <BarChartToggle status={status} index={index} />
+                <DateFormat/>
             </>
         )
     }
-    else if(fieldType == 'type/AvatarURL' || fieldType == 'type/ImageURL' || fieldType == 'type/URL') {
+    else if(fieldType == 'type/Number' || fieldType == null) {
         format = (
             <>
-                {/* to be added */}
+                <BarChartToggle status={status} index={index} />
+                <NumberStyle status={status} index={index} />
+                <CurrencyFormat/>
             </>
         )
     }
     else {
         format = (
             <>
-                <h2>Have settings</h2>
             </>
         )
 
