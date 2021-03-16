@@ -71,7 +71,7 @@ function FormattingTab(props) {
             fieldType == 'type/Share') {
         format = (
             <>
-                <CurrencyFormat/>
+                <CurrencyFormat status={status} index={index} />
             </>
         )
     }
@@ -82,7 +82,7 @@ function FormattingTab(props) {
             fieldType == 'type/JoinDate' || fieldType == 'type/JoinTime' || fieldType == 'type/JoinTimestamp') {
         format = (
             <>
-                <DateFormat/>
+                <DateFormat status={status} index={index} />
             </>
         )
     }
