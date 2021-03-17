@@ -37,7 +37,7 @@ function FieldUpdate(props) {
                 res.data.fields.map((x, i) => {
 
                     if(i == index){
-                        console.log('data: ', x)
+                        console.log('data1: ', x)
                         
                         setField(x)
                         //to set the name
@@ -326,7 +326,10 @@ function FieldUpdate(props) {
                 const data = response.data
                 console.log('status: ', data)
                 console.log(response)
-                setReScan("finish")
+                setReScan("start")
+                window.setTimeout(() => {
+                    setReScan("finish")
+                }, 1000)
                 window.setTimeout(() => {
                     setReScan("nothing")
                 }, 2000)
@@ -342,20 +345,29 @@ function FieldUpdate(props) {
         scan = (
             <Button variant="light" onClick={fieldReScan} style={{width: 130, height: 40}}>Re-scan this field</Button>
         )
-    } else if (reScan === 'finish') {
+    } 
+    else if (reScan === 'start') {
+        scan = (
+            <Button variant="light" style={{width: 130, height: 40}}>Starting...</Button>
+        )
+    }
+    else if (reScan === 'finish') {
         scan = (
             <Button variant="success" style={{width: 130, height: 40}}><TiTick/>Scan triggered!</Button>
         )
     }
 
-    // rescan values
+    // discard values
     const fieldDiscard = () => {
         api.fieldDiscard(field, id)
             .then(response => {
                 const data = response.data
                 console.log('status: ', data)
                 console.log(response)
-                SetDiscardValues("finish")
+                SetDiscardValues("start")
+                window.setTimeout(() => {
+                    SetDiscardValues("finish")
+                }, 1000)
                 window.setTimeout(() => {
                     SetDiscardValues("nothing")
                 }, 2000)
@@ -371,7 +383,13 @@ function FieldUpdate(props) {
         discard = (
             <Button variant="danger" onClick={fieldDiscard} style={{width: 180, height: 40}}>Discard cached field values</Button>
         )
-    } else if (discardValues === 'finish') {
+    }
+    else if (discardValues === 'start') {
+        discard = (
+            <Button variant="danger" style={{width: 180, height: 40}}>Starting...</Button>
+        )
+    }
+    else if (discardValues === 'finish') {
         discard = (
             <Button variant="success" style={{width: 180, height: 40}}><TiTick/>Discard triggered!</Button>
         )

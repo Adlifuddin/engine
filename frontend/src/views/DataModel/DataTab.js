@@ -271,31 +271,43 @@ function DataTab() {
                         </Row>
                     </Col>
                     <Col style={{marginTop: 30}}>
-                        {/* add table with 3 columns name, visibility, type */}
-                        <Table borderless style={{width: 900}}>
-                            <thead>
-                                <th style={titleHeadingColor}>Column</th>
-                                <th style={titleHeadingColor}>Visibility</th>
-                                <th style={titleHeadingColor}>Type</th>
-                                <th style={titleHeadingColor}></th>
-                            </thead>
-                            <tbody>
-                                {field.map((field, index) => (
-                                    <tr>
-                                        <td style={{...titleRowColor, width: 300}}>{field.display_name}</td>
-                                        <td style={{...titleRowColor, width: 300}}>{getFieldVisibility(field.visibility_type)}</td>
-                                        <td style={{...titleRowColor, width: 300}}>{getFieldType(field.special_type)}</td>
-                                        <td>
-                                            <Link to={`/data-model/${field.table_id}/${index}`}>
-                                                <Button variant="outline-info" style={{ float: 'right'}}>
-                                                    <FiSettings/>
-                                                </Button>
-                                            </Link>
-                                        </td>
-                                    </tr>
-                                ))}
-                            </tbody>
-                        </Table>
+                        <Row style={{height: 50}}>
+                            {/* setting button */}
+                            
+                            <Link to={`/data-model/${tableID}/settings`}>
+                                <Button variant="outline-info" style={{ position: 'absolute', right: 310}}>
+                                    <FiSettings/>
+                                </Button>
+                            </Link>
+                            
+                        </Row>
+                        <Row>
+                            {/* add table with 3 columns name, visibility, type */}
+                            <Table borderless style={{width: 900}}>
+                                <thead>
+                                    <th style={titleHeadingColor}>Column</th>
+                                    <th style={titleHeadingColor}>Visibility</th>
+                                    <th style={titleHeadingColor}>Type</th>
+                                    <th style={titleHeadingColor}></th>
+                                </thead>
+                                <tbody>
+                                    {field.map((field, index) => (
+                                        <tr>
+                                            <td style={{...titleRowColor, width: 300}}>{field.display_name}</td>
+                                            <td style={{...titleRowColor, width: 300}}>{getFieldVisibility(field.visibility_type)}</td>
+                                            <td style={{...titleRowColor, width: 300}}>{getFieldType(field.special_type)}</td>
+                                            <td>
+                                                <Link to={`/data-model/${field.table_id}/${index}`}>
+                                                    <Button variant="outline-info" style={{ float: 'right'}}>
+                                                        <FiSettings/>
+                                                    </Button>
+                                                </Link>
+                                            </td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </Table>
+                        </Row>
                     </Col>
                 </Row>
             </Container>
