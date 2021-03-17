@@ -38,6 +38,7 @@ import PermissionTableList from './components/Permission/PermissionTableList'
 //Datamodel
 import DataModel from './views/DataModel/DataModel'
 import UpdateTab from './views/DataModel/UpdateTab'
+import TableSettings from './views/DataModel/TableSettings'
 
 //Collection
 import Collection from './views/Collection/Collection'
@@ -49,6 +50,13 @@ var routes = [
         name: "Home",
         component: HomePage,
         layout: "/",
+    },
+    {
+        path: "data-model/:id/settings",
+        name: "TableSettings",
+        component: TableSettings,
+        layout: "/",
+        invisible: true,
     },
     {
         path: "data-model/:id/:index",

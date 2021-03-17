@@ -41,6 +41,7 @@ export const databaseTables = () => api.get("database?include=tables", config)
 export const getTableIDMeta = (id) => api.get(`table/${id}/query_metadata`, config)
 export const getSchemaID = (id) => api.get(`database/${id}/schemas`, config)
 export const getSchemaTableID = (id, schema) => api.get(`database/${id}/schema/${schema}`, config)
+export const getTableID = (id) => api.get(`table/${id}`, config)
 
 //update
 export const updateField = (payload, id) => api.put(`field/${id}`, payload, config)
@@ -48,6 +49,8 @@ export const updateField = (payload, id) => api.put(`field/${id}`, payload, conf
 //post
 export const fieldReScan = (payload, id) => api.post(`field/${id}/rescan_values`, payload, config)
 export const fieldDiscard = (payload, id) => api.post(`field/${id}/discard_values`, payload, config)
+export const tableReScan = (payload, id) => api.post(`table/${id}/rescan_values`, payload, config)
+export const tableDiscard = (payload, id) => api.post(`table/${id}/discard_values`, payload, config)
 
 const apis = {
     databaseList,
@@ -67,9 +70,12 @@ const apis = {
     getTableIDMeta,
     getSchemaID,
     getSchemaTableID,
+    getTableID,
     updateField,
     fieldReScan,
     fieldDiscard,
+    tableReScan,
+    tableDiscard,
 }
 
 export default apis

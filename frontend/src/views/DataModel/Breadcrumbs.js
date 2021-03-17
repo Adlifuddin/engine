@@ -6,7 +6,7 @@ function Breadcrumbs(props) {
   const { tableName, fieldName } = props;
   return (
     <Breadcrumb>
-      <Breadcrumb.Item linkAs={Link} linkProps={{ to: "/datamodel" }}>
+      <Breadcrumb.Item linkAs={Link} linkProps={{ to: "/data-model" }}>
         <span className="database">{tableName}</span>
       </Breadcrumb.Item>
       <Breadcrumb.Item active>
